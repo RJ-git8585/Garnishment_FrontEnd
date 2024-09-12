@@ -252,7 +252,7 @@ function MultipleChild() {
             if (getResult.ok) {
               console.log(resultData);
            
-                setCalculationResult(resultData.data[3].result);
+                setCalculationResult(resultData.data[0].result);
                 // setCalculationNetpay(resultData.data[0].net_pay);
                 console.log(calculationResult);
               // console.log(calculationNetpay); // Set result in state
