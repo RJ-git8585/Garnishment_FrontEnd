@@ -251,9 +251,9 @@ function MultipleChild() {
             const resultData = await getResult.json();
             if (getResult.ok) {
               console.log(resultData);
-                 setCalculationResult(resultData.data[0]);
-    toast.success(`Result: ${resultData.data[0].result.toLocaleString()}`);
-                // setCalculationResult(resultData.data[0].result);
+                 // setCalculationResult(resultData.data[0]);
+                 toast.success(`Result: ${resultData.data[0].result.toLocaleString()}`);
+                setCalculationResult(resultData.data[0].result);
                 // setCalculationNetpay(resultData.data[0].net_pay);
                 console.log(calculationResult);
               // console.log(calculationNetpay); // Set result in state
@@ -542,7 +542,7 @@ return (
             {calculationResult && (
                 <div className="result-section mt-4">
                   <h2>Calculation Result:</h2>
-                  <p>{calculationResult}</p>
+                  <p>{calculationResult.result}</p>
                 
                 </div>
               )}
