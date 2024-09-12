@@ -17,10 +17,10 @@ function MultipleChild() {
   // const [minimum_wages, setminimum_wages] = useState('');
   const [arrears_greater_than_12_weeks, setIsChecked] = useState(false);
   const [support_second_family, setIsCheckedFamily] = useState(false);
-  const [employee_id, setSelectedOption] = useState(null);
+  const [employee_id, setSelectedOption] = useState('');
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
   const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
-  const [calculationResult, setCalculationResult] = useState(null);
+  const [calculationResult, setCalculationResult] = useState('');
   const [calculationNetpay, setCalculationNetpay] = useState(null);
   const employer_id = parseInt(localStorage.getItem("id"));
   const [options, setOptions] = useState([]);
@@ -252,10 +252,10 @@ function MultipleChild() {
             if (getResult.ok) {
               console.log(resultData);
                  // setCalculationResult(resultData.data[0]);
-                 toast.success(`Result: ${resultData.data[0].result.toLocaleString()}`);
-                setCalculationResult(resultData.data[0].result);
+                setCalculationResult(resultData.data[0]);
+                toast.success(`Result: ${resultData.data[0].result}`);
                 // setCalculationNetpay(resultData.data[0].net_pay);
-                console.log(calculationResult);
+                // console.log(calculationResult);
               // console.log(calculationNetpay); // Set result in state
             } else {
                 throw new Error(`Failed to fetch results: ${resultData.message}`);
@@ -540,9 +540,9 @@ return (
               </div> 
             </form>
             {calculationResult && (
-                <div className="result-section mt-4">
-                  <h2>Calculation Result:</h2>
-                  <p>{calculationResult.result}</p>
+                <div className="result-section">
+                  <h3>Calculation Result:</h3>
+                  <p>Result: {calculationResult.result}</p>
                 
                 </div>
               )}
