@@ -10,6 +10,8 @@ function Forgot() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
+
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
