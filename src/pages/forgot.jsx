@@ -5,13 +5,17 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+
+
+
 function Forgot() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
