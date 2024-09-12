@@ -9,6 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
+
+
+
+
+
 function Forgot() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
