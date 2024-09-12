@@ -249,22 +249,21 @@ function MultipleChild() {
 
             const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
             const resultData = await getResult.json();
-            if (getResult.ok) {
-              console.log(resultData);
-                 // setCalculationResult(resultData.data[0]);
-                setCalculationResult(resultData.data[0]);
-                toast.success(`Result: ${resultData.data[0].result}`);
-                // setCalculationNetpay(resultData.data[0].net_pay);
-                // console.log(calculationResult);
-              // console.log(calculationNetpay); // Set result in state
-            } else {
-                throw new Error(`Failed to fetch results: ${resultData.message}`);
-            }
+            const postResult = await postResponse.json();
+       if (postResponse.ok) {
+         const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
+        const resultData = await getResult.json();
 
-            handleReset();
-        } else {
-            throw new Error(`Failed to submit data: ${postResult.message}`);
-        }
+       if (getResult.ok && resultData.data.length > 0) {
+         setCalculationResult(resultData.data[0]);
+        toast.success(`Result: ${resultData.data[0].result}`);
+       } else {
+        throw new Error(`Failed to fetch results: ${resultData.message || "No result data"}`);
+       }
+      } else {
+      throw new Error(`Failed to submit data: ${postResult.message}`);
+}
+
     } catch (error) {
         console.error('Error:', error.message);
         // toast.error(`Error: ${error.message}`);
@@ -539,13 +538,16 @@ return (
                 </button>
               </div> 
             </form>
-            {calculationResult && (
-                <div className="result-section">
-                  <h3>Calculation Result:</h3>
-                  <p>Result: {calculationResult.result}</p>
-                
-                </div>
-              )}
+{calculationResult && (
+  <div className="result-section">
+    <h3>Calculation Result:</h3>
+    {calculationResult.result ? (
+      <p>Result: {calculationResult.result}</p>
+    ) : (
+      <p>No result available</p>
+    )}
+  </div>
+)}
           </div>
 <hr className="mt-6"></hr>
 
