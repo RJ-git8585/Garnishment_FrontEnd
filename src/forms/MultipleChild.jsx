@@ -17,11 +17,10 @@ function MultipleChild() {
   // const [minimum_wages, setminimum_wages] = useState('');
   const [arrears_greater_than_12_weeks, setIsChecked] = useState(false);
   const [support_second_family, setIsCheckedFamily] = useState(false);
-  const [employee_id, setSelectedOption] = useState('');
+  const [employee_id, setSelectedOption] = useState(null);
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
   const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
-  const [calculationResult, setCalculationResult] = useState('');
-  const [calculationNetpay, setCalculationNetpay] = useState(null);
+  const [calculationResult, setCalculationResult] = useState(null);
   const employer_id = parseInt(localStorage.getItem("id"));
   const [options, setOptions] = useState([]);
   const style = { color: "#b90707", fontSize: "1.2em" };
@@ -249,21 +248,20 @@ function MultipleChild() {
 
             const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
             const resultData = await getResult.json();
-            const postResult = await postResponse.json();
-       if (postResponse.ok) {
-         const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-        const resultData = await getResult.json();
+            if (getResult.ok) {
+              console.log(resultData);
+           
+                setCalculationResult(resultData.data[0].result);
+                console.log(calculationResult);
+              console.log(calculationNetpay); // Set result in state
+            } else {
+                throw new Error(`Failed to fetch results: ${resultData.message}`);
+            }
 
-       if (getResult.ok && resultData.data.length > 0) {
-         setCalculationResult(resultData.data[0]);
-        toast.success(`Result: ${resultData.data[0].result}`);
-       } else {
-        throw new Error(`Failed to fetch results: ${resultData.message || "No result data"}`);
-       }
-      } else {
-      throw new Error(`Failed to submit data: ${postResult.message}`);
-}
-
+            handleReset();
+        } else {
+            throw new Error(`Failed to submit data: ${postResult.message}`);
+        }
     } catch (error) {
         console.error('Error:', error.message);
         // toast.error(`Error: ${error.message}`);
@@ -538,16 +536,12 @@ return (
                 </button>
               </div> 
             </form>
-{calculationResult && (
-  <div className="result-section">
-    <h3>Calculation Result:</h3>
-    {calculationResult.result ? (
-      <p>Result: {calculationResult.result}</p>
-    ) : (
-      <p>No result available</p>
-    )}
-  </div>
-)}
+            {calculationResult && (
+                <div className="result-section mt-4">
+                  <h2>Calculation Result:</h2>
+                  <p>{calculationResult}</p>
+                </div>
+              )}
           </div>
 <hr className="mt-6"></hr>
 
