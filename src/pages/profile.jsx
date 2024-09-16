@@ -1,12 +1,14 @@
 
 // REMOVE FEDERAL CODE
 
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../component/sidebar';
 import { toast } from 'react-toastify';
 import Headertop from '../component/Headertop';
 import { FaUserCheck } from "react-icons/fa";
 import load from '../bouncing-circles.svg';
+import Swal from 'sweetalert2'
 import { BASE_URL } from '../Config';
 
 function Profile() {
