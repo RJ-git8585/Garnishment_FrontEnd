@@ -181,6 +181,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                        placeholder='Enter Earnings'
                       id="earning"
                       className="shadow appearance-none border text-sm text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={earnings}
