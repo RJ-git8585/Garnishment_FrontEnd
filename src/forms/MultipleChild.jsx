@@ -253,7 +253,7 @@ function MultipleChild() {
            
                 setCalculationResult(resultData.data[0].result);
                 console.log(calculationResult);
-              console.log(calculationNetpay); // Set result in state
+              // console.log(calculationNetpay); // Set result in state
             } else {
                 throw new Error(`Failed to fetch results: ${resultData.message}`);
             }

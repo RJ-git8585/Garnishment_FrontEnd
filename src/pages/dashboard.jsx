@@ -10,6 +10,7 @@ import { BASE_URL } from '../Config';
 import Headertop from '../component/Headertop'
 import ProfileHeader from '../component/ProfileHeader';
 import load  from '../bouncing-circles.svg';
+import Swal from 'sweetalert2'
 
 
 
@@ -37,6 +38,7 @@ function dashboard(  ) {
         const jsonData = await response.json();
         setData(jsonData.data) ;
        console.log(BASE_URL)  
+       
       } catch (error) {
         console.error('Error fetching data:', error);
         // Handle errors appropriately (display error message, etc.)
@@ -74,8 +76,17 @@ function dashboard(  ) {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(()=>{
-      logsData();
+         logsData();
         fetchData();
+        Swal.fire({
+          // toast: true, // This enables the toast mode
+          // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+          icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+          title: 'Welcome to Dashboard',
+          showConfirmButton: false, // Hide the confirm button
+          timer: 3000, // Auto close after 3 seconds
+          timerProgressBar: true, // Show a progress bar
+      });
         // Setting();
   },[]);
   
