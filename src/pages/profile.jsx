@@ -104,6 +104,19 @@ function Profile() {
 
       setIsEditing(false); // Disable editing mode after saving
       console.log('Profile updated successfully');
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'Profile updated successfully',
+        text: "Plesse check ones!!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
+    setTimeout(function(){
+      window.location.reload();
+   }, 4000);
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -139,7 +152,7 @@ function Profile() {
                               type="text"
                               value={profileData.employer_name || item.employer_name}
                               disabled
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -153,7 +166,7 @@ function Profile() {
                               type="text"
                               value={profileData.username || item.username}
                               disabled  
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -168,7 +181,7 @@ function Profile() {
                               value={isEditing ? profileData.department : item.department || 'NA'}
                               onChange={handleChange}
                               disabled={!isEditing}
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -183,7 +196,7 @@ function Profile() {
                               value={isEditing ? profileData.location : item.location || 'NA'}
                               onChange={handleChange}
                               disabled={!isEditing}
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -197,7 +210,7 @@ function Profile() {
                               type="email"
                               value={profileData.email || item.email }
                               disabled
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -212,7 +225,7 @@ function Profile() {
                               value={isEditing ? profileData.city : item.city || 'NA'}
                               onChange={handleChange}
                               disabled={!isEditing}
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -227,7 +240,7 @@ function Profile() {
                               value={isEditing ? profileData.state : item.state || 'NA'}
                               onChange={handleChange}
                               disabled={!isEditing}
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full  text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -242,7 +255,7 @@ function Profile() {
                               value={isEditing ? profileData.number_of_employees : item.number_of_employees || '0'}
                               onChange={handleChange}
                               disabled={!isEditing}
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -257,7 +270,7 @@ function Profile() {
                               value={isEditing ? profileData.country : item.country || 'NA'}
                               onChange={handleChange}
                               disabled={!isEditing}
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -272,7 +285,7 @@ function Profile() {
                               value={isEditing ? profileData.zipcode : item.zipcode || 'NA'}
                               onChange={handleChange}
                               disabled={!isEditing}
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -287,7 +300,7 @@ function Profile() {
                               value={isEditing ? profileData.street_name : item.street_name || 'NA'}
                               onChange={handleChange}
                               disabled={!isEditing}
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
@@ -301,7 +314,7 @@ function Profile() {
                               type="text"
                               value={profileData.employer_id || item.employer_id}
                               disabled
-                              className="block w-full rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="block w-full text-sm rounded-md px-3.5 py-2 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </div>
                         </div>
