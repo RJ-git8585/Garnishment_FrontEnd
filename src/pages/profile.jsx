@@ -63,6 +63,15 @@ function Profile() {
   };
 
   const handleEdit = () => {
+          Swal.fire({
+            // toast: true, // This enables the toast mode
+            // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+            icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+            title: 'Now Your are able update profile !!',
+            showConfirmButton: false, // Hide the confirm button
+            timer: 3000, // Auto close after 3 seconds
+            timerProgressBar: true, // Show a progress bar
+        });
     if (data.length > 0) {
       const item = data[0];
       setProfileData({
