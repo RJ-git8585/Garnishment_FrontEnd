@@ -169,6 +169,7 @@ function MultipleStudentLoan() {
                     </label>
                     <input
                       type="number"
+                        placeholder='Enter Earnings'
                       step="0.01"
                       id="earning"
                       className="shadow appearance-none border text-sm text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -184,6 +185,7 @@ function MultipleStudentLoan() {
                     <input
                       type="number"
                       step="0.01"
+                         placeholder='Enter Garnishment Fees'
                       id="garnishmentFees"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={garnishment_fees}
@@ -196,6 +198,7 @@ function MultipleStudentLoan() {
                     </label>
                     <input
                       type="number"
+                       placeholder='Enter Order'
                       id="orderID"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={order_id}
@@ -211,6 +214,7 @@ function MultipleStudentLoan() {
                     <input
                       type="number"
                       step="0.01"
+                         placeholder='Enter Federal Income Tax'
                       id="federal_income_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 
@@ -229,6 +233,7 @@ function MultipleStudentLoan() {
                       type="number"
                       step="0.01"
                       id="social_and_security_tax"
+                       placeholder='Enter Social Security'
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={social_and_security_tax}
                       onChange={(e) => setSocialAndSecurityTax(parseFloat(e.target.value))}
@@ -242,6 +247,7 @@ function MultipleStudentLoan() {
                     <input
                       type="number"
                       step="0.01"
+                       placeholder='Enter  Medicare Tax'
                       id="medicare_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={medicare_tax}
@@ -256,6 +262,7 @@ function MultipleStudentLoan() {
                     <input
                       type="number"
                       step="0.01"
+                       placeholder='Enter State Tax'
                       id="state_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={state_tax}
@@ -271,6 +278,7 @@ function MultipleStudentLoan() {
                       type="number"
                       step="0.01"
                       id="sdi_tax"
+                        placeholder='Enter SDI Tax'
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 
                       value={SDI_tax}

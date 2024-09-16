@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
+import Swal from 'sweetalert2';
 
 function StudentLoan() {
   const [employee_name, setEmpName] = useState('');
@@ -21,6 +22,7 @@ function StudentLoan() {
   const [medicare_tax, setMedicareTax] = useState('');
   const [state_tax, setStateTax] = useState('');
   const [SDI_tax, setSDITax] = useState('');
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -52,12 +54,8 @@ function StudentLoan() {
       earnings,
       garnishment_fees,
       order_id,
-
       federal_income_tax,
       social_and_security_tax,
-    
-      // social_and_security,
-
       medicare_tax,
       state_tax,
       SDI_tax
@@ -71,8 +69,17 @@ function StudentLoan() {
       });
 
       if (!response.ok) throw new Error('Failed to submit data');
-
-      toast.success('Data submitted successfully! Fetching results...');
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'Your Calculation was successful stored',
+        text: "Now Calculation result will show below the form !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
+    
 
       const resultResponse = await fetch(`${BASE_URL}/User/GetSingleStudentLoanResult/${employer_id}/${employee_id}/`);
       const resultData = await resultResponse.json();
@@ -82,7 +89,16 @@ function StudentLoan() {
       toast.success(`Result: ${resultData.data[0].result}`);
     } catch (error) {
       console.error('Submission Error:', error);
-      // toast.error(`Error: ${error.message}`);
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'warning', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'Your action was unsuccessful ',
+        text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 
@@ -106,8 +122,6 @@ function StudentLoan() {
       setEmpName(selectedEmployee.employee_name);
     }
   };
-
-
 
   return (
     <>
@@ -154,10 +168,12 @@ function StudentLoan() {
                     <input
                       type="text"
                       id="empName"
+                      
                       className="shadow appearance-none border  text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={employee_name}
                       onChange={(e) => setEmpName(e.target.value)}
-                    />
+                      required
+                      />
                   </div>
                   <div>
                     <label htmlFor="earning" className="block text-gray-700 text-sm font-bold mb-2">
@@ -167,10 +183,12 @@ function StudentLoan() {
                       type="number"
                       step="0.01"
                       id="earning"
+                      placeholder='Enter Earning'
                       className="shadow appearance-none border text-sm text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={earnings}
                       onChange={(e) => setEarnings(parseFloat(e.target.value,10))}
-                    />
+                      required
+                      />
                   </div>
                  
                   <div>
@@ -181,9 +199,11 @@ function StudentLoan() {
                       type="number"
                       step="0.01"
                       id="garnishmentFees"
+                      placeholder='Enter Garnishment Fees'
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={garnishment_fees}
                       onChange={(e) => setGarnishmentFees(parseFloat(e.target.value))}
+                      required
                     />
                   </div>
                   <div>
@@ -193,10 +213,12 @@ function StudentLoan() {
                     <input
                       type="number"
                       id="orderID"
+                       placeholder='Enter Order Id'
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={order_id}
                       onChange={(e) => setOrderID(parseInt(e.target.value))}
-                    />
+                      required
+                      />
                   </div>
                   {/* TUESDAY */}
                   
@@ -206,16 +228,18 @@ function StudentLoan() {
                     </label>
                     <input
                       type="number"
+                       placeholder='Enter Federal Income Tax'
                       step="0.01"
                       id="federal_income_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 
                       value={federal_income_tax}
                       onChange={(e) => setFederalIncmoeTax(parseFloat(e.target.value))}
+                      required
 
                     
 
-                    />
+                      />
                   </div>
                   {/* SOCIAL&SECURITY_TAX */}
                   <div>
@@ -226,12 +250,14 @@ function StudentLoan() {
                     <input
                       type="number"
                       step="0.01"
+                        placeholder='Enter Social Security Tax'
                       id="social_and_security_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={social_and_security_tax}
                       onChange={(e) => setSocialAndSecurityTax(parseFloat(e.target.value)|| '')}
+                      required
 
-                    />
+                      />
                   </div>
                   {/*  */}
                   <div>
@@ -241,11 +267,13 @@ function StudentLoan() {
                     <input
                       type="number"
                       step="0.01"
+                       placeholder='Enter Medicare Tax'
                       id="medicare_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={medicare_tax}
                       onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
-                    />
+                      required
+                      />
                   </div>
                     {/*  */}
                   <div>
@@ -255,11 +283,13 @@ function StudentLoan() {
                     <input
                       type="number"
                       step="0.01"
+                       placeholder='Enter State Tax'
                       id="state_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={state_tax}
                       onChange={(e) => setStateTax(parseFloat(e.target.value))}
-                    />
+                      required
+                      />
                   </div>
                   {/*  */}
                   <div>
@@ -269,90 +299,21 @@ function StudentLoan() {
                     <input
                       type="number"
                       step="0.01"
+                       placeholder='Enter SDI Tax'
                       id="sdi_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 
                       
                       value={SDI_tax}
                       onChange={(e) => setSDITax(parseFloat(e.target.value))}
-
-                    />
+                      required
+                      />
                   </div>
                   {/* TUESDAY */}
 
              </div>
-               
-  
-                          {/* <div
-                          key={input.id} >
-                            <label className="block  text-gray-700 text-sm mt-2  ml-2  mb-2"> Amount To Withhold Child <b>{input.id} </b>: </label>
-                                    <input
-                                    className=" shadow appearance-none border rounded  text-sm py-2 px-3 text-gray-700   leading-tight focus:outline-none focus:shadow-outline"
-                                      type="text"
-                                      value={input.index || ''}
-                                      onChange={(event) => handleInputChange(event, index)}
-                                      placeholder= "Amount"
-                                    />
-                                  </div> */}
-
-
-                                  
-                                
-                                {/* </div> */}
-                   
-
-                  {/* <div className="shadow appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-4 md:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mt-2">
-                          <div>
-                                  <label htmlFor="taxes" className="block text-gray-700 text-sm font-bold mb-2">
-                                    Federal Income Tax (%):
-                                  </label>
-                                  <input
-                                    type="number"
-                                    id="fit"
-                                    className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    value={fit}
-                                    onChange={(e) => setFit(parseInt(e.target.value))}
-                                  />
-                            </div> */}
-                            {/* <div>
-                                <label htmlFor="taxes" className="block text-gray-700 text-sm font-bold mb-2">
-                                    Social Security Tax (%):
-                                  </label>
-                                <input
-                                    type="number"
-                                    id="social"
-                                    className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    value={social}
-                                    onChange={(e) => setSocial(parseInt(e.target.value))}
-                                  />
-                            </div>
-                            <div>
-                                <label htmlFor="taxes" className="block text-gray-700 text-sm font-bold mb-2">
-                                    Medicare Tax (%):
-                                  </label>
-                                <input
-                                    type="number"
-                                    id="medicare"
-                                    className="shadow appearance-none border rounded text-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    value={medicare}
-                                    onChange={(e) => setMedicare(parseInt(e.target.value))}
-                                  />
-                            </div> */}
-                            {/* <div>
-                                <label htmlFor="taxes" className="block text-gray-700 text-sm font-bold mb-2">
-                                    State Tax (%):
-                                  </label>
-                                <input
-                                    type="number"
-                                    id="state"
-                                    className="shadow appearance-none border rounded text-sm w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    value={statetax}
-                                    onChange={(e) => setStateTax(parseInt(e.target.value))}
-                                  />
-                            </div>
-                 
-                </div> */}
-              
+                            
+                           
                 <div className="flex items-center sm:mx-auto sm:w-full sm:max-w-lg justify-center mt-4">
                   <button
                     type="submit"
@@ -375,9 +336,10 @@ function StudentLoan() {
                 <div className="result-section">
                   <h3>Calculation Result:</h3>
                   <p>Result: {calculationResult.garnishment_amount}</p>
+                  {/* <Swal {...calculationResult} /> */}
+                  {/* <p>{Swal.fire('{calculationResult.garnishment_amount}')}</p> */}
                 </div>
-              )}
-              
+              )}  
             </div>
           </div>
         </div> 
