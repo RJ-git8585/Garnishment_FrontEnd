@@ -251,7 +251,6 @@ function MultipleChild() {
             const resultData = await getResult.json();
             if (getResult.ok) {
               console.log(resultData);
-           
                 setCalculationResult(resultData.data[0].result);
                 console.log(calculationResult);
               // console.log(calculationNetpay); // Set result in state
