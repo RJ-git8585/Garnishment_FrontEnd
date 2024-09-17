@@ -38,6 +38,8 @@ import Order from './pages/order';
 import Results from './pages/results';
 // eslint-disable-next-line no-unused-vars
 import Test from './component/test';
+// new 
+import PublicRoute from './component/PublicRoute';
 
 function App() {
   return (
@@ -46,13 +48,17 @@ function App() {
       <BrowserRouter>
       <Routes>
 
-        <Route path="/" element={ <Form />} />
-        {/* <Route path="/login" element={<Form />} /> */}
+        {/* Public routes */}
+        <Route path="/" element={<PublicRoute restricted={true}><Form /></PublicRoute>} />
+        <Route path="/signup" element={<PublicRoute restricted={true}><Signup /></PublicRoute>} />
+        <Route path="/forgot" element={<PublicRoute restricted={true}><Forgot /></PublicRoute>} />
+        <Route path="/reset-password/:token" element={<PublicRoute restricted={true}><PasswordResetConfirm /></PublicRoute>} />
+        {/* PRIVATE PAGE */}
+        <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
         <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forgot" element={<Forgot />} />
-        <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
+        
+        
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
         <Route path="/setting" element={<PrivateRoute><Setting /></PrivateRoute>} />
         <Route path="/help" element={<PrivateRoute><Help /></PrivateRoute>} />
@@ -72,9 +78,9 @@ function App() {
         <Route path="*" element={<Notfound />} />
         {/* <Route path="/SingleChild" element={<SingleChild />} />  */}
         <Route path="apis" element={<Apis />} />
-        <Route path="test" element={<Test />} />
+        <Route path="test" element={<PrivateRoute><Test /></PrivateRoute> } />
        
-        <Route path="/reset-password/:token" element={<PasswordResetConfirm />} />
+        
       
       </Routes>
     </BrowserRouter>
