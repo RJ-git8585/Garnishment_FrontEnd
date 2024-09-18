@@ -573,12 +573,16 @@ return (
               </div> 
               <ToastContainer />
             </form>
-            {newresult && (
-                <div className="result-section mt-4">
-                  <h2>Calculation Result:</h2>
+            {newresult !== undefined && (
+              <div className="result-section mt-4">
+                <h2>Calculation Result:</h2>
+                {newresult === 0 ? (
+                  <p>The result is zero.</p>
+                ) : (
                   <p>Result: {newresult}</p>
-                </div>
-              )}
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>
