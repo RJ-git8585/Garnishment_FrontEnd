@@ -31,7 +31,7 @@ function employee(onDeleteSuccess,onEditSuccess) {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const id = localStorage.getItem("id");
+        const id = sessionStorage.getItem("id");
         const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`); // Replace with your API URL
         const jsonData = await response.json();
         setData(jsonData.data);

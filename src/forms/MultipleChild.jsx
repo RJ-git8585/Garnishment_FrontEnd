@@ -198,7 +198,7 @@ function MultipleChild() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const id = localStorage.getItem("id");
+        const id = sessionStorage.getItem("id");
         const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
         const jsonData = await response.json();
         setOptions(jsonData.data);
