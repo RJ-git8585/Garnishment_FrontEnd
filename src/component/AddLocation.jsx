@@ -6,6 +6,7 @@ import { BASE_URL } from '../Config';
 import Sidebar from '../component/sidebar'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -44,7 +45,16 @@ function AddLocation() {
                 // Handle successful submission
                 console.log('Data submitted successfully!');
                 
-                toast('Data submitted successfully !!');
+                Swal.fire({
+                  // toast: true, // This enables the toast mode
+                  // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+                  icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+                  title: 'Location Added',
+                  // text: "Now Calculation result will not stored !!",
+                  showConfirmButton: false, // Hide the confirm button
+                  timer: 3000, // Auto close after 3 seconds
+                  timerProgressBar: true, // Show a progress bar
+              });
                 navigate('/employee', { replace: true });
                 handleReset();
                 // Clear the form
