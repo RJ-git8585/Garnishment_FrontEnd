@@ -12,7 +12,7 @@ function MultipleStudentLoan() {
   const [options, setOptions] = useState([]);
   const [employee_id, setEmployeeId] = useState(null);
   const [calculationResult, setCalculationResult] = useState(null);
-  const employer_id = parseInt(localStorage.getItem("id"));
+  const employer_id = parseInt(sessionStorage.getItem("id"));
 
   const [federal_income_tax, setFederalIncmoeTax] = useState('');
   const [social_and_security_tax, setSocialAndSecurityTax] = useState('');
@@ -25,7 +25,7 @@ function MultipleStudentLoan() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const id = localStorage.getItem("id");
+        const id = sessionStorage.getItem("id");
         const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
         const jsonData = await response.json();
         if (jsonData.data) {
