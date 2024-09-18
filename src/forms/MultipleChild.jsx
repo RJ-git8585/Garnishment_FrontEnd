@@ -254,7 +254,7 @@ function MultipleChild() {
       garnishment_fees: parseFloat(garnishment_fees),
       order_id: parseInt(order_id, 10),
       state,
-      number_of_arrears: parseInt(number_of_arrears, 10),
+      number_of_arrear: parseInt(number_of_arrear, 10),
       amount_to_withhold_child1: parseFloat(filledInputs[0].value),
       amount_to_withhold_child2: parseFloat(filledInputs[1].value),
       amount_to_withhold_child3: parseFloat(filledInputs[2].value),
@@ -414,7 +414,7 @@ return (
                     id="number_of_arrears"
                     placeholder='Enter Number of Arrears'
                     className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={number_of_arrears}
+                    value={number_of_arrear}
                     onChange={(e) => setnumber_of_arrears(parseInt(e.target.value, 10))}
                   />
                 </div>
