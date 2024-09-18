@@ -578,7 +578,7 @@ return (
             
             {newresult && newresult == 0 &&   (
                 <div className="result-section">
-                  <h3>Calculation Result:</h3>
+                  {/* <h3>Calculation Result:</h3> */}
                   <p>Result: {newresult}</p>
                 </div>
             )}

@@ -385,7 +385,7 @@ function MultipleStudentLoan() {
               </form>
               {calculationResult && (
                 <div className="result-section">
-                  <h3>Calculation Result:</h3>
+                  {/* <h3>Calculation Result:</h3> */}
                   <p>Result: {calculationResult.garnishment_amount}</p>
                 </div>
               )}

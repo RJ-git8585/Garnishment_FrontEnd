@@ -429,7 +429,7 @@ function FederalTax() {
               </form>
               {calculationResult && (
               <div className="result-section mt-4">
-                <h2>Calculation Result:</h2>
+                {/* <h2>Calculation Result:</h2> */}
                 <p>{calculationResult.result}</p>
               </div>
             )}
