@@ -26,12 +26,12 @@ function FederalTax() {
   const [state_tax, setStateTax] = useState(null);
   const [federal_income_tax, setFederalIncomeTaxRate] = useState(null);
   const [options, setOptions] = useState([]);
-  const employer_id = parseInt(localStorage.getItem("id"));
+  const employer_id = parseInt(sessionStorage.getItem("id"));
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const id = localStorage.getItem("id");
+        const id = sessionStorage.getItem("id");
         const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
         const jsonData = await response.json();
         if (jsonData.data) {
