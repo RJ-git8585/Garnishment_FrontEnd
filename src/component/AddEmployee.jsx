@@ -19,7 +19,7 @@ function AddEmployee() {
      const [pay_cycle, setPayCycle] = useState('');
     const [number_of_garnishment, setNumberGarnihsment] = useState('');
       const [location, setLocation] = useState('');
-      const employer_id = localStorage.getItem("id");
+      const employer_id = sessionStorage.getItem("id");
 
       const handleReset = () => {
                  setName('');
