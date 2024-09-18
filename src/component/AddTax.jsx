@@ -27,7 +27,7 @@ function AddTax() {
       // eslint-disable-next-line no-undef
       const [location, setLocation] = useState('');
       // eslint-disable-next-line no-undef
-      const employer_id = localStorage.getItem("id");
+      const employer_id = sessionStorage.getItem("id");
       const handleReset = () => {
                  setName('');
                 setDepart('');
