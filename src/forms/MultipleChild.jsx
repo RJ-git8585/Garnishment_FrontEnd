@@ -15,7 +15,7 @@ function MultipleChild() {
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
-  const [number_of_arrears, setnumber_of_arrears] = useState('');
+  const [number_of_arrear, setnumber_of_arrears] = useState('');
   // const [minimum_wages, setminimum_wages] = useState('');
   const [arrears_greater_than_12_weeks, setIsChecked] = useState(false);
   const [support_second_family, setIsCheckedFamily] = useState(false);
