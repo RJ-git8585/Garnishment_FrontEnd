@@ -252,7 +252,7 @@ function FederalTax() {
                   </div>
                   <div>
                     <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
-                    No Of Exemptions:
+                    No of Exemptions:
                     </label>
                     <input
                       type="number"
