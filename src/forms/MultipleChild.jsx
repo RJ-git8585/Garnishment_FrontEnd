@@ -23,7 +23,7 @@ function MultipleChild() {
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
   const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
   const [calculationResult, setCalculationResult] = useState('');
-  const employer_id = parseInt(localStorage.getItem("id"));
+  const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
   const style = { color: "#b90707", fontSize: "1.2em" };
   const [federal_income_tax, setFederalIncmoeTax] = useState('');
