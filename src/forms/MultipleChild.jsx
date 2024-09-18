@@ -22,7 +22,7 @@ function MultipleChild() {
   const [employee_id, setSelectedOption] = useState(null);
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
   const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
-  const [calculationResult, setCalculationResult] = useState(null);
+  const [calculationResult, setCalculationResult] = useState('');
   const employer_id = parseInt(localStorage.getItem("id"));
   const [options, setOptions] = useState([]);
   const style = { color: "#b90707", fontSize: "1.2em" };
@@ -291,10 +291,11 @@ function MultipleChild() {
             const resultData = await getResult.json();
             if (!getResult.ok) throw new Error('Failed to fetch results');  
                 // console.log(resultData);
-                setCalculationResult(resultData.data[0].result);
+               
                 console.log(`Result: ${resultData.data[0].result}`);
                 toast.success(`Result: ${resultData.data[0].result}`);
                 setnewResult(resultData.data[0].result);
+                setCalculationResult(resultData.data[0].result);
                 // console.log(calculationResult);
                 handleReset();
               // console.log(calculationNetpay); // Set result in state
@@ -573,16 +574,15 @@ return (
               </div> 
               <ToastContainer />
             </form>
-            {newresult !== undefined && (
-              <div className="result-section mt-4">
-                <h2>Calculation Result:</h2>
-                {newresult === 0 ? (
-                  <p>The result is zero.</p>
-                ) : (
+            
+            
+            {newresult && newresult == 0 &&   (
+                <div className="result-section">
+                  <h3>Calculation Result:</h3>
                   <p>Result: {newresult}</p>
-                )}
-              </div>
+                </div>
             )}
+
           </div>
         </div>
       </div>

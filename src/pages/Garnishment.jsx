@@ -150,7 +150,7 @@ function Garnishment( ) {
                 <option value="FederalTax">Federal Tax</option>
                 <option value="StateTax">State Tax</option>
                 <option value="Creditor">Creditor</option>
-                <option value="Bankruptcy">Bankruptcy</option>
+                {/* <option value="Bankruptcy">Bankruptcy</option> */}
               </select>  
           </div>
          
