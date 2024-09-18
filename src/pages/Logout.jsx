@@ -9,9 +9,9 @@ const Logout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    localStorage.removeItem('id');
-    localStorage.removeItem('name');  // Clear the token from localStorage
+    sessionStorage.removeItem('token'); 
+    sessionStorage.removeItem('id');
+    sessionStorage.removeItem('name');  // Clear the token from localStorage
     navigate('/', { replace: true }); // Redirect to login and prevent back button issues
   };
   useEffect(()=>{
