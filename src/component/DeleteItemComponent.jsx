@@ -15,7 +15,7 @@ function DeleteItemComponent({id, onDeleteSuccess, onDeleteError }) {
 //   const [error, setError] = useState(null);
 // confirm('this is deleted') 
   const handleDelete = async () => {
-    const employerid = localStorage.getItem("id");
+    const employerid = sessionStorage.getItem("id");
     // const { swal, ...rest } = props;
 
     confirm('Are you sure you want to edit this item?');
