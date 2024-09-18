@@ -3,38 +3,25 @@ import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
 
 import Sidebar from '../component/sidebar'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import { useNavigate } from 'react-router-dom';
-
+import Swal from 'sweetalert2';
 
 function AddDepartment() {
   const navigate = useNavigate();
     // eslint-disable-next-line no-undef
-    const [employee_name, setName] = useState('');
    // eslint-disable-next-line no-undef
-    const [department, setDepart] = useState('');
+    const [department_name, setDepart] = useState('');
      // eslint-disable-next-line no-undef
-     const [net_pay, setNet] = useState('');
+    
       // eslint-disable-next-line no-undef
-    const [minimun_wages, setMinWages] = useState('');
-     // eslint-disable-next-line no-undef
-     const [pay_cycle, setPayCycle] = useState('');
-      // eslint-disable-next-line no-undef
-    const [number_of_garnishment, setNumberGarnihsment] = useState('');
-      // eslint-disable-next-line no-undef
-      const [location, setLocation] = useState('');
-      // eslint-disable-next-line no-undef
-      const employer_id = localStorage.getItem("id");
+      const employer_id = sessionStorage.getItem("id");
       const handleReset = () => {
-                 setName('');
+                
                 setDepart('');
-                setNet('');
-                setMinWages('');
-                setPayCycle('');
-                setNumberGarnihsment('');
-                setLocation('');
+               
       };
 
     const handleSubmit = async (e) => {
@@ -42,16 +29,11 @@ function AddDepartment() {
 
         const data = {
             employer_id,
-            employee_name,
-            department,
-            net_pay,
-            minimun_wages,
-            pay_cycle,
-            number_of_garnishment,
-            location
+            department_name,
+            
           };
 
-          fetch(`${BASE_URL}/User/employee_details/`, {
+          fetch(`${BASE_URL}/User/Department`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -62,19 +44,23 @@ function AddDepartment() {
               if (response.ok) {
                 // Handle successful submission
                 console.log('Data submitted successfully!');
-                
-                toast('Data submitted successfully !!');
+                Swal.fire({
+                  // toast: true, // This enables the toast mode
+                  // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+                  icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+                  title: 'Department Added',
+                  // text: "Now Calculation result will not stored !!",
+                  showConfirmButton: false, // Hide the confirm button
+                  timer: 3000, // Auto close after 3 seconds
+                  timerProgressBar: true, // Show a progress bar
+              });
                 navigate('/employee', { replace: true });
                 handleReset();
 
                 // Clear the form
-                setName('');
+              
                 setDepart('');
-                setNet('');
-                setMinWages('');
-                setPayCycle('');
-                setNumberGarnihsment('');
-                setLocation('');
+                
               } else {
                 // Handle submission errors
                 console.error('Error submitting data:', response.statusText);
@@ -92,10 +78,10 @@ function AddDepartment() {
         
         <div className=' contant content ml-auto '>
         <Headertop />
-            <h2 className='font-bold Ctext-base mb-6'>Add Department</h2>
+            <h2 className='font-bold Ctext-base mb-6 mt-3'>Add Department</h2>
             
             <hr />
-            <form className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50" action="#" method="POST">
+            <form className=" grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50" action="#" method="POST">
                     
             <div className='hidden'> 
                         
@@ -112,23 +98,7 @@ function AddDepartment() {
                           />
                         </div>
                       </div>
-                    <div className=''> 
-                        <label htmlFor="name" className="block text-slate-500 text-sm font-medium leading-6">
-                        Employee Name 
-                        </label>
-                        <div className="mt-2">
-                          <input
-                            id="employee_name"
-                            name="employee_name"
-                             value={employee_name}
-                            type="text"
-                            autoComplete="employee_name"
-                            onChange={(e) => setName(e.target.value)}
-                            
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          />
-                        </div>
-                      </div>
+                    
                       <div className=''>
                         <label htmlFor="name" className="block text-slate-500 text-sm font-medium leading-6">
                         Department
@@ -137,7 +107,7 @@ function AddDepartment() {
                           <input
                             id="department"
                             name="department"
-                            value={department}
+                            value={department_name}
                             type="text"
                             step="0.01"
                             autoComplete="name"
@@ -148,111 +118,10 @@ function AddDepartment() {
                         </div>
                       </div>
 
-                      <div className=''>
-                        <label htmlFor="email" className="text-slate-500 block  text-sm font-medium leading-6 ">
-                        Net Pay 
-                        </label>
-                        <div className="mt-2">
-                          <input
-                            id="net_pay"
-                            name="net_pay"
-                            value={net_pay}
-                            type="number"
-                            step="0.01"
-                            autoComplete="net_pay"
-                            onChange={(e) => setNet(e.target.value)}
-                            
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          />
-                        </div>
-                      </div>
+                     
 
-                      <div>
-                        <label htmlFor="email" className="text-slate-500 block  text-sm font-medium leading-6 ">
-                        Minimun Wages 
-                        </label>
-                        <div className="mt-2">
-                          <input
-                            id="minimun_wages"
-                            name="minimun_wages"
-                            value={minimun_wages}
-                            type="number"
-                            step="0.01"
-                            autoComplete="minimun_wages"
-                            onChange={(e) => setMinWages(e.target.value)}
-                            
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          />
-                        </div>
-                      </div>
 
-                      <div>
-                        <div className="flex items-center justify-between">
-                          <label htmlFor="password" className="text-slate-500 block  text-sm font-medium leading-6 ">
-                          Pay Cycle 
-                          </label>
-                        </div>
-                        <div className="mt-2">
-                          <input 
-                            id="pay_cycle"
-                            name="pay_cycle"
-                            type="number"
-                            step="0.01"
-                            value={pay_cycle}
-                            onChange={(e) => setPayCycle(e.target.value)}
-                            // autoComplete="current-password"
-                            
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          />
-
-                        </div>
-                        
-                      
-          </div>
-          <div>
-                        <div className="flex items-center justify-between">
-                          <label htmlFor="password" className="text-slate-500 block  text-sm font-medium leading-6 ">
-                          Number of Garnishment 
-                          </label>
-                        </div>
-                        <div className="mt-2">
-                          <input 
-                            id="number_of_garnishment"
-                            name="number_of_garnishment"
-                            type="number"
-                            value={number_of_garnishment}
-                            onChange={(e) => setNumberGarnihsment(e.target.value)}    
-                            // autoComplete="current-password"
-                            
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          />
-
-                        </div>
-                        
-                      
-          </div>
-          <div>
-                        <div className="flex items-center justify-between">
-                          <label htmlFor="password" className="text-slate-500 block  text-sm font-medium leading-6 ">
-                          Location 
-                          </label>
-                        </div>
-                        <div className="mt-2">
-                          <input 
-                            id="location"
-                            name="location"
-                            type="text"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}    
-                            // autoComplete="current-password"
-                            
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          />
-
-                        </div>
-                        
-                      
-          </div>
+          
           </form>
          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2  gap-4">
           <div className="flex justify-center items-center" >

@@ -576,7 +576,7 @@ return (
             </form>
             
             
-            {newresult && newresult == 0 &&   (
+            {newresult  &&   (
                 <div className="result-section">
                   {/* <h3>Calculation Result:</h3> */}
                   <p>Result: {newresult}</p>
