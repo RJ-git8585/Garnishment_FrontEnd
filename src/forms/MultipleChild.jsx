@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
-
+import Swal from 'sweetalert2';
 
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
@@ -93,7 +93,17 @@ function MultipleChild() {
       const newInput = { id: inputs.length + 1, value: '' };
       setInputs([...inputs, newInput]);
     } else {
-      alert('You can only add up to 5 inputs.');
+      // salert('You can only add up to 5 inputs.');
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'You can only add up to 5 inputs.',
+        // text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 
@@ -102,7 +112,16 @@ function MultipleChild() {
       const updatedInputs = inputs.filter(input => input.id !== id);
       setInputs(updatedInputs);
     } else {
-      alert('At least one input is required.');
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'One Input Required',
+        // text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 
@@ -115,7 +134,16 @@ function MultipleChild() {
       const newInputArrear = { id: arrearInputs.length + 1, value: '' };
       setArrearInputs([...arrearInputs, newInputArrear]);
     } else {
-      alert('You can only add up to 5 inputs.');
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'You can only add up to 5 inputs.',
+        // text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 
@@ -124,7 +152,16 @@ function MultipleChild() {
       const updatedInputs = arrearInputs.filter(input => input.id !== id);
       setArrearInputs(updatedInputs);
     } else {
-      toast.danger('At least one input is required.');
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'One Input Required',
+        // text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 

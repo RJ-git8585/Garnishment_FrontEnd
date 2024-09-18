@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
+import Swal from 'sweetalert2';
 
 function FederalTax() {
   const [employee_name, setEmpName] = useState('');
@@ -80,17 +81,36 @@ function FederalTax() {
 
       if (!response.ok) throw new Error('Failed to submit data');
 
-      toast.success('Data submitted successfully! Fetching results...');
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'Your Calculation was successful stored',
+        text: "Now Calculation result will show below the form !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
+    
 
       const resultResponse = await fetch(`${BASE_URL}/User/FederalCaseResult/${employer_id}/${employee_id}/`);
       const resultData = await resultResponse.json();
       if (!resultResponse.ok) throw new Error('Failed to fetch results');
 
       setCalculationResult(resultData.data[0]);
-      toast.success(`Result: ${resultData.data[0].result.toLocaleString()}`);
+      // toast.success(`Result: ${resultData.data[0].result.toLocaleString()}`);
     } catch (error) {
       console.error('Submission Error:', error);
-      toast.error(`Error: ${error.message}`);
+      Swal.fire({
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'warning', // 'success', 'error', 'warning', 'info', 'question'
+        title: 'Your action was unsuccessful ',
+        text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 
@@ -196,6 +216,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                      placeholder='Enter Garnishment Fees'
                       id="garnishmentFees"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={garnishment_fees}
@@ -209,6 +230,7 @@ function FederalTax() {
                     <input
                       type="number"
                       id="orderID"
+                      placeholder='Enter Order ID'
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={order_id}
                       onChange={(e) => setOrderID(parseInt(e.target.value))}
@@ -235,6 +257,7 @@ function FederalTax() {
                     <input
                       type="number"
                       id="Exception"
+                      placeholder='Enter No Of Exemptions'
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={no_of_exception}
                       onChange={(e) => setExceptions(parseInt(e.target.value))}
@@ -260,6 +283,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                      placeholder='Enter Local Tax'
                       id="local_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={local_tax}
@@ -274,6 +298,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                      placeholder='Enter Workers Compensation'
                       id="workers_compensation"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={workers_compensation}
@@ -287,6 +312,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                      placeholder='Enter Medical Insurance'
                       id="medical_insurance"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={medical_insurance}
@@ -301,6 +327,7 @@ function FederalTax() {
                       type="number"
                       step="0.01"
                       id="contribution"
+                        placeholder='Enter Contribution'
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={contribution}
                       onChange={(e) => setcontribution(parseFloat(e.target.value))}
@@ -313,6 +340,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                       placeholder='Enter United Way Contribution'
                       id="united_way_contribution"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={united_way_contribution}
@@ -326,6 +354,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                        placeholder='Enter Social Security Tax'
                       id="social_and_security"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={social_and_security}
@@ -339,6 +368,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                      placeholder='Enter Medicare Tax'
                       id="medicare_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={medicare_tax}
@@ -353,6 +383,7 @@ function FederalTax() {
                       type="number"
                       step="0.01"
                       id="state_tax"
+                       placeholder='Enter State Tax'
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={state_tax}
                       onChange={(e) => setStateTax(parseFloat(e.target.value))}
@@ -365,6 +396,7 @@ function FederalTax() {
                     <input
                       type="number"
                       step="0.01"
+                        placeholder='Enter  Federal Income Tax'
                       id="federal_income_tax"
                       className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={federal_income_tax}

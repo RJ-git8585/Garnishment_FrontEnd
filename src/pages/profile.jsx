@@ -146,12 +146,13 @@ function Profile() {
               <div className="text-sm w-full text-center m-0">
                 <img className="mx-auto h-10 logo-inner w-auto custom_logo_side" src={load} alt="Loading" />
               </div>
+              
             ) : (
               data.length > 0 && (
                 data.map((item) => (
                   <>
                     <form action="#" method="POST" onSubmit={handleSubmit} className="mt-4 sm:mt-0">
-                      <div className="grid grid-cols-4 gap-x-8 gap-y-6 sm:grid-cols-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6">
                         {/* Employer Name */}
                         <div>
                           <label className="block text-sm font-semibold leading-6 text-black-900">Employer Name</label>

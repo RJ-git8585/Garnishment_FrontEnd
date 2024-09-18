@@ -14,11 +14,11 @@ const user = {
   }
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', current: true },
-    { name: 'Calcutalor', href: '/garnishment', current: false },
+    { name: 'Calculator', href: '/garnishment', current: false },
     { name: 'Employee', href: '/employee', current: false },
     { name: 'IWO', href: '/iwo', current: false },
     { name: 'Results', href: '/results', current: false },
-    { name: 'Setting', href: '/setting', current: false },
+    { name: 'Settings', href: '/setting', current: false },
     { name: 'Logout', href: '/logout', current: false },
   ]
   const userNavigation = [

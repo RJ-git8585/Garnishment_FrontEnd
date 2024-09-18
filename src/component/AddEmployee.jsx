@@ -2,12 +2,14 @@
 import {React, useState} from 'react'
 import Headertop from '../component/Headertop'
 import Sidebar from '../component/sidebar'
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 // eslint-disable-next-line no-unused-vars
 import { useNavigate } from 'react-router-dom';
 // import { FaUserEdit } from "react-icons/fa";
+
+import Swal from 'sweetalert2';
 
 
 function AddEmployee() {
@@ -50,7 +52,16 @@ function AddEmployee() {
               if (response.ok) {
                 // Handle successful submission
                 console.log('Data submitted successfully!');  
-                toast.success('Employee Added Successfully !!');
+                Swal.fire({
+                  toast: true, // This enables the toast mode
+                  position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+                  icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+                  title: 'Profile updated successfully',
+                  text: "Plesse check ones!!",
+                  showConfirmButton: false, // Hide the confirm button
+                  timer: 3000, // Auto close after 3 seconds
+                  timerProgressBar: true, // Show a progress bar
+              });
                 // navigate('/employee', { replace: true });
                 handleReset();
 
@@ -81,7 +92,7 @@ function AddEmployee() {
         <Headertop />
             <h2 className='font-bold Ctext-base inline '>Add Employee</h2>
            
-              <form className=" grid grid-cols-4 gap-3 mt-8 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50" action="#" method="POST">
+              <form className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4   gap-3 mt-8 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50" action="#" method="POST">
                       
               <div className='hidden'> 
                           
@@ -98,7 +109,7 @@ function AddEmployee() {
                             />
                           </div>
                         </div>
-                      <div className='max-w-80'> 
+                      <div className=''> 
                           <label htmlFor="name" className="block text-slate-500 text-sm font-medium leading-6">
                           Employee Name 
                           </label>
@@ -115,7 +126,7 @@ function AddEmployee() {
                             />
                           </div>
                         </div>
-                        <div className='max-w-80'>
+                        <div className=''>
                           <label htmlFor="name" className="block text-slate-500 text-sm font-medium leading-6">
                           Department
                           </label>
@@ -135,7 +146,7 @@ function AddEmployee() {
                         </div>
 
 
-                        <div className="max-w-80">
+                        <div className="">
                           <div className="flex items-center justify-between">
                             <label htmlFor="password" className="text-slate-500 block  text-sm font-medium leading-6 ">
                             Pay Cycle 
@@ -160,7 +171,7 @@ function AddEmployee() {
                         
             </div>
             
-            <div className="max-w-80"> 
+            <div className=""> 
                           <div className="flex items-center justify-between">
                             <label htmlFor="password" className="text-slate-500 block  text-sm font-medium leading-6 ">
                             Number of Garnishment 
@@ -184,7 +195,7 @@ function AddEmployee() {
                           
                         
             </div>
-            <div className="max-w-80">
+            <div className="">
                           <div className="flex items-center justify-between">
                             <label htmlFor="password" className="text-slate-500 block  text-sm font-medium leading-6 ">
                             Location 
