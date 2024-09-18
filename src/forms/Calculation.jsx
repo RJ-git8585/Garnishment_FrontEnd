@@ -43,7 +43,7 @@ function Garnishment( ) {
   const [options, setOptions] = useState([]);
   const [employee_id, setSelectedOption] = useState(null);
   // const [data, setData] = useState(null);
-  const employer_id = (parseInt(localStorage.getItem("id")));
+  const employer_id = (parseInt(sessionStorage.getItem("id")));
   // const [empID, setEmpID] = useState(options[0].value);
 
   const handleChange = (event) => {
@@ -99,10 +99,10 @@ function Garnishment( ) {
     setIsCheckedFamily(event.target.checked); // Update s
   }
   useEffect(() => {
-   // const name = localStorage.getItem("name");
+   // const name = sessionStorage.getItem("name");
    const fetchData = async () => {
     try {
-      const id = localStorage.getItem("id");
+      const id = sessionStorage.getItem("id");
       const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
       // Replace with your API URL
       const jsonData = await response.json(options);
