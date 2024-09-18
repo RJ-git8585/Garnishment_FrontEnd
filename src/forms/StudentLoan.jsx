@@ -86,7 +86,7 @@ function StudentLoan() {
       if (!resultResponse.ok) throw new Error('Failed to fetch results');
 
       setCalculationResult(resultData.data[0]);
-      toast.success(`Result: ${resultData.data[0].result}`);
+      toast.success(`Result: ${resultData.data[0].garnishment_amount}`);
     } catch (error) {
       console.error('Submission Error:', error);
       Swal.fire({
@@ -336,7 +336,7 @@ function StudentLoan() {
                 <div className="result-section">
 {/*                   <h3>Calculation Result:</h3> */}
                   <p>Result: {calculationResult.garnishment_amount}</p>
-                  <p>Result: {calculationResult.net_pay}</p>
+                  <p>Net Pay: {calculationResult.net_pay}</p>
                   {/* <Swal {...calculationResult} /> */}
                   {/* <p>{Swal.fire('{calculationResult.garnishment_amount}')}</p> */}
                 </div>
