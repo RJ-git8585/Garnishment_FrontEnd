@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect } from 'react';
@@ -29,6 +30,7 @@ function MultipleChild() {
   const [social_tax, setSocialTax] = useState('');
   const [medicare_tax, setMedicareTax] = useState('');
   const [state_tax, setStateTax] = useState('');
+  const [newresult, setnewResult] = useState('');
 
   const StateList = [
     { id: 1, label: 'Alabama' },
@@ -290,8 +292,9 @@ function MultipleChild() {
             if (!getResult.ok) throw new Error('Failed to fetch results');  
                 // console.log(resultData);
                 setCalculationResult(resultData.data[0].result);
-                console.log(calculationResult);
+                console.log(`Result: ${resultData.data[0].result}`);
                 toast.success(`Result: ${resultData.data[0].result}`);
+                setnewResult(resultData.data[0].result);
                 // console.log(calculationResult);
                 handleReset();
               // console.log(calculationNetpay); // Set result in state
@@ -570,10 +573,10 @@ return (
               </div> 
               <ToastContainer />
             </form>
-            {calculationResult && (
+            {newresult && (
                 <div className="result-section mt-4">
                   <h2>Calculation Result:</h2>
-                  <p>Result: {calculationResult}</p>
+                  <p>Result: {newresult}</p>
                 </div>
               )}
           </div>
