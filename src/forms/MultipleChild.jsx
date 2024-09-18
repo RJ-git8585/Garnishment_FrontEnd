@@ -291,8 +291,6 @@ function MultipleChild() {
                 // console.log(resultData);
                 setCalculationResult(resultData.data[0].result);
                 console.log(calculationResult);
-                console.log('sourabh')
-                console.log(calculationResult);
                 toast.success(`Result: ${resultData.data[0].result}`);
                 // console.log(calculationResult);
                 handleReset();
