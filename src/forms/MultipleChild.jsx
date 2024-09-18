@@ -223,10 +223,10 @@ function MultipleChild() {
     setInputs([{ id: 1, value: '' }]);
     setCalculationResult('');
     setArrearInputs([{ id: 1, value: '' }]);
-    setFederalIncmoeTax();
-    setSocialTax();
-    setMedicareTax();
-    setStateTax();
+    setFederalIncmoeTax('');
+    setSocialTax('');
+    setMedicareTax('');
+    setStateTax('');
   };
 
   const handleSubmit = async (event) => {
@@ -280,25 +280,23 @@ function MultipleChild() {
             body: JSON.stringify(postData),
         });
 
-        const postResult = await postResponse.json();
-        if (postResponse.ok) {
+      
+        if (!postResponse.ok) throw new Error('Failed to submit data');
+        toast.success('Data submitted successfully! Fetching results...');
             // toast.success('Calculation Added Successfully !!');
 
             const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
             const resultData = await getResult.json();
-            if (getResult.ok) {
-              console.log(resultData);
-                setCalculationResult(resultData.data[0].result);
+            if (!getResult.ok) throw new Error('Failed to fetch results');  
+                // console.log(resultData);
+               
+                setCalculationResult(resultData.data[0]);
+                console.log('sourabh')
                 console.log(calculationResult);
+                toast.success(`Result: ${resultData.data[0].result}`);
+                // console.log(calculationResult);
+                handleReset();
               // console.log(calculationNetpay); // Set result in state
-            } else {
-                throw new Error(`Failed to fetch results: ${resultData.message}`);
-            }
-
-            handleReset();
-        } else {
-            throw new Error(`Failed to submit data: ${postResult.message}`);
-        }
     } catch (error) {
         console.error('Error:', error.message);
         // toast.error(`Error: ${error.message}`);
@@ -572,17 +570,15 @@ return (
                   Reset
                 </button>
               </div> 
+              <ToastContainer />
             </form>
             {calculationResult && (
                 <div className="result-section mt-4">
                   <h2>Calculation Result:</h2>
-                  <p>{calculationResult}</p>
+                  <p>Result: {calculationResult.result}</p>
                 </div>
               )}
           </div>
-<hr className="mt-6"></hr>
-
-{/* <ToastContainer /> */}
         </div>
       </div>
     </div>
