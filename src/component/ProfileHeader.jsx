@@ -53,9 +53,7 @@ function ProfileHeader( ) {
         Location
       </a>
     </span>
-
-  
-    <div className="relative ml-3 sm:hidden md:hidden hidden md:block">
+    <div className="relative ml-3 sm:hidden hidden md:block">
       <button type="button" className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400" id="mobile-menu-button" aria-expanded="false" aria-haspopup="true">
         More
         <svg className="-mr-1 ml-1.5 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -72,7 +70,6 @@ function ProfileHeader( ) {
   </div>
 </div>
 <hr></hr>
-{/* <ToastContainer /> */}
     </div>
   )
 }

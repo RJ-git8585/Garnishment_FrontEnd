@@ -146,12 +146,6 @@ function AddDepartment() {
            
           </div>
           </div>
-       
-
-
-
-
-
     </div>
     </div>  
        
