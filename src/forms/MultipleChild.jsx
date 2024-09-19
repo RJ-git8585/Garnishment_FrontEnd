@@ -16,7 +16,7 @@ function MultipleChild() {
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
   const [number_of_arrear, setnumber_of_arrears] = useState('');
-  // const [minimum_wages, setminimum_wages] = useState('');
+  const [number_of_garnishment, setnumber_of_ganishment] = useState('');
   const [arrears_greater_than_12_weeks, setIsChecked] = useState(false);
   const [support_second_family, setIsCheckedFamily] = useState(false);
   const [employee_id, setSelectedOption] = useState(null);
@@ -219,7 +219,7 @@ function MultipleChild() {
     setOrderID('');
     setState('');
     setnumber_of_arrears('');
-    // setminimum_wages('');
+     setnumber_of_ganishment('');
     setIsChecked(false);
     setIsCheckedFamily(false);
     setInputs([{ id: 1, value: '' }]);
@@ -255,6 +255,7 @@ function MultipleChild() {
       order_id: parseInt(order_id, 10),
       state,
       number_of_arrear: parseInt(number_of_arrear, 10),
+      number_of_garnishment: parseInt(number_of_garnishment, 10),
       amount_to_withhold_child1: parseFloat(filledInputs[0].value),
       amount_to_withhold_child2: parseFloat(filledInputs[1].value),
       amount_to_withhold_child3: parseFloat(filledInputs[2].value),
@@ -416,6 +417,20 @@ return (
                     className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_arrear}
                     onChange={(e) => setnumber_of_arrears(parseInt(e.target.value, 10))}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="number_of_garnishment" className="block text-gray-700 text-sm font-bold mb-2">
+                    Number of Garnishmant:
+                  </label>
+                  <input
+                    type="number"
+                    id="number_of_garnishment"
+                    placeholder='Enter Number of Garnishment'
+                    className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={number_of_garnishment}
+                    onChange={(e) => setnumber_of_ganishment(parseInt(e.target.value, 10))}
                   />
                 </div>
                 </div>
