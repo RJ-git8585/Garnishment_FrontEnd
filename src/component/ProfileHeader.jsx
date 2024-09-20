@@ -28,8 +28,8 @@ function ProfileHeader( ) {
      
     </div>
   </div>
-  <div className="mt-5 flex lg:ml-4 lg:mt-0">
-    <span className="hidden md:hidden sm:block">
+  <div className="mt-5 flex md:hidden lg:ml-4 lg:mt-0">
+    <span className="hidden  sm:block">
    
     
 
