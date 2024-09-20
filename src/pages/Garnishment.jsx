@@ -35,7 +35,7 @@ function Garnishment( ) {
   const [employee_id, setSelectedOption] = useState(null);
   // const [data, setData] = useState(null);
    
-  const employer_id = (parseInt(localStorage.getItem("id")));
+  const employer_id = (parseInt(sessionStorage.getItem("id")));
   const handleChangeType = (event) => {
     const selectedOption = event.target.value;
     setSelectedType(selectedOption);

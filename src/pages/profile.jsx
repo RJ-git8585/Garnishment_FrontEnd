@@ -28,7 +28,7 @@ function Profile() {
   });
 
   const [loading, setLoading] = useState(false);
-  const employer_id = parseInt(localStorage.getItem("id"));
+  const employer_id = parseInt(sessionStorage.getItem("id"));
   const [data, setData] = useState([]);
   const [isEditing, setIsEditing] = useState(false); // State to track edit mode
 

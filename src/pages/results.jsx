@@ -18,7 +18,7 @@ import { BASE_URL } from '../Config';
 // function results(onDeleteSuccess,onEditSuccess) {
   function results() {
   // this is for the pagination
-  const id = localStorage.getItem("id");
+  const id = sessionStorage.getItem("id");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   // const [Loading, setIsLoading] = useState(true);
@@ -27,11 +27,11 @@ import { BASE_URL } from '../Config';
   const [data, setData] = useState(null);
   // const totalPages = Math.ceil(data.length / 10);  
   useEffect(()=>{
-  // const name = localStorage.getItem("name");
+  // const name = sessionStorage.getItem("name");
     const fetchData = async () => {
       setLoading(true);
       try {
-        const id = localStorage.getItem("id");
+        const id = sessionStorage.getItem("id");
         const response = await fetch(`${BASE_URL}/User/GetResultDetails/${id}/`); // Replace with your API URL
         const jsonData = await response.json();
         setData(jsonData.data);

@@ -18,7 +18,7 @@ import { BASE_URL } from '../Config';
 
 function employee(onDeleteSuccess,onEditSuccess) {
   // this is for the pagination
-  const id = localStorage.getItem("id");
+  const id = sessionStorage.getItem("id");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   // const [Loading, setIsLoading] = useState(true);

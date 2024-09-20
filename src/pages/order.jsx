@@ -18,7 +18,7 @@ function order(onDeleteSuccess) {
 
 
  
-  const id = localStorage.getItem("id");
+  const id = sessionStorage.getItem("id");
   const [page, setPage] = useState(1);
   // const [Loading, setIsLoading] = useState(true);
   const Link = `https://garnishment-backend.onrender.com/User/ExportEmployees/${id}/`;
@@ -29,7 +29,7 @@ function order(onDeleteSuccess) {
   // const name = localStorage.getItem("name");
     const fetchData = async () => {
       try {
-        const id = localStorage.getItem("id");
+        const id = sessionStorage.getItem("id");
         const response = await fetch(`https://garnishment-backend.onrender.com/User/GetResultDetails/${id}/`); // Replace with your API URL
         const jsonData = await response.json();
         setData(jsonData.data);

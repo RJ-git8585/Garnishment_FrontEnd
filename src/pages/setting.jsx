@@ -8,17 +8,17 @@
     // import {  toast } from 'react-toastify';
 
     function Setting() {
-      // const employer_id = (parseInt(localStorage.getItem("id")));
+      // const employer_id = (parseInt(sessionStorage.getItem("id")));
       useEffect(()=>{
 
         const fetchData = async () => {
           try {
-            const id = localStorage.getItem("id");
+            const id = sessionStorage.getItem("id");
             const datalog = await fetch(`${BASE_URL}/User/setting/${id}/`); // Replace with your API URL
             const jsonDatalog = await datalog.json();
             setIsChecked(jsonDatalog.data.mode) ;
-            // localStorage.setItem('Mode', jsonDatalog.data.mode);
-            // localStorage.setItem('Mode', jsonDatalog.data.mode);s  
+            // sessionStorage.setItem('Mode', jsonDatalog.data.mode);
+            // sessionStorage.setItem('Mode', jsonDatalog.data.mode);s  
             setIsActiveChecked(jsonDatalog.data.visibility) ;
             console.log(jsonDatalog.data.mode) ;
 
