@@ -162,7 +162,6 @@ function Garnishment( ) {
                       </div>
                     )}
 
-                   
                     {selectedType === 'StudentLoan' && (
                       <div>
                         <StudentLoan></StudentLoan>
