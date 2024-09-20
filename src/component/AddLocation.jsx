@@ -30,7 +30,6 @@ function AddLocation() {
             employer_id: parseInt(employer_id),
             state,
             city
-            
           };
 
           fetch(`${BASE_URL}/User/Location`, {
@@ -144,21 +143,18 @@ function AddLocation() {
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
                     Add
                   </button>
                   <button
                     type="reset"
                     onClick={handleReset}
-                    className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
                     Reset
                   </button>
                 </div>  
-
-
-
 
 
     </div>

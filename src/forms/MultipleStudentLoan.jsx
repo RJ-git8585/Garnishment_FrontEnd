@@ -142,7 +142,7 @@ function MultipleStudentLoan() {
                       Employee ID:
                     </label>
                
-                    <select value={employee_id}   onChange={handleChange} id="countries" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
+                    <select value={employee_id}   onChange={handleChange} id="countries" className="shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
                         <option value="">Select Employee</option>
                         {options.map((option) => (
                           <option key={option.employee_id}   value={(parseInt(option.employee_id,10))}>
@@ -172,7 +172,7 @@ function MultipleStudentLoan() {
                         placeholder='Enter Earnings'
                       step="0.01"
                       id="earning"
-                      className="shadow appearance-none border text-sm text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className="shadow appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={earnings}
                       onChange={(e) => setEarnings(parseFloat(e.target.value,10))}
                     />
@@ -369,14 +369,14 @@ function MultipleStudentLoan() {
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
                     Calculate
                   </button>
                   <button
                     type="reset"
                     onClick={handleReset}
-                    className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-500 m-2 sm:mx-auto sm:w-full  text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   >
                     Reset
                   </button>
@@ -387,6 +387,10 @@ function MultipleStudentLoan() {
                 <div className="result-section">
                   {/* <h3>Calculation Result:</h3> */}
                   <p>Result: {calculationResult.garnishment_amount}</p>
+                  <p>Net Pay: {calculationResult.net_pay}</p>
+                  <p>Student Loan 1: {calculationResult.StudentLoanAmount1}</p>
+                  <p>Student Loan 2: {calculationResult.StudentLoanAmount2}</p>
+                  <p>Student Loan 3: {calculationResult.StudentLoanAmount3}</p>
                 </div>
               )}
             </div>

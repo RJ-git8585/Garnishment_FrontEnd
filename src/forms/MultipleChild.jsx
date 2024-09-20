@@ -15,8 +15,8 @@ function MultipleChild() {
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
-  const [number_of_arrears, setnumber_of_arrears] = useState('');
-  // const [minimum_wages, setminimum_wages] = useState('');
+  const [number_of_arrear, setnumber_of_arrears] = useState('');
+  const [number_of_garnishment, setnumber_of_ganishment] = useState('');
   const [arrears_greater_than_12_weeks, setIsChecked] = useState(false);
   const [support_second_family, setIsCheckedFamily] = useState(false);
   const [employee_id, setSelectedOption] = useState(null);
@@ -219,7 +219,7 @@ function MultipleChild() {
     setOrderID('');
     setState('');
     setnumber_of_arrears('');
-    // setminimum_wages('');
+     setnumber_of_ganishment('');
     setIsChecked(false);
     setIsCheckedFamily(false);
     setInputs([{ id: 1, value: '' }]);
@@ -255,6 +255,7 @@ function MultipleChild() {
       order_id: parseInt(order_id, 10),
       state,
       number_of_arrear: parseInt(number_of_arrear, 10),
+      number_of_garnishment: parseInt(number_of_garnishment, 10),
       amount_to_withhold_child1: parseFloat(filledInputs[0].value),
       amount_to_withhold_child2: parseFloat(filledInputs[1].value),
       amount_to_withhold_child3: parseFloat(filledInputs[2].value),
@@ -323,7 +324,7 @@ return (
                     noOptionsMessage={() => 'FOOOO!'}
                     onChange={handleChangeName}
                     id="countries"
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500"
+                    className="shadow appearance-none   py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500"
                     required
                   >
                     <option value="">Choose Employee</option>
@@ -394,7 +395,7 @@ return (
                   <label htmlFor="state" className="block text-gray-700 text-sm font-bold mb-2">
                     State:
                   </label>
-                  <select className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" id="selectField" value={state} onChange={handleState}>
+                  <select className="shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" id="selectField" value={state} onChange={handleState}>
                       <option value="" >Choose an State </option>
                       {StateList.map((option) => (
                         <option key={option.id} value={option.label}>
@@ -416,6 +417,20 @@ return (
                     className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_arrear}
                     onChange={(e) => setnumber_of_arrears(parseInt(e.target.value, 10))}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="number_of_garnishment" className="block text-gray-700 text-sm font-bold mb-2">
+                    Number of Garnishmant:
+                  </label>
+                  <input
+                    type="number"
+                    id="number_of_garnishment"
+                    placeholder='Enter Number of Garnishment'
+                    className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={number_of_garnishment}
+                    onChange={(e) => setnumber_of_ganishment(parseInt(e.target.value, 10))}
                   />
                 </div>
                 </div>
@@ -560,14 +575,14 @@ return (
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-blue-500 m-2 sm:mx-auto sm:w-full  text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
                   Calculate
                 </button>
                 <button
                   type="reset"
                   onClick={handleReset}
-                  className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
                   Reset
                 </button>

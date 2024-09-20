@@ -142,7 +142,7 @@ function dashboard(  ) {
     /></div></div></p>
     )}
               </div>
-              <div className=" border-single border-2 rounded-xl ml-2">
+              <div className=" border-single pb-2 rounded-xl mb-4 border-2 ml-2">
               <h5 className="mt-0 py-2  px-2 text-lg bg-cyan-100  font-semibold">Logs</h5> 
               {data.length > 0 ? (  // Check if data is available
       <ul>

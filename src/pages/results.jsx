@@ -53,12 +53,8 @@ import { BASE_URL } from '../Config';
       setPage(seletedPage);
     }
 
-   
-
   return (
     <div>
-
-
 <div className="min-h-full">
         
         <div className="container main ml-auto">
