@@ -327,7 +327,7 @@ return (
                     className="shadow appearance-none   py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500"
                     required
                   >
-                    <option value="">Choose Employee</option>
+                    <option value="">Select Employee</option>
                     {options.map((option) => (
                       <option key={option.employee_id} value={parseInt(option.employee_id, 10)}>
                         {option.employee_name}_{option.employee_id}
