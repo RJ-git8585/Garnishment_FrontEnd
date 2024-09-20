@@ -334,7 +334,7 @@ button.absolute.right-2.custom_position.text-gray-500 {
   }
 
 
-  @media (min-width: 1020px) and (max-width: 1600px) {
+  @media (min-width: 1020px) and (max-width: 2200px) {
     /* Styles for screens between 768px and 1080px */
     .custom_menu_full{
       display:none;
