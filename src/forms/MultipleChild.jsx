@@ -161,7 +161,7 @@ function MultipleChild() {
         title: 'One Input Required',
         // text: "Now Calculation result will not stored !!",
         showConfirmButton: false, // Hide the confirm button
-        timer: 3000, // Auto close after 3 seconds
+        timer: 30000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
     });
     }
@@ -292,13 +292,11 @@ function MultipleChild() {
             const resultData = await getResult.json();
             if (!getResult.ok) throw new Error('Failed to fetch results');  
                 // console.log(resultData);
-<<<<<<< HEAD
-               setCalculationResult(resultData.data[0].result);
+
+              //  setCalculationResult(resultData.data[0].result);
                 // console.log(`Result: ${resultData.data[0].result}`);
-=======
                 setCalculationResult(resultData.data[0]);
                 // console.log(`Result: ${resultData.data[0].result}`);
->>>>>>> 7b5985b423dafc8d0ab5c759fab82a64d1abd052
                 toast.success(`Result: ${resultData.data[0].result}`);
                 // setnewResult(resultData.data[0].result);
                 // setCalculationResult(resultData.data[0].result);
