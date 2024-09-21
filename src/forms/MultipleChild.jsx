@@ -292,14 +292,14 @@ function MultipleChild() {
             const resultData = await getResult.json();
             if (!getResult.ok) throw new Error('Failed to fetch results');  
                 // console.log(resultData);
-               setCalculationResult(resultData.data[0].result);
-                console.log(`Result: ${resultData.data[0].result}`);
+                setCalculationResult(resultData.data[0]);
+                // console.log(`Result: ${resultData.data[0].result}`);
                 toast.success(`Result: ${resultData.data[0].result}`);
                 // setnewResult(resultData.data[0].result);
                 // setCalculationResult(resultData.data[0].result);
                 // console.log(calculationResult);
                 handleReset();
-              // console.log(calculationNetpay); // Set result in state
+              // console.log(calculationNetpay); // Set result in sta
     } catch (error) {
         console.error('Error:', error.message);
         // toast.error(`Error: ${error.message}`);
@@ -594,7 +594,7 @@ return (
             {newresult  &&   (
                 <div className="result-section">
                   {/* <h3>Calculation Result:</h3> */}
-                  <p>Result: {calculationResult}</p>
+                  <p>Result: {calculationResult.result}</p>
                 </div>
             )}
 
