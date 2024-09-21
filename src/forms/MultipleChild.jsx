@@ -121,7 +121,7 @@ function MultipleChild() {
         title: 'One Input Required',
         // text: "Now Calculation result will not stored !!",
         showConfirmButton: false, // Hide the confirm button
-        timer: 3000, // Auto close after 3 seconds
+        timer: 300000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
     });
     }
