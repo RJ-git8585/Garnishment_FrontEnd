@@ -304,8 +304,7 @@ try {
     console.error('Submission Error:', error);
     toast.error(`Error: ${error.message}`);
 }
-
-
+};
 
 return (
   <>
