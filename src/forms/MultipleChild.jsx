@@ -293,7 +293,7 @@ try {
     if (!getResult.ok) throw new Error('Failed to fetch calculation data');
 
     // Fetch additional results if needed
-    const resultResponse = await fetch(`${BASE_URL}/User/GetMultipleStudentLoanResult/${employer_id}/${employee_id}/`);
+    const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
     const resultLoanData = await resultResponse.json();
     if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
 
