@@ -299,7 +299,7 @@ function MultipleChild() {
                 // console.log(`Result: ${resultData.data[0].result}`);
                 setCalculationResult(resultData.data[0]);
                 // console.log(`Result: ${resultData.data[0].result}`);
-                toast.success(`Result: ${resultData.data[0].result}`);
+                // toast.success(`Result: ${resultData.data[0].result}`);
                 // setnewResult(resultData.data[0].result);
                 // setCalculationResult(resultData.data[0].result);
                 // console.log(calculationResult);
@@ -592,7 +592,7 @@ return (
                   Reset
                 </button>
               </div> 
-              <ToastContainer />
+{/*               <ToastContainer /> */}
             </form>
             
             
