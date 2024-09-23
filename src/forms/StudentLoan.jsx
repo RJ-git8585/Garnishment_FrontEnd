@@ -32,8 +32,8 @@ function StudentLoan() {
         const jsonData = await response.json();
         if (jsonData.data) {
           setOptions(jsonData.data); // Set employee options
-          setEmployeeId(jsonData.data[0].employee_id);
-          setEmpName(jsonData.data[0].employee_name);
+          // setEmployeeId(jsonData.data[0].employee_id);
+          // setEmpName(jsonData.data[0].employee_name);
         }
       } catch (error) {
         console.error('Error fetching employee data:', error);
