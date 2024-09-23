@@ -278,12 +278,10 @@ function MultipleChild() {
 
     try {
         const postResponse = await fetch(`${BASE_URL}/User/CalculationDataView`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postData),
-        });
+             method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData),
+      });
 
       
         if (!postResponse.ok) throw new Error('Failed to submit data');
@@ -292,22 +290,20 @@ function MultipleChild() {
 
             const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
             const resultData = await getResult.json();
-            if (!getResult.ok) throw new Error('Failed to fetch results');  
-                // console.log(resultData);
+            if (!response.ok) throw new Error('Failed to submit data');
 
-              //  setCalculationResult(resultData.data[0].result);
-                // console.log(`Result: ${resultData.data[0].result}`);
-                setCalculationResult(resultData.data[0]);
-                // console.log(`Result: ${resultData.data[0].result}`);
-                // toast.success(`Result: ${resultData.data[0].result}`);
-                // setnewResult(resultData.data[0].result);
-                // setCalculationResult(resultData.data[0].result);
-                // console.log(calculationResult);
-                handleReset();
-              // console.log(calculationNetpay); // Set result in sta
+      toast.success('Data submitted successfully! Fetching results...');
+
+      // Fetch results after successful data submission
+      const resultResponse = await fetch(`${BASE_URL}/User/GetMultipleStudentLoanResult/${employer_id}/${employee_id}/`);
+      const resultData = await resultResponse.json();
+      if (!resultResponse.ok) throw new Error('Failed to fetch results');
+
+      setCalculationResult(resultData.data[0]);
+      toast.success(`Result: ${resultData.data[0].result}`);
     } catch (error) {
-        console.error('Error:', error.message);
-        // toast.error(`Error: ${error.message}`);
+      console.error('Submission Error:', error);
+      toast.error(`Error: ${error.message}`);
     }
   };
 
