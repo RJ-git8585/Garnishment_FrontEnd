@@ -596,13 +596,13 @@ return (
             </form>
             
             
-            {newresult  &&   (
+              {calculationResult && (
                 <div className="result-section">
                   {/* <h3>Calculation Result:</h3> */}
-                  <p>Result: {calculationResult.result}</p>
+                  <p>Garnishement Result: {calculationResult.result}</p>
+                  <p>Net Pay: {calculationResult.net_pay}</p>
                 </div>
-            )}
-
+              )}
           </div>
         </div>
       </div>
