@@ -387,10 +387,6 @@ function MultipleStudentLoan() {
                 <div className="result-section">
                   {/* <h3>Calculation Result:</h3> */}
                   <p>Result: {calculationResult.garnishment_amount}</p>
-                  <p>Net Pay: {calculationResult.net_pay}</p>
-                  <p>Student Loan 1: {calculationResult.StudentLoanAmount1}</p>
-                  <p>Student Loan 2: {calculationResult.StudentLoanAmount2}</p>
-                  <p>Student Loan 3: {calculationResult.StudentLoanAmount3}</p>
                 </div>
               )}
             </div>

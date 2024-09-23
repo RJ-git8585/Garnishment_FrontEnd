@@ -127,9 +127,7 @@ function MultipleChild() {
     }
   };
 
-  const handleChange = (event) => {
-    setSelectedOption(parseInt(event.target.value, 10));
-  };
+  
 
   const handleAddArrearInput = () => {
     if (arrearInputs.length < 5) {
@@ -193,6 +191,10 @@ function MultipleChild() {
     if (selectedEmployee) {
       setEmpName(selectedEmployee.employee_name);
     }
+  };
+  
+  const handleChange = (event) => {
+    setSelectedOption(parseInt(event.target.value, 10));
   };
 
   useEffect(() => {

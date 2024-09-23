@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -10,7 +11,7 @@ function StudentLoan() {
   const [earnings, setEarnings] = useState('');
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
-  const [employee_id, setEmployeeId] = useState(null);
+  const [employee_id, setSelectedOption] = useState(null);
   const [calculationResult, setCalculationResult] = useState(null);
   const [options, setOptions] = useState([]);
   const employer_id = parseInt(sessionStorage.getItem("id"));
@@ -32,8 +33,13 @@ function StudentLoan() {
         const jsonData = await response.json();
         if (jsonData.data) {
           setOptions(jsonData.data); // Set employee options
+
           // setEmployeeId(jsonData.data[0].employee_id);
           // setEmpName(jsonData.data[0].employee_name);
+
+          setSelectedOption(jsonData.data[0].employee_id);
+          setEmpName(jsonData.data[0].employee_name);
+
         }
       } catch (error) {
         console.error('Error fetching employee data:', error);
@@ -115,8 +121,12 @@ function StudentLoan() {
     setSocialAndSecurityTax('');
   };
 
-  const handleChange = (e) => {
-    setEmployeeId(parseInt(e.target.value, 10));
+  const handleChange = (event) => {
+    setSelectedOption(parseInt(event.target.value, 10));
+  };
+
+  const handleChangeName = (e) => {
+    setSelectedOption(parseInt(e.target.value, 10));
     const selectedEmployee = options.find(option => option.employee_id === parseInt(e.target.value, 10));
     if (selectedEmployee) {
       setEmpName(selectedEmployee.employee_name);
@@ -139,6 +149,7 @@ function StudentLoan() {
                             name="employer_id"
                              value={employer_id}
                             type="hidden"
+                            onChange={handleChangeName}
                             // autoComplete="employee_name"
                             // onChange={(e) => setEid(e.target.value)}
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -152,7 +163,7 @@ function StudentLoan() {
                       Employee ID:
                     </label>
                
-                    <select value={employee_id}  onChange={handleChange} id="countries" className="shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
+                    <select value={employee_id}  onChange={handleChangeName} id="countries" className="shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
                         <option value="">Select Employee</option>
                         {options.map((option) => (
                           <option key={option.employee_id}   value={(parseInt(option.employee_id,10))}>
