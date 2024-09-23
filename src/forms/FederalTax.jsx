@@ -36,8 +36,9 @@ function FederalTax() {
         const jsonData = await response.json();
         if (jsonData.data) {
           setEmployeeId(jsonData.data[0].employee_id);
-          setEmpName(jsonData.data[0].employee_name);
-          setOptions(jsonData.data); // Store the employee options
+          // Auto select data
+          // setEmpName(jsonData.data[0].employee_name);
+          // setOptions(jsonData.data); // Store the employee options
         }
       } catch (error) {
         console.error('Error fetching employee data:', error);
