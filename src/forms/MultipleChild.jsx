@@ -276,36 +276,35 @@ function MultipleChild() {
       state_tax: parseFloat(state_tax),
     };
 
-    try {
-        const postResponse = await fetch(`${BASE_URL}/User/CalculationDataView`, {
-             method: 'POST',
+try {
+    // First, send the POST request
+    const postResponse = await fetch(`${BASE_URL}/User/CalculationDataView`, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData),
-      });
+    });
 
-      
-        if (!postResponse.ok) throw new Error('Failed to submit data');
-        toast.success('Data submitted successfully! Fetching results...');
-            // toast.success('Calculation Added Successfully !!');
+    if (!postResponse.ok) throw new Error('Failed to submit data');
+    toast.success('Data submitted successfully! Fetching results...');
 
-            const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-            const resultData = await getResult.json();
-            if (!response.ok) throw new Error('Failed to submit data');
+    // Fetching the calculation data after successful submission
+    const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
+    const resultData = await getResult.json();
+    if (!getResult.ok) throw new Error('Failed to fetch calculation data');
 
-      toast.success('Data submitted successfully! Fetching results...');
+    // Fetch additional results if needed
+    const resultResponse = await fetch(`${BASE_URL}/User/GetMultipleStudentLoanResult/${employer_id}/${employee_id}/`);
+    const resultLoanData = await resultResponse.json();
+    if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
 
-      // Fetch results after successful data submission
-      const resultResponse = await fetch(`${BASE_URL}/User/GetMultipleStudentLoanResult/${employer_id}/${employee_id}/`);
-      const resultData = await resultResponse.json();
-      if (!resultResponse.ok) throw new Error('Failed to fetch results');
+    // Set the calculation result
+    setCalculationResult(resultLoanData.data[0]);
+    toast.success(`Result: ${resultLoanData.data[0].result}`);
+} catch (error) {
+    console.error('Submission Error:', error);
+    toast.error(`Error: ${error.message}`);
+}
 
-      setCalculationResult(resultData.data[0]);
-      toast.success(`Result: ${resultData.data[0].result}`);
-    } catch (error) {
-      console.error('Submission Error:', error);
-      toast.error(`Error: ${error.message}`);
-    }
-  };
 
 
 return (
