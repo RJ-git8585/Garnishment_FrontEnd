@@ -605,5 +605,4 @@ return (
   </>
 );
 }
-
 export default MultipleChild;
