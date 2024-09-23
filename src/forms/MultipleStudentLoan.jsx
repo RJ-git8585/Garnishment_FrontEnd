@@ -30,8 +30,8 @@ function MultipleStudentLoan() {
         const jsonData = await response.json();
         if (jsonData.data) {
           setOptions(jsonData.data);
-          setEmployeeId(jsonData.data[0].employee_id); // Assuming first entry is the default
-          setEmpName(jsonData.data[0].employee_name);
+          // setEmployeeId(jsonData.data[0].employee_id); // Assuming first entry is the default
+          // setEmpName(jsonData.data[0].employee_name);
         }
       } catch (error) {
         console.error('Error fetching employee data:', error);
