@@ -287,9 +287,10 @@ try {
     if (!postResponse.ok) throw new Error('Failed to submit data');
     toast.success('Data submitted successfully! Fetching results...');
 
-    // const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-    // const resultData = await getResult.json();
-    // if (!getResult.ok) throw new Error('Failed to fetch calculation data');
+    // Fetching the calculation data after successful submission
+    const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
+    const resultData = await getResult.json();
+    if (!getResult.ok) throw new Error('Failed to fetch calculation data');
 
     // Fetch additional results if needed
     const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
