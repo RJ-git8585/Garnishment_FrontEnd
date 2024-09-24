@@ -591,9 +591,8 @@ return (
             
               {calculationResult && (
                 <div className="result-section">
-                  {/* <h3>Calculation Result:</h3> */}
-                  <p>Garnishment Amount: {calculationResult.result}</p>
-                  <p>Net Pay: {calculationResult.net_pay}</p>
+{/*                   <p>Garnishment Amount: {calculationResult.result}</p>
+                  <p>Net Pay :{calculationResult.net_pay}</p> */}
                 </div>
               )}
           </div>
