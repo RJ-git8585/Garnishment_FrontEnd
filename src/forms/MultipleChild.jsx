@@ -1,3 +1,4 @@
+
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
@@ -591,8 +592,9 @@ return (
             
               {calculationResult && (
                 <div className="result-section">
-{/*                   <p>Garnishment Amount: {calculationResult.result}</p>
-                  <p>Net Pay :{calculationResult.net_pay}</p> */}
+                  {/* <h3>Calculation Result:</h3> */}
+                  <p>Garnishment Amount: {calculationResult.result}</p>
+                  <p>Net Pay: {calculationResult.net_pay}</p>
                 </div>
               )}
           </div>
