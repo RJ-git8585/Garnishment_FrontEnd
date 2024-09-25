@@ -592,19 +592,19 @@ return (
           <p>Net Pay: {calculationResult.net_pay}</p>
           
           {/* Display based on the number of filled inputs */}
-          {filledInputs.length == 1 && (
+          {filledInputs.length >= 1 && (
             <p>Allowed Amount for Child1: {calculationResult.amount_to_withhold_child1}</p>
           )}
-          {filledInputs.length == 2 && (
+          {filledInputs.length >= 2 && (
             <p>Allowed Amount for Child2: {calculationResult.amount_to_withhold_child2}</p>
           )}
-          {filledInputs.length == 3 && (
+          {filledInputs.length >= 3 && (
             <p>Allowed Amount for Child3: {calculationResult.amount_to_withhold_child3}</p>
           )}
-          {filledInputs.length == 4 && (
+          {filledInputs.length >= 4 && (
             <p>Allowed Amount for Child4: {calculationResult.amount_to_withhold_child4}</p>
           )}
-          {filledInputs.length == 5 && (
+          {filledInputs.length >= 5 && (
             <p>Allowed Amount for Child5: {calculationResult.amount_to_withhold_child5}</p>
           )}
         </div>
