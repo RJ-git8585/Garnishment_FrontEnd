@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
+/* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,14 +10,15 @@ import Swal from 'sweetalert2';
 
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
-  const [earnings, setEarnings] = useState('');
+  const [earnings, setEarnings] = useState(''); 
+   const [filledInputs, setFilledInputs] = useState([]);
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
-  const [number_of_arrear, setNumberOfArrears] = useState('');
-  const [number_of_garnishment, setNumberOfGarnishment] = useState('');
-  const [arrears_greater_than_12_weeks, setArrearsGreaterThan12Weeks] = useState(false);
-  const [support_second_family, setSupportSecondFamily] = useState(false);
+  const [number_of_arrear, setnumber_of_arrears] = useState('');
+  const [number_of_garnishment, setnumber_of_ganishment] = useState('');
+  const [arrears_greater_than_12_weeks, setIsChecked] = useState(false);
+  const [support_second_family, setIsCheckedFamily] = useState(false);
   const [employee_id, setSelectedOption] = useState(null);
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
   const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
@@ -24,11 +26,11 @@ function MultipleChild() {
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
   const style = { color: "#b90707", fontSize: "1.2em" };
-  const [federal_income_tax, setFederalIncomeTax] = useState('');
+  const [federal_income_tax, setFederalIncmoeTax] = useState('');
   const [social_tax, setSocialTax] = useState('');
   const [medicare_tax, setMedicareTax] = useState('');
   const [state_tax, setStateTax] = useState('');
-  const [newResult, setNewResult] = useState('');
+  const [newresult, setnewResult] = useState('');
 
   const StateList = [
     { id: 1, label: 'Alabama' },
@@ -84,61 +86,84 @@ function MultipleChild() {
     { id: 50, label: 'New York' },
   ];
 
-  const handleState = (event) => setState(event.target.value);
+  const handleState = (event) => {
+    setState(event.target.value);
+  };
 
   const handleAddInput = () => {
     if (inputs.length < 5) {
-      setInputs([...inputs, { id: inputs.length + 1, value: '' }]);
+      const newInput = { id: inputs.length + 1, value: '' };
+      setInputs([...inputs, newInput]);
     } else {
+      // salert('You can only add up to 5 inputs.');
       Swal.fire({
-        icon: 'error',
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'You can only add up to 5 inputs.',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
+        // text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 
   const handleRemoveInput = (id) => {
     if (inputs.length > 1) {
-      setInputs(inputs.filter(input => input.id !== id));
+      const updatedInputs = inputs.filter(input => input.id !== id);
+      setInputs(updatedInputs);
     } else {
       Swal.fire({
-        icon: 'error',
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'One Input Required',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
+        // text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
+  };
+
+  const handleChange = (event) => {
+    setSelectedOption(parseInt(event.target.value, 10));
   };
 
   const handleAddArrearInput = () => {
     if (arrearInputs.length < 5) {
-      setArrearInputs([...arrearInputs, { id: arrearInputs.length + 1, value: '' }]);
+      const newInputArrear = { id: arrearInputs.length + 1, value: '' };
+      setArrearInputs([...arrearInputs, newInputArrear]);
     } else {
       Swal.fire({
-        icon: 'error',
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'You can only add up to 5 inputs.',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
+        // text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 
   const handleRemoveArrearInput = (id) => {
     if (arrearInputs.length > 1) {
-      setArrearInputs(arrearInputs.filter(input => input.id !== id));
+      const updatedInputs = arrearInputs.filter(input => input.id !== id);
+      setArrearInputs(updatedInputs);
     } else {
       Swal.fire({
-        icon: 'error',
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'One Input Required',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
+        // text: "Now Calculation result will not stored !!",
+        showConfirmButton: false, // Hide the confirm button
+        timer: 3000, // Auto close after 3 seconds
+        timerProgressBar: true, // Show a progress bar
+    });
     }
   };
 
@@ -154,14 +179,20 @@ function MultipleChild() {
     setArrearInputs(newArrearInputs);
   };
 
-  const handleCheckboxChange = (event) => setArrearsGreaterThan12Weeks(event.target.checked);
-  const handleCheckboxChange1 = (event) => setSupportSecondFamily(event.target.checked);
+  const handleCheckboxChange = (event) => {
+    setIsChecked(event.target.checked);
+  };
+
+  const handleCheckboxChange1 = (event) => {
+    setIsCheckedFamily(event.target.checked);
+  };
 
   const handleChangeName = (e) => {
-    const selectedId = parseInt(e.target.value, 10);
-    setSelectedOption(selectedId);
-    const selectedEmployee = options.find(option => option.employee_id === selectedId);
-    if (selectedEmployee) setEmpName(selectedEmployee.employee_name);
+    setSelectedOption(parseInt(e.target.value, 10));
+    const selectedEmployee = options.find(option => option.employee_id === parseInt(e.target.value, 10));
+    if (selectedEmployee) {
+      setEmpName(selectedEmployee.employee_name);
+    }
   };
 
   useEffect(() => {
@@ -175,27 +206,29 @@ function MultipleChild() {
         console.error('Error fetching data:', error);
       }
     };
+
     fetchData();
+    // toast.success('All Employee Data !!');
   }, []);
 
   const handleReset = () => {
-    setSelectedOption(null);
+    setSelectedOption('');
     setEmpName('');
     setEarnings('');
     setGarnishmentFees('');
     setOrderID('');
     setState('');
-    setNumberOfArrears('');
-    setNumberOfGarnishment('');
-    setArrearsGreaterThan12Weeks(false);
-    setSupportSecondFamily(false);
+    setnumber_of_arrears('');
+     setnumber_of_ganishment('');
+    setIsChecked(false);
+    setIsCheckedFamily(false);
     setInputs([{ id: 1, value: '' }]);
+    setCalculationResult('');
     setArrearInputs([{ id: 1, value: '' }]);
-    setFederalIncomeTax('');
+    setFederalIncmoeTax('');
     setSocialTax('');
     setMedicareTax('');
     setStateTax('');
-    setCalculationResult('');
   };
 
   const handleSubmit = async (event) => {
@@ -212,11 +245,12 @@ function MultipleChild() {
       filledArrears.push({ id: filledArrears.length + 1, value: '0' });
     }
 
+    // Convert string inputs to numbers before sending to the backend
     const postData = {
       employer_id,
       employee_id,
       employee_name,
-      earnings: parseFloat(earnings),
+      earnings: parseFloat(earnings),  // Ensure it's a number
       garnishment_fees: parseFloat(garnishment_fees),
       order_id: parseInt(order_id, 10),
       state,
@@ -240,25 +274,34 @@ function MultipleChild() {
       state_tax: parseFloat(state_tax),
     };
 
-    try {
-      const response = await fetch(`${BASE_URL}/submitData/`, {
+  try {
+    // First, send the POST request
+    const postResponse = await fetch(`${BASE_URL}/User/CalculationDataView`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData),
-      });
+    });
 
-      if (response.ok) {
-        const result = await response.json();
-        setNewResult(result.message);
-        toast.success('Data submitted successfully!');
-      } else {
-        toast.error('Error submitting data');
-      }
-    } catch (error) {
-      console.error('Error submitting data:', error);
-      toast.error('An error occurred');
-    }
-  };
+    if (!postResponse.ok) throw new Error('Failed to submit data');
+    toast.success('Data submitted successfully! Fetching results...');
+
+    // const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
+    // const resultData = await getResult.json();
+    // if (!getResult.ok) throw new Error('Failed to fetch calculation data');
+
+    // Fetch additional results if needed
+    const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
+    const resultLoanData = await resultResponse.json();
+    if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
+
+    // Set the calculation result
+    setCalculationResult(resultLoanData.data[0]);
+    toast.success(`Result: ${resultLoanData.data[0].result}`);
+} catch (error) {
+    console.error('Submission Error:', error);
+    toast.error(`Error: ${error.message}`);
+}
+};
 
 
 return (
@@ -569,4 +612,3 @@ return (
 }
 
 export default MultipleChild;
-
