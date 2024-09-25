@@ -579,15 +579,29 @@ return (
               </div> 
 {/*               <ToastContainer /> */}
             </form>
+{calculationResult && (
+  <div className="result-section">
+    <p>Garnishment Amount: {calculationResult.result}</p>
+    <p>Net Pay: {calculationResult.net_pay}</p>
 
-
-           {calculationResult && (
-                <div className="result-section">
-                  <p>Garnishment Amount: {calculationResult.result}</p>
-                  <p>Net Pay: {calculationResult.net_pay}</p>
-                  <p>Allowed Amount for Child1: {calculationResult.amount_to_withhold_child1}</p>
-                </div>
-                  )}
+    {/* Conditionally render child withholdings based on filledInputs.length */}
+    {filledInputs.length >= 1 && (
+      <p>Allowed Amount for Child1: {calculationResult.amount_to_withhold_child1}</p>
+    )}
+    {filledInputs.length >= 2 && (
+      <p>Allowed Amount for Child2: {calculationResult.amount_to_withhold_child2}</p>
+    )}
+    {filledInputs.length >= 3 && (
+      <p>Allowed Amount for Child3: {calculationResult.amount_to_withhold_child3}</p>
+    )}
+    {filledInputs.length >= 4 && (
+      <p>Allowed Amount for Child4: {calculationResult.amount_to_withhold_child4}</p>
+    )}
+    {filledInputs.length >= 5 && (
+      <p>Allowed Amount for Child5: {calculationResult.amount_to_withhold_child5}</p>
+    )}
+  </div>
+)}
 
           </div>
         </div>
