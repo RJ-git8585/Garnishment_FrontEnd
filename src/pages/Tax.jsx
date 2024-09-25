@@ -3,8 +3,8 @@ import {React ,useState,useEffect} from 'react'
 import Headertop from '../component/Headertop'
 import Sidebar from '../component/sidebar'
 // import ProfileHeader from '../component/ProfileHeader';
-import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import {  toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import DeleteItemComponent from '../component/DeleteItemComponent';
 import { BASE_URL } from '../Config';
 import { FaPlus } from "react-icons/fa";
@@ -27,7 +27,7 @@ function Tax(onDeleteSuccess) {
       }
     };
     fetchData(); // Call the function
-    toast.success('All Employee Data !!');
+    // toast.success('All Employee Data !!');
   },[])
     // eslint-disable-next-line no-unused-vars
    
