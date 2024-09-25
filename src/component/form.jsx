@@ -3,8 +3,8 @@ import  { React, useState } from 'react';
 import logo from '/src/Logo (1).png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {  ToastContainer,toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import {  ToastContainer,toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
 import { BASE_URL } from '../Config';
@@ -55,10 +55,10 @@ function Form() {
         localStorage.setItem('name', response.data.user_data.name);
         sessionStorage.setItem('name', response.data.user_data.name);
         navigate('/dashboard');
-        toast('Login successful!', {
-          autoClose: 3000, // Delay in milliseconds
-          position: 'top-right',
-        }); 
+        // toast('Login successful!', {
+        //   autoClose: 3000, // Delay in milliseconds
+        //   position: 'top-right',
+        // }); 
       } else {
         // toast.success("Please Check Credentials!");
         setErrorMessage(response.data.message);
@@ -66,7 +66,7 @@ function Form() {
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Login failed');
-      toast.warning("Please Check Credentials!");
+      // toast.warning("Please Check Credentials!");
     }
   };
   
@@ -181,7 +181,7 @@ function Form() {
                    </div>
 </div>
                       </div>
-             <ToastContainer />
+             {/* <ToastContainer /> */}
         </div>
       </div>
     </>
