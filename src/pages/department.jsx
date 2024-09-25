@@ -4,8 +4,8 @@ import { React, useState,useEffect } from 'react'
 import Headertop from '../component/Headertop'
 import ProfileHeader from '../component/ProfileHeader'
 import Sidebar from '../component/sidebar'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { FaPlusCircle } from "react-icons/fa";
 
 
@@ -39,7 +39,7 @@ function Department() {
     // eslint-disable-next-line react-hooks/rules-of-hooks, no-undef
     
     fetchData(); // Call the function
-    toast.success('All Department Data !!');
+    // toast.success('All Department Data !!');
   },[])
     // eslint-disable-next-line no-unused-vars
    
@@ -109,7 +109,7 @@ function Department() {
       </div>
       </div>
     
-      <ToastContainer />
+      {/* <ToastContainer /> */}
    
  </>
   )
