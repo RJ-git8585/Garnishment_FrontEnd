@@ -236,6 +236,14 @@ function MultipleChild() {
 
     const filledInputs = [...inputs];
     const filledArrears = [...arrearInputs];
+    
+    let newFilledInputs = [...inputs]; // Assuming you have 'inputs' defined
+    while (newFilledInputs.length < 5) {
+      newFilledInputs.push({ id: newFilledInputs.length + 1, value: '0' });
+    }
+
+    // Set filledInputs to state
+    setFilledInputs(newFilledInputs);
 
     while (filledInputs.length < 5) {
       filledInputs.push({ id: filledInputs.length + 1, value: '0' });
