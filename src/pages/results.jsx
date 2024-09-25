@@ -4,8 +4,8 @@ import { React, useState, useEffect } from 'react'
 import Headertop from '../component/Headertop'
 // import ProfileHeader from '../component/ProfileHeader'
 import Sidebar from '../component/sidebar'
-import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import {  toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 // import DeleteItemComponent from '../component/DeleteItemComponent';
 // import EditItemComponent from '../component/editItemComponent';
 import { CgImport } from "react-icons/cg";
@@ -46,7 +46,7 @@ import { BASE_URL } from '../Config';
     };
 
     fetchData(); // Call the function
-    toast.success('All Employee Data !!');
+    // toast.success('All Employee Data !!');
   },[])
     // eslint-disable-next-line no-unused-vars
     const selectPageHandler = (seletedPage) =>{
