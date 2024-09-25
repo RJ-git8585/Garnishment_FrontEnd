@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import axios from 'axios';
-import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import {  toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 
 // import { useNavigate } from 'react-router-dom';
@@ -35,13 +35,13 @@ function DeleteItemComponent({id, onDeleteSuccess, onDeleteError }) {
       }
     } catch (error) {   
       console.error('Error deleting item:', error);
-      toast.warning('Item deleted successfully!!! Error From catch');
+      // toast.warning('Item deleted successfully!!! Error From catch');
       
     //   setError(error.message || 'An error occurred.');
       onDeleteError && onDeleteError(error); // Optional callback for error handling
     } finally {
     //   setIsLoading(false);
-    toast.warning('Item deleted successfully!!!');
+    // toast.warning('Item deleted successfully!!!');
     }
     // const navigate = useNavigate();
     // navigate('/employee', { replace: true });
