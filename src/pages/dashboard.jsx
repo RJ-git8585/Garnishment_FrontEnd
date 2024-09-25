@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../component/sidebar'
 // eslint-disable-next-line no-unused-vars
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { DiJqueryLogo } from "react-icons/di";
 import { BASE_URL } from '../Config';
 import Headertop from '../component/Headertop'
