@@ -285,9 +285,9 @@ function MultipleChild() {
     if (!postResponse.ok) throw new Error('Failed to submit data');
     toast.success('Data submitted successfully! Fetching results...');
 
-    const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-    const resultData = await getResult.json();
-    if (!getResult.ok) throw new Error('Failed to fetch calculation data');
+    // const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
+    // const resultData = await getResult.json();
+    // if (!getResult.ok) throw new Error('Failed to fetch calculation data');
 
     // Fetch additional results if needed
     const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
@@ -583,14 +583,9 @@ return (
 
             {newresult  &&   (
                 <div className="result-section">
-                  {/* <h3>Calculation Result:</h3> */}
                   <p>Garnishment Amount: {calculationResult.result}</p>
                   <p>Net Pay: {calculationResult.net_pay}</p>
                   <p>Allowed Amount for Child1: {calculationResult.amount_to_withhold_child1}</p>
-                  <p>Allowed Amount for Child2: {calculationResult.amount_to_withhold_child2}</p>
-                  <p>Allowed Amount for Child3: {calculationResult.amount_to_withhold_child3}</p>
-                  <p>Allowed Amount for Child4: {calculationResult.amount_to_withhold_child4}</p>
-                  <p>Allowed Amount for Child5: {calculationResult.amount_to_withhold_child5 }</p>
                 </div>
                   )}
 
