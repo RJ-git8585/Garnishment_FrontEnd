@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState(''); 
-  
+
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
@@ -233,18 +233,18 @@ function MultipleChild() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const filledInputs = [...inputs];
     const filledArrears = [...arrearInputs];
-  
+
     while (filledInputs.length < 5) {
       filledInputs.push({ id: filledInputs.length + 1, value: '0' });
     }
-  
+
     while (filledArrears.length < 5) {
       filledArrears.push({ id: filledArrears.length + 1, value: '0' });
     }
-  
+
     // Convert string inputs to numbers before sending to the backend
     const postData = {
       employer_id,
@@ -283,7 +283,7 @@ function MultipleChild() {
             body: JSON.stringify(postData),
         });
 
-      
+
         if (!postResponse.ok) throw new Error('Failed to submit data');
         toast.success('Data submitted successfully! Fetching results...');
             // toast.success('Calculation Added Successfully !!');
@@ -328,6 +328,7 @@ return (
                     required
                   >
                     <option value="">Choose Employee</option>
+                    <option value="">Select Employee</option>
                     {options.map((option) => (
                       <option key={option.employee_id} value={parseInt(option.employee_id, 10)}>
                         {option.employee_name}_{option.employee_id}
@@ -405,7 +406,7 @@ return (
                     </select>
                 </div>
 
-              
+
                 <div>
                   <label htmlFor="number_of_arrears" className="block text-gray-700 text-sm font-bold mb-2">
                     Number of Arrears:
@@ -440,14 +441,14 @@ return (
                       Support Second Family
                     </label>
             </div>
-          
+
             <div className="w-full flex items-center mb-4">
                     <input id="showFieldCheckbox" checked={arrears_greater_than_12_weeks} onChange={handleCheckboxChange} type="checkbox" className="mr-2" />
                     <label htmlFor="showFieldCheckbox" className="block text-gray-700 text-sm font-bold mb-2">
                       Arrears Greater Than 12 Weeks
                     </label>
             </div>
-           
+
             {arrears_greater_than_12_weeks && (
               <>
                 <button
@@ -458,7 +459,7 @@ return (
                 </button>
                 <div className="shadow appearance-none border mt-4 p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                 {arrearInputs.map((input, index) => (
-                 
+
                   <div key={input.id} className="mt-4">
                      <div className='flex items-center'>
                     <label className="block text-gray-700 text-sm font-bold mb-2">Arrears Amount {index + 1}:</label>
@@ -477,7 +478,7 @@ return (
                 </div>
               </>
             )}
-            
+
             <div className="flex items-center mt-4 mb-4">
               <button
                 type="button"
@@ -503,11 +504,11 @@ return (
                   onChange={(event) => handleInputChange(event, index)}
                   className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
-              
+
               {/* TUESDAY */}
                   </div>
                    ))}
-              
+
              </div>
              <div className="mt-6 shadow appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                   <div>
@@ -539,7 +540,7 @@ return (
                         onChange={(e) => setSocialTax(parseFloat(e.target.value))}
                       />
                   </div>
-                 
+
                   <div>
                       <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
                         Medicare Tax:
@@ -570,7 +571,7 @@ return (
                       />
                   </div>
                   </div>
-                 
+
               <div className="flex items-center sm:mx-auto sm:w-full sm:max-w-lg justify-center mt-4">
                 <button
                   type="submit"
@@ -589,8 +590,8 @@ return (
               </div> 
               <ToastContainer />
             </form>
-            
-            
+
+
             {newresult  &&   (
                 <div className="result-section">
                   {/* <h3>Calculation Result:</h3> */}
