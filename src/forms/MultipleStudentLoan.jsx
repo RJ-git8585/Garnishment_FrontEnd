@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { toast, ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 
 function MultipleStudentLoan() {
@@ -35,7 +35,7 @@ function MultipleStudentLoan() {
         }
       } catch (error) {
         console.error('Error fetching employee data:', error);
-        toast.error('Failed to fetch employee data.');
+        // toast.error('Failed to fetch employee data.');
       }
     };
 
@@ -72,7 +72,7 @@ function MultipleStudentLoan() {
 
       if (!response.ok) throw new Error('Failed to submit data');
 
-      toast.success('Data submitted successfully! Fetching results...');
+      // toast.success('Data submitted successfully! Fetching results...');
 
       // Fetch results after successful data submission
       const resultResponse = await fetch(`${BASE_URL}/User/GetMultipleStudentLoanResult/${employer_id}/${employee_id}/`);
@@ -80,10 +80,10 @@ function MultipleStudentLoan() {
       if (!resultResponse.ok) throw new Error('Failed to fetch results');
 
       setCalculationResult(resultData.data[0]);
-      toast.success(`Result: ${resultData.data[0].garnishment_amount}`);
+      // toast.success(`Result: ${resultData.data[0].garnishment_amount}`);
     } catch (error) {
       console.error('Submission Error:', error);
-      toast.error(`Error: ${error.message}`);
+      // toast.error(`Error: ${error.message}`);
     }
   };
 
@@ -381,7 +381,7 @@ function MultipleStudentLoan() {
                     Reset
                   </button>
                 </div>  
-             <ToastContainer />
+             {/*<ToastContainer /> */}
               </form>
               {calculationResult && (
                 <div className="result-section">
