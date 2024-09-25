@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import Swal from 'sweetalert2';
 
@@ -43,7 +43,7 @@ function StudentLoan() {
         }
       } catch (error) {
         console.error('Error fetching employee data:', error);
-        toast.error('Failed to fetch employee data.');
+        // toast.error('Failed to fetch employee data.');
       }
     };
 
