@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState(''); 
+  
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
@@ -120,13 +121,15 @@ function MultipleChild() {
         title: 'One Input Required',
         // text: "Now Calculation result will not stored !!",
         showConfirmButton: false, // Hide the confirm button
-        timer: 300000, // Auto close after 3 seconds
+        timer: 3000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
     });
     }
   };
 
-  
+  const handleChange = (event) => {
+    setSelectedOption(parseInt(event.target.value, 10));
+  };
 
   const handleAddArrearInput = () => {
     if (arrearInputs.length < 5) {
@@ -140,7 +143,7 @@ function MultipleChild() {
         title: 'You can only add up to 5 inputs.',
         // text: "Now Calculation result will not stored !!",
         showConfirmButton: false, // Hide the confirm button
-        timer: 30000, // Auto close after 3 seconds
+        timer: 3000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
     });
     }
@@ -158,7 +161,7 @@ function MultipleChild() {
         title: 'One Input Required',
         // text: "Now Calculation result will not stored !!",
         showConfirmButton: false, // Hide the confirm button
-        timer: 30000, // Auto close after 3 seconds
+        timer: 3000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
     });
     }
@@ -190,10 +193,6 @@ function MultipleChild() {
     if (selectedEmployee) {
       setEmpName(selectedEmployee.employee_name);
     }
-  };
-  
-  const handleChange = (event) => {
-    setSelectedOption(parseInt(event.target.value, 10));
   };
 
   useEffect(() => {
@@ -275,30 +274,38 @@ function MultipleChild() {
       state_tax: parseFloat(state_tax),
     };
 
-try {
-    // First, send the POST request
-    const postResponse = await fetch(`${BASE_URL}/User/CalculationDataView`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData),
-    });
+    try {
+        const postResponse = await fetch(`${BASE_URL}/User/CalculationDataView`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(postData),
+        });
 
-    if (!postResponse.ok) throw new Error('Failed to submit data');
-    toast.success('Data submitted successfully! Fetching results...');
+      
+        if (!postResponse.ok) throw new Error('Failed to submit data');
+        toast.success('Data submitted successfully! Fetching results...');
+            // toast.success('Calculation Added Successfully !!');
 
-    // Fetch additional results if needed
-    const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-    const resultLoanData = await resultResponse.json();
-    if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
+            const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
+            const resultData = await getResult.json();
+            if (!getResult.ok) throw new Error('Failed to fetch results');  
+                // console.log(resultData);
+               setCalculationResult(resultData.data[0]);
+                console.log(`Result: ${resultData.data[0].result}`);
+                toast.success(`Result: ${resultData.data[0].result}`);
+                // setnewResult(resultData.data[0].result);
+                // setCalculationResult(resultData.data[0].result);
+                // console.log(calculationResult);
+                handleReset();
+              // console.log(calculationNetpay); // Set result in state
+    } catch (error) {
+        console.error('Error:', error.message);
+        // toast.error(`Error: ${error.message}`);
+    }
+  };
 
-    // Set the calculation result
-    setCalculationResult(resultLoanData.data[0]);
-    toast.success(`Result: ${resultLoanData.data[0].result}`);
-} catch (error) {
-    console.error('Submission Error:', error);
-    toast.error(`Error: ${error.message}`);
-}
-};
 
 return (
   <>
@@ -320,7 +327,7 @@ return (
                     className="shadow appearance-none   py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500"
                     required
                   >
-                    <option value="">Select Employee</option>
+                    <option value="">Choose Employee</option>
                     {options.map((option) => (
                       <option key={option.employee_id} value={parseInt(option.employee_id, 10)}>
                         {option.employee_name}_{option.employee_id}
@@ -580,14 +587,17 @@ return (
                   Reset
                 </button>
               </div> 
+              <ToastContainer />
             </form>
-              {calculationResult && (
+            
+            
+            {newresult  &&   (
                 <div className="result-section">
-                  <p>Garnishment Amount: {calculationResult.result}</p>
-                  <p>Net Pay: {calculationResult.net_pay}</p>
-                   <p>Net Pay: {calculationResult.amount_to_withhold_child1}</p>
+                  {/* <h3>Calculation Result:</h3> */}
+                  <p>Result: {calculationResult.result}</p>
                 </div>
-              )}
+            )}
+
           </div>
         </div>
       </div>
@@ -595,4 +605,5 @@ return (
   </>
 );
 }
+
 export default MultipleChild;

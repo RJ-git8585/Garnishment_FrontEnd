@@ -48,14 +48,6 @@ function Garnishment( ) {
     
   };
  
-
-
-  
-
-
- 
-
-
   const handleReset = () => {
     setSelectedOption('');
     setEmpName('');
