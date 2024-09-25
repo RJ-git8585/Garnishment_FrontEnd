@@ -1,4 +1,3 @@
-
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
@@ -12,7 +11,6 @@ import Swal from 'sweetalert2';
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState(''); 
-  
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
@@ -583,12 +581,11 @@ return (
                 </button>
               </div> 
             </form>
-            
-            
               {calculationResult && (
                 <div className="result-section">
                   <p>Garnishment Amount: {calculationResult.result}</p>
                   <p>Net Pay: {calculationResult.net_pay}</p>
+                   <p>Net Pay: {calculationResult.amount_to_withhold_child1}</p>
                 </div>
               )}
           </div>
