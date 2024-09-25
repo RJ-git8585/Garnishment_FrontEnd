@@ -288,11 +288,6 @@ try {
     if (!postResponse.ok) throw new Error('Failed to submit data');
     toast.success('Data submitted successfully! Fetching results...');
 
-    // Fetching the calculation data after successful submission
-    const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-    const resultData = await getResult.json();
-    if (!getResult.ok) throw new Error('Failed to fetch calculation data');
-
     // Fetch additional results if needed
     const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
     const resultLoanData = await resultResponse.json();
@@ -592,7 +587,6 @@ return (
             
               {calculationResult && (
                 <div className="result-section">
-                  {/* <h3>Calculation Result:</h3> */}
                   <p>Garnishment Amount: {calculationResult.result}</p>
                   <p>Net Pay: {calculationResult.net_pay}</p>
                 </div>
