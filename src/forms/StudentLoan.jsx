@@ -34,11 +34,10 @@ function StudentLoan() {
         if (jsonData.data) {
           setOptions(jsonData.data); // Set employee options
 
-          // setEmployeeId(jsonData.data[0].employee_id);
+          // (jsonData.data[0].employee_id);
           // setEmpName(jsonData.data[0].employee_name);
 
-          setSelectedOption(jsonData.data[0].employee_id);
-          setEmpName(jsonData.data[0].employee_name);
+          
 
         }
       } catch (error) {
@@ -152,6 +151,7 @@ function StudentLoan() {
                             onChange={handleChangeName}
                             // autoComplete="employee_name"
                             // onChange={(e) => setEid(e.target.value)}
+
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
@@ -180,9 +180,10 @@ function StudentLoan() {
                       type="text"
                       id="empName"
                       
-                      className="shadow appearance-none border  text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className="shadow appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={employee_name}
-                      onChange={(e) => setEmpName(e.target.value)}
+                      // onChange={(e) => setEmpName(e.target.value)}
+                      readOnly
                       required
                       />
                   </div>
