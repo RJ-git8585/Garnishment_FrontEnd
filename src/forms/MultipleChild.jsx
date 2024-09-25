@@ -577,11 +577,11 @@ return (
                   Reset
                 </button>
               </div> 
-              <ToastContainer />
+{/*               <ToastContainer /> */}
             </form>
 
 
-            {newresult  &&   (
+           {calculationResult && (
                 <div className="result-section">
                   <p>Garnishment Amount: {calculationResult.result}</p>
                   <p>Net Pay: {calculationResult.net_pay}</p>
