@@ -3,8 +3,8 @@ import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
 
 import Sidebar from '../component/sidebar'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -150,7 +150,7 @@ function AddDepartment() {
     </div>  
        
        </div>
-       <ToastContainer />
+       {/* <ToastContainer /> */}
        </div>
      
  
