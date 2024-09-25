@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import logo from '/src/Logo (1).png';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -28,17 +28,17 @@ function Forgot() {
       const response = await axios.post('https://garnishment-backend.onrender.com/User/password-reset', { email });
       if (response.data.success) {
         setMessage('Password reset link has been sent to your email.');
-        toast.success('Password reset link send!', {
-          autoClose: 3000, // Delay in milliseconds
-          position: 'top-right',
-        }); // Specify duration if needed
+        // toast.success('Password reset link send!', {
+        //   autoClose: 3000, // Delay in milliseconds
+        //   position: 'top-right',
+        // }); // Specify duration if needed
       } else {
         setError(response.data.message || 'Failed to send password reset link.');
-        toast.success(response.data.message || 'Failed to send password reset link.');
+        // toast.success(response.data.message || 'Failed to send password reset link.');
       }
     } catch (error) {
       setError(error.response?.data?.message || 'An error occurred.');
-      toast.success(error.response?.data?.message || 'An error occurred.');
+      // toast.success(error.response?.data?.message || 'An error occurred.');
     }
   };
 
@@ -91,7 +91,7 @@ function Forgot() {
           </p>
         </div>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 }
