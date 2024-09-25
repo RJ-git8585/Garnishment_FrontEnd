@@ -4,8 +4,8 @@ import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
 import { BASE_URL } from '../Config';
 import Sidebar from '../component/sidebar'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
 
 import { useNavigate } from 'react-router-dom';
@@ -161,7 +161,7 @@ function AddLocation() {
     </div>  
        
        </div>
-       <ToastContainer />
+       {/* <ToastContainer /> */}
        </div>
      
  
