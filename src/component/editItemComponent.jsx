@@ -3,7 +3,7 @@ import React, { useState ,useEffect } from 'react';
 // import axios from 'axios';
 import Popup from './Popup';
 // import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 
 // eslint-disable-next-line no-unused-vars
 function editItemComponent({id,onDeleteSuccess, onDeleteError}) {
