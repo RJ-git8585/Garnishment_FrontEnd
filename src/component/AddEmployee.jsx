@@ -54,7 +54,7 @@ function AddEmployee() {
                 console.log('Data submitted successfully!');  
                 Swal.fire({
                   // toast: true, // This enables the toast mode
-                  position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+                  // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
                   icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
                   title: 'Profile updated successfully',
                   text: "Plesse check ones!!",
