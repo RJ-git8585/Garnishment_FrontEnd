@@ -3,8 +3,8 @@
 import React, { useState,useEffect } from 'react';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
-import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import {  toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { FaBalanceScaleRight } from "react-icons/fa";
 import { BASE_URL } from '../Config';
 
@@ -165,7 +165,7 @@ function Garnishment( ) {
           // Handle successful submission
           console.log('Data submitted successfully!');
           
-          toast.success('Calculation Added Successfully !!');
+          // toast.success('Calculation Added Successfully !!');
           // navigate('/employee', { replace: true });
           handleReset();
 
