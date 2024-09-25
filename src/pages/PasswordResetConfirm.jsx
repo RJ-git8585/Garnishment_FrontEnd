@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '/src/Logo (1).png';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 const PasswordResetConfirm = () => {
     const { token } = useParams();
@@ -22,14 +22,14 @@ const PasswordResetConfirm = () => {
         try {
             const response = await axios.post(`https://garnishment-backend.onrender.com/User/password-reset-confirm/${token}/`, { password,confirm_password});
             setMessage(response.data.message);
-            toast('Password reset successful!', {
-                autoClose: 3000, // Delay in milliseconds
-                position: 'top-right',
-            });
+            // toast('Password reset successful!', {
+            //     autoClose: 3000, // Delay in milliseconds
+            //     position: 'top-right',
+            // });
             navigate('/'); // Redirect to login page after successful reset
         } catch (error) {
             setMessage(error.response?.data?.error || 'Something went wrong.');
-            toast.success('Password reset failed!');
+            // toast.success('Password reset failed!');
         }
     };
 
@@ -93,7 +93,7 @@ const PasswordResetConfirm = () => {
                         </div>
                     </div>
                 </div>
-                <ToastContainer />
+                {/* <ToastContainer /> */}
             </div>
         </>
     );
