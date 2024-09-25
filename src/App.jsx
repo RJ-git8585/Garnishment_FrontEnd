@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 
 // eslint-disable-next-line no-unused-vars
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 
 import Products from './pages/Tax'
