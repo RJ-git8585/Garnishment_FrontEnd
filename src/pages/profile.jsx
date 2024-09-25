@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../component/sidebar';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import Headertop from '../component/Headertop';
 import { FaUserCheck } from "react-icons/fa";
 import load from '../bouncing-circles.svg';
@@ -46,9 +46,9 @@ function Profile() {
       }
     };
     fetchData();
-    toast.success('Welcome to Dashboard!', {
-      position: 'bottom-left',
-    });
+    // toast.success('Welcome to Dashboard!', {
+    //   position: 'bottom-left',
+    // });
   }, []);
 
   const handleChange = (event) => {
@@ -61,8 +61,8 @@ function Profile() {
 
   const handleEdit = () => {
           Swal.fire({
-            toast: true, // This enables the toast mode
-            position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+            // toast: true, // This enables the toast mode
+            // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
             icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
             title: 'Now Your are able update profile !!',
             showConfirmButton: false, // Hide the confirm button
