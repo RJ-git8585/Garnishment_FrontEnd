@@ -328,7 +328,7 @@ return (
                     required
                   >
                     <option value="">Choose Employee</option>
-                    <option value="">Select Employee</option>
+                    {/* <option value="">Select Employee</option> */}
                     {options.map((option) => (
                       <option key={option.employee_id} value={parseInt(option.employee_id, 10)}>
                         {option.employee_name}_{option.employee_id}
