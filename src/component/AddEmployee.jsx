@@ -2,8 +2,8 @@
 import {React, useState} from 'react'
 import Headertop from '../component/Headertop'
 import Sidebar from '../component/sidebar'
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 // eslint-disable-next-line no-unused-vars
 import { useNavigate } from 'react-router-dom';
@@ -53,7 +53,7 @@ function AddEmployee() {
                 // Handle successful submission
                 console.log('Data submitted successfully!');  
                 Swal.fire({
-                  toast: true, // This enables the toast mode
+                  // toast: true, // This enables the toast mode
                   position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
                   icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
                   title: 'Profile updated successfully',
@@ -252,7 +252,7 @@ function AddEmployee() {
     </div>  
        
        </div>
-       <ToastContainer />
+       {/* <ToastContainer /> */}
        </div>
      
  
