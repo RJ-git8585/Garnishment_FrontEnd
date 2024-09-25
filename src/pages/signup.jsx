@@ -6,8 +6,8 @@ import logo from '/src/Logo (1).png';
 // eslint-disable-next-line no-unused-vars
 // import {  toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
-import {  ToastContainer,toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import {  ToastContainer,toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import { RiFacebookFill } from "react-icons/ri";
 import { BASE_URL } from '../Config';
 
@@ -36,14 +36,14 @@ function Form() {
       if (response.data.message) {
         // alert(response.data);
         // alert('Registration successful');
-        toast.success('Registration successful');
+        // toast.success('Registration successful');
         console.log(response.data)
         // navigate('/');
       }
     } catch (error) {
       console.error(error.response.data);
       console.log(error.response.data);
-      toast.warning(error.response.data)
+      // toast.warning(error.response.data)
       alert(error.response.data.error);
     }
   };
@@ -163,7 +163,7 @@ function Form() {
                     
                     </div>
               </div>
-              <ToastContainer />
+              {/* <ToastContainer /> */}
     </div>
   );
 }
