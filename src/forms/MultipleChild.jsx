@@ -2,8 +2,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from 'sweetalert2';
@@ -290,7 +290,7 @@ function MultipleChild() {
     });
 
     if (!postResponse.ok) throw new Error('Failed to submit data');
-    toast.success('Data submitted successfully! Fetching results...');
+    // toast.success('Data submitted successfully! Fetching results...');
 
     // const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
     // const resultData = await getResult.json();
@@ -303,10 +303,10 @@ function MultipleChild() {
 
     // Set the calculation result
     setCalculationResult(resultLoanData.data[0]);
-    toast.success(`Result: ${resultLoanData.data[0].result}`);
+    // toast.success(`Result: ${resultLoanData.data[0].result}`);
 } catch (error) {
     console.error('Submission Error:', error);
-    toast.error(`Error: ${error.message}`);
+    // toast.error(`Error: ${error.message}`);
 }
 };
 
