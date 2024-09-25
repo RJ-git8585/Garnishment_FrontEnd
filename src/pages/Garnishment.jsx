@@ -3,8 +3,8 @@
 import React, { useState,useEffect } from 'react';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
-import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import {  toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { FaBalanceScaleRight } from "react-icons/fa";
 // eslint-disable-next-line no-unused-vars
 
@@ -82,7 +82,7 @@ function Garnishment( ) {
       .then((response) => {
         if (response.ok) {
           console.log('Data submitted successfully!');
-          toast.success('Calculation Added Successfully !!');
+          // toast.success('Calculation Added Successfully !!');
           handleReset();
           setSelectedOption('');
           setEmpName('');
