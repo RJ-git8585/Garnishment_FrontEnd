@@ -3,8 +3,8 @@ import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
 
 import Sidebar from '../component/sidebar'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import { useNavigate } from 'react-router-dom';
 import {  FaMoneyBill } from 'react-icons/fa';
@@ -64,7 +64,7 @@ function AddTax() {
                 // Handle successful submission
                 console.log('Data submitted successfully!');
                 
-                toast('Data submitted successfully !!');
+                // toast('Data submitted successfully !!');
                 navigate('/employee', { replace: true });
                 handleReset();
 
@@ -290,7 +290,7 @@ function AddTax() {
     </div>  
        
        </div>
-       <ToastContainer />
+       {/* <ToastContainer /> */}
        </div>
      
  
