@@ -386,7 +386,7 @@ function MultipleStudentLoan() {
              {/*<ToastContainer /> */}
               </form>
               {calculationResult && (
-                <div className="result-section">
+                <div className="result-section grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {/* <h3>Calculation Result:</h3> */}
                   <p>Garnishement Result: {calculationResult.garnishment_amount}</p>
                   <p>Net Pay: {calculationResult.net_pay}</p>
