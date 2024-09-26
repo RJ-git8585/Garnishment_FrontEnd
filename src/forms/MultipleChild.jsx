@@ -300,12 +300,32 @@ function MultipleChild() {
     const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
     const resultLoanData = await resultResponse.json();
     if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
+    Swal.fire({
+      // toast: true, // This enables the toast mode
+      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+      icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+      title: 'Your Calculation was successful stored.',
+      text: "Now Calculation result will show below the form !!",
+      showConfirmButton: false, // Hide the confirm button
+      timer: 3000, // Auto close after 3 seconds
+      timerProgressBar: true, // Show a progress bar
+  });
 
     // Set the calculation result
     setCalculationResult(resultLoanData.data[0]);
     // toast.success(`Result: ${resultLoanData.data[0].result}`);
 } catch (error) {
     console.error('Submission Error:', error);
+    Swal.fire({
+      // toast: true, // This enables the toast mode
+      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+      icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+      title: 'Your action was unsuccessful',
+      text: "Now Calculation result will not stored !!",
+      showConfirmButton: false, // Hide the confirm button
+      timer: 3000, // Auto close after 3 seconds
+      timerProgressBar: true, // Show a progress bar
+  });
     // toast.error(`Error: ${error.message}`);
 }
 };
