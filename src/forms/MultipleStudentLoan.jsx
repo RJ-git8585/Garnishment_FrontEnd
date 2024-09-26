@@ -158,9 +158,11 @@ function MultipleStudentLoan() {
                     <input
                       type="text"
                       id="empName"
-                      className="shadow appearance-none border  text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className="shadow appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={employee_name}
                       onChange={(e) => setEmpName(e.target.value)}
+                      readOnly
+                      disabled
                     />
                   </div>
                   <div>
