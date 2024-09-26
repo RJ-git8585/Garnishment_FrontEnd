@@ -81,8 +81,13 @@ h1.edit-profile.mt-6.inline-block svg {
 }
 .sm:mx-auto{
   margin-left: 0px !important;
-  
-
+}
+.result-section p {
+  font-size: 15px;
+  font-weight: 500;
+  display: inline;
+  margin-left: 50px;
+  color: green;
 }
 .inline-block_cus a
 {
