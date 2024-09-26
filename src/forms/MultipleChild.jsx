@@ -590,7 +590,8 @@ return (
 {/*               <ToastContainer /> */}
             </form>
 {calculationResult && (
-        <div className="result-section">
+       <div className="result-section shadow appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                 
           <p>Garnishment Amount: {calculationResult.result}</p>
           <p>Net Pay: {calculationResult.net_pay}</p>
           
