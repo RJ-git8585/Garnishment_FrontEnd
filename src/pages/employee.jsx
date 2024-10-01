@@ -354,9 +354,9 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
                               </td>
                               <td className="p-2 text-xs sm:text-sm">
                                 {editId === item.employee_id ? (
-                                  <button onClick={() => handleSaveClick(item.employee_id)} className="text-blue-500">Save</button>
+                                  <button onClick={() => handleSaveClick(item.employee_id)} className="text-green-600">Save</button>
                                 ) : (
-                                  <button onClick={() => handleEditClick(item)} className="text-blue-500">Edit</button>
+                                  <button onClick={() => handleEditClick(item)} className="text-green-600">Edit</button>
                                 )}
                               </td>
                               <td className="p-2 text-xs sm:text-sm">
