@@ -62,7 +62,7 @@ function DeleteItemComponent({id, onDeleteSuccess, onDeleteError }) {
   return (
     <div>
       
-        <button onClick={handleDelete} className="py-2 button-cls text-sm  text-blue font-semibold  ">Delete</button>
+        <button onClick={handleDelete} className="py-2 button-cls text-sm  text-red font-semibold  ">Delete</button>
     
     </div>
   );
