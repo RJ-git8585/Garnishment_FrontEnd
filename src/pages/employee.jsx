@@ -242,7 +242,10 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
                 // text: "Plesse check ones!!",
                 showConfirmButton: false, // Hide the confirm button
                 timer: 3000, // Auto close after 3 seconds
-                timerProgressBar: true, // Show a progress bar
+                timerProgressBar: true, },
+                function() {
+                  window.location = "/employee";
+                // Show a progress bar
             });
             
       if (response.ok) {
