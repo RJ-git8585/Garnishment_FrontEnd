@@ -62,6 +62,9 @@ function AddEmployee() {
                   timer: 3000, // Auto close after 3 seconds
                   timerProgressBar: true, // Show a progress bar
               });
+              setTimeout(function(){
+                window.location.reload();
+             }, 3000);
                 // navigate('/employee', { replace: true });
                 handleReset();
 

@@ -54,7 +54,9 @@ function AddDepartment() {
                   timer: 3000, // Auto close after 3 seconds
                   timerProgressBar: true, // Show a progress bar
               });
-                navigate('/employee', { replace: true });
+              setTimeout(function(){
+                window.location.reload();
+             }, 3000);
                 handleReset();
 
                 // Clear the form
