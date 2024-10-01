@@ -182,6 +182,7 @@ function MultipleStudentLoan() {
                       value={employee_name}
                       onChange={(e) => setEmpName(e.target.value)}
                       readOnly
+                      placeholder="Enter Employee Name"
                       disabled
                     />
                   </div>

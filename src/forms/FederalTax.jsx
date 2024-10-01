@@ -194,6 +194,7 @@ function FederalTax() {
                     <input
                       type="text"
                       id="empName"
+                      placeholder="Enter Employee Name"
                       className="shadow appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={employee_name}
                       onChange={(e) => setEmpName(e.target.value)}
