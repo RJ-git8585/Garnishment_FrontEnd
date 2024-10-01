@@ -56,7 +56,7 @@ function AddEmployee() {
                   // toast: true, // This enables the toast mode
                   // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
                   icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
-                  title: 'Profile updated successfully',
+                  title: 'Employee added successfully',
                   text: "Plesse check ones!!",
                   showConfirmButton: false, // Hide the confirm button
                   timer: 3000, // Auto close after 3 seconds
