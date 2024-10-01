@@ -4,7 +4,7 @@ import axios from 'axios';
 // import {  toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
-
+import Swal from 'sweetalert2';
 // import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
@@ -18,13 +18,22 @@ function DeleteItemComponent({id, onDeleteSuccess, onDeleteError }) {
     const employerid = sessionStorage.getItem("id");
     // const { swal, ...rest } = props;
 
-    confirm('Are you sure you want to edit this item?');
+    // alert('Are you sure you want to edit this item?');
     try {
       const response = await axios.delete(`${BASE_URL}/User/EmployeeDelete/${id}/${employerid}`);
 
       if (response.status === 200 || response.status === 204) { // Handle successful deletion
         console.log('Item deleted successfully!');
-       
+        Swal.fire({
+          // toast: true, // This enables the toast mode
+          // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+          icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+          title: 'Employee Deleted',
+          // text: "Now Calculation result will not stored !!",
+          showConfirmButton: false, // Hide the confirm button
+          timer: 3000, // Auto close after 3 seconds
+          timerProgressBar: true, // Show a progress bar
+      });
         onDeleteSuccess && onDeleteSuccess(id); 
         // console.log("from if")
        
