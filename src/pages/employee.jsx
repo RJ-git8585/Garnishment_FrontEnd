@@ -176,11 +176,13 @@ import { TiExport } from "react-icons/ti";
 import { FaPlus } from "react-icons/fa";
 import load from '../bouncing-circles.svg';
 import { BASE_URL } from '../Config';
+import { useNavigate } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
 
 function Employee({ onDeleteSuccess, onEditSuccess }) {
   const id = sessionStorage.getItem("id");
+  const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
