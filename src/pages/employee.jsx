@@ -242,6 +242,7 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
                 timer: 3000, // Auto close after 3 seconds
                 timerProgressBar: true, // Show a progress bar
             });
+            navigate('/employee', { replace: true });
       if (response.ok) {
         onEditSuccess(); // Call the success callback
         setEditId(null); // Clear edit state
