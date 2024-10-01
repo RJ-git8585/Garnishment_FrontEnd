@@ -177,6 +177,8 @@ import { FaPlus } from "react-icons/fa";
 import load from '../bouncing-circles.svg';
 import { BASE_URL } from '../Config';
 
+import Swal from 'sweetalert2';
+
 function Employee({ onDeleteSuccess, onEditSuccess }) {
   const id = sessionStorage.getItem("id");
   const [page, setPage] = useState(1);
@@ -234,6 +236,17 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
         onEditSuccess(); // Call the success callback
         setEditId(null); // Clear edit state
         setEditableFields({}); // Clear editable fields
+        console.log('Employee updated successfully!');  
+                Swal.fire({
+                  // toast: true, // This enables the toast mode
+                  // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+                  icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+                  title: 'Employee updated successfully',
+                  // text: "Plesse check ones!!",
+                  showConfirmButton: false, // Hide the confirm button
+                  timer: 3000, // Auto close after 3 seconds
+                  timerProgressBar: true, // Show a progress bar
+              });
         // Optionally fetch data again or update state locally
       } else {
         console.error('Failed to update employee');

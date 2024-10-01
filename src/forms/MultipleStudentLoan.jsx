@@ -243,7 +243,6 @@ function MultipleStudentLoan() {
                       value={federal_income_tax}
                       onChange={(e) => setFederalIncmoeTax(parseFloat(e.target.value))}
 
-                   
                     />
                   </div>
                   {/* SOCIAL&SECURITY_TAX */}
@@ -305,13 +304,8 @@ function MultipleStudentLoan() {
 
                       value={SDI_tax}
                       onChange={(e) => setSDITax(parseFloat(e.target.value))}
-
-
                     />
                   </div> 
-
-                  
-
                   {/* TUESDAY */}
 
              </div>
