@@ -242,12 +242,12 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
                 // text: "Plesse check ones!!",
                 showConfirmButton: false, // Hide the confirm button
                 timer: 3000, // Auto close after 3 seconds
-                timerProgressBar: true, },
-                function() {
-                  window.location = "/employee";
-                // Show a progress bar
+                timerProgressBar: true, 
+                
             });
-            
+            setTimeout(function(){
+              window.location.reload();
+           }, 3000);
       if (response.ok) {
         onEditSuccess(); // Call the success callback
         setEditId(null); // Clear edit state
