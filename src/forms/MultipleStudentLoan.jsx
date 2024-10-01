@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // import { toast, ToastContainer } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
-
+import Swal from 'sweetalert2';
 function MultipleStudentLoan() {
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState('');
