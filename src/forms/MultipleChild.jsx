@@ -631,6 +631,21 @@ return (
           {filledInputs.length >= 5 && (
             <p>Allowed Amount for Child5: {calculationResult.amount_to_withhold_child5}</p>
           )}
+          {filledArrears.length >= 1 && (
+            <p>Allowed Amount for Child1: {calculationResult.arrears_amt_Child1}</p>
+          )}
+          {filledArrears.length >= 2 && (
+            <p>Allowed Amount for Child2: {calculationResult.arrears_amt_Child2}</p>
+          )}
+          {filledArrears.length >= 3 && (
+            <p>Allowed Amount for Child3: {calculationResult.arrears_amt_Child3}</p>
+          )}
+          {filledArrears.length >= 4 && (
+            <p>Allowed Amount for Child4: {calculationResult.arrears_amt_Child4}</p>
+          )}
+          {filledArrears.length >= 5 && (
+            <p>Allowed Amount for Child5: {calculationResult.arrears_amt_Child5}</p>
+          )}
         </div>
       )}
 
