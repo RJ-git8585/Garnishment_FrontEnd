@@ -12,6 +12,7 @@ function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState(''); 
    const [filledInputs, setFilledInputs] = useState([]);
+  const [filledArrears, setfilledArrears] = useState([]);
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
@@ -21,7 +22,7 @@ function MultipleChild() {
   const [support_second_family, setIsCheckedFamily] = useState(false);
   const [employee_id, setSelectedOption] = useState(null);
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
-  const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
+  const [arrearInputs, setArrearInput] = useState([{ id: 1, value: '' }]);
   const [calculationResult, setCalculationResult] = useState('');
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
@@ -230,106 +231,69 @@ function MultipleChild() {
     setMedicareTax('');
     setStateTax('');
   };
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // Clone the input and arrear inputs
+  const newFilledInputs = [...inputs];
+  const newFilledArrears = [...arrearInputs];
 
-    const filledInputs = [...inputs];
-    const filledArrears = [...arrearInputs];
-    
-    let newFilledInputs = [...inputs]; // Assuming you have 'inputs' defined
-    // while (newFilledInputs.length < 5) {
-    //   newFilledInputs.push({ id: newFilledInputs.length + 1, value: '0' });
-    // }
-    // Set filledInputs to state
-    setFilledInputs(newFilledInputs);
+  // Ensure there are exactly 5 child withhold amounts and arrear amounts
+  while (newFilledInputs.length < 5) {
+    newFilledInputs.push({ id: newFilledInputs.length + 1, value: '0' });
+  }
 
-    while (filledInputs.length < 5) {
-      filledInputs.push({ id: filledInputs.length + 1, value: '0' });
-    }
+  while (newFilledArrears.length < 5) {
+    newFilledArrears.push({ id: newFilledArrears.length + 1, value: '0' });
+  }
 
-    while (filledArrears.length < 5) {
-      filledArrears.push({ id: filledArrears.length + 1, value: '0' });
-    }
+  // Update state with the filled inputs and arrears
+  setFilledInputs(newFilledInputs);
+  setfilledArrears(newFilledArrears);
 
-    // Convert string inputs to numbers before sending to the backend
-    const postData = {
-      employer_id,
-      employee_id,
-      employee_name,
-      earnings: parseFloat(earnings),  // Ensure it's a number
-      garnishment_fees: parseFloat(garnishment_fees),
-      order_id: parseInt(order_id, 10),
-      state,
-      number_of_arrear: parseInt(number_of_arrear, 10),
-      number_of_garnishment: parseInt(number_of_garnishment, 10),
-      amount_to_withhold_child1: parseFloat(filledInputs[0].value),
-      amount_to_withhold_child2: parseFloat(filledInputs[1].value),
-      amount_to_withhold_child3: parseFloat(filledInputs[2].value),
-      amount_to_withhold_child4: parseFloat(filledInputs[3].value),
-      amount_to_withhold_child5: parseFloat(filledInputs[4].value),
-      arrears_greater_than_12_weeks,
-      support_second_family,
-      arrears_amt_Child1: parseFloat(filledArrears[0].value),
-      arrears_amt_Child2: parseFloat(filledArrears[1].value),
-      arrears_amt_Child3: parseFloat(filledArrears[2].value),
-      arrears_amt_Child4: parseFloat(filledArrears[3].value),
-      arrears_amt_Child5: parseFloat(filledArrears[4].value),
-      federal_income_tax: parseFloat(federal_income_tax),
-      social_tax: parseFloat(social_tax),
-      medicare_tax: parseFloat(medicare_tax),
-      state_tax: parseFloat(state_tax),
-    };
+  // Convert string inputs to numbers before sending to the backend
+  const postData = {
+    employer_id,
+    employee_id,
+    employee_name,
+    earnings: parseFloat(earnings),
+    garnishment_fees: parseFloat(garnishment_fees),
+    order_id: parseInt(order_id, 10),
+    state,
+    number_of_arrear: parseInt(number_of_arrear, 10),
+    number_of_garnishment: parseInt(number_of_garnishment, 10),
+    amount_to_withhold_child1: parseFloat(newFilledInputs[0].value),
+    amount_to_withhold_child2: parseFloat(newFilledInputs[1].value),
+    amount_to_withhold_child3: parseFloat(newFilledInputs[2].value),
+    amount_to_withhold_child4: parseFloat(newFilledInputs[3].value),
+    amount_to_withhold_child5: parseFloat(newFilledInputs[4].value),
+    arrears_greater_than_12_weeks,
+    support_second_family,
+    arrears_amt_Child1: parseFloat(newFilledArrears[0].value),
+    arrears_amt_Child2: parseFloat(newFilledArrears[1].value),
+    arrears_amt_Child3: parseFloat(newFilledArrears[2].value),
+    arrears_amt_Child4: parseFloat(newFilledArrears[3].value),
+    arrears_amt_Child5: parseFloat(newFilledArrears[4].value),
+    federal_income_tax: parseFloat(federal_income_tax),
+    social_tax: parseFloat(social_tax),
+    medicare_tax: parseFloat(medicare_tax),
+    state_tax: parseFloat(state_tax),
+  };
 
   try {
-    // First, send the POST request
+    // Send POST request
     const postResponse = await fetch(`${BASE_URL}/User/CalculationDataView`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postData),
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData),
     });
 
     if (!postResponse.ok) throw new Error('Failed to submit data');
-    // toast.success('Data submitted successfully! Fetching results...');
-
-    // const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-    // const resultData = await getResult.json();
-    // if (!getResult.ok) throw new Error('Failed to fetch calculation data');
-
-    // Fetch additional results if needed
-    const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-    const resultLoanData = await resultResponse.json();
-    if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
-    Swal.fire({
-      // toast: true, // This enables the toast mode
-      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
-      icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
-      title: 'Your Calculation was successful stored.',
-      text: "Now Calculation result will show below the form !!",
-      showConfirmButton: false, // Hide the confirm button
-      timer: 3000, // Auto close after 3 seconds
-      timerProgressBar: true, // Show a progress bar
-  });
-
-    // Set the calculation result
-    setCalculationResult(resultLoanData.data[0]);
-    // toast.success(`Result: ${resultLoanData.data[0].result}`);
-} catch (error) {
-    console.error('Submission Error:', error);
-    Swal.fire({
-      // toast: true, // This enables the toast mode
-      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
-      icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
-      title: 'Your action was unsuccessful',
-      text: "Now Calculation result will not stored !!",
-      showConfirmButton: false, // Hide the confirm button
-      timer: 3000, // Auto close after 3 seconds
-      timerProgressBar: true, // Show a progress bar
-  });
-    // toast.error(`Error: ${error.message}`);
-}
+    // Success actions...
+  } catch (error) {
+    console.error('Error submitting data:', error);
+  }
 };
-
 
 return (
   <>
