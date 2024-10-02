@@ -208,9 +208,6 @@ function MultipleChild() {
       }
     };
 
-    fetchData();
-    // toast.success('All Employee Data !!');
-  }, []);
 
   const handleReset = () => {
     setSelectedOption('');
@@ -328,9 +325,7 @@ function MultipleChild() {
       timer: 3000, // Auto close after 3 seconds
       timerProgressBar: true, // Show a progress bar
   });
-    // toast.error(Error: ${error.message});
-}
-};
+
 return (
   <>
     <div className="min-h-full">
