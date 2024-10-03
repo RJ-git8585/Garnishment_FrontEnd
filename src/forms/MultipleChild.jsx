@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState(''); 
-  const [filledInputs, setFilledInputs] = useState([]);
+   const [filledInputs, setFilledInputs] = useState([]);
   const [filledArrears, setfilledArrears] = useState([]);
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
@@ -22,7 +22,7 @@ function MultipleChild() {
   const [support_second_family, setIsCheckedFamily] = useState(false);
   const [employee_id, setSelectedOption] = useState(null);
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
-  const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
+  const [arrearInputs, setArrearInput] = useState([{ id: 1, value: '' }]);
   const [calculationResult, setCalculationResult] = useState('');
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
@@ -219,7 +219,7 @@ function MultipleChild() {
     setOrderID('');
     setState('');
     setnumber_of_arrears('');
-     setnumber_of_ganishment('');
+    setnumber_of_ganishment('');
     setIsChecked(false);
     setIsCheckedFamily(false);
     setInputs([{ id: 1, value: '' }]);
