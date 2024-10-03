@@ -12,7 +12,6 @@ function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState(''); 
    const [filledInputs, setFilledInputs] = useState([]);
-  const [filledArrears, setfilledArrears] = useState([]);
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
@@ -22,7 +21,7 @@ function MultipleChild() {
   const [support_second_family, setIsCheckedFamily] = useState(false);
   const [employee_id, setSelectedOption] = useState(null);
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
-  const [arrearInputs, setArrearInput] = useState([{ id: 1, value: '' }]);
+  const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
   const [calculationResult, setCalculationResult] = useState('');
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
@@ -98,7 +97,8 @@ function MultipleChild() {
     } else {
       // salert('You can only add up to 5 inputs.');
       Swal.fire({
-       
+        // toast: true, // This enables the toast mode
+        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
         icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'You can only add up to 5 inputs.',
         // text: "Now Calculation result will not stored !!",
@@ -219,7 +219,7 @@ function MultipleChild() {
     setOrderID('');
     setState('');
     setnumber_of_arrears('');
-    setnumber_of_ganishment('');
+     setnumber_of_ganishment('');
     setIsChecked(false);
     setIsCheckedFamily(false);
     setInputs([{ id: 1, value: '' }]);
@@ -251,7 +251,7 @@ function MultipleChild() {
     while (filledArrears.length < 5) {
       filledArrears.push({ id: filledArrears.length + 1, value: '0' });
     }
-    setfilledArrears(filledArrears);
+
     // Convert string inputs to numbers before sending to the backend
     const postData = {
       employer_id,
@@ -290,11 +290,19 @@ function MultipleChild() {
     });
 
     if (!postResponse.ok) throw new Error('Failed to submit data');
+    // toast.success('Data submitted successfully! Fetching results...');
+
+    // const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
+    // const resultData = await getResult.json();
+    // if (!getResult.ok) throw new Error('Failed to fetch calculation data');
+
+    // Fetch additional results if needed
     const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
     const resultLoanData = await resultResponse.json();
     if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
     Swal.fire({
-    
+      // toast: true, // This enables the toast mode
+      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
       icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
       title: 'Your Calculation was successful stored.',
       text: "Now Calculation result will show below the form !!",
@@ -307,18 +315,21 @@ function MultipleChild() {
     setCalculationResult(resultLoanData.data[0]);
     // toast.success(`Result: ${resultLoanData.data[0].result}`);
 } catch (error) {
-  console.error('Submission Error:', error);
-  Swal.fire({
-   
-    icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
-    title: 'Your action was unsuccessful',
-    text: "Now Calculation result will not stored !!",
-    showConfirmButton: false, // Hide the confirm button
-    timer: 3000, // Auto close after 3 seconds
-    timerProgressBar: true, // Show a progress bar
-});
+    console.error('Submission Error:', error);
+    Swal.fire({
+      // toast: true, // This enables the toast mode
+      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+      icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+      title: 'Your action was unsuccessful',
+      text: "Now Calculation result will not stored !!",
+      showConfirmButton: false, // Hide the confirm button
+      timer: 3000, // Auto close after 3 seconds
+      timerProgressBar: true, // Show a progress bar
+  });
+    // toast.error(`Error: ${error.message}`);
+}
 };
-  }
+
 
 return (
   <>
@@ -620,21 +631,6 @@ return (
           {filledInputs.length >= 5 && (
             <p>Allowed Amount for Child5: {calculationResult.amount_to_withhold_child5}</p>
           )}
-          {filledArrears.length >= 1 && (
-            <p>Allowed Amount for Child1: {calculationResult.arrears_amt_Child1}</p>
-          )}
-          {filledArrears.length >= 2 && (
-            <p>Allowed Amount for Child2: {calculationResult.arrears_amt_Child2}</p>
-          )}
-          {filledArrears.length >= 3 && (
-            <p>Allowed Amount for Child3: {calculationResult.arrears_amt_Child3}</p>
-          )}
-          {filledArrears.length >= 4 && (
-            <p>Allowed Amount for Child4: {calculationResult.arrears_amt_Child4}</p>
-          )}
-          {filledArrears.length >= 5 && (
-            <p>Allowed Amount for Child5: {calculationResult.arrears_amt_Child5}</p>
-          )}
         </div>
       )}
 
@@ -646,4 +642,4 @@ return (
 );
 }
 
-export default MultipleChild
+export default MultipleChild;
