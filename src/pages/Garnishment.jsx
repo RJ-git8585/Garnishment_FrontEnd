@@ -60,7 +60,7 @@ function Garnishment( ) {
 
 // tab
 
-const [activeTab, setActiveTab] = useState('tab1');
+const [activeTab, setActiveTab] = useState('Child Support');
 
   // Function to handle tab switching
   const handleTabClick = (tab) => {
@@ -144,27 +144,27 @@ tabs Section  */}
       {/* Tab headers */}
       <div className="tabs">
         <button 
-          className={activeTab === 'tab1' ? 'active' : ''} 
-          onClick={() => handleTabClick('tab1')}>
+          className={activeTab === 'Child Support' ? 'active' : ''} 
+          onClick={() => handleTabClick('Child Support')}>
           Tab 1
         </button>
         <button 
-          className={activeTab === 'tab2' ? 'active' : ''} 
-          onClick={() => handleTabClick('tab2')}>
+          className={activeTab === 'Student loan' ? 'active' : ''} 
+          onClick={() => handleTabClick('Student loan')}>
           Tab 2
         </button>
         <button 
-          className={activeTab === 'tab3' ? 'active' : ''} 
-          onClick={() => handleTabClick('tab3')}>
+          className={activeTab === 'MultiStudentLoan' ? 'active' : ''} 
+          onClick={() => handleTabClick('MultiStudentLoan')}>
           Tab 3
         </button>
       </div>
 
       {/* Tab content */}
       <div className="tab-content">
-        {activeTab === 'tab1' && <div>Content for Tab 1</div>}
-        {activeTab === 'tab2' && <div>Content for Tab 2</div>}
-        {activeTab === 'tab3' && <div>Content for Tab 3</div>}
+        {activeTab === 'Child Support' && <div>Content for Tab 1</div>}
+        {activeTab === 'Student loan' && <div>Content for Tab 2</div>}
+        {activeTab === 'MultiStudentLoan' && <div>Content for Tab 3</div>}
       </div>
 
 {/* Tab Section closed */}
