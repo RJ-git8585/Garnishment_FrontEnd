@@ -66,7 +66,6 @@ const [activeTab, setActiveTab] = useState('tab1');
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-  
 // tabs cloased
   const handleSubmit = (event) => {
     event.preventDefault();
