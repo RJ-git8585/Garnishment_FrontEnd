@@ -146,25 +146,25 @@ tabs Section  */}
         <button 
           className={activeTab === 'Child Support' ? 'active' : ''} 
           onClick={() => handleTabClick('Child Support')}>
-          Tab 1
+         Child Support
         </button>
         <button 
           className={activeTab === 'Student loan' ? 'active' : ''} 
           onClick={() => handleTabClick('Student loan')}>
-          Tab 2
+          Student loan
         </button>
         <button 
           className={activeTab === 'MultiStudentLoan' ? 'active' : ''} 
           onClick={() => handleTabClick('MultiStudentLoan')}>
-          Tab 3
+          MultiStudentLoan
         </button>
       </div>
 
       {/* Tab content */}
       <div className="tab-content">
-        {activeTab === 'Child Support' && <div>Content for Tab 1</div>}
-        {activeTab === 'Student loan' && <div>Content for Tab 2</div>}
-        {activeTab === 'MultiStudentLoan' && <div>Content for Tab 3</div>}
+        {activeTab === 'Child Support' && <div>Content for  Child Support</div>}
+        {activeTab === 'Student loan' && <div>Content for  Student loan</div>}
+        {activeTab === 'MultiStudentLoan' && <div>Content for MultiStudentLoan</div>}
       </div>
 
 {/* Tab Section closed */}
