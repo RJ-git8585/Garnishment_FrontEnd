@@ -442,7 +442,7 @@ return (
 
                 <div>
                   <label htmlFor="number_of_garnishment" className="block text-gray-700 text-sm font-bold mb-2">
-                    Number of Garnishmant:
+                    Number of Garnishment:
                   </label>
                   <input
                     type="number"
