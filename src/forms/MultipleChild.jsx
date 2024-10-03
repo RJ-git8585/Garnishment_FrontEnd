@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState(''); 
-   const [filledInputs, setFilledInputs] = useState([]);
+  const [filledInputs, setFilledInputs] = useState([]);
   const [filledArrears, setfilledArrears] = useState([]);
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
@@ -22,7 +22,7 @@ function MultipleChild() {
   const [support_second_family, setIsCheckedFamily] = useState(false);
   const [employee_id, setSelectedOption] = useState(null);
   const [inputs, setInputs] = useState([{ id: 1, value: '' }]);
-  const [arrearInputs, setArrearInput] = useState([{ id: 1, value: '' }]);
+  const [arrearInputs, setArrearInputs] = useState([{ id: 1, value: '' }]);
   const [calculationResult, setCalculationResult] = useState('');
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
@@ -98,8 +98,7 @@ function MultipleChild() {
     } else {
       // salert('You can only add up to 5 inputs.');
       Swal.fire({
-        // toast: true, // This enables the toast mode
-        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+       
         icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'You can only add up to 5 inputs.',
         // text: "Now Calculation result will not stored !!",
@@ -200,7 +199,7 @@ function MultipleChild() {
     const fetchData = async () => {
       try {
         const id = sessionStorage.getItem("id");
-        const response = await fetch(${BASE_URL}/User/getemployeedetails/${id}/);
+        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
         const jsonData = await response.json();
         setOptions(jsonData.data);
       } catch (error) {
@@ -208,6 +207,9 @@ function MultipleChild() {
       }
     };
 
+    fetchData();
+    // toast.success('All Employee Data !!');
+  }, []);
 
   const handleReset = () => {
     setSelectedOption('');
@@ -249,8 +251,7 @@ function MultipleChild() {
     while (filledArrears.length < 5) {
       filledArrears.push({ id: filledArrears.length + 1, value: '0' });
     }
-  setfilledArrears(filledArrears);
-
+    setfilledArrears(filledArrears);
     // Convert string inputs to numbers before sending to the backend
     const postData = {
       employer_id,
@@ -282,26 +283,18 @@ function MultipleChild() {
 
   try {
     // First, send the POST request
-    const postResponse = await fetch(${BASE_URL}/User/CalculationDataView, {
+    const postResponse = await fetch(`${BASE_URL}/User/CalculationDataView`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData),
     });
 
     if (!postResponse.ok) throw new Error('Failed to submit data');
-    // toast.success('Data submitted successfully! Fetching results...');
-
-    // const getResult = await fetch(${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/);
-    // const resultData = await getResult.json();
-    // if (!getResult.ok) throw new Error('Failed to fetch calculation data');
-
-    // Fetch additional results if needed
-    const resultResponse = await fetch(${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/);
+    const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
     const resultLoanData = await resultResponse.json();
     if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
     Swal.fire({
-      // toast: true, // This enables the toast mode
-      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+    
       icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
       title: 'Your Calculation was successful stored.',
       text: "Now Calculation result will show below the form !!",
@@ -312,19 +305,20 @@ function MultipleChild() {
 
     // Set the calculation result
     setCalculationResult(resultLoanData.data[0]);
-    // toast.success(Result: ${resultLoanData.data[0].result});
+    // toast.success(`Result: ${resultLoanData.data[0].result}`);
 } catch (error) {
-    console.error('Submission Error:', error);
-    Swal.fire({
-      // toast: true, // This enables the toast mode
-      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
-      icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
-      title: 'Your action was unsuccessful',
-      text: "Now Calculation result will not stored !!",
-      showConfirmButton: false, // Hide the confirm button
-      timer: 3000, // Auto close after 3 seconds
-      timerProgressBar: true, // Show a progress bar
-  });
+  console.error('Submission Error:', error);
+  Swal.fire({
+   
+    icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+    title: 'Your action was unsuccessful',
+    text: "Now Calculation result will not stored !!",
+    showConfirmButton: false, // Hide the confirm button
+    timer: 3000, // Auto close after 3 seconds
+    timerProgressBar: true, // Show a progress bar
+});
+};
+  }
 
 return (
   <>
@@ -652,4 +646,4 @@ return (
 );
 }
 
-export default MultipleChild;
+export default MultipleChild
