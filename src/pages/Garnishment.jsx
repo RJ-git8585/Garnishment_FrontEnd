@@ -144,7 +144,7 @@ tabs Section  */}
       {/* Tab headers */}
       <div className="tabs">
         <button 
-          className={activeTab === 'Child Support' ? 'active' : ''} 
+          className={activeTab === 'Child Support' ? 'active mb zm aal aek aki arw asi awu axc bbe bck bjp bpv bpw bpy bqf' : ''} 
           onClick={() => handleTabClick('Child Support')}>
          Child Support
         </button>
