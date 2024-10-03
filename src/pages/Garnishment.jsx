@@ -57,6 +57,17 @@ function Garnishment( ) {
     setState('');
     setArrears('');
 };
+
+// tab
+
+const [activeTab, setActiveTab] = useState('tab1');
+
+  // Function to handle tab switching
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+  
+// tabs cloased
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
@@ -127,7 +138,40 @@ function Garnishment( ) {
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
-                      </div>
+                      {/* </div>
+tabs Section  */}
+
+      {/* Tab headers */}
+      <div className="tabs">
+        <button 
+          className={activeTab === 'tab1' ? 'active' : ''} 
+          onClick={() => handleTabClick('tab1')}>
+          Tab 1
+        </button>
+        <button 
+          className={activeTab === 'tab2' ? 'active' : ''} 
+          onClick={() => handleTabClick('tab2')}>
+          Tab 2
+        </button>
+        <button 
+          className={activeTab === 'tab3' ? 'active' : ''} 
+          onClick={() => handleTabClick('tab3')}>
+          Tab 3
+        </button>
+      </div>
+
+      {/* Tab content */}
+      <div className="tab-content">
+        {activeTab === 'tab1' && <div>Content for Tab 1</div>}
+        {activeTab === 'tab2' && <div>Content for Tab 2</div>}
+        {activeTab === 'tab3' && <div>Content for Tab 3</div>}
+      </div>
+
+{/* Tab Section closed */}
+
+
+
+
 
                       <div>
               <label htmlFor="empID" className="block italic text-red-700 text-sm font-semibold mb-3">
