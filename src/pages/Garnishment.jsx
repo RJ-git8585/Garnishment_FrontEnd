@@ -25,7 +25,7 @@ function Garnishment( ) {
   const [order_id, setOrderID] = useState('');
   // eslint-disable-next-line react-hooks/rules-of-hooks  
   const [state, setState] = useState('');
-  const [selectedType, setSelectedType] = useState('MultipleChild');
+  // const [selectedType, setSelectedType] = useState('MultipleChild');
   // const [medicare, setMedicare] = useState('');
   const [arrears_amt, setArrears] = useState('');
   const [arrears_greater_than_12_weeks, setIsChecked] = useState(false);
@@ -36,11 +36,11 @@ function Garnishment( ) {
   // const [data, setData] = useState(null);
    
   const employer_id = (parseInt(sessionStorage.getItem("id")));
-  const handleChangeType = (event) => {
-    const selectedOption = event.target.value;
-    setSelectedType(selectedOption);
-    console.log('Selected value:', selectedOption);
-  };
+  // const handleChangeType = (event) => {
+  //   const selectedOption = event.target.value;
+  //   setSelectedType(selectedOption);
+  //   console.log('Selected value:', selectedOption);
+  // };
 
   // eslint-disable-next-line no-unused-vars
   const handleCheckboxChange = (event) => {
@@ -142,29 +142,50 @@ const [activeTab, setActiveTab] = useState('Child Support');
 tabs Section  */}
 
       {/* Tab headers */}
-      <div className="tabs">
+      <div className="tabs mb-6">
+      <label htmlFor="empID" className="block italic text-red-700 text-sm font-semibold mb-3">
+                      Please Select Garnishment Type:
+                    </label>
         <button 
-          className={activeTab === 'Child Support' ? 'active inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8' : ''} 
+          className={activeTab === 'Child Support ' ? 'active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8' : ' mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-gray-900 text-white hover:bg-slate-700 -my-2.5 ml-8'} 
           onClick={() => handleTabClick('Child Support')}>
          Child Support
         </button>
         <button 
-          className={activeTab === 'Student loan' ? 'active' : ''} 
+          className={activeTab === 'Student loan' ? 'active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8' : ' mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8'} 
           onClick={() => handleTabClick('Student loan')}>
           Student loan
         </button>
         <button 
-          className={activeTab === 'MultiStudentLoan' ? 'active' : ''} 
+          className={activeTab === 'MultiStudentLoan' ? 'active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8' : ' mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8'} 
           onClick={() => handleTabClick('MultiStudentLoan')}>
           MultiStudentLoan
+        </button>
+        <button 
+          className={activeTab === 'Federal Tax' ? 'active inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8' : 'inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8'} 
+          onClick={() => handleTabClick('Federal Tax')}>
+          Federal Tax
+        </button>
+        <button 
+          className={activeTab === 'State Tax' ? 'active inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8' : 'inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8'} 
+          onClick={() => handleTabClick('State Tax')}>
+          State Tax
+        </button>
+        <button 
+          className={activeTab === 'Creditor' ? 'active inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8' : 'inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-8'} 
+          onClick={() => handleTabClick('Creditor')}>
+          Creditor
         </button>
       </div>
 
       {/* Tab content */}
       <div className="tab-content">
-        {activeTab === 'Child Support' && <div>Content for  Child Support</div>}
-        {activeTab === 'Student loan' && <div>Content for  Student loan</div>}
-        {activeTab === 'MultiStudentLoan' && <div>Content for MultiStudentLoan</div>}
+        {activeTab === 'Child Support' && <div> <MultipleChild></MultipleChild></div>}
+        {activeTab === 'Student loan' && <div> <StudentLoan></StudentLoan></div>}
+        {activeTab === 'MultiStudentLoan' && <div> <MultipleStudentLoan></MultipleStudentLoan></div>}
+        {activeTab === 'Federal Tax' && <div> <FederalTax></FederalTax></div>}
+        {activeTab === 'State Tax' && <div>StateTax Calculation Coming Soon......</div>}
+        {activeTab === 'Creditor' && <div>Creditor Calculation Coming Soon......</div>}
       </div>
 
 {/* Tab Section closed */}
@@ -173,67 +194,66 @@ tabs Section  */}
 
 
 
-                      <div>
+                      {/* <div>
               <label htmlFor="empID" className="block italic text-red-700 text-sm font-semibold mb-3">
                       Please Select Garnishment Type:
                     </label>
               <select className="custom-select mb-10 shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm bg-black rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500" value={selectedType} onChange={handleChangeType} required>
-                  {/* <option value="SingleChild">Select Your Prefer Type</option>  */}
-                {/* <option  value="SingleChild">Single Child</option> */}
+                
                 <option value="MultipleChild">Child Support</option>
                 <option value="StudentLoan">Student loan</option>
                 <option value="MultiStudentLoan">Multiple Student loan</option>
                 <option value="FederalTax">Federal Tax</option>
                 <option value="StateTax">State Tax</option>
                 <option value="Creditor">Creditor</option>
-                {/* <option value="Bankruptcy">Bankruptcy</option> */}
+         
               </select>  
           </div>
-         
-                  {selectedType === 'MultipleChild' && (
+          */}
+                  {/* {selectedType === 'MultipleChild' && (
                       <div>
                     
                         <MultipleChild></MultipleChild>
-                        {/* Content for Section 1 */}
+                      
                       </div>
-                    )}
+                    )} */}
 
-                    {selectedType === 'StudentLoan' && (
+                    {/* {selectedType === 'StudentLoan' && (
                       <div>
                         <StudentLoan></StudentLoan>
                       </div>
-                    )}
-                     {selectedType === 'MultiStudentLoan' && (
+                    )} */}
+                     {/* {selectedType === 'MultiStudentLoan' && (
                       <div>
                      <MultipleStudentLoan></MultipleStudentLoan>
                       </div>
-                    )}
-                     {selectedType === 'FederalTax' && (
+                    )} */}
+                     {/* {selectedType === 'FederalTax' && (
                       <div>
                         <FederalTax></FederalTax>
-                        {/* Content for Section 3 */}
+                       
                       </div>
-                    )}
-                    {selectedType === 'StateTax' && (
+                    )} */}
+                    {/* {selectedType === 'StateTax' && (
                       <div>
                        <h1>StateTax Calculation Coming Soon......</h1>
-                        {/* Content for Section 3 */}
+                    
                       </div>
-                    )}
-                    {selectedType === 'Creditor' && (
+                    )} */}
+                    {/* {selectedType === 'Creditor' && (
                       <div>
                       <h1>Creditor Calculation Coming Soon......</h1>
-                        {/* Content for Section 3 */}
+                       
                       </div>
-                    )}  
+                    )}   */}
                     
 
-                    {selectedType === 'Bankruptcy' && (
+                    {/* {selectedType === 'Bankruptcy' && (
                       <div>
                         <h1>Bankruptcy Calculation Coming Soon.....</h1>
-                        {/* Content for Section 3 */}
+                        
                       </div>
-                    )}
+                    )} */}
               </form>
               
             </div>

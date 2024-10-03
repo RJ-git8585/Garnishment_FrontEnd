@@ -181,7 +181,9 @@ color:#fff;
   background: #fff;
   color:#000;
   }
-
+.active{
+  background-color: #828282 !important;
+}
 .button-cls {
   color: red;
 }
