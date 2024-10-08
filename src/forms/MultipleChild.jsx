@@ -245,13 +245,17 @@ function MultipleChild() {
     event.preventDefault();
 
     const filledInputs = [...inputs];
-    const filledArrears = [...arrearInputs];
     
     let newFilledInputs = [...inputs]; // Assuming you have 'inputs' defined
     // while (newFilledInputs.length < 5) {
     //   newFilledInputs.push({ id: newFilledInputs.length + 1, value: '0' });
     // }
     // Set filledInputs to state
+const filledArrears = [...arrearInputs].map((arrear, index) => ({
+    id: index,
+    value: arrearInputs.value === null || arrearInputs.value === '' ? '0' : arrearInputs.value,
+  }));
+    
     setFilledInputs(newFilledInputs);
 
     while (filledInputs.length < 5) {
