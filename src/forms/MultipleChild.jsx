@@ -251,10 +251,11 @@ function MultipleChild() {
     //   newFilledInputs.push({ id: newFilledInputs.length + 1, value: '0' });
     // }
     // Set filledInputs to state
-const filledArrears = [...arrearInputs].map((arrear, index) => ({
-    id: index,
-    value: arrearInputs.value === null || arrearInputs.value === '' ? '0' : arrearInputs.value,
-  }));
+
+    const filledArrears = arrearInputs.map((arrear, index) => ({
+  id: index,
+  value: arrearInputs === null || arrearInputs === '' ? '0' : arrearInputs,}));
+
     
     setFilledInputs(newFilledInputs);
 
