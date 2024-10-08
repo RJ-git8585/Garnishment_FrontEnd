@@ -201,6 +201,7 @@ input::placeholder {
 }
 .mini-font{
   font-size: 10px!important;
+  /* width:250px !important; */
 }
 .button-cls {
   color: red;

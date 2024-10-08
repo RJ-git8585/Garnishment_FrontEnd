@@ -459,8 +459,8 @@ return (
                           Number of Garnishment  <span className="text-red-700"> *  </span>:
                           <BsFillInfoCircleFill className="inline custom-note-icon" />
                                   <div className="absolute bottom-full transform -translate-x-y 
-                                  hidden group-hover:block bg-gray-600 text-white text-sm px-3 py-1 rounded  mini-font">
-                                      The input fields require numeric values. Please ensure that you enter only numbers in these fields.
+                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
+                                    Number of Garnishment require numeric values. Please ensure that you enter only numbers in these fields.
                                       
                                   </div>
                           </label>
@@ -559,9 +559,9 @@ return (
                               <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
                                 Federal Income Tax <span className="text-red-700"> * </span>:
                                 <BsFillInfoCircleFill className="inline custom-note-icon" />
-                                          <div className="absolute bottom-full transform -translate-x-y 
+                                          <div className="absolute bottom-full transform w-48 -translate-x-y 
                                           hidden group-hover:block bg-gray-600 text-white text-sm px-3 py-1 rounded  mini-font">
-                                              this is test
+                                        Federal Income Tax require numeric values. Please ensure that you enter only numbers in these fields.
                                           </div>
                               </label>
                       </div>
