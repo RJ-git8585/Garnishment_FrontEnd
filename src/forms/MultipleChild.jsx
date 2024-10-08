@@ -259,7 +259,7 @@ function MultipleChild() {
     }
 
     while (filledArrears.length < 5) {
-      filledArrears.push({ id: filledArrears.length + 1, value: '0' });
+      filledArrears.push({ id: filledArrears.length, value: '0' });
     }
 
     // Convert string inputs to numbers before sending to the backend
