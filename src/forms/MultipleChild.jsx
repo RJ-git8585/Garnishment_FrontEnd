@@ -6,7 +6,14 @@ import React, { useState, useEffect } from 'react';
 // import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
-import { BsFillInfoCircleFill } from "react-icons/bs";
+import { RxQuestionMarkCircled } from "react-icons/rx";
+
+
+
+
+
+
+
 
 
 import Swal from 'sweetalert2';
@@ -341,9 +348,10 @@ return (
         <div className="">
           <div className="p-0">
             <form onSubmit={handleSubmit}>
-             <h6 className='mt-4 mb-4 font-bold  text-sm'>EMPLOYEE DETAILS :</h6>
+             <h6 className='mt-4 mb-4 font-bold  text-sm'>EMPLOYEE DETAILS : </h6>
+             
 
-              <div className=" appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+              <div className=" appearance-none border-slate-900 border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                 
                 <div>
                   <label htmlFor="empID" className="block text-gray-700 text-sm font-bold mb-3">
@@ -404,7 +412,7 @@ return (
                 </div>
                 </div>
                 <h6 className='mt-4 mb-4 font-bold  text-sm'>GARNISHMENT DETAILS :</h6>
-                <div className=" appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+                <div className=" appearance-none border-slate-500 border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                
 
                 <div>
@@ -426,6 +434,15 @@ return (
                 <div>
                   <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
                     Order ID <span className="text-red-700"> * </span>:
+                    <div className="inline relative group">
+                          <RxQuestionMarkCircled className="inline custom-note-icon" />
+                                  <div className="absolute bottom-full transform -translate-x-y 
+                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
+                                   ( Order ID ) require numeric values. Please ensure that you enter only numbers in these fields.
+                                   example: {' API123# '}
+                                      
+                                  </div>
+                                  </div>
                   </label>
                   <input
                     type="number"
@@ -440,6 +457,14 @@ return (
                 <div>
                   <label htmlFor="number_of_arrears" className="block text-gray-700 text-sm font-bold mb-2">
                     Number of Arrears <span className="text-red-700"> * </span>:
+                    <div className="inline relative group">
+                          <RxQuestionMarkCircled className="inline custom-note-icon" />
+                                  <div className="absolute bottom-full transform -translate-x-y 
+                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
+                                   ( Number of Arrears ) require numeric values. Please ensure that you enter only numbers in these fields.
+                                      
+                                  </div>
+                                  </div>
                       
                   </label>
                   <input
@@ -453,18 +478,20 @@ return (
                 </div>
 
                 <div>
-                  <div className="inline relative group">
+                 
                   
                           <label htmlFor="number_of_garnishment" className="block text-gray-700 text-sm font-bold mb-2">
                           Number of Garnishment  <span className="text-red-700"> *  </span>:
-                          <BsFillInfoCircleFill className="inline custom-note-icon" />
+                          <div className="inline relative group">
+                          <RxQuestionMarkCircled className="inline custom-note-icon" />
                                   <div className="absolute bottom-full transform -translate-x-y 
                                   hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
-                                    Number of Garnishment require numeric values. Please ensure that you enter only numbers in these fields.
+                                   ( Number of Garnishment ) require numeric values. Please ensure that you enter only numbers in these fields.
                                       
                                   </div>
+                                  </div>
                           </label>
-                  </div>
+                
                   <input
                     type="number"
                     id="number_of_garnishment"
@@ -555,16 +582,18 @@ return (
              </div>
              <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                   <div>
-                     <div className="inline relative group">
+                    
                               <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
                                 Federal Income Tax <span className="text-red-700"> * </span>:
-                                <BsFillInfoCircleFill className="inline custom-note-icon" />
+                                <div className="inline relative group">
+                                <RxQuestionMarkCircled className="inline custom-note-icon" />
                                           <div className="absolute bottom-full transform w-48 -translate-x-y 
                                           hidden group-hover:block bg-gray-600 text-white text-sm px-3 py-1 rounded  mini-font">
-                                        Federal Income Tax require numeric values. Please ensure that you enter only numbers in these fields.
+                                       ( Federal Income Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
+                                          </div>
                                           </div>
                               </label>
-                      </div>
+                     
                       <input
                         type="number"
                         step="0.01"
@@ -579,6 +608,14 @@ return (
                   <div>
                       <label htmlFor="social_tax" className="block text-gray-700 text-sm font-bold mb-2">
                         Social Security Tax <span className="text-red-700"> * </span>:
+                        <div className="inline relative group">
+                          <RxQuestionMarkCircled className="inline custom-note-icon" />
+                                  <div className="absolute bottom-full transform -translate-x-y 
+                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
+                                   ( Social Security Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
+                                      
+                                  </div>
+                                  </div>
                       </label>
                       <input
                         type="number"
@@ -594,6 +631,14 @@ return (
                   <div>
                       <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
                         Medicare Tax <span className="text-red-700"> * </span>:
+                        <div className="inline relative group">
+                          <RxQuestionMarkCircled className="inline custom-note-icon" />
+                                  <div className="absolute bottom-full transform -translate-x-y 
+                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
+                                   ( Medicare Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
+                                      
+                                  </div>
+                                  </div>
                       </label>
                       <input
                         type="number"
@@ -609,6 +654,14 @@ return (
                   <div>
                       <label htmlFor="state_tax" className="block text-gray-700 text-sm font-bold mb-2">
                         State Tax <span className="text-red-700"> * </span>:
+                        <div className="inline relative group">
+                          <RxQuestionMarkCircled className="inline custom-note-icon" />
+                                  <div className="absolute bottom-full transform -translate-x-y 
+                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
+                                   ( State Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
+                                      
+                                  </div>
+                                  </div>
                       </label>
                       <input
                         type="number"

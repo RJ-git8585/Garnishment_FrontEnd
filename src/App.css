@@ -199,9 +199,11 @@ input::placeholder {
   opacity: 0.5;
   text-align:left;
 }
-.mini-font{
-  font-size: 10px!important;
-  /* width:250px !important; */
+.mini-font {
+  font-size: 10px !important;
+  /* width: 250px !important; */
+  background: rgb(0 0 0 / 49%) !important;
+  left: 15px;
 }
 .button-cls {
   color: red;
