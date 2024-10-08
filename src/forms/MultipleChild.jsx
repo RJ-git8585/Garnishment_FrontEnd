@@ -254,7 +254,7 @@ function MultipleChild() {
 
     const filledArrears = arrearInputs.map((arrear, index) => ({
   id: index,
-  value: arrearInputs === null || arrearInputs === '' ? '0' : arrearInputs,}));
+  value: arrearInputs?.value === null || arrearInputs?.value === '' ? '0' : arrearInputs?.value || '0',}));
 
     
     setFilledInputs(newFilledInputs);
