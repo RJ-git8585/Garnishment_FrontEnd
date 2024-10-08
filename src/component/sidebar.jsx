@@ -2,16 +2,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo_b from '../Logo_black.png';
-import { FaDashcube, FaHornbill, FaUserEdit,FaWpforms,FaUserTie,FaBezierCurve, FaRocketchat, FaTools, FaBalanceScaleRight, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaDashcube, FaHornbill,FaWpforms,FaUserTie, FaRocketchat, FaTools, FaBalanceScaleRight } from 'react-icons/fa';
 import Logout from '../pages/Logout';
 
-import { FaLocationDot } from "react-icons/fa6";
+// import { FaLocationDot } from "react-icons/fa6";
 
 const Sidebar = () => {
-  const [isSubmenuOpen, setSubmenuOpen] = useState(false);
-  const toggleSubmenu = () => {
-    setSubmenuOpen(!isSubmenuOpen);
-  };
+  // const [isSubmenuOpen, setSubmenuOpen] = useState(false);
+  // const toggleSubmenu = () => {
+  //   setSubmenuOpen(!isSubmenuOpen);
+  // };
   
   // eslint-disable-next-line no-unused-vars
   const toggleMenuMObile = () => {
@@ -40,15 +40,15 @@ const Sidebar = () => {
             <p>   Dashboard</p>
           </Link>
         </li>
-        <li className="sidebar-item border-b-[3px] py-2">
+        {/* <li className="sidebar-item border-b-[3px] py-2">
           <Link to="/profile" className="sidebar-link submen_cls" onClick={toggleSubmenu}>
             <FaUserEdit />
             <p> Profile</p>
             {isSubmenuOpen ? <FaChevronUp className="ml-2 submen_cls_iocn"  /> : <FaChevronDown className="ml-2 submen_cls_iocn" />}
-          </Link>
-          {isSubmenuOpen && (
-            <ul className="submenu">
-              <li className="submenu-item">
+          </Link> */}
+          {/* {isSubmenuOpen && (
+            <ul className="submenu"> */}
+              {/* <li className="submenu-item">
                 <Link to="/addlocation" className="sidebar-link">
                 <FaLocationDot />
                 <p>Location</p>
@@ -59,11 +59,11 @@ const Sidebar = () => {
                 <FaBezierCurve />
                   <p>Departmant</p>
                 </Link>
-              </li>
+              </li> */}
               {/* Add more submenu items here */}
-            </ul>
-          )}
-        </li>
+            {/* </ul> */}
+          {/* )} */}
+        {/* </li> */}
         <li className="sidebar-item border-b-[3px] py-2">
           <Link to="/employee" className="sidebar-link">
             <FaUserTie />

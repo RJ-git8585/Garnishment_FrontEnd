@@ -6,6 +6,9 @@ import React, { useState, useEffect } from 'react';
 // import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
+import { BsFillInfoCircleFill } from "react-icons/bs";
+
+
 import Swal from 'sweetalert2';
 
 function MultipleChild() {
@@ -338,12 +341,15 @@ return (
         <div className="">
           <div className="p-0">
             <form onSubmit={handleSubmit}>
-              <div className="shadow appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+             <h6 className='mt-4 mb-4 font-bold  text-sm'>EMPLOYEE DETAILS :</h6>
+
+              <div className=" appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+                
                 <div>
                   <label htmlFor="empID" className="block text-gray-700 text-sm font-bold mb-3">
-                    Employee ID:
-                  </label>
-                  <select value={employee_id}   onChange={handleChangeName} id="countries" className="shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
+                    Employee ID <span className="text-red-700"> * </span>:
+                  </label>  
+                  <select value={employee_id}   onChange={handleChangeName} id="countries" className=" appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
                         <option value="">Select Employee</option>
                         {options.map((option) => (
                           <option key={option.employee_id}   value={(parseInt(option.employee_id,10))}>
@@ -360,7 +366,7 @@ return (
                     type="text"
                     id="empName"
                     placeholder='Enter Employee Name'
-                    className="shadow appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={employee_name}
                     onChange={(e) => setEmpName(e.target.value)}
                     readOnly
@@ -370,52 +376,24 @@ return (
                 </div>
                 <div>
                   <label htmlFor="earning" className="block text-gray-700 text-sm font-bold mb-2">
-                    Earnings:
+                    Earnings <span className="text-red-700"> * </span>:
                   </label>
                   <input
                     type="number"
                     step="0.01"
                     id="earning"
                     placeholder='Enter Earning'
-                    className="shadow appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" text-right appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={earnings}
                     onChange={(e) => setEarnings(parseFloat(e.target.value, 10))}
                   />
                 </div>
-                <div>
-                  <label htmlFor="garnishmentFees" className="block text-gray-700 text-sm font-bold mb-2">
-                    Garnishment Fees:
-                  </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    id="garnishmentFees"
-                    placeholder='Enter Fees'
-                    className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={garnishment_fees}
-                    onChange={(e) => setGarnishmentFees(parseFloat(e.target.value, 10))}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
-                    Order ID:
-                  </label>
-                  <input
-                    type="number"
-                    id="orderID"
-                     placeholder='Enter Order Id'
-                    className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={order_id}
-                    onChange={(e) => setOrderID(parseInt(e.target.value, 10))}
-                  />
-                </div>
-
 
                 <div>
                   <label htmlFor="state" className="block text-gray-700 text-sm font-bold mb-2">
-                    State:
+                    State <span className="text-red-700"> * </span>:
                   </label>
-                  <select className="shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" id="selectField" value={state} onChange={handleState}>
+                  <select className=" appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" id="selectField" value={state} onChange={handleState}>
                       <option value="" >Choose an State </option>
                       {StateList.map((option) => (
                         <option key={option.id} value={option.label}>
@@ -424,59 +402,104 @@ return (
                       ))}
                     </select>
                 </div>
+                </div>
+                <h6 className='mt-4 mb-4 font-bold  text-sm'>GARNISHMENT DETAILS :</h6>
+                <div className=" appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+               
 
+                <div>
+                  <label htmlFor="garnishmentFees" className="block text-gray-700 text-sm font-bold mb-2">
+                    Garnishment Fees <span className="text-red-700"> * </span>:
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    id="garnishmentFees"
+                    placeholder='Enter Fees'
+                    className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={garnishment_fees}
+                    onChange={(e) => setGarnishmentFees(parseFloat(e.target.value, 10))}
+                  />
+                </div>
+                
+               
+                <div>
+                  <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
+                    Order ID <span className="text-red-700"> * </span>:
+                  </label>
+                  <input
+                    type="number"
+                    id="orderID"
+                     placeholder='Enter Order Id'
+                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={order_id}
+                    onChange={(e) => setOrderID(parseInt(e.target.value, 10))}
+                  />
+                </div>
 
                 <div>
                   <label htmlFor="number_of_arrears" className="block text-gray-700 text-sm font-bold mb-2">
-                    Number of Arrears:
+                    Number of Arrears <span className="text-red-700"> * </span>:
+                      
                   </label>
                   <input
                     type="number"
                     id="number_of_arrears"
                     placeholder='Enter Number of Arrears'
-                    className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_arrear}
                     onChange={(e) => setnumber_of_arrears(parseInt(e.target.value, 10))}
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="number_of_garnishment" className="block text-gray-700 text-sm font-bold mb-2">
-                    Number of Garnishment:
-                  </label>
+                  <div className="inline relative group">
+                  
+                          <label htmlFor="number_of_garnishment" className="block text-gray-700 text-sm font-bold mb-2">
+                          Number of Garnishment  <span className="text-red-700"> *  </span>:
+                          <BsFillInfoCircleFill className="inline custom-note-icon" />
+                                  <div className="absolute bottom-full transform -translate-x-y 
+                                  hidden group-hover:block bg-gray-600 text-white text-sm px-3 py-1 rounded  mini-font">
+                                      The input fields require numeric values. Please ensure that you enter only numbers in these fields.
+                                      
+                                  </div>
+                          </label>
+                  </div>
                   <input
                     type="number"
                     id="number_of_garnishment"
                     placeholder='Enter Number of Garnishment'
-                    className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_garnishment}
                     onChange={(e) => setnumber_of_ganishment(parseInt(e.target.value, 10))}
                   />
+                  {/* <p className="text-red-700 custom-note"> Need to enter number for Fields.</p>   */}
                 </div>
-                </div>
+          </div>
+          <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
             <div className="row-span-3 w-full flex items-center mt-4 mb-4">
-                    <input id="showFieldCheckboxFamily" checked={support_second_family} onChange={handleCheckboxChange1} type="checkbox" className="mr-2" />
+                    <input id="showFieldCheckboxFamily" checked={support_second_family} onChange={handleCheckboxChange1} type="checkbox" className="mr-2 mb-2" />
                     <label htmlFor="showFieldCheckboxFamily" className="block text-gray-700 text-sm font-bold mb-2">
                       Support Second Family
                     </label>
             </div>
 
-            <div className="w-full flex items-center mb-4">
-                    <input id="showFieldCheckbox" checked={arrears_greater_than_12_weeks} onChange={handleCheckboxChange} type="checkbox" className="mr-2" />
+            <div className="row-span-3 w-full flex items-center mt-4 mb-4">
+                    <input id="showFieldCheckbox" checked={arrears_greater_than_12_weeks} onChange={handleCheckboxChange} type="checkbox" className="mr-2 mb-2" />
                     <label htmlFor="showFieldCheckbox" className="block text-gray-700 text-sm font-bold mb-2">
                       Arrears Greater Than 12 Weeks
                     </label>
             </div>
-
+          </div>
             {arrears_greater_than_12_weeks && (
               <>
                 <button
                   type="button"
-                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="rounded-md bg-indigo-600 px-3.5  py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={handleAddArrearInput} >
                   Add Arrears Amount
                 </button>
-                <div className="shadow appearance-none border mt-4 p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+                <div className=" appearance-none border mt-4 p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                 {arrearInputs.map((input, index) => (
 
                   <div key={input.id} className="mt-4">
@@ -491,7 +514,7 @@ return (
                       value={input.value}
                       placeholder='Enter Amount'
                       onChange={(event) => handleArrearInputChange(event, index)}
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                   </div>
                 ))}
@@ -502,13 +525,13 @@ return (
             <div className="flex items-center mt-4 mb-4">
               <button
                 type="button"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="rounded-md bg-indigo-600 px-3.5  py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 onClick={handleAddInput}
               >
                 Add Child Withhold Amount
               </button>
             </div>
-            <div className="shadow appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+            <div className=" appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
             {inputs.map((input, index) => (
               <div key={input.id} className="mb-4 ">
                         <div className='flex items-center'>
@@ -522,7 +545,7 @@ return (
                   placeholder='Enter amount'
                   value={input.value}
                   onChange={(event) => handleInputChange(event, index)}
-                  className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
               {/* TUESDAY */}
@@ -530,17 +553,24 @@ return (
                    ))}
 
              </div>
-             <div className="mt-6 shadow appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+             <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                   <div>
-                      <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        Federal Income Tax:
-                      </label>
+                     <div className="inline relative group">
+                              <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
+                                Federal Income Tax <span className="text-red-700"> * </span>:
+                                <BsFillInfoCircleFill className="inline custom-note-icon" />
+                                          <div className="absolute bottom-full transform -translate-x-y 
+                                          hidden group-hover:block bg-gray-600 text-white text-sm px-3 py-1 rounded  mini-font">
+                                              this is test
+                                          </div>
+                              </label>
+                      </div>
                       <input
                         type="number"
                         step="0.01"
                         placeholder='Enter Federal Income Tax'
                         id="federal_income_tax"
-                        className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value={federal_income_tax}
                         onChange={(e) => setFederalIncmoeTax(parseFloat(e.target.value))}
                       />
@@ -548,14 +578,14 @@ return (
                   {/* SOCIAL&SECURITY_TAX */}
                   <div>
                       <label htmlFor="social_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        Social Security Tax:
+                        Social Security Tax <span className="text-red-700"> * </span>:
                       </label>
                       <input
                         type="number"
                         step="0.01"
                         id="social_tax"
                          placeholder='Enter Social Security Tax'
-                        className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value={social_tax}
                         onChange={(e) => setSocialTax(parseFloat(e.target.value))}
                       />
@@ -563,14 +593,14 @@ return (
 
                   <div>
                       <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        Medicare Tax:
+                        Medicare Tax <span className="text-red-700"> * </span>:
                       </label>
                       <input
                         type="number"
                         step="0.01"
                         id="medicare_tax"
                        placeholder='Enter Medicare Tax'
-                        className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value={medicare_tax}
                         onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
                       />
@@ -578,14 +608,14 @@ return (
                     {/*  */}
                   <div>
                       <label htmlFor="state_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        State Tax:
+                        State Tax <span className="text-red-700"> * </span>:
                       </label>
                       <input
                         type="number"
                         step="0.01"
                         id="state_tax"
                        placeholder='Enter State Tax'
-                        className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value={state_tax}
                         onChange={(e) => setStateTax(parseFloat(e.target.value))}
                       />
@@ -611,7 +641,7 @@ return (
 {/*               <ToastContainer /> */}
             </form>
 {calculationResult && (
-       <div className="result-section shadow appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+       <div className="result-section  appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                  
           <p>Garnishment Amount: {calculationResult.result}</p>
           <p>Net Pay: {calculationResult.net_pay}</p>

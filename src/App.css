@@ -184,6 +184,24 @@ color:#fff;
 .active{
   background-color: #828282 !important;
 }
+/* h6 {
+  font-size: 14px !important;
+  margin-bottom: 10px !important;
+  font-weight: 700 !important;
+} */
+svg.inline.custom-note-icon {
+  margin-left: 16px;
+  color: #000000;
+  font-size: 16px;
+}
+input::placeholder {
+  color: red;
+  opacity: 0.5;
+  text-align:left;
+}
+.mini-font{
+  font-size: 10px!important;
+}
 .button-cls {
   color: red;
 }
@@ -194,6 +212,11 @@ color:#fff;
   border: 0.5px solid #000 !important;
   margin-left: 5px;
   padding: 7px !important;
+}
+.custom-note{
+  font-size:10px;
+  font-style: italic !important;
+  margin-top: 4px;
 }
 
 .box {

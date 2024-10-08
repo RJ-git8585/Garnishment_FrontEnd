@@ -23,6 +23,9 @@ const user = {
   ]
   const userNavigation = [
     { name: 'Your Profile', href: '/profile' },
+   
+    { name: 'Add Location', href: '/addlocation' },
+    { name: 'Add Department', href: '/adddepartment' },
     { name: 'Settings', href: '/setting' },
 
   ]
