@@ -136,6 +136,7 @@ function MultipleStudentLoan() {
           <div className="contant ">
             <div className="p-0">
               <form onSubmit={handleSubmit}>
+              <h6 className='mt-4 mb-4 font-bold  text-sm'>EMPLOYEE DETAILS : </h6>
               {/* <MultiStep activeStep={2} > */}    
             <div className='hidden'> 
                         
@@ -156,13 +157,13 @@ function MultipleStudentLoan() {
          
                
    
-               <div className="shadow appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+               <div className=" appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                   <div>
                     <label htmlFor="empID" className="block text-gray-700 text-sm font-bold mb-3">
                       Employee ID:
                     </label>
                
-                    <select value={employee_id}   onChange={handleChange} id="countries" className="shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
+                    <select value={employee_id}   onChange={handleChange} id="countries" className=" appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
                         <option value="">Select Employee</option>
                         {options.map((option) => (
                           <option key={option.employee_id}   value={(parseInt(option.employee_id,10))}>
@@ -178,7 +179,7 @@ function MultipleStudentLoan() {
                     <input
                       type="text"
                       id="empName"
-                      className="shadow appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={employee_name}
                       onChange={(e) => setEmpName(e.target.value)}
                       readOnly
@@ -195,7 +196,7 @@ function MultipleStudentLoan() {
                         placeholder='Enter Earnings'
                       step="0.01"
                       id="earning"
-                      className="shadow appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={earnings}
                       onChange={(e) => setEarnings(parseFloat(e.target.value,10))}
                     />
@@ -210,7 +211,7 @@ function MultipleStudentLoan() {
                       step="0.01"
                          placeholder='Enter Garnishment Fees'
                       id="garnishmentFees"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={garnishment_fees}
                       onChange={(e) => setGarnishmentFees(parseFloat(e.target.value))}
                     />
@@ -223,7 +224,7 @@ function MultipleStudentLoan() {
                       type="number"
                        placeholder='Enter Order'
                       id="orderID"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={order_id}
                       onChange={(e) => setOrderID(parseInt(e.target.value))}
                     />
@@ -239,7 +240,7 @@ function MultipleStudentLoan() {
                       step="0.01"
                          placeholder='Enter Federal Income Tax'
                       id="federal_income_tax"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 
                       value={federal_income_tax}
                       onChange={(e) => setFederalIncmoeTax(parseFloat(e.target.value))}
@@ -256,7 +257,7 @@ function MultipleStudentLoan() {
                       step="0.01"
                       id="social_and_security_tax"
                        placeholder='Enter Social Security'
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={social_and_security_tax}
                       onChange={(e) => setSocialAndSecurityTax(parseFloat(e.target.value))}
                     />
@@ -271,7 +272,7 @@ function MultipleStudentLoan() {
                       step="0.01"
                        placeholder='Enter  Medicare Tax'
                       id="medicare_tax"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={medicare_tax}
                       onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
                     />
@@ -286,7 +287,7 @@ function MultipleStudentLoan() {
                       step="0.01"
                        placeholder='Enter State Tax'
                       id="state_tax"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={state_tax}
                       onChange={(e) => setStateTax(parseFloat(e.target.value))}
                     />
@@ -301,7 +302,7 @@ function MultipleStudentLoan() {
                       step="0.01"
                       id="sdi_tax"
                         placeholder='Enter SDI Tax'
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 
                       value={SDI_tax}
                       onChange={(e) => setSDITax(parseFloat(e.target.value))}

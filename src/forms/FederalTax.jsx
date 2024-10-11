@@ -159,6 +159,7 @@ function FederalTax() {
           <div className="contant ">
             <div className="p-0">
               <form onSubmit={handleSubmit}>
+              <h6 className='mt-4 mb-4 font-bold  text-sm'>EMPLOYEE DETAILS : </h6>
               {/* <MultiStep activeStep={2} > */}    
             <div className='hidden'> 
                         
@@ -172,13 +173,13 @@ function FederalTax() {
                           />
                         </div>
                       </div>
-               <div className="shadow appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+               <div className=" appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                <div>
                     <label htmlFor="empID" className="block text-gray-700 text-sm font-bold mb-3">
                       Employee ID:
                     </label>
                
-                    <select value={employee_id}  onChange={handleChange} id="countries" className="shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
+                    <select value={employee_id}  onChange={handleChange} id="countries" className=" appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
                         <option value="">Select Employee</option>
                         {options.map((option) => (
                           <option key={option.employee_id}   value={(parseInt(option.employee_id,10))}>
@@ -195,7 +196,7 @@ function FederalTax() {
                       type="text"
                       id="empName"
                       placeholder="Enter Employee Name"
-                      className="shadow appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={employee_name}
                       onChange={(e) => setEmpName(e.target.value)}
                       readOnly
@@ -211,7 +212,7 @@ function FederalTax() {
                       step="0.01"
                         placeholder='Enter Earnings'
                       id="earning"
-                      className="shadow appearance-none border text-sm  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border text-sm  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={earnings}
                       onChange={(e) => setEarnings(parseFloat(e.target.value,10))}
                     />
@@ -226,7 +227,7 @@ function FederalTax() {
                       step="0.01"
                       placeholder='Enter Garnishment Fees'
                       id="garnishmentFees"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={garnishment_fees}
                       onChange={(e) => setGarnishmentFees(parseFloat(e.target.value))}
                     />
@@ -239,7 +240,7 @@ function FederalTax() {
                       type="number"
                       id="orderID"
                       placeholder='Enter Order ID'
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={order_id}
                       onChange={(e) => setOrderID(parseInt(e.target.value))}
                     />
@@ -248,7 +249,7 @@ function FederalTax() {
                     <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
                       Pay Period:
                     </label>
-                    <select id="options" value={pay_period} onChange={handleChangePay} className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    <select id="options" value={pay_period} onChange={handleChangePay} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       name="options">
                       <option value="Weekly">Weekly</option>
                       <option value="Daily"> Daily</option>
@@ -266,14 +267,14 @@ function FederalTax() {
                       type="number"
                       id="Exception"
                       placeholder='Enter No Of Exemptions'
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={no_of_exception}
                       onChange={(e) => setExceptions(parseInt(e.target.value))}
                     />
                   </div>
                   <div>
                   <label htmlFor="options" className="block text-gray-700 text-sm font-bold mb-2">Filling Status:</label>
-                    <select id="options" value={filing_status} onChange={handleChangeStatus} className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    <select id="options" value={filing_status} onChange={handleChangeStatus} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       name="options">
                       
                       <option value="married filing sepearte return">Married filing sepearte return</option>
@@ -293,7 +294,7 @@ function FederalTax() {
                       step="0.01"
                       placeholder='Enter Local Tax'
                       id="local_tax"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={local_tax}
                       onChange={(e) => setlocal_tax(parseFloat(e.target.value))}
                     />
@@ -308,7 +309,7 @@ function FederalTax() {
                       step="0.01"
                       placeholder='Enter Workers Compensation'
                       id="workers_compensation"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={workers_compensation}
                       onChange={(e) => setworkers_compensation(parseFloat(e.target.value))}
                     />
@@ -322,7 +323,7 @@ function FederalTax() {
                       step="0.01"
                       placeholder='Enter Medical Insurance'
                       id="medical_insurance"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={medical_insurance}
                       onChange={(e) => setmedical_insurance(parseFloat(e.target.value))}
                     />
@@ -336,7 +337,7 @@ function FederalTax() {
                       step="0.01"
                       id="contribution"
                         placeholder='Enter Contribution'
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={contribution}
                       onChange={(e) => setcontribution(parseFloat(e.target.value))}
                     />
@@ -350,7 +351,7 @@ function FederalTax() {
                       step="0.01"
                        placeholder='Enter United Way Contribution'
                       id="united_way_contribution"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={united_way_contribution}
                       onChange={(e) => setUnitedWayContribution(parseFloat(e.target.value))}
                     />
@@ -364,7 +365,7 @@ function FederalTax() {
                       step="0.01"
                         placeholder='Enter Social Security Tax'
                       id="social_and_security"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={social_and_security}
                       onChange={(e) => setSocialandSecurity(parseFloat(e.target.value))}
                     />
@@ -378,7 +379,7 @@ function FederalTax() {
                       step="0.01"
                       placeholder='Enter Medicare Tax'
                       id="medicare_tax"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={medicare_tax}
                       onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
                     />
@@ -392,7 +393,7 @@ function FederalTax() {
                       step="0.01"
                       id="state_tax"
                        placeholder='Enter State Tax'
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={state_tax}
                       onChange={(e) => setStateTax(parseFloat(e.target.value))}
                     />
@@ -406,7 +407,7 @@ function FederalTax() {
                       step="0.01"
                         placeholder='Enter  Federal Income Tax'
                       id="federal_income_tax"
-                      className="shadow appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={federal_income_tax}
                       onChange={(e) => setFederalIncomeTaxRate(parseFloat(e.target.value))}
                     />
