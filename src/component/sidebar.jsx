@@ -68,45 +68,45 @@ const Sidebar = () => {
             {/* </ul> */}
           {/* )} */}
         {/* </li> */}
-        <li className="sidebar-item border-b-[3px] py-2">
+        <li className="sidebar-item border-b-[3px] py-3">
           <Link to="/employee" className="sidebar-link">
             <FaUserTie />
             <p>Employee</p>
           </Link>
         </li>
-        <li className="sidebar-item border-b-[3px] py-2">
+        <li className="sidebar-item border-b-[3px] py-3">
           <Link to="/iwo" className="sidebar-link">
             <CgReadme />
             <p>IWO</p>
           </Link>
         </li>
        
-        <li className="sidebar-item border-b-[3px] py-2">
+        <li className="sidebar-item border-b-[3px] py-3">
           <Link to="/garnishment" className="sidebar-link">
             <FaBalanceScaleRight />
             <p>Garnishment Calculator</p>
           </Link>
         </li>
-        <li className="sidebar-item border-b-[3px] py-2">
+        <li className="sidebar-item border-b-[3px] py-3">
           <Link to="/results" className="sidebar-link">
             <BsFillClipboard2DataFill />
             <p> Results</p>
           </Link>
         </li>
-        <li className="sidebar-item border-b-[3px] py-2">
+        <li className="sidebar-item border-b-[3px] py-3">
           <Link to="/setting" className="sidebar-link" >
             <FaTools />
             <p> Settings</p>
           </Link>
           
         </li>
-        <li className="sidebar-item border-b-[3px] py-2">
+        <li className="sidebar-item border-b-[3px] py-3">
           <Link to="/help" className="sidebar-link">
             <HiChatBubbleLeftRight />
             <p> Help !</p>
           </Link>
         </li>
-        <li className="sidebar-item border-b-[3px] py-2 cus_svg">
+        <li className="sidebar-item border-b-[3px] py-3 cus_svg">
           
           <p><Logout /></p>
         </li>
