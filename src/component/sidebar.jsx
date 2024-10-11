@@ -2,7 +2,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo_b from '../Logo_black.png';
-import { FaDashcube, FaHornbill,FaWpforms,FaUserTie, FaRocketchat, FaTools, FaBalanceScaleRight } from 'react-icons/fa';
+import { FaDashcube,FaUserTie, FaTools, FaBalanceScaleRight } from 'react-icons/fa';
+import { BsFillClipboard2DataFill } from "react-icons/bs";
+import { HiChatBubbleLeftRight } from "react-icons/hi2";
+import { CgReadme } from "react-icons/cg";
+
 import Logout from '../pages/Logout';
 
 // import { FaLocationDot } from "react-icons/fa6";
@@ -72,7 +76,7 @@ const Sidebar = () => {
         </li>
         <li className="sidebar-item border-b-[3px] py-2">
           <Link to="/iwo" className="sidebar-link">
-            <FaWpforms />
+            <CgReadme />
             <p>IWO</p>
           </Link>
         </li>
@@ -85,7 +89,7 @@ const Sidebar = () => {
         </li>
         <li className="sidebar-item border-b-[3px] py-2">
           <Link to="/results" className="sidebar-link">
-            <FaHornbill />
+            <BsFillClipboard2DataFill />
             <p> Results</p>
           </Link>
         </li>
@@ -98,7 +102,7 @@ const Sidebar = () => {
         </li>
         <li className="sidebar-item border-b-[3px] py-2">
           <Link to="/help" className="sidebar-link">
-            <FaRocketchat />
+            <HiChatBubbleLeftRight />
             <p> Help !</p>
           </Link>
         </li>
