@@ -245,6 +245,7 @@ function MultipleChild() {
     event.preventDefault();
 
     const filledInputs = [...inputs];
+    const filledArrears = [...arrearInputs];
     
     let newFilledInputs = [...inputs]; // Assuming you have 'inputs' defined
     // while (newFilledInputs.length < 5) {
@@ -252,9 +253,9 @@ function MultipleChild() {
     // }
     // Set filledInputs to state
 
-    const filledArrears = arrearInputs.map((arrear, index) => ({
-  id: index,
-  value: arrearInputs?.value === null || arrearInputs?.value === '' ? '0' : arrearInputs?.value || '0',}));
+  //   const filledArrears = arrearInputs.map((arrear, index) => ({
+  // id: index,
+  // value: arrearInputs?.value === null || arrearInputs?.value === '' ? '0' : arrearInputs?.value || '0',}));
 
     
     setFilledInputs(newFilledInputs);
@@ -278,11 +279,11 @@ function MultipleChild() {
       state,
       number_of_arrear: parseInt(number_of_arrear, 10),
       number_of_garnishment: parseInt(number_of_garnishment, 10),
-      amount_to_withhold_child1: parseFloat(filledInputs[0].value),
-      amount_to_withhold_child2: parseFloat(filledInputs[1].value),
-      amount_to_withhold_child3: parseFloat(filledInputs[2].value),
-      amount_to_withhold_child4: parseFloat(filledInputs[3].value),
-      amount_to_withhold_child5: parseFloat(filledInputs[4].value),
+      amount_to_withhold_child1: parseFloat(filledInputs[0].value)|| 0,
+      amount_to_withhold_child2: parseFloat(filledInputs[1].value)|| 0,
+      amount_to_withhold_child3: parseFloat(filledInputs[2].value)|| 0,
+      amount_to_withhold_child4: parseFloat(filledInputs[3].value)|| 0,
+      amount_to_withhold_child5: parseFloat(filledInputs[4].value)|| 0,
       arrears_greater_than_12_weeks,
       support_second_family,
       arrears_amt_Child1: parseFloat(filledArrears[0].value),
