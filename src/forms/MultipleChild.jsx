@@ -19,6 +19,7 @@ import { RxQuestionMarkCircled } from "react-icons/rx";
 import Swal from 'sweetalert2';
 
 function MultipleChild() {
+  const [errors, setErrors] = useState({});
   const [employee_name, setEmpName] = useState('');
   const [earnings, setEarnings] = useState(''); 
    const [filledInputs, setFilledInputs] = useState([]);
@@ -96,6 +97,15 @@ function MultipleChild() {
     { id: 50, label: 'New York' },
   ];
 
+  const [formData, setFormData] = useState({
+    employee_id: '',
+    employee_name: '',
+    earnings: '',
+    garnishment_fees: '',
+    state: '',
+    // Other form fields...
+  });
+
   const handleState = (event) => {
     setState(event.target.value);
   };
@@ -137,9 +147,9 @@ function MultipleChild() {
     }
   };
 
-  const handleChange = (event) => {
-    setSelectedOption(parseInt(event.target.value, 10));
-  };
+  // const handleChange = (event) => {
+  //   setSelectedOption(parseInt(event.target.value, 10));
+  // };
 
   const handleAddArrearInput = () => {
     if (arrearInputs.length < 5) {
@@ -241,22 +251,59 @@ function MultipleChild() {
     setStateTax('');
   };
 
+  const validate = () => {
+    let formErrors = {};
+
+    // Check for required fields
+    if (!formData.employee_id) {
+      formErrors.employee_id = 'Employee ID is required';
+    }
+    if (!formData.earnings) {
+      formErrors.earnings = 'Earnings are required';
+    } else if (isNaN(formData.earnings) || formData.earnings <= 0) {
+      formErrors.earnings = 'Earnings must be a valid positive number';
+    }
+    if (!formData.state) {
+      formErrors.state = 'State is required';
+    }
+    if (!formData.employee_name) {
+      formErrors.employee_name = 'Employee Name is required';
+    }
+
+    return formErrors;
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    if (errors[name]) {
+      const newErrors = { ...errors };
+  
+      // Check if the field is now valid, and remove the error
+      if (value) {
+        delete newErrors[name]; // Remove the error for this field
+      }
+  
+      setErrors(newErrors); // Update the error state
+    }
+  };
+
+
   const handleSubmit = async (event) => {
+
     event.preventDefault();
 
+    const formErrors = validate();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return; // Stop form submission if validation fails
+    }
     const filledInputs = [...inputs];
     const filledArrears = [...arrearInputs];
     
     let newFilledInputs = [...inputs]; // Assuming you have 'inputs' defined
-    // while (newFilledInputs.length < 5) {
-    //   newFilledInputs.push({ id: newFilledInputs.length + 1, value: '0' });
-    // }
-    // Set filledInputs to state
-
-  //   const filledArrears = arrearInputs.map((arrear, index) => ({
-  // id: index,
-  // value: arrearInputs?.value === null || arrearInputs?.value === '' ? '0' : arrearInputs?.value || '0',}));
-
     
     setFilledInputs(newFilledInputs);
 
@@ -362,16 +409,28 @@ return (
                 <div>
                   <label htmlFor="empID" className="block text-gray-700 text-sm font-bold mb-3">
                     Employee ID <span className="text-red-700"> * </span>:
+                    <div className="inline relative group">
+                          <RxQuestionMarkCircled className="inline custom-note-icon" />
+                                  <div className="absolute bottom-full transform -translate-x-y 
+                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
+                                   ( Employee ID ) require numeric values. Please ensure that you enter only numbers in these fields.
+                                   example: {' API123# '}
+                                      
+                                  </div>
+                                  </div>
                   </label>  
                   <select value={employee_id}   onChange={handleChangeName} id="countries" className=" appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
                         <option value="">Select Employee</option>
                         {options.map((option) => (
                           <option key={option.employee_id}   value={(parseInt(option.employee_id,10))}>
-                            {option.employee_name}_{option.employee_id} 
+                            {option.employee_name}-{option.employee_id} 
                           </option>
                         ))}
                       </select>
+                      {errors.employee_id && <span className="cutom_error" style={{ color: 'red' }}>{errors.employee_id}</span>}  
                 </div>
+               
+      
                 <div>
                   <label htmlFor="empName" className="block text-gray-700 text-sm font-bold mb-2">
                     Employee Name:
@@ -387,6 +446,8 @@ return (
                     disabled
                     
                   />
+                  {errors.employee_name && <span className="cutom_error" style={{ color: 'red' }}>{errors.employee_name}</span>}  
+               
                 </div>
                 <div>
                   <label htmlFor="earning" className="block text-gray-700 text-sm font-bold mb-2">
@@ -401,6 +462,7 @@ return (
                     value={earnings}
                     onChange={(e) => setEarnings(parseFloat(e.target.value, 10))}
                   />
+                   {errors.earnings && <span className="cutom_error" style={{ color: 'red' }}>{errors.earnings}</span>} 
                 </div>
 
                 <div>

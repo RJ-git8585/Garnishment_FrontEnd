@@ -47,6 +47,13 @@ margin-right:4px ;
     display:flex;
 }
 
+span.cutom_error {
+  font-size: 12px;
+  margin-bottom: 10px;
+  position: relative;
+  top: 8px;
+  display: block;
+}
 .sidebar {
   height: 100%;
   width: 18%;
@@ -94,7 +101,9 @@ h1.edit-profile.mt-6.inline-block svg {
 {
   display: inline-block;
   margin:2px;
-}.cus_svg svg {
+}
+
+.cus_svg svg {
   display: inline-flex;
   vertical-align: middle;
   font-size: 18px;

@@ -13,6 +13,7 @@ import StudentLoan from '../forms/StudentLoan';
 import { BASE_URL } from '../Config';
 import MultipleStudentLoan from '../forms/MultipleStudentLoan';
 import FederalTax from '../forms/FederalTax';
+import StateTax from '../forms/StateTax';
 
 function Garnishment( ) {
   // /Users/sourabhkosti/Desktop/code/Ritik/Garnishment_React-main/src/pages/forms 
@@ -184,7 +185,7 @@ tabs Section  */}
         {activeTab === 'Student loan' && <div> <StudentLoan></StudentLoan></div>}
         {activeTab === 'MultiStudentLoan' && <div> <MultipleStudentLoan></MultipleStudentLoan></div>}
         {activeTab === 'Federal Tax' && <div> <FederalTax></FederalTax></div>}
-        {activeTab === 'State Tax' && <div>StateTax Calculation Coming Soon......</div>}
+        {activeTab === 'State Tax' && <div><StateTax></StateTax></div>}
         {activeTab === 'Creditor' && <div>Creditor Calculation Coming Soon......</div>}
       </div>
 
