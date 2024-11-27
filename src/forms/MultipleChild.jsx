@@ -538,6 +538,7 @@ return (
                   <input
                     type="number"
                     id="number_of_arrears"
+                    min="1"
                     placeholder='Enter Number of Arrears'
                     className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_arrear}

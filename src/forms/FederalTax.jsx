@@ -285,6 +285,10 @@ function FederalTax() {
                     </select>
 
                   </div>
+                  </div>
+             <h6 className='mt-4 mb-4 font-bold  text-sm'>TAX DETAILS : </h6>
+             <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+            
                   <div>
                     <label htmlFor="local_tax" className="block text-gray-700 text-sm font-bold mb-2">
                     Local Tax:
@@ -356,6 +360,7 @@ function FederalTax() {
                       onChange={(e) => setUnitedWayContribution(parseFloat(e.target.value))}
                     />
                   </div>
+                 
                   <div>
                     <label htmlFor="social_and_security" className="block text-gray-700 text-sm font-bold mb-2">
                     Social Security Tax:
