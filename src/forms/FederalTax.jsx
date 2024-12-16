@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 function FederalTax() {
   const [employee_name, setEmpName] = useState('');
-  const [earnings, setEarnings] = useState('');
+  const [disposable_income, setDisposableIncome] = useState('');
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [pay_period, setPay] = useState('');
@@ -16,15 +16,15 @@ function FederalTax() {
   const [filing_status, setFilingStatus] = useState('');
   const [employee_id, setEmployeeId] = useState(null);
   const [calculationResult, setCalculationResult] = useState(null);
-  const [local_tax, setlocal_tax] = useState(null);
-  const [workers_compensation, setworkers_compensation] = useState(null);
-  const [medical_insurance, setmedical_insurance] = useState(null);
-  const [contribution, setcontribution] = useState(null);
-  const [united_way_contribution, setUnitedWayContribution] = useState(null);
-  const [social_and_security, setSocialandSecurity] = useState(null);
-  const [medicare_tax, setMedicareTax] = useState(null);
-  const [state_tax, setStateTax] = useState(null);
-  const [federal_income_tax, setFederalIncomeTaxRate] = useState(null);
+  // const [local_tax, setlocal_tax] = useState(null);
+  // const [workers_compensation, setworkers_compensation] = useState(null);
+  // const [medical_insurance, setmedical_insurance] = useState(null);
+  // const [contribution, setcontribution] = useState(null);
+  // const [united_way_contribution, setUnitedWayContribution] = useState(null);
+  // const [social_and_security, setSocialandSecurity] = useState(null);
+  // const [medicare_tax, setMedicareTax] = useState(null);
+  // const [state_tax, setStateTax] = useState(null);
+  // const [federal_income_tax, setFederalIncomeTaxRate] = useState(null);
   const [options, setOptions] = useState([]);
   const employer_id = parseInt(sessionStorage.getItem("id"));
 
@@ -56,21 +56,21 @@ function FederalTax() {
       employer_id,
       employee_id,
       employee_name,
-      earnings,
+      disposable_income,
       garnishment_fees,
       order_id,
       pay_period,
       no_of_exception,
       filing_status,
-      local_tax,
-      workers_compensation,
-      medical_insurance,
-      contribution,
-      united_way_contribution,
-      social_and_security,
-      medicare_tax,
-      state_tax,
-      federal_income_tax
+      // local_tax,
+      // workers_compensation,
+      // medical_insurance,
+      // contribution,
+      // united_way_contribution,
+      // social_and_security,
+      // medicare_tax,
+      // state_tax,
+      // federal_income_tax
     };
 
     try {
@@ -111,30 +111,31 @@ function FederalTax() {
         showConfirmButton: false, // Hide the confirm button
         timer: 3000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
+        didClose: () => window.scrollTo(0, document.body.scrollHeight)
     });
     }
   };
 
   const handleReset = () => {
     setEmpName('');
-    setEarnings('');
+    setDisposableIncome('');
     setGarnishmentFees('');
     setOrderID('');
     setPay('');
     setExceptions(0);
     setFilingStatus('');
     setCalculationResult(null);
-    setlocal_tax('');
-    setworkers_compensation('');
-    setmedical_insurance('');
+    // setlocal_tax('');
+    // setworkers_compensation('');
+    // setmedical_insurance('');
     setGarnishmentFees('');
-    setcontribution('');
-    setUnitedWayContribution('');
-    setSocialandSecurity('');
-    setmedical_insurance('');
-    setMedicareTax('');
-    setStateTax('');
-    setFederalIncomeTaxRate('');
+    // setcontribution('');
+    // setUnitedWayContribution('');
+    // setSocialandSecurity('');
+    // setmedical_insurance('');
+    // setMedicareTax('');
+    // setStateTax('');
+    // setFederalIncomeTaxRate('');
   };
 
   const handleChange = (e) => {
@@ -204,17 +205,17 @@ function FederalTax() {
                     />
                   </div>
                   <div>
-                    <label htmlFor="earning" className="block text-gray-700 text-sm font-bold mb-2">
-                      Earnings:
+                    <label htmlFor="DisposableIncome" className="block text-gray-700 text-sm font-bold mb-2">
+                    Disposable Income:
                     </label>
                     <input
                       type="number"
                       step="0.01"
-                        placeholder='Enter Earnings'
-                      id="earning"
+                        placeholder='Enter Disposable Income'
+                      id="disposable_income"
                       className=" appearance-none border text-sm  rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={earnings}
-                      onChange={(e) => setEarnings(parseFloat(e.target.value,10))}
+                      value={disposable_income}
+                      onChange={(e) => setDisposableIncome(parseFloat(e.target.value,10))}
                     />
                   </div>
                  
@@ -286,10 +287,10 @@ function FederalTax() {
 
                   </div>
                   </div>
-             <h6 className='mt-4 mb-4 font-bold  text-sm'>TAX DETAILS : </h6>
-             <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+             {/* <h6 className='mt-4 mb-4 font-bold  text-sm'>TAX DETAILS : </h6> */}
+             {/* <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2"> */}
             
-                  <div>
+                  {/* <div>
                     <label htmlFor="local_tax" className="block text-gray-700 text-sm font-bold mb-2">
                     Local Tax:
                     </label>
@@ -302,9 +303,9 @@ function FederalTax() {
                       value={local_tax}
                       onChange={(e) => setlocal_tax(parseFloat(e.target.value))}
                     />
-                  </div>
+                  </div> */}
              
-                  <div>
+                  {/* <div>
                     <label htmlFor="workers_compensation" className="block text-gray-700 text-sm font-bold mb-2">
                     Workers Compensation:
                     </label>
@@ -317,8 +318,8 @@ function FederalTax() {
                       value={workers_compensation}
                       onChange={(e) => setworkers_compensation(parseFloat(e.target.value))}
                     />
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <label htmlFor="medical_insurance" className="block text-gray-700 text-sm font-bold mb-2">
                     Medical Insurance:
                     </label>
@@ -331,8 +332,8 @@ function FederalTax() {
                       value={medical_insurance}
                       onChange={(e) => setmedical_insurance(parseFloat(e.target.value))}
                     />
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <label htmlFor="contribution" className="block text-gray-700 text-sm font-bold mb-2">
                     Contribution
                     </label>
@@ -345,8 +346,8 @@ function FederalTax() {
                       value={contribution}
                       onChange={(e) => setcontribution(parseFloat(e.target.value))}
                     />
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <label htmlFor="united_way_contribution" className="block text-gray-700 text-sm font-bold mb-2">
                     United Way Contribution:
                     </label>
@@ -359,9 +360,9 @@ function FederalTax() {
                       value={united_way_contribution}
                       onChange={(e) => setUnitedWayContribution(parseFloat(e.target.value))}
                     />
-                  </div>
+                  </div> */}
                  
-                  <div>
+                  {/* <div>
                     <label htmlFor="social_and_security" className="block text-gray-700 text-sm font-bold mb-2">
                     Social Security Tax:
                     </label>
@@ -374,8 +375,8 @@ function FederalTax() {
                       value={social_and_security}
                       onChange={(e) => setSocialandSecurity(parseFloat(e.target.value))}
                     />
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
                     Medicare Tax:
                     </label>
@@ -388,8 +389,8 @@ function FederalTax() {
                       value={medicare_tax}
                       onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
                     />
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <label htmlFor="state_tax" className="block text-gray-700 text-sm font-bold mb-2">
                     State Tax:
                     </label>
@@ -402,8 +403,8 @@ function FederalTax() {
                       value={state_tax}
                       onChange={(e) => setStateTax(parseFloat(e.target.value))}
                     />
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
                     Federal Income Tax:
                     </label>
@@ -416,11 +417,11 @@ function FederalTax() {
                       value={federal_income_tax}
                       onChange={(e) => setFederalIncomeTaxRate(parseFloat(e.target.value))}
                     />
-                  </div>
+                  </div> */}
 
              
              
-             </div>
+             {/* </div> */}
                 
               
                 <div className="flex items-center sm:mx-auto sm:w-full sm:max-w-lg justify-center mt-4">
@@ -445,7 +446,7 @@ function FederalTax() {
              <div className="result-section shadow appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                  
                 {/* <h2>Calculation Result:</h2> */}
-                <p>{calculationResult.result}</p>
+                <p>Result: {calculationResult.result}</p>
               </div>
             )}
             </div>

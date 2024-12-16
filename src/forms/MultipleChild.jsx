@@ -8,19 +8,11 @@ import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
 import { RxQuestionMarkCircled } from "react-icons/rx";
 
-
-
-
-
-
-
-
-
 import Swal from 'sweetalert2';
 
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
-  const [earnings, setEarnings] = useState(''); 
+  const [disposable_income, setDisposableIncome] = useState(''); 
    const [filledInputs, setFilledInputs] = useState([]);
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
@@ -36,11 +28,40 @@ function MultipleChild() {
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
   const style = { color: "#b90707", fontSize: "1.2em" };
-  const [federal_income_tax, setFederalIncmoeTax] = useState('');
-  const [social_tax, setSocialTax] = useState('');
-  const [medicare_tax, setMedicareTax] = useState('');
-  const [state_tax, setStateTax] = useState('');
-  const [newresult, setnewResult] = useState('');
+  // const [federal_income_tax, setFederalIncmoeTax] = useState('');
+  // const [social_tax, setSocialTax] = useState('');
+  // const [medicare_tax, setMedicareTax] = useState('');
+  // const [state_tax, setStateTax] = useState('');
+  // const [newresult, setnewResult] = useState('');
+
+// addtinal filed for new increament feature usnig react from new-----------------------------------------
+    
+// State to hold the number of fields and field values
+    const [numFields, setNumFields] = useState(0);
+    const [fieldValues, setFieldValues] = useState([]);
+  
+    // Handle number input change
+    const handleNumberChange = (e) => {
+      // alert('this is testing');
+      const number = parseInt(e.target.value) || 0;
+      setNumFields(number);
+      // Adjust the field values array based on the number of fields
+      setFieldValues(new Array(number).fill(''));
+        if (number < 5) {
+          // alert(number)d
+          setIsChecked(true); // Check the checkbox if value > 5
+        } else {
+          setIsChecked(false); // Uncheck otherwise
+        }
+
+    };
+  
+    // Handle dynamic field value changes
+    const handleFieldChange = (index, value) => {
+      const updatedValues = [...fieldValues];
+      updatedValues[index] = value;
+      setFieldValues(updatedValues);
+    };
 
   const StateList = [
     { id: 1, label: 'Alabama' },
@@ -57,7 +78,7 @@ function MultipleChild() {
     { id: 12, label: 'Kansas' },
     { id: 13, label: 'Kentucky' },
     { id: 14, label: 'Louisiana' },
-    { id: 14, label: 'Maine' },
+    { id: 511, label: 'Maine' },
     { id: 15, label: 'Maryland' },
     { id: 16, label: 'Massachusetts' },
     { id: 17, label: 'Michigan' },
@@ -224,21 +245,21 @@ function MultipleChild() {
   const handleReset = () => {
     setSelectedOption('');
     setEmpName('');
-    setEarnings('');
+    setDisposableIncome('');
     setGarnishmentFees('');
     setOrderID('');
     setState('');
     setnumber_of_arrears('');
-     setnumber_of_ganishment('');
+    setnumber_of_ganishment('');
     setIsChecked(false);
     setIsCheckedFamily(false);
     setInputs([{ id: 1, value: '' }]);
     setCalculationResult('');
     setArrearInputs([{ id: 1, value: '' }]);
-    setFederalIncmoeTax('');
-    setSocialTax('');
-    setMedicareTax('');
-    setStateTax('');
+    // setFederalIncmoeTax('');
+    // setSocialTax('');
+    // setMedicareTax('');
+    // setStateTax('');
   };
 
   const handleSubmit = async (event) => {
@@ -267,9 +288,10 @@ function MultipleChild() {
       employer_id,
       employee_id,
       employee_name,
-      earnings: parseFloat(earnings),  // Ensure it's a number
+      disposable_income: parseFloat(disposable_income),  // Ensure it's a number
       garnishment_fees: parseFloat(garnishment_fees),
-      order_id: parseInt(order_id, 10),
+      // order_id: parseInt(order_id, 10),
+      order_id,
       state,
       number_of_arrear: parseInt(number_of_arrear, 10),
       number_of_garnishment: parseInt(number_of_garnishment, 10),
@@ -285,10 +307,10 @@ function MultipleChild() {
       arrears_amt_Child3: parseFloat(filledArrears[2].value),
       arrears_amt_Child4: parseFloat(filledArrears[3].value),
       arrears_amt_Child5: parseFloat(filledArrears[4].value),
-      federal_income_tax: parseFloat(federal_income_tax),
-      social_tax: parseFloat(social_tax),
-      medicare_tax: parseFloat(medicare_tax),
-      state_tax: parseFloat(state_tax),
+      // federal_income_tax: parseFloat(federal_income_tax),
+      // social_tax: parseFloat(social_tax),
+      // medicare_tax: parseFloat(medicare_tax),
+      // state_tax: parseFloat(state_tax),
     };
 
   try {
@@ -318,9 +340,12 @@ function MultipleChild() {
       text: "Now Calculation result will show below the form !!",
       showConfirmButton: false, // Hide the confirm button
       timer: 3000, // Auto close after 3 seconds
-      timerProgressBar: true, // Show a progress bar
+      timerProgressBar: true, 
+      didClose: () => window.scrollTo(0, document.body.scrollHeight)// Show a progress bar
   });
 
+  
+  window.scrollTo({ bottom: 1000, behavior: 'smooth' });
     // Set the calculation result
     setCalculationResult(resultLoanData.data[0]);
     // toast.success(`Result: ${resultLoanData.data[0].result}`);
@@ -334,7 +359,8 @@ function MultipleChild() {
       text: "Now Calculation result will not stored !!",
       showConfirmButton: false, // Hide the confirm button
       timer: 3000, // Auto close after 3 seconds
-      timerProgressBar: true, // Show a progress bar
+      timerProgressBar: true,
+      didClose: () => window.scrollTo(0, document.body.scrollHeight)// Show a progress bar
   });
     // toast.error(`Error: ${error.message}`);
 }
@@ -384,16 +410,16 @@ return (
                 </div>
                 <div>
                   <label htmlFor="earning" className="block text-gray-700 text-sm font-bold mb-2">
-                    Earnings <span className="text-red-700"> * </span>:
+                  Disposable Income <span className="text-red-700"> * </span>:
                   </label>
                   <input
                     type="number"
                     step="0.01"
-                    id="earning"
-                    placeholder='Enter Earning'
+                    id="disposable_income"
+                    placeholder='Enter Disposable Income'
                     className=" text-right appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={earnings}
-                    onChange={(e) => setEarnings(parseFloat(e.target.value, 10))}
+                    value={disposable_income}
+                    onChange={(e) => setDisposableIncome(parseFloat(e.target.value, 10))}
                   />
                 </div>
 
@@ -445,12 +471,12 @@ return (
                                   </div>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     id="orderID"
                      placeholder='Enter Order Id'
                     className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={order_id}
-                    onChange={(e) => setOrderID(parseInt(e.target.value, 10))}
+                    onChange={(e) => setOrderID(e.target.value)}
                   />
                 </div>
 
@@ -473,7 +499,9 @@ return (
                     placeholder='Enter Number of Arrears'
                     className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_arrear}
-                    onChange={(e) => setnumber_of_arrears(parseInt(e.target.value, 10))}
+                    onChange={(e) => {setnumber_of_arrears(parseInt(e.target.value, 10));
+                      handleNumberChange(e);
+                    }}
                   />
                 </div>
 
@@ -481,7 +509,7 @@ return (
                  
                   
                           <label htmlFor="number_of_garnishment" className="block text-gray-700 text-sm font-bold mb-2">
-                          Number of Garnishment  <span className="text-red-700"> *  </span>:
+                          No. of Child Support  <span className="text-red-700"> *  </span>:
                           <div className="inline relative group">
                           <RxQuestionMarkCircled className="inline custom-note-icon" />
                                   <div className="absolute bottom-full transform -translate-x-y 
@@ -526,6 +554,7 @@ return (
                   onClick={handleAddArrearInput} >
                   Add Arrears Amount
                 </button>
+                
                 <div className=" appearance-none border mt-4 p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                 {arrearInputs.map((input, index) => (
 
@@ -580,10 +609,10 @@ return (
                    ))}
 
              </div>
-             <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
-                  <div>
+             {/* <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+                  {/* <div> */}
                     
-                              <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
+                              {/* <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
                                 Federal Income Tax <span className="text-red-700"> * </span>:
                                 <div className="inline relative group">
                                 <RxQuestionMarkCircled className="inline custom-note-icon" />
@@ -594,7 +623,7 @@ return (
                                           </div>
                               </label>
                      
-                      <input
+                 <input
                         type="number"
                         step="0.01"
                         placeholder='Enter Federal Income Tax'
@@ -602,10 +631,10 @@ return (
                         className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         value={federal_income_tax}
                         onChange={(e) => setFederalIncmoeTax(parseFloat(e.target.value))}
-                      />
-                  </div>
+                      /> */}
+                  {/* </div> */} 
                   {/* SOCIAL&SECURITY_TAX */}
-                  <div>
+                  {/* <div>
                       <label htmlFor="social_tax" className="block text-gray-700 text-sm font-bold mb-2">
                         Social Security Tax <span className="text-red-700"> * </span>:
                         <div className="inline relative group">
@@ -626,9 +655,9 @@ return (
                         value={social_tax}
                         onChange={(e) => setSocialTax(parseFloat(e.target.value))}
                       />
-                  </div>
+                  </div> */}
 
-                  <div>
+                  {/* <div>
                       <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
                         Medicare Tax <span className="text-red-700"> * </span>:
                         <div className="inline relative group">
@@ -649,9 +678,9 @@ return (
                         value={medicare_tax}
                         onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
                       />
-                  </div>
+                  </div> */}
                     {/*  */}
-                  <div>
+                  {/* <div>
                       <label htmlFor="state_tax" className="block text-gray-700 text-sm font-bold mb-2">
                         State Tax <span className="text-red-700"> * </span>:
                         <div className="inline relative group">
@@ -672,8 +701,8 @@ return (
                         value={state_tax}
                         onChange={(e) => setStateTax(parseFloat(e.target.value))}
                       />
-                  </div>
-                  </div>
+                  </div> */}
+                  {/* </div> */}
 
               <div className="flex items-center sm:mx-auto sm:w-full sm:max-w-lg justify-center mt-4">
                 <button
@@ -686,7 +715,7 @@ return (
                 <button
                   type="reset"
                   onClick={handleReset}
-                  className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-blue-500 m-2 sm:mx-auto sm:w-full text-sm mb-10 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
                   Reset
                 </button>
@@ -694,7 +723,7 @@ return (
 {/*               <ToastContainer /> */}
             </form>
 {calculationResult && (
-       <div className="result-section  appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+       <div id="calculation_results" className="result-section  appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                  
           <p>Garnishment Amount: {calculationResult.result}</p>
           <p>Net Pay: {calculationResult.net_pay}</p>
@@ -715,9 +744,11 @@ return (
           {filledInputs.length >= 5 && (
             <p>Allowed Amount for Child5: {calculationResult.amount_to_withhold_child5}</p>
           )}
+          
         </div>
+        
       )}
-
+          <div className="p-10"></div>
           </div>
         </div>
       </div>

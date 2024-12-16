@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 
 function StudentLoan() {
   const [employee_name, setEmpName] = useState('');
-  const [earnings, setEarnings] = useState('');
+  const [disposable_income, setDisposableIncome] = useState('');
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [employee_id, setSelectedOption] = useState(null);
@@ -16,13 +16,13 @@ function StudentLoan() {
   const [options, setOptions] = useState([]);
   const employer_id = parseInt(sessionStorage.getItem("id"));
 
-  const [federal_income_tax, setFederalIncmoeTax] = useState('');
-  const [social_and_security_tax, setSocialAndSecurityTax] = useState('');
-  // const [social_and_security, setSocialAndSecurityTax] = useState('');
+  // const [federal_income_tax, setFederalIncmoeTax] = useState('');
+  // const [social_and_security_tax, setSocialAndSecurityTax] = useState('');
+  // // const [social_and_security, setSocialAndSecurityTax] = useState('');
 
-  const [medicare_tax, setMedicareTax] = useState('');
-  const [state_tax, setStateTax] = useState('');
-  const [SDI_tax, setSDITax] = useState('');
+  // const [medicare_tax, setMedicareTax] = useState('');
+  // const [state_tax, setStateTax] = useState('');
+  // const [SDI_tax, setSDITax] = useState('');
   
 
   useEffect(() => {
@@ -56,14 +56,14 @@ function StudentLoan() {
       employer_id,
       employee_id,
       employee_name,
-      earnings,
+      disposable_income,
       garnishment_fees,
       order_id,
-      federal_income_tax,
-      social_and_security_tax,
-      medicare_tax,
-      state_tax,
-      SDI_tax
+      // federal_income_tax,
+      // social_and_security_tax,
+      // medicare_tax,
+      // state_tax,
+      // SDI_tax
     };
 
     try {
@@ -83,6 +83,7 @@ function StudentLoan() {
         showConfirmButton: false, // Hide the confirm button
         timer: 3000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
+        didClose: () => window.scrollTo(0, document.body.scrollHeight)
     });
     
 
@@ -109,15 +110,15 @@ function StudentLoan() {
 
   const handleReset = () => {
     setEmpName('');
-    setEarnings('');
+    setDisposableIncome('');
     setGarnishmentFees('');
     setOrderID('');
     setCalculationResult(null);
-    setFederalIncmoeTax('');
-    setMedicareTax('');
-    setStateTax('');
-    setSDITax('');
-    setSocialAndSecurityTax('');
+    // setFederalIncmoeTax('');
+    // setMedicareTax('');
+    // setStateTax('');
+    // setSDITax('');
+    // setSocialAndSecurityTax('');
   };
 
   const handleChange = (event) => {
@@ -196,11 +197,11 @@ function StudentLoan() {
                     <input
                       type="number"
                       step="0.01"
-                      id="earning"
+                      id="disposable_income"
                       placeholder='Enter Earning'
                       className=" appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={earnings}
-                      onChange={(e) => setEarnings(parseFloat(e.target.value,10))}
+                      value={disposable_income}
+                      onChange={(e) => setDisposableIncome(parseFloat(e.target.value,10))}
                       required
                       />
                   </div>
@@ -237,8 +238,8 @@ function StudentLoan() {
 
                   </div>
                   {/* TUESDAY */}
-                  <h6 className='mt-4 mb-4 font-bold  text-sm'>TAX DETAILS : </h6>
-                  <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+                  {/* <h6 className='mt-4 mb-4 font-bold  text-sm'>TAX DETAILS : </h6> */}
+                  {/* <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
             
                  <div>
                     <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
@@ -258,9 +259,9 @@ function StudentLoan() {
                     
 
                       />
-                  </div>
+                  </div> */}
                   {/* SOCIAL&SECURITY_TAX */}
-                  <div>
+                  {/* <div>
 
                     <label htmlFor="social_and_security_tax" className="block text-gray-700 text-sm font-bold mb-2">
                       Social Security Tax:
@@ -276,9 +277,9 @@ function StudentLoan() {
                       required
 
                       />
-                  </div>
+                  </div> */}
                   {/*  */}
-                  <div>
+                  {/* <div>
                     <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
                       Medicare Tax:
                     </label>
@@ -292,9 +293,9 @@ function StudentLoan() {
                       onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
                       required
                       />
-                  </div>
+                  </div> */}
                     {/*  */}
-                  <div>
+                  {/* <div>
                     <label htmlFor="state_tax" className="block text-gray-700 text-sm font-bold mb-2">
                       State Tax:
                     </label>
@@ -308,9 +309,9 @@ function StudentLoan() {
                       onChange={(e) => setStateTax(parseFloat(e.target.value))}
                       required
                       />
-                  </div>
+                  </div> */}
                   {/*  */}
-                  <div>
+                  {/* <div>
                     <label htmlFor="sdi_tax" className="block text-gray-700 text-sm font-bold mb-2">
                       SDI Tax:
                     </label>
@@ -326,10 +327,10 @@ function StudentLoan() {
                       onChange={(e) => setSDITax(parseFloat(e.target.value))}
                       required
                       />
-                  </div>
+                  </div> */}
                   {/* TUESDAY */}
 
-             </div>
+             {/* </div> */}
                             
                            
                 <div className="flex items-center sm:mx-auto sm:w-full sm:max-w-lg justify-center mt-4">
