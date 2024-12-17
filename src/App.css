@@ -333,6 +333,10 @@ button.sidebar-link {
   color: #000;
 }
 
+.active {
+  background-color: #6e6887 !important;
+}
+
 /* media start here from */
 @media only screen and (max-width: 1024px) {
 
@@ -352,6 +356,7 @@ button.sidebar-link {
     right: 30px;
     top: 155px;
 }
+
 
   @media only screen and (max-width: 768px) {
     .right_side_login {
