@@ -283,6 +283,7 @@ const handleChangePay = (e) => {
       filledInputs.push({ id: filledInputs.length + 1, value: '0' });
     }
 
+    
     while (filledArrears.length < 5) {
       filledArrears.push({ id: filledArrears.length + 1, value: '0' });
     }
@@ -291,7 +292,7 @@ const handleChangePay = (e) => {
     const postData = {
 
       batch_id:generateUniqueNumber(),
-      
+
     "rows":[{
       employer_id,
       employee_id,

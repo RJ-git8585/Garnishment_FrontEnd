@@ -259,6 +259,7 @@ function FederalTax() {
                     <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
                       Pay Period:
                     </label>
+                    
                     <select id="options" value={pay_period} onChange={handleChangePay} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       name="options">
                       <option value="weekly">Weekly</option>
