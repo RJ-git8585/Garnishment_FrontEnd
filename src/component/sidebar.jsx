@@ -32,7 +32,7 @@ const Sidebar = () => {
         <li className="sidebar-item">
           <Link to="/dashboard" className="sidebar-link">
             <img
-              className="h-6 logo-inner mb-6 ml-4 w-auto custom_logo_side"
+              className="h-6 logo-inner mb-6 ml-2 w-auto custom_logo_side"
               src={logo_b}
               alt="Garnishment"
             />

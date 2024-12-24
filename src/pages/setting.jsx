@@ -79,7 +79,7 @@
   <span className="ms-3 text-sm font-medium  dark:text-gray-600">Active Profile for Others</span>
 </label>  
 {isChecked && ( // Conditionally render the text
-        <p id="text">Dark mode click This is the text that will be shown when the checkbox is checked.</p>
+        <p id="text" style={{ color: isChecked ? 'white' : 'black', backgroundColor: isChecked ? 'black' : 'transparent' }}>Dark mode click This is the text that will be shown when the checkbox is checked.</p>
       )}
       {isActiveChecked && ( // Conditionally render the text
         <p id="text">isActiveChecked is clicked for new setting save if you want </p>

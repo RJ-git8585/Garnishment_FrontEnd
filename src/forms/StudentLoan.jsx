@@ -186,7 +186,7 @@ function StudentLoan() {
                   </div>
                   <div>
                     <label htmlFor="earning" className="block text-gray-700 text-sm font-bold mb-2">
-                    Disposable Income:
+                    Disposable Earning:
                     </label>
                     <input
                       type="number"

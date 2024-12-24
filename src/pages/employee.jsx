@@ -168,11 +168,11 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
                                 {editId === item.employee_id ? (
                                   <input
                                     type="number"
-                                    value={editableFields.number_of_garnishment}
-                                    onChange={(e) => setEditableFields({ ...editableFields, number_of_garnishment: e.target.value })}
+                                    value={editableFields.number_of_child_support_order}
+                                    onChange={(e) => setEditableFields({ ...editableFields, number_of_child_support_order: e.target.value })}
                                   />
                                 ) : (
-                                  item.number_of_garnishment
+                                  item.number_of_child_support_order
                                 )}
                               </td>
                               <td className="p-2 text-xs sm:text-sm">
