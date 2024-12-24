@@ -458,7 +458,7 @@ function FederalTax() {
              <div className="result-section shadow appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                  
                 {/* <h2>Calculation Result:</h2> */}
-                <p>Result: $ {calculationResult.result}</p>
+                <p>Result: ${calculationResult.result}</p>
               </div>
             )}
             </div>
