@@ -124,8 +124,8 @@ function editItemComponent({id,onDeleteSuccess, onDeleteError}) {
                                   </div>
                                   <div className="mt-2">
                                     <input 
-                                      id="number_of_garnishment"
-                                      name="number_of_garnishment"
+                                      id="number_of_child_support_order"
+                                      name="number_of_child_support_order"
                                       type="number"
                                       step="1"
                                       min="1" max="5"

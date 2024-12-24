@@ -18,7 +18,7 @@ function AddEmployee() {
     const [employee_name, setName] = useState('');
     const [department, setDepart] = useState('');
      const [pay_cycle, setPayCycle] = useState('');
-    const [number_of_garnishment, setNumberGarnihsment] = useState('');
+    const [number_of_child_support_order, setNumberGarnihsment] = useState('');
       const [location, setLocation] = useState('');
       const employer_id = sessionStorage.getItem("id");
 
@@ -98,7 +98,7 @@ const handleReset = () => {
             employee_name,
             department,
             pay_cycle,
-            number_of_garnishment,
+            number_of_child_support_order,
             location
           };
 
@@ -251,7 +251,7 @@ const handleReset = () => {
                               step="1"
                               placeholder="Enter Number of Garnishment"
                               min="1" max="5"
-                              value={number_of_garnishment}
+                              value={number_of_child_support_order}
                               onChange={(e) => setNumberGarnihsment(e.target.value)}    
                               // autoComplete="current-password"
                               
