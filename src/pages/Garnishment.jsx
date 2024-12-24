@@ -14,7 +14,7 @@
     import { BASE_URL } from '../Config';
     import MultipleStudentLoan from '../forms/MultipleStudentLoan';
     import FederalTax from '../forms/FederalTax';
-    import MultipleGarnishments from '../forms/MultipleGarnishments';
+    // import MultipleGarnishments from '../forms/MultipleGarnishments';
     // import StateTax from '../forms/StateTax';  
 
     function Garnishment( ) {
@@ -180,11 +180,11 @@
               onClick={() => handleTabClick('Creditor')}>
               Creditor
             </button> */}
-            <button 
+            {/* <button 
               className={activeTab === 'Multiple Garnishments' ? 'active inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4' : 'inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4'} 
               onClick={() => handleTabClick('Multiple Garnishments')}>
               Multiple Garnishments 
-            </button>
+            </button> */}
           </div>
 
           {/* Tab content */}
@@ -195,7 +195,7 @@
             {activeTab === 'Federal Tax' && <div> <FederalTax></FederalTax></div>}
             {/* {activeTab === 'State Tax' && <div><StateTax></StateTax></div>}
             {activeTab === 'Creditor' && <div>Creditor Calculation Coming Soon......</div>} */}
-            {activeTab === 'Multiple Garnishments' && <div><MultipleGarnishments></MultipleGarnishments></div>}
+            {/* {activeTab === 'Multiple Garnishments' && <div><MultipleGarnishments></MultipleGarnishments></div>} */}
           </div>
                   </form>
                   
