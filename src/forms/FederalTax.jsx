@@ -325,6 +325,7 @@ function FederalTax() {
                  
                 {/* <h2>Calculation Result:</h2> */}
                 <p>Result: ${calculationResult.result}</p>
+                <p>Net Pay: ${calculationResult.net_pay}</p>
               </div>
             )}
             </div>
