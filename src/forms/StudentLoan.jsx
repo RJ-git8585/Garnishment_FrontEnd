@@ -16,14 +16,13 @@ function StudentLoan() {
   const [options, setOptions] = useState([]);
   const employer_id = parseInt(sessionStorage.getItem("id"));
 
-  // const [federal_income_tax, setFederalIncmoeTax] = useState('');
-  // const [social_and_security_tax, setSocialAndSecurityTax] = useState('');
-  // // const [social_and_security, setSocialAndSecurityTax] = useState('');
 
-  // const [medicare_tax, setMedicareTax] = useState('');
-  // const [state_tax, setStateTax] = useState('');
-  // const [SDI_tax, setSDITax] = useState('');
-  
+
+  function generateUniqueNumber() {
+    const timestamp = Date.now().toString(36); // Convert timestamp to base-36 (alphanumeric)
+      const randomString = Math.random().toString(36).substring(2, 8); // Random alphanumeric string
+      return timestamp + randomString; // Combine both for uniqueness
+} 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,10 +33,6 @@ function StudentLoan() {
         if (jsonData.data) {
           setOptions(jsonData.data); // Set employee options
 
-          // (jsonData.data[0].employee_id);
-          // setEmpName(jsonData.data[0].employee_name);
-
-          
 
         }
       } catch (error) {
@@ -53,18 +48,16 @@ function StudentLoan() {
     event.preventDefault();
 
     const postData = {
+
+      batch_id:generateUniqueNumber(),
+    "rows":[{
       employer_id,
       employee_id,
       employee_name,
       disposable_income,
       garnishment_fees,
       order_id,
-      // federal_income_tax,
-      // social_and_security_tax,
-      // medicare_tax,
-      // state_tax,
-      // SDI_tax
-    };
+    }]};
 
     try {
       const response = await fetch(`${BASE_URL}/User/StudentLoanCalculationData/`, {
@@ -226,14 +219,13 @@ function StudentLoan() {
                       Order ID:
                     </label>
                     <input
-                      type="number"
-                      id="orderID"
-                       placeholder='Enter Order Id'
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={order_id}
-                      onChange={(e) => setOrderID(parseInt(e.target.value))}
-                      required
-                      />
+                    type="text"
+                    id="orderID"
+                     placeholder='Enter Order Id'
+                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={order_id}
+                    onChange={(e) => setOrderID(e.target.value)}
+                  />
                   </div>
 
                   </div>
@@ -355,8 +347,8 @@ function StudentLoan() {
                <div className="result-section shadow appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                  
 {/*                 <h3>Calculation Result:</h3> */}
-                  <p>Garnishment Result: {calculationResult.garnishment_amount}</p>
-                  <p>Net Pay: {calculationResult.net_pay}</p>
+                  <p>Garnishment Result: {calculationResult.garnishment_amount} $</p>
+                  <p>Net Pay: {calculationResult.net_pay} $</p>
                   {/* <Swal {...calculationResult} /> */}
                   {/* <p>{Swal.fire('{calculationResult.garnishment_amount}')}</p> */}
                 </div>

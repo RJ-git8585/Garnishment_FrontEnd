@@ -12,7 +12,7 @@ function FederalTax() {
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [pay_period, setPay] = useState('');
-  const [no_of_exception, setExceptions] = useState(0);
+  const [no_of_exception, setExceptions] = useState('');
   const [filing_status, setFilingStatus] = useState('');
   const [employee_id, setEmployeeId] = useState(null);
   const [calculationResult, setCalculationResult] = useState(null);
@@ -27,6 +27,13 @@ function FederalTax() {
   // const [federal_income_tax, setFederalIncomeTaxRate] = useState(null);
   const [options, setOptions] = useState([]);
   const employer_id = parseInt(sessionStorage.getItem("id"));
+
+  function generateUniqueNumber() {
+    const timestamp = Date.now().toString(36); // Convert timestamp to base-36 (alphanumeric)
+      const randomString = Math.random().toString(36).substring(2, 8); // Random alphanumeric string
+      return timestamp + randomString; // Combine both for uniqueness
+}   
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +60,8 @@ function FederalTax() {
     event.preventDefault();
 
     const postData = {
+      batch_id:generateUniqueNumber(),
+      "rows":[{
       employer_id,
       employee_id,
       employee_name,
@@ -71,7 +80,7 @@ function FederalTax() {
       // medicare_tax,
       // state_tax,
       // federal_income_tax
-    };
+    }]};
 
     try {
       const response = await fetch(`${BASE_URL}/User/FederalCaseData/`, {
@@ -238,13 +247,13 @@ function FederalTax() {
                       Order ID:
                     </label>
                     <input
-                      type="number"
-                      id="orderID"
-                      placeholder='Enter Order ID'
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={order_id}
-                      onChange={(e) => setOrderID(parseInt(e.target.value))}
-                    />
+                    type="text"
+                    id="orderID"
+                     placeholder='Enter Order Id'
+                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={order_id}
+                    onChange={(e) => setOrderID(e.target.value)}
+                  />
                   </div>
                   <div>
                     <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
@@ -252,12 +261,12 @@ function FederalTax() {
                     </label>
                     <select id="options" value={pay_period} onChange={handleChangePay} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       name="options">
-                      <option value="Weekly">Weekly</option>
-                      <option value="Daily"> Daily</option>
-                      <option value="Biweekly">Biweekly
+                      <option value="weekly">Weekly</option>
+                      <option value="daily"> Daily</option>
+                      <option value="biweekly">Biweekly
                       </option>
-                      <option value="Semimonthly">Semimonthly</option>
-                      <option value="Monthly">Monthly</option>
+                      <option value="semimonthly">Semimonthly</option>
+                      <option value="monthly">Monthly</option>
                     </select>
                   </div>
                   <div>
@@ -266,6 +275,8 @@ function FederalTax() {
                     </label>
                     <input
                       type="number"
+                      min="1"
+                      step="1"
                       id="Exception"
                       placeholder='Enter No Of Exemptions'
                       className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

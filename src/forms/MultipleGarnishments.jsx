@@ -12,8 +12,10 @@ import Swal from 'sweetalert2';
 
 function MultipleGarnishments() {
   const [employee_name, setEmpName] = useState('');
+  const [pay_period, setPay] = useState('');
+  const [no_of_exception, setExceptions] = useState(0);
   const [disposable_income, setDisposableIncome] = useState(''); 
-   const [filledInputs, setFilledInputs] = useState([]);
+  const [filledInputs, setFilledInputs] = useState([]);
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
@@ -27,16 +29,51 @@ function MultipleGarnishments() {
   const [calculationResult, setCalculationResult] = useState('');
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
+   const [filing_status, setFilingStatus] = useState('');
   const style = { color: "#b90707", fontSize: "1.2em" };
-  // const [federal_income_tax, setFederalIncmoeTax] = useState('');
-  // const [social_tax, setSocialTax] = useState('');
-  // const [medicare_tax, setMedicareTax] = useState('');
-  // const [state_tax, setStateTax] = useState('');
-  // const [newresult, setnewResult] = useState('');
 
-// addtinal filed for new increament feature usnig react from new-----------------------------------------
+
+  const handleChangefiled = (event) => {
+    const inputValue = event.target.no_of_exception;  
+    const maxNumber = 5;
+
+    // Check if the input is a number and less than or equal to maxNumber
+    if (!isNaN(inputValue) && Number(inputValue) <= maxNumber) {
+      
+      setValue(inputValue);
+      alert(inputValue);
+    }
     
-// State to hold the number of fields and field values
+  };
+
+  const optionsradio = [
+    'Child Support',
+    'Bankruptcy Orders',
+    'Federal Tax Levy',
+    'State Tax Levy',
+    'Local Tax Levy',
+    'Federal Agency Garnishments (Non-IRS)',
+    'Creditor Debt',
+    'Student Loan Default',
+  ];
+
+  // State to hold selected value
+  const [selectedOptionradio, setSelectedOptionRadio] = useState([]);
+
+  const handleChangeoptionredio = (e) => {
+    const { value, checked } = event.target;
+
+    setSelectedOptionRadio((prevSelected) => {
+      if (checked) {
+        // Add value to selectedOptions if checked
+        return [...prevSelected, value];
+      } else {
+        // Remove value if unchecked
+        return prevSelected.filter((item) => item !== value);
+      }
+    });
+  };
+  
     const [numFields, setNumFields] = useState(0);
     const [fieldValues, setFieldValues] = useState([]);
   
@@ -56,6 +93,9 @@ function MultipleGarnishments() {
 
     };
   
+    const handleChangeStatus = (e) => {
+      setFilingStatus(e.target.value);
+    };
     // Handle dynamic field value changes
     const handleFieldChange = (index, value) => {
       const updatedValues = [...fieldValues];
@@ -120,6 +160,10 @@ function MultipleGarnishments() {
   const handleState = (event) => {
     setState(event.target.value);
   };
+
+  const handleChangePay = (e) => {
+    setPay(e.target.value);
+  }; 
 
   const handleAddInput = () => {
     if (inputs.length < 5) {
@@ -249,6 +293,7 @@ function MultipleGarnishments() {
     setGarnishmentFees('');
     setOrderID('');
     setState('');
+    setPay('');
     setnumber_of_arrears('');
     setnumber_of_ganishment('');
     setIsChecked(false);
@@ -285,6 +330,7 @@ function MultipleGarnishments() {
 
     // Convert string inputs to numbers before sending to the backend
     const postData = {
+      
       employer_id,
       employee_id,
       employee_name,
@@ -293,6 +339,8 @@ function MultipleGarnishments() {
       // order_id: parseInt(order_id, 10),
       order_id,
       state,
+      pay_period,
+      no_of_exception,
       number_of_arrear: parseInt(number_of_arrear, 10),
       number_of_garnishment: parseInt(number_of_garnishment, 10),
       amount_to_withhold_child1: parseFloat(filledInputs[0].value),
@@ -302,15 +350,13 @@ function MultipleGarnishments() {
       amount_to_withhold_child5: parseFloat(filledInputs[4].value),
       arrears_greater_than_12_weeks,
       support_second_family,
+      selectedOptionradio,
       arrears_amt_Child1: parseFloat(filledArrears[0].value),
       arrears_amt_Child2: parseFloat(filledArrears[1].value),
       arrears_amt_Child3: parseFloat(filledArrears[2].value),
       arrears_amt_Child4: parseFloat(filledArrears[3].value),
       arrears_amt_Child5: parseFloat(filledArrears[4].value),
-      // federal_income_tax: parseFloat(federal_income_tax),
-      // social_tax: parseFloat(social_tax),
-      // medicare_tax: parseFloat(medicare_tax),
-      // state_tax: parseFloat(state_tax),
+     
     };
 
   try {
@@ -322,13 +368,7 @@ function MultipleGarnishments() {
     });
 
     if (!postResponse.ok) throw new Error('Failed to submit data');
-    // toast.success('Data submitted successfully! Fetching results...');
-
-    // const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-    // const resultData = await getResult.json();
-    // if (!getResult.ok) throw new Error('Failed to fetch calculation data');
-
-    // Fetch additional results if needed
+   
     const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
     const resultLoanData = await resultResponse.json();
     if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
@@ -377,7 +417,7 @@ return (
              <h6 className='mt-4 mb-4 font-bold  text-sm'>EMPLOYEE DETAILS : </h6>
              
 
-              <div className=" appearance-none border-slate-900 border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+              <div className=" appearance-none border-slate-900 border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                 
                 <div>
                   <label htmlFor="empID" className="block text-gray-700 text-sm font-bold mb-3">
@@ -436,10 +476,87 @@ return (
                       ))}
                     </select>
                 </div>
+
                 </div>
-                <h6 className='mt-4 mb-4 font-bold  text-sm'>GARNISHMENT DETAILS :</h6>
-                <div className=" appearance-none border-slate-500 border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+
+                <h6 className='mt-4 mb-4 font-bold  text-sm'>Select Garnishment Type Please(Select Multiple if you wan): </h6>
+                <div className=" appearance-none border-slate-500 border text-sm p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+                {/* <div className="p-6 max-w-xl mx-auto"> */}
+      {/* Mapping Checkboxes */}
+      {optionsradio.map((option, index) => (
+        <div key={index} className="mb-1">
+          <label className="text-2xl  flex items-center space-x-2">
+            <input
+              type="checkbox"
+              className="block text-gray-700 text-sm font-bold "
+              value={option}
+              checked={selectedOptionradio.includes(option)}
+              onChange={handleChangeoptionredio}
+            />
+            <span className="text-sm font-bold ">{option}</span>
+          </label>
+        </div>
+      ))}
+    {/* </div> */}
+</div>
+     
+    
                
+                <h6 className='mt-4 mb-4 font-bold  text-sm'>GARNISHMENT DETAILS :</h6>
+                <div className=" appearance-none border-slate-500 border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
+                <div>
+                    <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
+                      Pay Period:
+                    </label>
+                    <select id="options" value={pay_period} onChange={handleChangePay} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      name="options">
+                      <option value="Weekly">Weekly</option>
+                      <option value="Daily"> Daily</option>
+                      <option value="Biweekly">Biweekly
+                      </option>
+                      <option value="Semimonthly">Semimonthly</option>
+                      <option value="Monthly">Monthly</option>
+                    </select>
+                  </div>
+                  <div>
+                  <label htmlFor="options" className="block text-gray-700 text-sm font-bold mb-2">Filling Status:</label>
+                    <select id="options" value={filing_status} onChange={handleChangeStatus} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      name="options">
+                       <option value="single filing status"> Single filing status</option>
+                      <option value="married filing sepearte return">Married filing sepearte return</option>
+                      <option value="married filing joint return">Married filing joint return
+                      </option>
+                     
+                      <option value="head of household">Head of household</option>
+                    </select>
+
+                  </div>
+
+
+                  <div>
+                    <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
+                    No of Exemptions:
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                       max="5"
+                      id="Exception"
+                      onWheel={(e) => e.target.blur()}
+                      // max={"maxNumber"}
+                      placeholder='Enter No Of Exemptions'
+                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      value={no_of_exception}
+                      // onChange={(e) => setExceptions(parseInt(e.target.value))}
+
+                      onChange={(e) => {setExceptions(parseInt(e.target.value, 10));
+                        handleChangefiled(e);
+                      }}
+                     
+                    />
+                  </div>
+
+                  
 
                 <div>
                   <label htmlFor="garnishmentFees" className="block text-gray-700 text-sm font-bold mb-2">
@@ -502,6 +619,7 @@ return (
                     onChange={(e) => {setnumber_of_arrears(parseInt(e.target.value, 10));
                       handleNumberChange(e);
                     }}
+                    handleChangefiled
                   />
                 </div>
 
@@ -548,12 +666,12 @@ return (
           </div>
             {arrears_greater_than_12_weeks && (
               <>
-                <button
+                {/* <button
                   type="button"
                   className="rounded-md bg-indigo-600 px-3.5  py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={handleAddArrearInput} >
                   Add Arrears Amount
-                </button>
+                </button> */}
                 
                 <div className=" appearance-none border mt-4 p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                 {arrearInputs.map((input, index) => (
@@ -579,13 +697,13 @@ return (
             )}
 
             <div className="flex items-center mt-4 mb-4">
-              <button
-                type="button"
-                className="rounded-md bg-indigo-600 px-3.5  py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                onClick={handleAddInput}
-              >
-                Add Child Withhold Amount
-              </button>
+                {/* <button
+                  type="button"
+                  className="rounded-md bg-indigo-600 px-3.5  py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  onClick={handleAddInput}
+                >
+                  Add Child Withhold Amount
+                </button> */}
             </div>
             <div className=" appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
             {inputs.map((input, index) => (
@@ -609,100 +727,7 @@ return (
                    ))}
 
              </div>
-             {/* <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
-                  {/* <div> */}
-                    
-                              {/* <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                                Federal Income Tax <span className="text-red-700"> * </span>:
-                                <div className="inline relative group">
-                                <RxQuestionMarkCircled className="inline custom-note-icon" />
-                                          <div className="absolute bottom-full transform w-48 -translate-x-y 
-                                          hidden group-hover:block bg-gray-600 text-white text-sm px-3 py-1 rounded  mini-font">
-                                       ( Federal Income Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
-                                          </div>
-                                          </div>
-                              </label>
-                     
-                 <input
-                        type="number"
-                        step="0.01"
-                        placeholder='Enter Federal Income Tax'
-                        id="federal_income_tax"
-                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={federal_income_tax}
-                        onChange={(e) => setFederalIncmoeTax(parseFloat(e.target.value))}
-                      /> */}
-                  {/* </div> */} 
-                  {/* SOCIAL&SECURITY_TAX */}
-                  {/* <div>
-                      <label htmlFor="social_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        Social Security Tax <span className="text-red-700"> * </span>:
-                        <div className="inline relative group">
-                          <RxQuestionMarkCircled className="inline custom-note-icon" />
-                                  <div className="absolute bottom-full transform -translate-x-y 
-                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
-                                   ( Social Security Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
-                                      
-                                  </div>
-                                  </div>
-                      </label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        id="social_tax"
-                         placeholder='Enter Social Security Tax'
-                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={social_tax}
-                        onChange={(e) => setSocialTax(parseFloat(e.target.value))}
-                      />
-                  </div> */}
-
-                  {/* <div>
-                      <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        Medicare Tax <span className="text-red-700"> * </span>:
-                        <div className="inline relative group">
-                          <RxQuestionMarkCircled className="inline custom-note-icon" />
-                                  <div className="absolute bottom-full transform -translate-x-y 
-                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
-                                   ( Medicare Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
-                                      
-                                  </div>
-                                  </div>
-                      </label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        id="medicare_tax"
-                       placeholder='Enter Medicare Tax'
-                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={medicare_tax}
-                        onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
-                      />
-                  </div> */}
-                    {/*  */}
-                  {/* <div>
-                      <label htmlFor="state_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        State Tax <span className="text-red-700"> * </span>:
-                        <div className="inline relative group">
-                          <RxQuestionMarkCircled className="inline custom-note-icon" />
-                                  <div className="absolute bottom-full transform -translate-x-y 
-                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
-                                   ( State Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
-                                      
-                                  </div>
-                                  </div>
-                      </label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        id="state_tax"
-                       placeholder='Enter State Tax'
-                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={state_tax}
-                        onChange={(e) => setStateTax(parseFloat(e.target.value))}
-                      />
-                  </div> */}
-                  {/* </div> */}
+     
 
               <div className="flex items-center sm:mx-auto sm:w-full sm:max-w-lg justify-center mt-4">
                 <button

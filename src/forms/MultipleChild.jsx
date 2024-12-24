@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
 import { RxQuestionMarkCircled } from "react-icons/rx";
-
+import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
 function MultipleChild() {
@@ -18,7 +18,7 @@ function MultipleChild() {
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
   const [number_of_arrear, setnumber_of_arrears] = useState('');
-  const [number_of_garnishment, setnumber_of_ganishment] = useState('');
+  const [number_of_child_support_order, setnumber_of_ganishment] = useState('');
   const [arrears_greater_than_12_weeks, setIsChecked] = useState(false);
   const [support_second_family, setIsCheckedFamily] = useState(false);
   const [employee_id, setSelectedOption] = useState(null);
@@ -28,17 +28,21 @@ function MultipleChild() {
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
   const style = { color: "#b90707", fontSize: "1.2em" };
-  // const [federal_income_tax, setFederalIncmoeTax] = useState('');
-  // const [social_tax, setSocialTax] = useState('');
-  // const [medicare_tax, setMedicareTax] = useState('');
-  // const [state_tax, setStateTax] = useState('');
-  // const [newresult, setnewResult] = useState('');
+  const [numFields, setNumFields] = useState(0);
+  const [fieldValues, setFieldValues] = useState([]);
+  const [pay_period, setPay] = useState('');
+  
 
-// addtinal filed for new increament feature usnig react from new-----------------------------------------
-    
-// State to hold the number of fields and field values
-    const [numFields, setNumFields] = useState(0);
-    const [fieldValues, setFieldValues] = useState([]);
+
+  function generateUniqueNumber() {
+    const timestamp = Date.now().toString(36); // Convert timestamp to base-36 (alphanumeric)
+      const randomString = Math.random().toString(36).substring(2, 8); // Random alphanumeric string
+      return timestamp + randomString; // Combine both for uniqueness
+}
+
+const handleChangePay = (e) => {
+  setPay(e.target.value);
+};
   
     // Handle number input change
     const handleNumberChange = (e) => {
@@ -285,6 +289,9 @@ function MultipleChild() {
 
     // Convert string inputs to numbers before sending to the backend
     const postData = {
+
+      batch_id:generateUniqueNumber(),
+    "rows":[{
       employer_id,
       employee_id,
       employee_name,
@@ -293,8 +300,9 @@ function MultipleChild() {
       // order_id: parseInt(order_id, 10),
       order_id,
       state,
+      pay_period,
       number_of_arrear: parseInt(number_of_arrear, 10),
-      number_of_garnishment: parseInt(number_of_garnishment, 10),
+      number_of_child_support_order: parseInt(number_of_child_support_order, 10),
       amount_to_withhold_child1: parseFloat(filledInputs[0].value),
       amount_to_withhold_child2: parseFloat(filledInputs[1].value),
       amount_to_withhold_child3: parseFloat(filledInputs[2].value),
@@ -311,7 +319,7 @@ function MultipleChild() {
       // social_tax: parseFloat(social_tax),
       // medicare_tax: parseFloat(medicare_tax),
       // state_tax: parseFloat(state_tax),
-    };
+    }]};
 
   try {
     // First, send the POST request
@@ -455,7 +463,20 @@ return (
                     onChange={(e) => setGarnishmentFees(parseFloat(e.target.value, 10))}
                   />
                 </div>
-                
+                <div>
+                    <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
+                      Pay Period:
+                    </label>
+                    <select id="options" value={pay_period} onChange={handleChangePay} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      name="options">
+                      <option value="weekly">Weekly</option>
+                      {/* <option value="Daily"> Daily</option> */}
+                      <option value="biweekly">Biweekly
+                      </option>
+                      {/* <option value="Semimonthly">Semimonthly</option> */}
+                      {/* <option value="Monthly">Monthly</option> */}
+                    </select>
+                  </div>
                
                 <div>
                   <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
@@ -525,7 +546,7 @@ return (
                     id="number_of_garnishment"
                     placeholder='Enter Number of Garnishment'
                     className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    value={number_of_garnishment}
+                    value={number_of_child_support_order}
                     onChange={(e) => setnumber_of_ganishment(parseInt(e.target.value, 10))}
                   />
                   {/* <p className="text-red-700 custom-note"> Need to enter number for Fields.</p>   */}
@@ -725,24 +746,24 @@ return (
 {calculationResult && (
        <div id="calculation_results" className="result-section  appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                  
-          <p>Garnishment Amount: {calculationResult.result}</p>
-          <p>Net Pay: {calculationResult.net_pay}</p>
+          <p>Garnishment Amount: {calculationResult.result} $</p>
+          <p>Net Pay: {calculationResult.net_pay} $</p>
           
           {/* Display based on the number of filled inputs */}
           {filledInputs.length >= 1 && (
-            <p>Allowed Amount for Child1: {calculationResult.amount_to_withhold_child1}</p>
+            <p>Allowed Amount for Child1: {calculationResult.amount_to_withhold_child1} $</p>
           )}
           {filledInputs.length >= 2 && (
-            <p>Allowed Amount for Child2: {calculationResult.amount_to_withhold_child2}</p>
+            <p>Allowed Amount for Child2: {calculationResult.amount_to_withhold_child2} $</p>
           )}
           {filledInputs.length >= 3 && (
-            <p>Allowed Amount for Child3: {calculationResult.amount_to_withhold_child3}</p>
+            <p>Allowed Amount for Child3: {calculationResult.amount_to_withhold_child3} $</p>
           )}
           {filledInputs.length >= 4 && (
-            <p>Allowed Amount for Child4: {calculationResult.amount_to_withhold_child4}</p>
+            <p>Allowed Amount for Child4: {calculationResult.amount_to_withhold_child4} $</p>
           )}
           {filledInputs.length >= 5 && (
-            <p>Allowed Amount for Child5: {calculationResult.amount_to_withhold_child5}</p>
+            <p>Allowed Amount for Child5: {calculationResult.amount_to_withhold_child5} $</p>
           )}
           
         </div>
