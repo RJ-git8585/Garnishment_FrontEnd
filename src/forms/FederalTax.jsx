@@ -39,7 +39,7 @@ function FederalTax() {
     const fetchData = async () => {
       try {
         const id = sessionStorage.getItem("id");
-        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
+        const response = await fetch(`${BASE_URL}/User/FederalCaseBatchResult/${id}/`);
         const jsonData = await response.json();
         if (jsonData.data) {
           // setEmployeeId(jsonData.data[0].employee_id);
