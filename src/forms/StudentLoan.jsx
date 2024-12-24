@@ -185,13 +185,13 @@ function StudentLoan() {
                   </div>
                   <div>
                     <label htmlFor="earning" className="block text-gray-700 text-sm font-bold mb-2">
-                      Earnings:
+                    Disposable Earning:
                     </label>
                     <input
                       type="number"
                       step="0.01"
                       id="disposable_income"
-                      placeholder='Enter Earning'
+                      placeholder='Enter Disposable Earning'
                       className=" appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       value={disposable_income}
                       onChange={(e) => setDisposableIncome(parseFloat(e.target.value,10))}
