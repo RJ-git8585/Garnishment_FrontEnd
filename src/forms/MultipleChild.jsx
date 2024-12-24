@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
 import { RxQuestionMarkCircled } from "react-icons/rx";
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
 function MultipleChild() {
