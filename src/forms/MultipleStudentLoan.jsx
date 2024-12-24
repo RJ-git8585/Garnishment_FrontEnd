@@ -395,18 +395,18 @@ function MultipleStudentLoan() {
                   >
                     Reset
                   </button>
-                  
+
                 </div>  
              {/*<ToastContainer /> */}
               </form>
               {calculationResult && (
                 <div className="result-section shadow appearance-none mb-4 border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                   {/* <h3>Calculation Result:</h3> */}
-                  <p>Garnishment Result: {calculationResult.garnishment_amount} $</p>
-                  <p>Net Pay: {calculationResult.net_pay} $</p>
-                  <p>Student Loan 1: {calculationResult.StudentLoanAmount1} $</p>
-                  <p>Student Loan 2: {calculationResult.StudentLoanAmount2} $</p>
-                  <p>Student Loan 3: {calculationResult.StudentLoanAmount3} $</p>
+                  <p>Garnishment Result: $ {calculationResult.garnishment_amount} </p>
+                  <p>Net Pay: $ {calculationResult.net_pay} </p>
+                  <p>Student Loan 1: $ {calculationResult.StudentLoanAmount1} </p>
+                  <p>Student Loan 2: $ {calculationResult.StudentLoanAmount2} </p>
+                  <p>Student Loan 3: $ {calculationResult.StudentLoanAmount3} </p>
                 </div>
               )}
             </div>

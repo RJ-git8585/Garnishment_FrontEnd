@@ -22,16 +22,12 @@ function AddEmployee() {
       const [location, setLocation] = useState('');
       const employer_id = sessionStorage.getItem("id");
 
-      const handleReset = () => {
-                 setName('');
-                setDepart('');
-                setPayCycle('');
-                setNumberGarnihsment('');
-                setLocation('');
-      };
+      
       const handleState = (event) => {
         setLocation(event.target.value);
       };
+
+
 
       const StateList = [
         { id: 1, label: 'Alabama' },
@@ -87,7 +83,13 @@ function AddEmployee() {
         { id: 50, label: 'New York' },
       ];
     
-
+const handleReset = () => {
+                 setName('');
+                setDepart('');
+                setPayCycle('');
+                setNumberGarnihsment('');
+                setLocation('');
+      };
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -121,20 +123,20 @@ function AddEmployee() {
                   timer: 3000, // Auto close after 3 seconds
                   timerProgressBar: true, // Show a progress bar
               });
-              setTimeout(function(){
-                window.location.reload();
-             }, 3000);
+            //   setTimeout(function(){
+            //     window.location.reload();
+            //  }, 3000);
                 // navigate('/employee', { replace: true });
-                handleReset();
+               
 
-                // Clear the form
-                setName('');
-                setDepart('');
-                // setNet('');
-                // setMinWages('');
-                setPayCycle('');
-                setNumberGarnihsment('');
-                setLocation('');
+                // // Clear the form
+                // setName('');
+                // setDepart('');
+                // // setNet('');
+                // // setMinWages('');
+                // setPayCycle('');
+                // setNumberGarnihsment('');
+                // setLocation('');
               } else {
                 // Handle submission errors
                 console.error('Error submitting data:', response.statusText);

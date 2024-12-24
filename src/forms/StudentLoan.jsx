@@ -343,13 +343,13 @@ function StudentLoan() {
                 </div>  
             {/* <ToastContainer/> */}
               </form>
-              
+
               {calculationResult && (
                <div className="result-section shadow appearance-none border mt-4 rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                  
 {/*                 <h3>Calculation Result:</h3> */}
-                  <p>Garnishment Result: {calculationResult.garnishment_amount} $</p>
-                  <p>Net Pay: {calculationResult.net_pay} $</p>
+                  <p>Garnishment Result: $ {calculationResult.garnishment_amount} </p>
+                  <p>Net Pay: $ {calculationResult.net_pay} </p>
                   {/* <Swal {...calculationResult} /> */}
                   {/* <p>{Swal.fire('{calculationResult.garnishment_amount}')}</p> */}
                 </div>
