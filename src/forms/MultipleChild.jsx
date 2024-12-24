@@ -291,6 +291,7 @@ const handleChangePay = (e) => {
     const postData = {
 
       batch_id:generateUniqueNumber(),
+      
     "rows":[{
       employer_id,
       employee_id,
