@@ -39,7 +39,7 @@ function FederalTax() {
     const fetchData = async () => {
       try {
         const id = sessionStorage.getItem("id");
-        const response = await fetch(`${BASE_URL}/User/FederalCaseBatchResult/${id}/`);
+        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
         const jsonData = await response.json();
         if (jsonData.data) {
           // setEmployeeId(jsonData.data[0].employee_id);
@@ -103,7 +103,7 @@ function FederalTax() {
     });
     
 
-      const resultResponse = await fetch(`${BASE_URL}/User/FederalCaseResult/${employer_id}/${employee_id}/`);
+      const resultResponse = await fetch(`${BASE_URL}/User/FederalCaseBatchResult/${employer_id}/${employee_id}/`);
       const resultData = await resultResponse.json();
       if (!resultResponse.ok) throw new Error('Failed to fetch results');
 
