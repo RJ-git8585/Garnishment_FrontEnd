@@ -273,10 +273,6 @@ const handleChangePay = (e) => {
     const filledArrears = [...arrearInputs];
     
     let newFilledInputs = [...inputs]; // Assuming you have 'inputs' defined
-    // while (newFilledInputs.length < 5) {
-    //   newFilledInputs.push({ id: newFilledInputs.length + 1, value: '0' });
-    // }
-    // Set filledInputs to state
     setFilledInputs(newFilledInputs);
 
     while (filledInputs.length < 5) {
@@ -332,13 +328,7 @@ const handleChangePay = (e) => {
     });
 
     if (!postResponse.ok) throw new Error('Failed to submit data');
-    // toast.success('Data submitted successfully! Fetching results...');
-
-    // const getResult = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
-    // const resultData = await getResult.json();
-    // if (!getResult.ok) throw new Error('Failed to fetch calculation data');
-
-    // Fetch additional results if needed
+   
     const resultResponse = await fetch(`${BASE_URL}/User/Gcalculations/${employer_id}/${employee_id}/`);
     const resultLoanData = await resultResponse.json();
     if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
