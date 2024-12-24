@@ -7,7 +7,7 @@
     // import 'react-toastify/dist/ReactToastify.css';
     import { FaBalanceScaleRight } from "react-icons/fa";
     // eslint-disable-next-line no-unused-vars
-    
+
 
     import MultipleChild from '../forms/MultipleChild';
     import StudentLoan from '../forms/StudentLoan';
@@ -144,10 +144,7 @@
                               />
                             </div>
                             </div>
-                          {/* </div>
-    tabs Section  */}
-
-          {/* Tab headers */}
+                         
           <div className="tabs mb-6">
           <label htmlFor="empID" className="block italic text-red-700 text-sm font-semibold mb-3">
                           Please Select Garnishment Type:
@@ -200,73 +197,6 @@
             {activeTab === 'Creditor' && <div>Creditor Calculation Coming Soon......</div>} */}
             {activeTab === 'Multiple Garnishments' && <div><MultipleGarnishments></MultipleGarnishments></div>}
           </div>
-
-    {/* Tab Section closed */}
-
-
-
-
-
-                          {/* <div>
-                  <label htmlFor="empID" className="block italic text-red-700 text-sm font-semibold mb-3">
-                          Please Select Garnishment Type:
-                        </label>
-                  <select className="custom-select mb-10 shadow appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm bg-black rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500" value={selectedType} onChange={handleChangeType} required>
-                    
-                    <option value="MultipleChild">Child Support</option>
-                    <option value="StudentLoan">Student loan</option>
-                    <option value="MultiStudentLoan">Multiple Student loan</option>
-                    <option value="FederalTax">Federal Tax</option>
-                    <option value="StateTax">State Tax</option>
-                    <option value="Creditor">Creditor</option>
-            
-                  </select>  
-              </div>
-              */}
-                      {/* {selectedType === 'MultipleChild' && (
-                          <div>
-                        
-                            <MultipleChild></MultipleChild>
-                          
-                          </div>
-                        )} */}
-
-                        {/* {selectedType === 'StudentLoan' && (
-                          <div>
-                            <StudentLoan></StudentLoan>
-                          </div>
-                        )} */}
-                        {/* {selectedType === 'MultiStudentLoan' && (
-                          <div>
-                        <MultipleStudentLoan></MultipleStudentLoan>
-                          </div>
-                        )} */}
-                        {/* {selectedType === 'FederalTax' && (
-                          <div>
-                            <FederalTax></FederalTax>
-                          
-                          </div>
-                        )} */}
-                        {/* {selectedType === 'StateTax' && (
-                          <div>
-                          <h1>StateTax Calculation Coming Soon......</h1>
-                        
-                          </div>
-                        )} */}
-                        {/* {selectedType === 'Creditor' && (
-                          <div>
-                          <h1>Creditor Calculation Coming Soon......</h1>
-                          
-                          </div>
-                        )}   */}
-                        
-
-                        {/* {selectedType === 'Bankruptcy' && (
-                          <div>
-                            <h1>Bankruptcy Calculation Coming Soon.....</h1>
-                            
-                          </div>
-                        )} */}
                   </form>
                   
                 </div>

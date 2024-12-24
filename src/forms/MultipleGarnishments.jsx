@@ -301,10 +301,7 @@ function MultipleGarnishments() {
     setInputs([{ id: 1, value: '' }]);
     setCalculationResult('');
     setArrearInputs([{ id: 1, value: '' }]);
-    // setFederalIncmoeTax('');
-    // setSocialTax('');
-    // setMedicareTax('');
-    // setStateTax('');
+  
   };
 
   const handleSubmit = async (event) => {
@@ -314,10 +311,7 @@ function MultipleGarnishments() {
     const filledArrears = [...arrearInputs];
     
     let newFilledInputs = [...inputs]; // Assuming you have 'inputs' defined
-    // while (newFilledInputs.length < 5) {
-    //   newFilledInputs.push({ id: newFilledInputs.length + 1, value: '0' });
-    // }
-    // Set filledInputs to state
+   
     setFilledInputs(newFilledInputs);
 
     while (filledInputs.length < 5) {
@@ -499,9 +493,7 @@ return (
       ))}
     {/* </div> */}
 </div>
-     
-    
-               
+
                 <h6 className='mt-4 mb-4 font-bold  text-sm'>GARNISHMENT DETAILS :</h6>
                 <div className=" appearance-none border-slate-500 border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                 <div>

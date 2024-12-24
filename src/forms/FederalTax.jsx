@@ -290,7 +290,7 @@ function FederalTax() {
                     <select id="options" value={filing_status} onChange={handleChangeStatus} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       name="options">
                       
-                      <option value="married filing sepearte return">Married filing sepearte return</option>
+                      <option value="married filing sepearte return">Married filing separate return</option>
                       <option value="married filing joint return">Married filing joint return
                       </option>
                       <option value="single filing status"> Single filing status</option>
@@ -299,142 +299,7 @@ function FederalTax() {
 
                   </div>
                   </div>
-             {/* <h6 className='mt-4 mb-4 font-bold  text-sm'>TAX DETAILS : </h6> */}
-             {/* <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2"> */}
-            
-                  {/* <div>
-                    <label htmlFor="local_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                    Local Tax:
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      placeholder='Enter Local Tax'
-                      id="local_tax"
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={local_tax}
-                      onChange={(e) => setlocal_tax(parseFloat(e.target.value))}
-                    />
-                  </div> */}
-             
-                  {/* <div>
-                    <label htmlFor="workers_compensation" className="block text-gray-700 text-sm font-bold mb-2">
-                    Workers Compensation:
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      placeholder='Enter Workers Compensation'
-                      id="workers_compensation"
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={workers_compensation}
-                      onChange={(e) => setworkers_compensation(parseFloat(e.target.value))}
-                    />
-                  </div> */}
-                  {/* <div>
-                    <label htmlFor="medical_insurance" className="block text-gray-700 text-sm font-bold mb-2">
-                    Medical Insurance:
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      placeholder='Enter Medical Insurance'
-                      id="medical_insurance"
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={medical_insurance}
-                      onChange={(e) => setmedical_insurance(parseFloat(e.target.value))}
-                    />
-                  </div> */}
-                  {/* <div>
-                    <label htmlFor="contribution" className="block text-gray-700 text-sm font-bold mb-2">
-                    Contribution
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      id="contribution"
-                        placeholder='Enter Contribution'
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={contribution}
-                      onChange={(e) => setcontribution(parseFloat(e.target.value))}
-                    />
-                  </div> */}
-                  {/* <div>
-                    <label htmlFor="united_way_contribution" className="block text-gray-700 text-sm font-bold mb-2">
-                    United Way Contribution:
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                       placeholder='Enter United Way Contribution'
-                      id="united_way_contribution"
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={united_way_contribution}
-                      onChange={(e) => setUnitedWayContribution(parseFloat(e.target.value))}
-                    />
-                  </div> */}
-                 
-                  {/* <div>
-                    <label htmlFor="social_and_security" className="block text-gray-700 text-sm font-bold mb-2">
-                    Social Security Tax:
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                        placeholder='Enter Social Security Tax'
-                      id="social_and_security"
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={social_and_security}
-                      onChange={(e) => setSocialandSecurity(parseFloat(e.target.value))}
-                    />
-                  </div> */}
-                  {/* <div>
-                    <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                    Medicare Tax:
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      placeholder='Enter Medicare Tax'
-                      id="medicare_tax"
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={medicare_tax}
-                      onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
-                    />
-                  </div> */}
-                  {/* <div>
-                    <label htmlFor="state_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                    State Tax:
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      id="state_tax"
-                       placeholder='Enter State Tax'
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={state_tax}
-                      onChange={(e) => setStateTax(parseFloat(e.target.value))}
-                    />
-                  </div> */}
-                  {/* <div>
-                    <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                    Federal Income Tax:
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                        placeholder='Enter  Federal Income Tax'
-                      id="federal_income_tax"
-                      className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      value={federal_income_tax}
-                      onChange={(e) => setFederalIncomeTaxRate(parseFloat(e.target.value))}
-                    />
-                  </div> */}
 
-             
-             
-             {/* </div> */}
-                
               
                 <div className="flex items-center sm:mx-auto sm:w-full sm:max-w-lg justify-center mt-4">
                   <button
