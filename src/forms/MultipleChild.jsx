@@ -30,7 +30,7 @@ function MultipleChild() {
   const style = { color: "#b90707", fontSize: "1.2em" };
   const [numFields, setNumFields] = useState(0);
   const [fieldValues, setFieldValues] = useState([]);
-  const [pay_period, setPay] = useState('');
+  const [pay_period, setPay] = useState('weekly');
   
 
 
@@ -283,7 +283,7 @@ const handleChangePay = (e) => {
       filledInputs.push({ id: filledInputs.length + 1, value: '0' });
     }
 
-    
+
     while (filledArrears.length < 5) {
       filledArrears.push({ id: filledArrears.length + 1, value: '0' });
     }
