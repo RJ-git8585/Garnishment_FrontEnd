@@ -146,7 +146,7 @@
                             </div>
                          
           <div className="tabs mb-6">
-          <label htmlFor="empID" className="block italic text-red-700 text-sm font-semibold mb-3">
+          <label htmlFor="empID" className="block  text-red-700 text-sm font-semibold mb-3">
                           Please Select Garnishment Type:
                         </label>
           
