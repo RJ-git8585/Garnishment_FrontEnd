@@ -250,7 +250,7 @@ function FederalTax() {
                     type="text"
                     id="orderID"
                      placeholder='Enter Order Id'
-                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" appearance-none border text-left rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={order_id}
                     onChange={(e) => setOrderID(e.target.value)}
                   />
@@ -272,7 +272,7 @@ function FederalTax() {
                   </div>
                   <div>
                     <label htmlFor="orderID" className="block text-gray-700 text-sm font-bold mb-2">
-                    No of Exemptions:
+                    No. of Exemptions:
                     </label>
                     <input
                       type="number"

@@ -417,7 +417,7 @@ return (
                     step="0.01"
                     id="disposable_income"
                     placeholder='Enter Disposable Income'
-                    className=" text-right appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" text-left appearance-none border text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={disposable_income}
                     onChange={(e) => setDisposableIncome(parseFloat(e.target.value, 10))}
                   />
@@ -450,7 +450,7 @@ return (
                     step="0.01"
                     id="garnishmentFees"
                     placeholder='Enter Fees'
-                    className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" appearance-none text-left border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={garnishment_fees}
                     onChange={(e) => setGarnishmentFees(parseFloat(e.target.value, 10))}
                   />
@@ -487,7 +487,7 @@ return (
                     type="text"
                     id="orderID"
                      placeholder='Enter Order Id'
-                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" appearance-none border text-left rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={order_id}
                     onChange={(e) => setOrderID(e.target.value)}
                   />
@@ -510,7 +510,7 @@ return (
                     type="number"
                     id="number_of_arrears"
                     placeholder='Enter Number of Arrears'
-                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" appearance-none border text-left rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_arrear}
                     onChange={(e) => {setnumber_of_arrears(parseInt(e.target.value, 10));
                       handleNumberChange(e);
@@ -537,7 +537,7 @@ return (
                     type="number"
                     id="number_of_garnishment"
                     placeholder='Enter Number of Garnishment'
-                    className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className=" appearance-none border text-left rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_child_support_order}
                     onChange={(e) => setnumber_of_ganishment(parseInt(e.target.value, 10))}
                   />
@@ -583,7 +583,7 @@ return (
                       value={input.value}
                       placeholder='Enter Amount'
                       onChange={(event) => handleArrearInputChange(event, index)}
-                      className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className=" appearance-none border text-left rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                   </div>
                 ))}
@@ -614,7 +614,7 @@ return (
                   placeholder='Enter amount'
                   value={input.value}
                   onChange={(event) => handleInputChange(event, index)}
-                  className=" appearance-none border text-right rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className=" appearance-none border text-left rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 />
 
               {/* TUESDAY */}
