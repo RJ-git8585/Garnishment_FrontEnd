@@ -11,7 +11,7 @@ function FederalTax() {
   const [disposable_income, setDisposableIncome] = useState('');
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
-  const [pay_period, setPay] = useState('');
+  const [pay_period, setPay] = useState('weekly');
   const [no_of_exception, setExceptions] = useState('');
   const [filing_status, setFilingStatus] = useState('');
   const [employee_id, setEmployeeId] = useState(null);
