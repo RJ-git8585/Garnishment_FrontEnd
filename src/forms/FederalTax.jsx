@@ -262,12 +262,12 @@ function FederalTax() {
 
                     <select id="options" value={pay_period} onChange={handleChangePay} className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       name="options">
-                      <option value="weekly">Weekly</option>
-                      <option value="daily"> Daily</option>
-                      <option value="biweekly">Biweekly
+                      <option value="Weekly">Weekly</option>
+                      <option value="Daily"> Daily</option>
+                      <option value="Biweekly">Biweekly
                       </option>
-                      <option value="semimonthly">Semimonthly</option>
-                      <option value="monthly">Monthly</option>
+                      <option value="Semimonthly">Semimonthly</option>
+                      <option value="Monthly">Monthly</option>
                     </select>
                   </div>
                   <div>
