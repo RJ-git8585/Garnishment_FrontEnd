@@ -103,7 +103,7 @@ function FederalTax() {
     });
     
 
-      const resultResponse = await fetch(`${BASE_URL}/User/FederalCaseBatchResult/${employer_id}/${employee_id}/`);
+      const resultResponse = await fetch(`${BASE_URL}/User/FederalCaseResult/${employer_id}/${employee_id}/`);
       const resultData = await resultResponse.json();
       if (!resultResponse.ok) throw new Error('Failed to fetch results');
 
