@@ -279,6 +279,7 @@ function FederalTax() {
                       type="number"
                       min="1"
                       step="1"
+                      max="10"
                       id="Exception"
                       placeholder='Enter No Of Exemptions'
                       className=" appearance-none border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

@@ -509,11 +509,13 @@ return (
                   <input
                     type="number"
                     id="number_of_arrears"
+                    min="0"
+                    max="5"
                     placeholder='Enter Number of Arrears'
                     className=" appearance-none border text-left rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_arrear}
                     onChange={(e) => {setnumber_of_arrears(parseInt(e.target.value, 10));
-                      handleNumberChange(e);
+                      // handleNumberChange(e);
                     }}
                   />
                 </div>
@@ -527,7 +529,7 @@ return (
                           <RxQuestionMarkCircled className="inline custom-note-icon" />
                                   <div className="absolute bottom-full transform -translate-x-y 
                                   hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
-                                   ( Number of Garnishment ) require numeric values. Please ensure that you enter only numbers in these fields.
+                                   ( Number of Child Support ) require numeric values. Please ensure that you enter only numbers in these fields.
                                       
                                   </div>
                                   </div>
@@ -536,7 +538,9 @@ return (
                   <input
                     type="number"
                     id="number_of_garnishment"
-                    placeholder='Enter Number of Garnishment'
+                     min="0"
+                    max="5"
+                    placeholder='Enter Number of Child Support'
                     className=" appearance-none border text-left rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     value={number_of_child_support_order}
                     onChange={(e) => setnumber_of_ganishment(parseInt(e.target.value, 10))}
