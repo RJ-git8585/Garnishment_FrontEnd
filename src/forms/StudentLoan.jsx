@@ -97,6 +97,7 @@ function StudentLoan() {
         showConfirmButton: false, // Hide the confirm button
         timer: 3000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
+        didClose: () => window.scrollTo(0, document.body.scrollHeight)
     });
     }
   };
