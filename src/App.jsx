@@ -37,6 +37,7 @@ import Results from './pages/results';
 // eslint-disable-next-line no-unused-vars
 import Test from './component/test';
 import PublicRoute from './component/PublicRoute';
+import Siganture from './document/Siganture';
 function App() {
   return (
     <>
@@ -70,6 +71,7 @@ function App() {
         <Route path="/results" element={<PrivateRoute><Results /></PrivateRoute>} />
         <Route path="/addtax" element={<PrivateRoute><AddTax /></PrivateRoute>} />
         <Route path="*" element={<Notfound />} />
+        <Route path="/docs" element={<Siganture />} />
         {/* <Route path="/SingleChild" element={<SingleChild />} />  */}
         <Route path="apis" element={<Apis />} />
         <Route path="test" element={<PrivateRoute><Test /></PrivateRoute> } />
