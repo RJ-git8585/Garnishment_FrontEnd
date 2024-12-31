@@ -1,7 +1,7 @@
 // import React from 'react'
 import { FaCode } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import  { useState } from 'react';
 import { Authentication,CompanyOnboarding,EmployeeOnboarding } from '../constants/apiConstants'; // Import multiple constants
  // Import multiple constants
@@ -39,7 +39,9 @@ function Documentation() {
                         <h2 >Authentication</h2>
 
                         <p>All the API’s utilize Basic authentication, where you need to include the <code>Authorization</code> header in your HTTPS requests. The header value should be in the format Basic Base64 encode using the relevant clientID and SecretKey.</p>
-                    
+                         <p>Example : <code>Authorization: token dXNlcm5hbWU6cGFzc3dvcmQ=</code></p>
+                          <p>To authenticate, you’ll require the following credentials:</p>
+                          <p>Ensure to replace CLIENTID and SECRETKEY with your actual client ID and secret key provided by the API provider. Additionally, fill in the necessary information within the request body JSON structure.</p>
                         {/* <p><strong>Endpoint:</strong> <code>/User/Authentication</code></p> */}
                         <button 
          onClick={() => toggleCode('EMPLOYER_PORTAL')}
@@ -49,7 +51,7 @@ function Documentation() {
           <FaCode /> {activeCode === 'EMPLOYER_PORTAL' ? 'Hide Code' : 'Show Code'}
         </button>
         {activeCode === 'EMPLOYER_PORTAL' && (
-            <SyntaxHighlighter language="bash" style={oneDark}>
+            <SyntaxHighlighter language="json5" style={xonokai}>
               {Authentication}
             </SyntaxHighlighter>
           )}
@@ -70,7 +72,7 @@ function Documentation() {
           <FaCode /> {activeCode ? 'Hide Code' : 'Show Code'}
         </button>
         {activeCode === 'COMPANY_ONBOARDING' && (
-            <SyntaxHighlighter language="bash" style={oneDark}>
+            <SyntaxHighlighter language="json5" style={xonokai}>
               {CompanyOnboarding}
             </SyntaxHighlighter>
           )}
@@ -88,7 +90,7 @@ function Documentation() {
           <FaCode /> {activeCode === 'EMPLOYEE_ONBOARDING' ? 'Hide Code' : 'Show Code'}
         </button>
         {activeCode === 'EMPLOYEE_ONBOARDING' && (
-            <SyntaxHighlighter language="bash" style={oneDark}>
+            <SyntaxHighlighter language="json5" style={xonokai}>
               {EmployeeOnboarding}
             </SyntaxHighlighter>
           )}
@@ -103,7 +105,7 @@ function Documentation() {
        <section id="Garnishment" className="">
                         <h2>Garnishment</h2>
                         <p>This core section dives deep into the APIs responsible for the actual payroll process. It covers everything from initiate payroll, through to running payroll, making adjustments, and resolving any issues that may arise.</p>
-                        <p><strong>Endpoint:</strong> <code>/User/Payroll/</code></p>     
+                        <p><strong>Endpoint:</strong> <code>/User/Garnishment/</code></p>     
        </section>
     </section>
 

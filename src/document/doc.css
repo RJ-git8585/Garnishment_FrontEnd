@@ -86,7 +86,7 @@ li.mb-2.active_cls {
     transition: 1s;
 }
 
-/* Submenu Toggle CSS */
+/* Toggle CSS */
 .menu-label {
     display: block;
     padding: 10px;
@@ -112,16 +112,17 @@ li.mb-2.active_cls {
     display: block;
 }
 
-.submenu {
+/* .submenu {
     display: none;
     margin-left: 20px;
-}
+} */
 .doc_sidebar li span.post {
     background: #125d20;
     color: #fff;
     padding: 2px;
     font-size: 10px;
     border-radius: 3px;
+    margin-left: 5px;
 }
 .doc_sidebar li span.delete {
     background: red;
@@ -129,13 +130,15 @@ li.mb-2.active_cls {
     padding: 2px;
     font-size: 10px;
     border-radius: 3px;
+    margin-left: 5px;
 }
 .doc_sidebar li span.put {
-    background: orange;
+    background: blue;
     color: #fff;
     padding: 2px;
     font-size: 10px;
     border-radius: 3px;
+    margin-left: 5px;
 }
 
 .submenu ul {
@@ -160,7 +163,17 @@ li.mb-2.active_cls {
 }
 /*  */
 
-
+.sub p {
+    display: flex;
+    margin-left: 0px;
+}
+.sub svg {
+   
+    margin-left: 10px;
+}
+.docs .submenu li{
+    padding:0px;
+}
 .doc_content {
     margin-left: 300px;
     padding: 20px 30px;
@@ -195,7 +208,7 @@ li.mb-2.active_cls {
 }   
 
 .doc_content h3 {
-    color: #000000;
+    color: #ffffff;
     /* margin-top: 20px; */
     margin-bottom: 10px;
     font-size: 16px;
@@ -207,7 +220,9 @@ li.mb-2.active_cls {
     color: #b8b8b8;
     line-height: 1.6;
     margin: 10px 0;
-    font-size: 16px;    
+    font-size: 16px;
+    font-weight: 200;
+    letter-spacing: 0.5px;   
 }
 .docs .query-params-table th{
     background: gray;
@@ -239,13 +254,26 @@ code {
     font-size:14px !important;
 }
 
+pre{
+    margin-top:20px !important;
+    background: none !important;
+    border:none !important;
+    
+}
+code.language-json5 {
+    font-size: 12px !important;
+}
 section {
     margin-top: 30px;
     padding-top:30px;
 }
-
+.response {
+    background-color: #1e1e1e !important;
+    border:none !important;
+    color:#ffff !important;
+}
 .code-block, .response {
-    background-color: #272822;
+    background-color: #1e1e1e;
     color: #f8f8f2;
     padding: 12px;
     border-radius: 4px;
@@ -259,7 +287,7 @@ section {
 }
 
 .response {
-    background-color: #f9f9f9;
+    background-color: #1e1e1e;
     color: #343a40;
     border: 1px solid #ddd;
     margin-right: 0;
@@ -348,3 +376,103 @@ button.show_btn:hover {
     color: #000 !important;
     transition: 1s;
 }
+
+.submenu {
+    padding-left: 20px;
+    list-style-type: circle;
+  }
+  
+  .submenu li {
+    margin-top: 5px;
+  }
+  
+  .active_cls {
+    font-weight: bold;
+    color: #ffa500;
+  }
+  
+  .container {
+    background-color: #2C2C2C; /* Dark Gray background */
+    color: #D4D4D4; /* Default text color */
+    font-family: 'Courier New', Courier, monospace;
+    padding: 20px;
+    border-radius: 5px;
+    /* width: fit-content; */
+    margin: 20px auto;
+    border: 1px solid #3C3C3C;
+  }
+  
+  .key {
+    color: #FCA311; /* Bright Orange for keys */
+    font-weight: bold;
+  }
+  
+  .string {
+    color: #00B4D8; /* Light Blue for string values */
+  }
+  
+  .number {
+    color: #B5CEA8; /* Soft Green for numbers */
+  }
+  
+  .symbol {
+    color: #D4D4D4; /* Light Grey for symbols */
+  }
+  
+  .comment {
+    color: #6A9955; /* Muted Green for comments */
+    font-style: italic;
+  }
+  
+  .header {
+    color: #FFFFFF; /* White for headers or main labels */
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+
+
+  /* table for new tables desisng table */
+  .table-container {
+    /* margin: 20px; */
+    overflow-x: auto;
+  }
+  
+  .parameter-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .parameter-table th,
+  .parameter-table td {
+    border: 1px solid #444;
+    padding: 10px 15px;
+    text-align: left;
+  }
+  
+  .parameter-table th {
+    background-color: #333;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  .parameter-table td {
+    background-color: #1e1e1e;
+    color: #ccc;
+  }
+  
+  .parameter-table code {
+    background: #444;
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+  .parameter-table tr:nth-child(even) {
+    background-color: #2b2b2b;
+  }
+  .code-block, .response{
+    max-width:550px !important;
+  }  
