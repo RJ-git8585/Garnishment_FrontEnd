@@ -103,6 +103,7 @@ h1.edit-profile.mt-6.inline-block svg {
   margin:2px;
 }
 
+
 .cus_svg svg {
   display: inline-flex;
   vertical-align: middle;
@@ -246,7 +247,10 @@ input::placeholder {
 .box .popupform{
   background: #fff !important;
 }
-
+.LinkForInternal a {
+  margin-left: 20px !important;
+  margin-top: 10px !important;
+}
 span.close-icon {
   position: relative;
   top: 50px;

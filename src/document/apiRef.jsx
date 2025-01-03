@@ -2,27 +2,31 @@
 import { LoginResponce,Logincrl,RegisterResponce,Registrationcrl} from '../constants/apiConstants';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
+
+import { Apiref ,Documentations}     from '../constants/signature';
 function ApiRef() {
   return (
     <div>
         <sectio id="Post">
-        <section id="createBusiness">
-                        <h2>Authentication</h2>
-                        <p>This is a <strong>POST API</strong> for Login an employer with the following fields:</p>
-                        <p><strong>Endpoint:</strong> <code>https://garnishment-backend.onrender.com/User/password-reset-confirm/:token/</code></p>
-                        <p>All the API’s utilize Basic authentication, where you need to include the <code>Authorization</code> header in your HTTPS requests. The header value should be in the format Basic Base64 encode using the relevant clientID and SecretKey.</p>
+        <section id="Authentication">
+                        <h2>{Apiref.AuthenticationTitle}</h2>
+                        {/* <p>{Apiref.AuthenticationsubtestAuthtext}</p> */}
+                         <p>{Documentations.AuthenticationsubtestAuthtext1}</p>
+                        {/* <p><strong>Endpoint:</strong> <code>https://garnishment-backend.onrender.com/User/password-reset-confirm/:token/</code></p> */}
+                        {/* <p>{Apiref.AuthenticationsubtestAuthtext1}</p>
                          <p>Example : <code>Authorization: token dXNlcm5hbWU6cGFzc3dvcmQ=</code></p>
-                          <p>To authenticate, you’ll require the following credentials:</p>
-                          <p>Ensure to replace CLIENTID and SECRETKEY with your actual client ID and secret key provided by the API provider. Additionally, fill in the necessary information within the request body JSON structure.</p>
+                          <p>To authenticate, you’ll require the following credentials:</p> */}
+                          {/* <p>{Apiref.lastsubtext}</p> */}
 
              <section id="AuthLogin">
                           <h2>Login</h2>
-                          <p><strong>Endpoint</strong></p>
+                          <p>{Documentations.authLoginSubtext}</p>
+                          {/* <p><strong>Endpoint</strong></p> */}
                           <p><strong>URL:</strong> <code>{'$path'}/User/login/</code></p>
                           <p><strong>Method:</strong> <code>POST</code></p>
                           <p><strong>Content-type:</strong> <code>application/json</code></p>
-                        
-                        <h3>QUERY PARAMETERS</h3>
+                            <p></p>
+                             <h3 className="mt-4">QUERY PARAMETERS</h3>
                         
                                     <div className="table-container">
                                     <table className="parameter-table">
@@ -53,85 +57,85 @@ function ApiRef() {
 
 
                         <div className="flex-row">
-                            <div className="code-block">
-                                <h4>Example CURL Command</h4>
+                                    <div className="code-block">
+                                        <h4>Example CURL Command</h4>
+                                            
+                                            <SyntaxHighlighter language="json5" style={xonokai}>
+                                                {Logincrl}
+                                                </SyntaxHighlighter>
+                        
+                                        
+                                    </div>
+                                    <div className="response">
+                                        <h4>Response</h4>
                                     
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                        {Logincrl}
+                                        <SyntaxHighlighter language="json5" style={xonokai}>
+                                        {LoginResponce}
                                         </SyntaxHighlighter>
-                  
-                                
-                            </div>
-                            <div className="response">
-                                <h4>Response</h4>
-                              
-                                <SyntaxHighlighter language="json5" style={xonokai}>
-                                {LoginResponce}
-                                </SyntaxHighlighter>
-               
+                    
+                                            
                                     
-                              
-                            </div>
+                                    </div>
                         </div>
                         </section>
                         <section id="AuthRegister"> 
-                          <h2>Register</h2>
-                          <p><strong>Endpoint</strong></p>
-                          <p><strong>URL:</strong> <code>{'$path'}/User/register/</code></p>
-                          <p><strong>Method:</strong> <code>POST</code></p>
-                          <p><strong>Content-type:</strong> <code>application/json</code></p>
+                                            <h2>Register</h2>
+                                            <p><strong>Endpoint</strong></p>
+                                            <p><strong>URL:</strong> <code>{'$path'}/User/register/</code></p>
+                                            <p><strong>Method:</strong> <code>POST</code></p>
+                                            <p><strong>Content-type:</strong> <code>application/json</code></p>
                         
-                        <h3>QUERY PARAMETERS</h3>
-                        
-                                    <div className="table-container">
-                                    <table className="parameter-table">
-                                        <thead>
-                                        <tr>
-                                            <th>Parameter</th>
-                                            <th>Type</th>
-                                            <th>Required</th>
-                                            <th>Description</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td><code>email</code></td>
-                                            <td><code>string</code></td>
-                                            <td>✅ Yes</td>
-                                            <td>Users registered email.</td>
-                                        </tr>
-                                        <tr>
-                                            <td><code>password</code></td>
-                                            <td><code>string</code></td>
-                                            <td>✅ Yes</td>
-                                            <td>Users account password.</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                    </div>
-
-
-                        <div className="flex-row">
-                            <div className="code-block">
-                                <h4>Example CURL Command</h4>
-                                    <pre>
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                        {Registrationcrl}
-                                        </SyntaxHighlighter>
-                  
-                                    </pre>
-                            </div>
-                            <div className="response">
-                                <h4>Response</h4>
-                                <pre>
-                                <SyntaxHighlighter language="json5" style={xonokai}>
-                                {RegisterResponce}
-                                </SyntaxHighlighter>
-               
+                                            <h3>QUERY PARAMETERS</h3>
                                     
-                                </pre>
-                            </div>
-                        </div>
+                                                <div className="table-container">
+                                                <table className="parameter-table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Parameter</th>
+                                                        <th>Type</th>
+                                                        <th>Required</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td><code>email</code></td>
+                                                        <td><code>string</code></td>
+                                                        <td>✅ Yes</td>
+                                                        <td>Users registered email.</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><code>password</code></td>
+                                                        <td><code>string</code></td>
+                                                        <td>✅ Yes</td>
+                                                        <td>Users account password.</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                                </div>
+
+
+                                        <div className="flex-row">
+                                            <div className="code-block">
+                                                <h4>Example CURL Command</h4>
+                                                    <pre>
+                                                    <SyntaxHighlighter language="json5" style={xonokai}>
+                                                        {Registrationcrl}
+                                                        </SyntaxHighlighter>
+                                
+                                                    </pre>
+                                            </div>
+                                            <div className="response">
+                                                <h4>Response</h4>
+                                                <pre>
+                                                <SyntaxHighlighter language="json5" style={xonokai}>
+                                                {RegisterResponce}
+                                                </SyntaxHighlighter>
+                            
+                                                    
+                                                </pre>
+                                            </div>
+                                        </div>
                         </section>
           </section>
           <section id="companyRegistration">

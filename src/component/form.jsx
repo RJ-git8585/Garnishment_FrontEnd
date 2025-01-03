@@ -77,7 +77,7 @@ function Form() {
     <>
       <div className="flex lg:h-screen  dark:bg-slate-800 flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="grid grid-flow-row-dense md:max-lg:flex lg:p-6 lg:mr-4 mt-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 items-center place-items-center">
-                  <div className=" sm:mx-auto left_side_login   md:border-r-[0.5px]  border-orange-50 sm:w-full sm:max-w-md">
+                  <div className=" sm:mx-auto left_side_login     border-orange-50 sm:w-full sm:max-w-md">
                                   <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
                         <h2 className=" text-center dark:text-white text-2xl font-bold leading-9 tracking-tight text-gray-900">
                           Sign in to your account
@@ -158,12 +158,15 @@ function Form() {
                         Signup
                       </a>
                     </p>
+                    
                       </div>
-                  <div className="text-left mt-20 right_side_login ml-10 sm:mx-auto sm:w-full sm:max-w-lg">
+                             <div className="text-left mt-20 right_side_login ml-10 sm:mx-auto sm:w-full sm:max-w-lg">
                                 <div className='text-white  text-2xl'>Sign in easily using your existing account from <b className="text-amber-500" >Social Accounts</b>. No need to create a new password or remember multiple login credentials.</div>
                                   <div className='text-white  border-b-[0.5px] border-orange-50 pb-5 text-2xl'>
                                     Keep the text clear, concise, and easy to understand.
                          Security: If applicable, you can mention that the SSO login process is secure and user credentials are not stored locally.  </div>
+                     
+
                          <div className="custom_page  mt-8 pb-16">
                    
                    <h1 className='text-white text-2xl font-bold'>Login with SSO</h1>
@@ -178,7 +181,15 @@ function Form() {
                    <a href="https://www.facebook.com">
                    <RiFacebookFill className='text-blue-500 text-3xl mt-10'  />
                    </a>
+                   {/* <hr className=" text-white  border-b-[0.5px] border-orange-50"></hr> */}
+                     
+                   <div className="LinkForInternal mt-2 mb-8 text-white  border-t-[0.5px] border-orange-50 pb-2 ">
+                         <a href="/docs" className="font-semibold mt-10  ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Documentation</a> 
+                         <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">API</a> 
+                         <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Contact Us</a>
+                         </div>
                    </div>
+                   
 </div>
                       </div>
              {/* <ToastContainer /> */}

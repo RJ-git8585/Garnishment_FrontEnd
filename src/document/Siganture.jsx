@@ -6,7 +6,7 @@ import { HiOutlineDocumentText } from "react-icons/hi";
 
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-
+import { Signature_crls,SignatureMenus}     from '../constants/signature';
 import Documentation from './Documentation';
 import ApiRef from './apiRef';
 
@@ -45,25 +45,39 @@ const Signature = () => {
               </a>
               {submenuOpen['authentication'] && (
                 <ul className="submenu">
-                  <li><a href="#AuthLogin">Login</a></li>
-                  <li><a href="#AuthRegister">Register</a></li>
+                  <li><a href="#AuthLogin">{Signature_crls.AuthLogin}</a></li>
+                  {/* <li><a href="#AuthRegister">{Signature_crls.AuthRegister}</a></li> */}
                 </ul>
               )}
             </li>
-            <li className="sub">
+            {/* <li className="sub">
               <a href="#CompanyOnboarding" onClick={() => toggleSubmenu('companyOnboarding')}>
               <p> Company Onboarding {submenuOpen['companyOnboarding'] ? <IoIosArrowUp/> : <IoIosArrowDown/>}</p>
               </a>
               {submenuOpen['companyOnboarding'] && (
                 <ul className="submenu">
-                  <li><a href="#OnboardStep1">Step 1</a></li>
-                  <li><a href="#OnboardStep2">Step 2</a></li>
+                  <li><a href="#SingleStepApproach">SingleStepApproach</a></li>
+                  <li><a href="#MultiStepApproach">MultiStepApproach</a></li>
+                </ul>
+              )}
+            </li> */}
+             <li><a href="#CompanyOnboarding">Company Onboarding</a></li>
+            <li><a href="#EmployeeOnboarding">Employee Onboarding</a></li>
+            <li><a href="#EmployerPortal">Dashboard Portal</a></li>
+            {/* <li><a href="#Garnishment">Garnishment</a></li> */}
+            <li className="sub">
+              <a href="#Garnishment" onClick={() => toggleSubmenu('Garnishment')}>
+                <p>Garnishment {submenuOpen['Garnishment'] ? <IoIosArrowUp/> : <IoIosArrowDown/>}</p>
+              </a>
+              {submenuOpen['Garnishment'] && (
+                <ul className="submenu">
+                  <li><a href="#ChildSupport">Child Support</a></li>
+                  <li><a href="#Fedral">Fedral</a></li>
+                  <li><a href="#StudentLoan">Student Loan</a></li>
+                  
                 </ul>
               )}
             </li>
-            <li><a href="#EmployeeOnboarding">Employee Onboarding</a></li>
-            <li><a href="#EmployerPortal">Employer Portal</a></li>
-            <li><a href="#Garnishment">Garnishment</a></li>
           </ul>
         );
       case 'api':
@@ -113,9 +127,9 @@ const Signature = () => {
           <ul>
             <li><a href="#Authentication">Authentication</a></li>
             <li><a href="#CompanyOnboarding">Company Onboarding</a></li>
-            <li><a href="#EmployeeOnboarding">Employee Onboarding</a></li>
-            <li><a href="#EmployerPortal">Employer Portal</a></li>
-            <li><a href="#Garnishment">Garnishment</a></li>
+            <li><a href="#EmployeeOnboarding">{SignatureMenus.EmployeeOnboarding}</a></li>
+            <li><a href="#EmployerPortal">{SignatureMenus.Employer_Portal}</a></li>
+            <li><a href="#Garnishment">{SignatureMenus.Garnishment}</a></li>
           </ul>
         );
     }
