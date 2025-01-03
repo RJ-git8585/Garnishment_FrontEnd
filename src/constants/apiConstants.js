@@ -42,24 +42,32 @@ Method: POST
 
 
 Request Body
+
 {
-  "CoID": 11,
-  "employee_name": "John Doe",
-  "EEID": 85,
-  "GrossPay": 620,
-  "NetPay": 10,
-  "Taxes": 61,
-  "arrears_greater_than_12_weeks": false,
-  "support_second_family": false,
-  "amount_to_withhold_child1": 10,
-  "amount_to_withhold_child2": 5,
-  "amount_to_withhold_child3": 10,
-  "number_of_arrears": 3,
-  "arrears_amt_Child1": 25,
-  "arrears_amt_Child2": 3,
-  "arrears_amt_Child3": 4,
-  "order_id": 304,
-  "State": "Alabama"
+  "batch_id": "B206",
+  "CID" :"C021",
+                
+                "rows":[
+                       {
+                        "employee_name": "John Doe",
+                        "EEID": 85,
+                        "GrossPay": 620,
+                        "NetPay": 10,
+                        "Taxes": 61,
+                        "arrears_greater_than_12_weeks": false,
+                        "support_second_family": false,
+                        "amount_to_withhold_child1": 10,
+                        "amount_to_withhold_child2": 5,
+                        "amount_to_withhold_child3": 10,
+                        "number_of_arrears": 3,
+                        "arrears_amt_Child1": 25,
+                        "arrears_amt_Child2": 3,
+                        "arrears_amt_Child3": 4,
+                        "order_id": 304,
+                        "State": "Alabama"
+                        }
+                        ]
+        
 }`;
 
 export const Fedral = `Endpoint: /User/FederalCaseData
@@ -69,19 +77,23 @@ Method: POST
 
 Request Body
 {
-  "CoID": 11,
-  "EEID": 85,
-  "GrossPay": 620,
-  "employee_name": "John Doe",
-  "NetPay": 10,
-  "Taxes": 61,
-  "Filling_Status": false,
-  "NumberofExemptions": 2,
-  "Disability": "",
-  "order_id": 304,
-  "State": "Alabama",
-  "PayPeriod":"Daily",
-  "Age":34
+  "batch_id": "B206",
+  "CID" :"C021",
+                
+                "rows":[{
+                        "EEID": 85,
+                        "GrossPay": 620,
+                        "employee_name": "John Doe",
+                        "NetPay": 10,
+                        "Taxes": 61,
+                        "Filling_Status": false,
+                        "NumberofExemptions": 2,
+                        "Disability": "",
+                        "order_id": 304,
+                        "State": "Alabama",
+                        "PayPeriod":"Daily",
+                        "Age":34
+                     }]
 }`;
 export const StudentLoan = `Endpoint: /User/MiltipleStudentLoanCalculationData
 
@@ -90,15 +102,31 @@ Method: POST
 
 Request Body
 {
-  "CoID": 11,
-  "EEID": 85,
-  "earnings": 620,
-  "employee_name": "John Doe",
-  "GrassPay": 10,
-  "Taxes": 61,
-  "NumberOfStudentDefaultLoans": 10,
-  "State": "Alabama",
-  "order_id": 304
+  "batch_id": "B206",
+  "CID" :"C021",
+                
+                "rows":[
+                      {
+                        "EEID": 85,
+                        "earnings": 620,
+                        "employee_name": "John Doe",
+                        "GrassPay": 10,
+                        "Taxes": 61,
+                        "NumberOfStudentDefaultLoans": 10,
+                        "State": "Alabama",
+                        "order_id": 304
+                      },
+                      {
+                        "EEID": 84,
+                        "earnings": 600,
+                        "employee_name": "John Carter",
+                        "GrassPay": 20,
+                        "Taxes": 63,
+                        "NumberOfStudentDefaultLoans": 15,
+                        "State": "Alabama",
+                        "order_id": 305
+                      },
+                        ]
 }`;
 export const Dashboard  = `Endpoint: /User/dashboard
 

@@ -58,7 +58,7 @@ function Documentation() {
                                 
                                 
                      </section>
-                     <section id="AuthLogin">
+                     <section id="AuthLogin" className="SubSection">
             
                                                 <h2 >{Documentations.AuthLogin}</h2>
                                                 <p>{Documentations.authLoginSubtext}</p>
@@ -146,7 +146,7 @@ function Documentation() {
                                 {/* <p><strong>Endpoint:</strong> <code>/User/Garnishment/</code></p>      */}
                             
                 </section>
-                <section id="ChildSupport">
+                <section id="ChildSupport" className="SubSection">
                                 <h2>Child Support</h2>
                                 <p>{Documentations.EmployerPortalSubtext}</p>
                                 <p><strong>Endpoint:</strong> <code>/User/CalculationDataView</code></p>
@@ -164,7 +164,7 @@ function Documentation() {
                                 )}
                                 
                 </section>
-                <section id="Fedral">
+                <section id="Fedral" className="SubSection">
                                 <h2>Fedral</h2>
                                 <p>{Documentations.EmployerPortalSubtext}</p>
                                 <p><strong>Endpoint:</strong> <code>/User/FederalCaseData</code></p>
@@ -182,7 +182,7 @@ function Documentation() {
                                 )}
                                 
                 </section>
-                <section id="StudentLoan">
+                <section id="StudentLoan" className="SubSection">
                                 <h2>Multi Student Loan</h2>
                                 <p>{Documentations.EmployerPortalSubtext}</p>
                                 <p><strong>Endpoint:</strong> <code>/User/MiltipleStudentLoanCalculationData</code></p>

@@ -2,6 +2,7 @@ import './doc.css';
 import  { useState, useEffect } from 'react';
 import { FaCode } from "react-icons/fa";
 import { HiOutlineDocumentText } from "react-icons/hi";
+import { CiCalculator1 } from "react-icons/ci";
 
 
 import { IoIosArrowUp } from "react-icons/io";
@@ -9,7 +10,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { Signature_crls,SignatureMenus}     from '../constants/signature';
 import Documentation from './Documentation';
 import ApiRef from './apiRef';
-
+import Calculation from './Calculation';
 const Signature = () => {
   useEffect(() => {
     if (window.location.pathname === '/docs') {
@@ -78,6 +79,7 @@ const Signature = () => {
                 </ul>
               )}
             </li>
+             
           </ul>
         );
       case 'api':
@@ -119,6 +121,7 @@ const Signature = () => {
             <li><a href="#GarnishmentCalculation">GarnishmentCalculation <span className="post">Post</span></a></li>
             <li><a href="#UserRemove">UserRemove <span className="delete">Delete</span></a></li>
             <li><a href="#CompanyRemove">CompanyRemove <span className="delete">Delete</span></a></li>
+           
             {/* <li><a href="#initiateGarnishment">initiateGarnishment <span className="put">Put</span></a></li> */}
           </ul>
         );
@@ -130,6 +133,7 @@ const Signature = () => {
             <li><a href="#EmployeeOnboarding">{SignatureMenus.EmployeeOnboarding}</a></li>
             <li><a href="#EmployerPortal">{SignatureMenus.Employer_Portal}</a></li>
             <li><a href="#Garnishment">{SignatureMenus.Garnishment}</a></li>
+           
           </ul>
         );
     }
@@ -152,6 +156,16 @@ const Signature = () => {
           <div>
             <div className="mb-20">
               <ApiRef />
+            </div>
+            <hr />
+            <footer className='mt-10'>Powered by <a href="https://orangedatatech.com"><b>OrangeDataTech</b></a></footer>
+          </div>
+        );
+        case 'Calculation':
+        return (
+          <div>
+            <div className="mb-20">
+              <Calculation />
             </div>
             <hr />
             <footer className='mt-10'>Powered by <a href="https://orangedatatech.com"><b>OrangeDataTech</b></a></footer>
@@ -189,6 +203,11 @@ const Signature = () => {
             <li className={`mb-2 ${activeMenu === 'api' ? 'active_cls' : ''}`}>
               <a href="#Login-Employer" onClick={() => setActiveMenu('api')}>
                 <FaCode /> API References
+              </a>
+            </li>
+            <li className={`mb-2 ${activeMenu === 'api' ? 'active_cls' : ''}`}>
+              <a href="#Login-Employer" onClick={() => setActiveMenu('Calculation')}>
+                <CiCalculator1 /> Calculation
               </a>
             </li>
           </div>

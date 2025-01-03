@@ -10,13 +10,10 @@ export const Signature_crls = {
   };
 
   export const SignatureMenus = {
-
-
     AuthLogin: `Login`,
     EmployeeOnboarding: `Employee Onboarding`,
     Employer_Portal: `Dashboard Portal`,
     Garnishment: `Garnishment`,
-
 
   };
   

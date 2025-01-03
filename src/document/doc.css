@@ -9,6 +9,12 @@ background: #000;
 body .docs{
     background: #000;
 }
+.SubSection h2 {
+    margin-left: 10px;
+    font-size: 18px !important;
+    font-weight: 300 !important;
+}
+
 li.mb-2.active_cls {
     color: orange;
     font-weight: 600;
@@ -213,7 +219,7 @@ li.mb-2.active_cls {
     color: #b8b8b8;
     line-height: 1.6;
     margin: 10px 0;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 200;
     letter-spacing: 0.5px;   
 }
@@ -244,7 +250,7 @@ li.mb-2.active_cls {
 }
 code {
     color: #33c6d6;
-    font-size:14px !important;
+    font-size:12px !important;
 }
 
 pre{
