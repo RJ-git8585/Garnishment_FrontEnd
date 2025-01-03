@@ -36,7 +36,7 @@ Request Body
     "password": "Test@12345"
 
 }`;
-export const ChildSupport = `Endpoint: /User/garnishmentCalculation
+export const ChildSupport = `Endpoint: /User/CalculationDataView
 
 Method: POST
 
@@ -59,7 +59,7 @@ Request Body
   "arrears_amt_Child2": 3,
   "arrears_amt_Child3": 4,
   "order_id": 304,
-  "State": "CA"
+  "State": "Alabama"
 }`;
 
 export const Fedral = `Endpoint: /User/FederalCaseData
@@ -79,7 +79,7 @@ Request Body
   "NumberofExemptions": 2,
   "Disability": "",
   "order_id": 304,
-  "State": "CA",
+  "State": "Alabama",
   "PayPeriod":"Daily",
   "Age":34
 }`;
@@ -97,7 +97,7 @@ Request Body
   "GrassPay": 10,
   "Taxes": 61,
   "NumberOfStudentDefaultLoans": 10,
-  "State": "CA",
+  "State": "Alabama",
   "order_id": 304
 }`;
 export const Dashboard  = `Endpoint: /User/dashboard

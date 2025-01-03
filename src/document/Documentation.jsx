@@ -149,7 +149,7 @@ function Documentation() {
                 <section id="ChildSupport">
                                 <h2>Child Support</h2>
                                 <p>{Documentations.EmployerPortalSubtext}</p>
-                                <p><strong>Endpoint:</strong> <code>/User/Dashboard</code></p>
+                                <p><strong>Endpoint:</strong> <code>/User/CalculationDataView</code></p>
                                 <button 
                                 onClick={() => toggleCode('ChildSupport')}
                                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
@@ -167,7 +167,7 @@ function Documentation() {
                 <section id="Fedral">
                                 <h2>Fedral</h2>
                                 <p>{Documentations.EmployerPortalSubtext}</p>
-                                <p><strong>Endpoint:</strong> <code>/User/Dashboard</code></p>
+                                <p><strong>Endpoint:</strong> <code>/User/FederalCaseData</code></p>
                                 <button 
                                 onClick={() => toggleCode('Fedral')}
                                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
@@ -185,7 +185,7 @@ function Documentation() {
                 <section id="StudentLoan">
                                 <h2>Multi Student Loan</h2>
                                 <p>{Documentations.EmployerPortalSubtext}</p>
-                                <p><strong>Endpoint:</strong> <code>/User/Dashboard</code></p>
+                                <p><strong>Endpoint:</strong> <code>/User/MiltipleStudentLoanCalculationData</code></p>
                                 <button 
                                 onClick={() => toggleCode('StudentLoan')}
                                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
