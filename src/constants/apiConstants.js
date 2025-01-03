@@ -43,9 +43,9 @@ Method: POST
 
 Request Body
 {
-  "company_id": 11,
+  "CoID": 11,
   "employee_name": "John Doe",
-  "employee_id": 85,
+  "EEID": 85,
   "GrossPay": 620,
   "NetPay": 10,
   "Taxes": 61,
@@ -69,8 +69,8 @@ Method: POST
 
 Request Body
 {
-  "company_id": 11,
-  "employee_id": 85,
+  "CoID": 11,
+  "EEID": 85,
   "GrossPay": 620,
   "employee_name": "John Doe",
   "NetPay": 10,
@@ -90,8 +90,8 @@ Method: POST
 
 Request Body
 {
-  "company_id": 11,
-  "employee_id": 85,
+  "CoID": 11,
+  "EEID": 85,
   "earnings": 620,
   "employee_name": "John Doe",
   "GrassPay": 10,
