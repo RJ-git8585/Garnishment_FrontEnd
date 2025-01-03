@@ -43,10 +43,10 @@ Method: POST
 
 Request Body
 {
-  "employee_id": 85,
-  "employer_id": 11,
-  "GrossPay": 620,
+  "company_id": 11,
   "employee_name": "John Doe",
+  "employee_id": 85,
+  "GrossPay": 620,
   "NetPay": 10,
   "Taxes": 61,
   "arrears_greater_than_12_weeks": false,
@@ -69,8 +69,8 @@ Method: POST
 
 Request Body
 {
+  "company_id": 11,
   "employee_id": 85,
-  "employer_id": 11,
   "GrossPay": 620,
   "employee_name": "John Doe",
   "NetPay": 10,
@@ -90,8 +90,8 @@ Method: POST
 
 Request Body
 {
+  "company_id": 11,
   "employee_id": 85,
-  "employer_id": 11,
   "earnings": 620,
   "employee_name": "John Doe",
   "GrassPay": 10,
