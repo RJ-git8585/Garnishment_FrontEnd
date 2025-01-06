@@ -14,7 +14,7 @@ const Calculation = () => {
       setLoading(true);
 
       // API Call
-      const apiResponse = await fetch(`${BASE_URL}/User/StudentLoanCalculationData/`, {
+      const apiResponse = await fetch(`${BASE_URL}/User/MiltipleStudentLoanCalculationData/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const Calculation = () => {
   return (
     <div style={styles.container}>
       <h2>Batch Converter</h2>
-      <p>Currently this is only for: <strong style={styles.special}>Single Student loan garnishment batches</strong></p>
+      <p>Currently this is only for: <strong style={styles.special}>Multiple Student loan garnishment batches</strong></p>
       <textarea
         style={styles.textArea}
         placeholder='Paste your JSON here...'

@@ -12,11 +12,6 @@ function ApiRef() {
                         <h2>{Apiref.AuthenticationTitle}</h2>
                         {/* <p>{Apiref.AuthenticationsubtestAuthtext}</p> */}
                          <p>{Documentations.AuthenticationsubtestAuthtext1}</p>
-                        {/* <p><strong>Endpoint:</strong> <code>https://garnishment-backend.onrender.com/User/password-reset-confirm/:token/</code></p> */}
-                        {/* <p>{Apiref.AuthenticationsubtestAuthtext1}</p>
-                         <p>Example : <code>Authorization: token dXNlcm5hbWU6cGFzc3dvcmQ=</code></p>
-                          <p>To authenticate, you’ll require the following credentials:</p> */}
-                          {/* <p>{Apiref.lastsubtext}</p> */}
 
              <section id="AuthLogin">
                           <h2>Login</h2>

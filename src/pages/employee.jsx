@@ -9,7 +9,7 @@ import { TiExport } from "react-icons/ti";
 import { FaPlus } from "react-icons/fa";
 import load from '../bouncing-circles.svg';
 import { BASE_URL } from '../Config';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,Link } from 'react-router-dom';
 
 import Swal from 'sweetalert2';
 
@@ -20,7 +20,7 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
-  const Link = `${BASE_URL}/User/ExportEmployees/${id}/`;
+  const Link1 = `${BASE_URL}/User/ExportEmployees/${id}/`;
   const [editId, setEditId] = useState(null);
   const [editableFields, setEditableFields] = useState({});
 
@@ -105,7 +105,7 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
             <Headertop />
             <hr />
             <div className='items-right text-right mt-4 mb-4 customexport'>
-              <a href={Link} className="border inline-flex items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><TiExport /> Export</a>
+              <a href={Link1} className="border inline-flex items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><TiExport /> Export</a>
               <a href="#" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><CgImport /> Import</a>
               <a type="button" href="/addemployee" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><FaPlus /> Add</a>
             </div>
@@ -139,7 +139,14 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
                         <tbody className="divide-y divide-gray-200">
                           {data.slice(page * 10 - 10, page * 10).map((item) => (
                             <tr key={item.employee_id} className="hover:bg-gray-100 bg-gray-200">
-                              <td className="p-2 text-xs sm:text-sm">{item.employee_name}</td>
+                         <td className="p-2 text-xs sm:text-sm">
+                          <Link 
+                            to={`/employee/${id}/${item.employee_id}`} 
+                            className="text-blue-500 hover:underline"
+                          >
+                            {item.employee_name}
+                          </Link>
+                        </td>
                               <td className="p-2 text-xs sm:text-sm">{item.employee_id}</td>
                               <td className="p-2 text-xs sm:text-sm">{item.employer_id}</td>
                               <td className="p-2 text-xs sm:text-sm">

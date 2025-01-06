@@ -121,10 +121,17 @@ const Signature = () => {
             <li><a href="#GarnishmentCalculation">GarnishmentCalculation <span className="post">Post</span></a></li>
             <li><a href="#UserRemove">UserRemove <span className="delete">Delete</span></a></li>
             <li><a href="#CompanyRemove">CompanyRemove <span className="delete">Delete</span></a></li>
-           
             {/* <li><a href="#initiateGarnishment">initiateGarnishment <span className="put">Put</span></a></li> */}
           </ul>
         );
+      case 'Calculation':
+            return (
+              <ul>
+                <li><a href="#EmployeeOnboarding">{SignatureMenus.EmployeeOnboarding}</a></li>
+                <li><a href="#EmployerPortal">{SignatureMenus.Employer_Portal}</a></li>
+                <li><a href="#Garnishment">{SignatureMenus.Garnishment}</a></li>
+              </ul>
+            );
       default:
         return (
           <ul>
@@ -138,7 +145,6 @@ const Signature = () => {
         );
     }
   };
-
   const renderContent = () => {
     switch (activeMenu) {
       case 'documentation':
@@ -205,8 +211,8 @@ const Signature = () => {
                 <FaCode /> API References
               </a>
             </li>
-            <li className={`mb-2 ${activeMenu === 'api' ? 'active_cls' : ''}`}>
-              <a href="#Login-Employer" onClick={() => setActiveMenu('Calculation')}>
+            <li className={`mb-2 ${activeMenu === 'Calculation' ? 'active_cls' : ''}`}>
+              <a href="#Login-Employer1" onClick={() => setActiveMenu('Calculation')}>
                 <CiCalculator1 /> Calculation
               </a>
             </li>

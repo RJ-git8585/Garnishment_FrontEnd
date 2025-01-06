@@ -38,6 +38,7 @@ import Results from './pages/results';
 import Test from './component/test';
 import PublicRoute from './component/PublicRoute';
 import Siganture from './document/Siganture';
+import EmployeeProfile from './pages/EmployeeProfile';
 function App() {
   return (
     <>
@@ -70,6 +71,7 @@ function App() {
         <Route path="/iwo" element={<PrivateRoute><Iwo /></PrivateRoute>} />
         <Route path="/results" element={<PrivateRoute><Results /></PrivateRoute>} />
         <Route path="/addtax" element={<PrivateRoute><AddTax /></PrivateRoute>} />
+        <Route path="/employee/:id/:employeeId" element={<PrivateRoute><EmployeeProfile /></PrivateRoute>} />
         <Route path="*" element={<Notfound />} />
         <Route path="/docs" element={<Siganture />} />
         {/* <Route path="/SingleChild" element={<SingleChild />} />  */}
