@@ -11,7 +11,7 @@ import Headertop from '../component/Headertop'
 import ProfileHeader from '../component/ProfileHeader';
 import load  from '../bouncing-circles.svg';
 import Swal from 'sweetalert2'
-
+// import Bar from '../common/bar';
 
 
 function dashboard(  ) {
@@ -79,8 +79,6 @@ function dashboard(  ) {
          logsData();
         fetchData();
         Swal.fire({
-          // toast: true, // This enables the toast mode
-          // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
           icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
           title: 'Welcome to Dashboard',
           showConfirmButton: false, // Hide the confirm button
@@ -102,6 +100,7 @@ function dashboard(  ) {
         {/* {isHidden ? null : (  */}
         <Headertop />
        <ProfileHeader/>
+       {/* <Bar /> */}
             <div className="grid  gap-4  grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-8 custom_tab">
                             <div className="mx-auto flex max-w-xs flex-col shadow-lg px-4 py-4 gap-y-4">
                               <dt className="text-xs leading-3 text-black-600">Total IWO</dt>

@@ -22,6 +22,27 @@ Response
     "status code": 200
 }`;
 
+export const PEO = `Endpoint: /User/peo
+
+Method: POST
+Description: Retrieve Token Information in Response.
+
+Response
+  {
+    "success": true,
+    "message": "Login successfully",
+    "user_data": {
+        "employer_id": 1,
+        "username": "Sergio09",
+        "name": "Sergio Rode",
+        "email": "rjj@gmail.com"
+    },
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNjc1MjI4NCwiaWF0IjoxNzM1ODg4Mjg0LCJqdGkiOiI2NjFiYWZhZjcyZDg0YWZiYjYxODU4OWNhNDY2MjBlNiIsInVzZXJfaWQiOjF9.5YwUQM16msOB9FE_GmKQ6zOPB10mfQki_N1s1iPo2Q4",
+    "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1ODg4NTg0LCJpYXQiOjE3MzU4ODgyODQsImp0aSI6ImIxMTFmOGU1YjgwZjQzNWZiNWUzMjFjMDBkNThjOGM5IiwidXNlcl9pZCI6MX0.nCbEilRivWKUBnBk0EDSA3FD5HecukHbs3gb1t_aNzo",
+    "expire_time": 1735888584,
+    "status code": 200
+}`;
+
 
 export const LoginCrl = `Endpoint: /User/Login
 
@@ -210,3 +231,4 @@ export const RegisterResponce =
  "email": "user@example.com",
   "password": "securePassword123"
 }'`;
+

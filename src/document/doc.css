@@ -367,7 +367,7 @@ button.show_btn {
     border: 1px solid #ffffff4f !important;
     border-radius: 7px;
     margin-top: 20px;
-
+    font-size: 12px;
 
 }
 button.show_btn:hover {
@@ -390,6 +390,9 @@ button.show_btn:hover {
     color: #ffa500;
   }
   
+  .doc_sidebar img {
+    margin: 0 auto !important;
+}
 
   /* .container {
     background-color: #2C2C2C;

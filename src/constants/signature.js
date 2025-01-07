@@ -27,7 +27,7 @@ export const Signature_crls = {
 
     DocTitle: `Garnishment API Documentation`,
     Overview: `Overview`,
-    DoctitleSubtext: `Welcome to the comprehensive documentation for our suite of Garnishment APIs. This set of tools is designed to empower developers, Garnishment administrators, and business owners alike, by providing a seamless and efficient interface to manage all aspects of a company’s Garnishment system. From the onboarding of companies and their employees to the streamlined handling of Garnishment calculations and reporting, this suite of APIs is purpose-built to be robust, secure, and easy to integrate.`,
+    DoctitleSubtext: `The Garnishment Engine API provides programmatic access to manage and process garnishment orders, including employee wage deductions and reporting. It is designed for payroll systems and financial institutions to handle garnishment workflows efficiently and accurately.`,
 
 
     GettingStartTitle: `Get Started`,

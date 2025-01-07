@@ -7,26 +7,31 @@ import DeleteItemComponent from '../component/DeleteItemComponent';
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";
 import { FaPlus } from "react-icons/fa";
-import load from '../bouncing-circles.svg';
+// import load from '../bouncing-circles.svg';
 import { BASE_URL } from '../Config';
-import { useNavigate ,Link } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
+import { DataGrid,GridToolbar } from '@mui/x-data-grid';
+import Box from '@mui/material/Box';
+import '@mui/material/styles';
 
-import Swal from 'sweetalert2';
+
+// import Swal from 'sweetalert2';
 
 // eslint-disable-next-line react/prop-types
-function Employee({ onDeleteSuccess, onEditSuccess }) {
+  function Employee({ onDeleteSuccess }) {
+  // function Employee({ onDeleteSuccess, onEditSuccess }) {
   const id = sessionStorage.getItem("id");
-  const navigate = useNavigate();
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  // const navigate = useNavigate();
+  // const [page, setPage] = useState(1);
+  // const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const Link1 = `${BASE_URL}/User/ExportEmployees/${id}/`;
-  const [editId, setEditId] = useState(null);
-  const [editableFields, setEditableFields] = useState({});
+  // const [editId, setEditId] = useState(null);
+  // const [editableFields, setEditableFields] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      // setLoading(true);
       try {
         const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
         const jsonData = await response.json();
@@ -34,67 +39,89 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     };
     fetchData();
   }, [id]);
 
-  const selectPageHandler = (selectedPage) => {
-    setPage(selectedPage);
-  };
+  // const selectPageHandler = (selectedPage) => {
+  //   setPage(selectedPage);
+  // };
 
-  const handleEditClick = (item) => {
-    setEditId(item.employee_id);
-    setEditableFields({
-      location: item.location,
-      department: item.department,
-      number_of_garnishment: item.number_of_garnishment,
-      pay_cycle: item.pay_cycle,
-    });
-  };
+  // const handleDeleteClick = async (employeeId) => {
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/User/EmployeeDelete/${id}/${employeeId}/`, {
+  //       method: 'DELETE',
+  //     });
+  //     if (response.ok) {
+  //       Swal.fire({
+  //         icon: 'success',
+  //         title: 'Employee deleted successfully',
+  //         showConfirmButton: false,
+  //         timer: 2000,
+  //       });
+  //       setData(data.filter((item) => item.employee_id !== employeeId));
+  //     } else {
+  //       console.error('Failed to delete employee');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting employee:', error);
+  //   }
+  // };
+  
 
-  const handleSaveClick = async (employeeId) => {
-    const updatedEmployee = {
-      ...editableFields,
-    };
+  // const handleEditClick = (item) => {
+  //   setEditId(item.employee_id);
+  //   setEditableFields({
+  //     location: item.location,
+  //     department: item.department,
+  //     number_of_garnishment: item.number_of_garnishment,
+  //     pay_cycle: item.pay_cycle,
+  //   });
+  // };
+
+  // const handleSaveClick = async (employeeId) => {
+  //   const updatedEmployee = {
+  //     ...editableFields,
+  //   };
     
-    try {
-      const response = await fetch(`${BASE_URL}/User/employee_details/${employeeId}/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedEmployee),
-      });
-              console.log('Employee updated successfully!');  
-              Swal.fire({
-                // toast: true, // This enables the toast mode
-                // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
-                icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
-                title: 'Employee updated successfully',
-                // text: "Plesse check ones!!",
-                showConfirmButton: false, // Hide the confirm button
-                timer: 3000, // Auto close after 3 seconds
-                timerProgressBar: true, 
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/User/employee_details/${employeeId}/`, {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(updatedEmployee),
+  //     });
+  //             console.log('Employee updated successfully!');  
+  //             Swal.fire({
+  //               // toast: true, // This enables the toast mode
+  //               // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
+  //               icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
+  //               title: 'Employee updated successfully',
+  //               // text: "Plesse check ones!!",
+  //               showConfirmButton: false, // Hide the confirm button
+  //               timer: 3000, // Auto close after 3 seconds
+  //               timerProgressBar: true, 
                 
-            });
-            setTimeout(function(){
-              window.location.reload();
-           }, 3000);
-      if (response.ok) {
-        onEditSuccess(); // Call the success callback
-        setEditId(null); // Clear edit state
-        setEditableFields({}); // Clear editable fields
-         navigate('/employee', { replace: true });
-        // Optionally fetch data again or update state locally
-      } else {
-        console.error('Failed to update employee');
-      }
-    } catch (error) {
-      console.error('Error updating employee:', error);
-    }
-  };
+  //           });
+  //           setTimeout(function(){
+  //             window.location.reload();
+  //          }, 3000);
+  //     if (response.ok) {
+  //       onEditSuccess(); // Call the success callback
+  //       // setEditId(null); // Clear edit state
+  //       setEditableFields({}); // Clear editable fields
+  //        navigate('/employee', { replace: true });
+  //       // Optionally fetch data again or update state locally
+  //     } else {
+  //       console.error('Failed to update employee');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating employee:', error);
+  //   }
+  // };
 
   return (
     <div>
@@ -109,11 +136,81 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
               <a href="#" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><CgImport /> Import</a>
               <a type="button" href="/addemployee" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><FaPlus /> Add</a>
             </div>
-            <div className="flex flex-col mt-6">
+            <Box sx={{ height: 600, width: '100%' }}>
+  <DataGrid
+    getRowId={(data) => data.employee_id}
+    columns={[
+      { 
+        field: 'employee_id', 
+        headerName: 'Employee ID', 
+        width: 150 
+      },
+      { 
+        field: 'employee_name', 
+        headerName: 'Employee Name', 
+        width: 200,
+        renderCell: (params) => (
+          <Link 
+            to={`/employee/${id}/${params.row.employee_id}`} 
+            className="text-blue-500 hover:underline"
+          >
+            {params.value}
+          </Link>
+        )
+      },
+      { 
+        field: 'department', 
+        headerName: 'Department', 
+        width: 150 
+      },
+      { 
+        field: 'pay_cycle', 
+        headerName: 'Pay Cycle', 
+        width: 150 
+      },
+      { 
+        field: 'location', 
+        headerName: 'Location', 
+        width: 150 
+      },
+      { 
+        field: 'number_of_child_support_order', 
+        headerName: 'Child Support Orders', 
+        width: 200 
+      },
+      {
+        field: 'Actions', 
+        headerName: 'Actions', 
+        width: 200,
+        renderCell: (params) => (
+          <div className="flex space-x-2">
+            <DeleteItemComponent 
+              id={params.row.employee_id} 
+              onDeleteSuccess={onDeleteSuccess} 
+            />
+          </div>
+        )
+      },
+    ]}
+    rows={data}
+    pageSize={10} // Display 10 rows per page
+    rowsPerPageOptions={[10, 20, 50]} // Dropdown options for page size
+    pagination
+    paginationMode="client" // Enable client-side pagination
+    components={{
+      Toolbar: GridToolbar, // Add Export and Search functionality
+    }}
+    disableColumnFilter={false} // Enable column filtering
+    disableColumnSelector={false} // Allow column selection
+    disableDensitySelector={false} // Allow density selection
+  />
+</Box>
+
+            {/* <div className="flex flex-col mt-6">
               <div className="-m-1.5 overflow-x-auto">
                 <div className="p-1.5 min-w-full inline-block align-middle">
-                  <div className="overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200 table-auto">
+                  <div className="overflow-hidden"> */}
+                    {/* <table className="min-w-full divide-y divide-gray-200 table-auto">
                       <thead>
                         <tr>
                           <th className="pb-4 pl-4 text-start text-xs sm:text-sm text-gray-500 uppercase">Employee Name</th>
@@ -207,9 +304,9 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
                           ))}
                         </tbody>
                       )}
-                    </table>
+                    </table> */}
                   </div>
-                  {data.length > 0 && (
+                  {/* {data.length > 0 && (
                     <div className="pagination">
                       <span className="text-sm p-2 mt-4 text-blue font-semibold">Pages:</span>
                       {[...Array(Math.ceil(data.length / 10))].map((_, i) => (
@@ -222,11 +319,11 @@ function Employee({ onDeleteSuccess, onEditSuccess }) {
                         </span>
                       ))}
                     </div>
-                  )}
-                </div>
+                  )} */}
+                {/* </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

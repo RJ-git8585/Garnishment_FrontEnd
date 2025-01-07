@@ -3,7 +3,7 @@ import { FaCode } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import  { useState } from 'react';
-import { Authentication,CompanyOnboarding,EmployeeOnboarding,LoginCrl,Dashboard,ChildSupport,Fedral,StudentLoan} from '../constants/apiConstants'; // Import multiple constants
+import { CompanyOnboarding,EmployeeOnboarding,LoginCrl,PEO} from '../constants/apiConstants'; // Import multiple constants
  // Import multiple constants
  import { Documentations }     from '../constants/signature';
 
@@ -26,23 +26,34 @@ function Documentation() {
                                     <p>{Documentations.DoctitleSubtext}</p>
                             </section>
 
-                            {/* <section id="get-started">
-                                <h2 >{Documentations.GettingStartTitle}</h2>
-                                <p>{Documentations.GettingStartsubtest}</p>
-                                <p>To use this API, you need a <strong>User Access</strong>. Please contact us at <a href="https://orangedatatech.com">orangedatatech.com</a> to get your user details.</p>   
+                              <section id="PEOLogin">
+            
+                                        <h2 >PEO / ADMIN LOGIN</h2>
+                                        <p>The PEO/ADMIN Login API allows users to authenticate and gain access to the application. Upon successful authentication, the API returns an access token, enabling secure communication with other protected endpoints.</p>
+                                        
+                                        <button 
+                                        onClick={() => toggleCode('PEOLogin')}
+                                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
+                                        className="show_btn"
+                                        >
+                                        <FaCode /> {activeCode === 'PEOLogin' ? 'Hide Code' : 'Show Code'}
+                                        </button>
+                                        {activeCode === 'PEOLogin' && (
+                                            <SyntaxHighlighter language="json5" style={xonokai}>
+                                            {PEO}
+                                            </SyntaxHighlighter>
+                                        )}
+                                        
+                                        
                             </section>
-                            <hr></hr> */}
                             
    
           
-                     <section id="Authentication">
+                     {/* <section id="Authentication"> */}
             
-                                <h2 >{Documentations.AuthenticationTitle}</h2>
+                                {/* <h2 >{Documentations.AuthenticationTitle}</h2>
                                 <p>{Documentations.AuthenticationsubtestAuthtext1}</p>
-                                {/* <p>Example : <code>Authorization: token dXNlcm5hbWU6cGFzc3dvcmQ=</code></p> */}
-                                {/* <p>{Documentations.AuthenticationsubtestAuthtext}</p> */}
-                                {/* <p>{Documentations.lastsubtext}</p> */}
-                                {/* <p><strong>Endpoint:</strong> <code>/User/Authentication</code></p> */}
+                                
                                 <button 
                                 onClick={() => toggleCode('EMPLOYER_PORTAL')}
                                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
@@ -54,16 +65,14 @@ function Documentation() {
                                     <SyntaxHighlighter language="json5" style={xonokai}>
                                     {Authentication}
                                     </SyntaxHighlighter>
-                                )}
+                                )} */}
                                 
                                 
-                     </section>
+                     {/* </section> */}
                      <section id="AuthLogin" className="SubSection">
             
                                                 <h2 >{Documentations.AuthLogin}</h2>
-                                                <p>{Documentations.authLoginSubtext}</p>
-                                                
-                                                {/* <p><strong>Endpoint:</strong> <code>/User/Authentication</code></p> */}
+                                                <p>{Documentations.authLoginSubtext}</p>  
                                                 <button 
                                                 onClick={() => toggleCode('LOGIN')}
                                                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
@@ -83,10 +92,7 @@ function Documentation() {
                 <section id="CompanyOnboarding">
             
                                 <h2 >{Documentations.CompanyOnboardingtitle}</h2>
-
                                 <p>{Documentations.CompanyOnboardingSubtext}</p>
-                                        
-                                            {/* <p><strong>Endpoint:</strong> <code>/User/CompanyOnboarding</code></p> */}
                                             <button 
                                 onClick={() => toggleCode('COMPANY_ONBOARDING')}
                                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
@@ -122,7 +128,7 @@ function Documentation() {
                                 )}
         
                 </section>
-                <section id="EmployerPortal">
+                {/* <section id="EmployerPortal">
                                 <h2>{Documentations.EmployersPortalTille}</h2>
                                 <p>{Documentations.EmployerPortalSubtext}</p>
                                 <p><strong>Endpoint:</strong> <code>/User/Dashboard</code></p>
@@ -139,12 +145,10 @@ function Documentation() {
                                     </SyntaxHighlighter>
                                 )}
                                 
-                </section>
-                <section id="Garnishment" className="">
+                </section> */}
+                {/* <section id="Garnishment" className="">
                                 <h2>{Documentations.GarnishementPortalTille}</h2>
                                 <p>{Documentations.GarnishementPortalSubtext}</p>
-                                {/* <p><strong>Endpoint:</strong> <code>/User/Garnishment/</code></p>      */}
-                            
                 </section>
                 <section id="ChildSupport" className="SubSection">
                                 <h2>Child Support</h2>
@@ -199,7 +203,7 @@ function Documentation() {
                                     </SyntaxHighlighter>
                                 )}
                                 
-                </section>
+                </section> */}
     </section>
 
 
