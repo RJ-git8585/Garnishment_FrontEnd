@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../Config';
-import load from '../bouncing-circles.svg';
+// import load from '../bouncing-circles.svg';
 import Swal from 'sweetalert2';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
-
+// import { Grid } from '@mui/x-data-grid';
+import { 
+  Typography, 
+  TextField, 
+  Grid, 
+  Button, 
+  Box, 
+  Paper, 
+  CircularProgress 
+} from '@mui/material';
 const EmployeeProfile = () => {
   const { employeeId } = useParams();
   const id = sessionStorage.getItem("id"); // Employer ID
@@ -95,118 +104,145 @@ const EmployeeProfile = () => {
           <div className='content ml-auto flex flex-col'>
             <Headertop />
 
-            <div className="container mx-auto bg-white p-8 rounded-lg shadow-md mt-4">
-              {loading ? (
-                <div className="text-center">
-                  <img src={load} alt="Loading..." className="mx-auto h-12 w-12" />
-                </div>
-              ) : (
-                <>
-                  <h2 className="text-2xl font-bold mb-4">Employee Profile</h2>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <p><strong>Name:</strong> 
-                      {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="employee_name" 
-                          value={editableFields.employee_name || ''} 
-                          onChange={handleInputChange} 
-                          className="border p-1 rounded"
-                        />
-                      ) : (
-                        employee.employee_name
-                      )}
-                    </p>
-                    <p><strong>Employee ID:</strong> {employee.employee_id}</p>
-                    <p><strong>Employer ID:</strong> {employee.employer_id}</p>
-                    <p><strong>Location:</strong> 
-                      {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="location" 
-                          value={editableFields.location || ''} 
-                          onChange={handleInputChange} 
-                          className="border p-1 rounded"
-                        />
-                      ) : (
-                        employee.location
-                      )}
-                    </p>
-                    <p><strong>Department:</strong> 
-                      {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="department" 
-                          value={editableFields.department || ''} 
-                          onChange={handleInputChange} 
-                          className="border p-1 rounded"
-                        />
-                      ) : (
-                        employee.department
-                      )}
-                    </p>
-                    <p><strong>Number of Garnishments:</strong> 
-                      {isEditing ? (
-                        <input 
-                          type="number" 
-                          name="number_of_child_support_order" 
-                          value={editableFields.number_of_child_support_order || ''} 
-                          onChange={handleInputChange} 
-                          className="border p-1 rounded"
-                        />
-                      ) : (
-                        employee.number_of_child_support_order
-                      )}
-                    </p>
-                    <p><strong>Pay Cycle:</strong> 
-                      {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="pay_cycle" 
-                          value={editableFields.pay_cycle || ''} 
-                          onChange={handleInputChange} 
-                          className="border p-1 rounded"
-                        />
-                      ) : (
-                        employee.pay_cycle
-                      )}
-                    </p>
-                  </div>
+            <div className="container mx-auto mt-4">
+  <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
+    {loading ? (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+        <CircularProgress />
+      </Box>
+    ) : (
+      <>
+        <Typography variant="h5" fontWeight="bold" gutterBottom>
+          Employee Profile
+        </Typography>
+        
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1"><strong>Name:</strong></Typography>
+            {isEditing ? (
+              <TextField
+                name="employee_name"
+                value={editableFields.employee_name || ''}
+                onChange={handleInputChange}
+                fullWidth
+                size="small"
+              />
+            ) : (
+              <Typography variant="body2">{employee.employee_name}</Typography>
+            )}
+          </Grid>
 
-                  <div className="mt-6 flex space-x-4 text-sm">
-                    {isEditing ? (
-                      <>
-                        <button 
-                          onClick={handleSaveClick} 
-                          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                        >
-                          Save
-                        </button>
-                        <button 
-                          onClick={() => setIsEditing(false)} 
-                          className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600"
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    ) : (
-                      <button 
-                        onClick={handleEditClick} 
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                      >
-                        Edit
-                      </button>
-                    )}
-                    <button 
-                      onClick={() => navigate('/employee')} 
-                      className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600"
-                    >
-                      Back to Employees
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1"><strong>Employee ID:</strong></Typography>
+            <Typography variant="body2">{employee.employee_id}</Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1"><strong>Employer ID:</strong></Typography>
+            <Typography variant="body2">{employee.employer_id}</Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1"><strong>Location:</strong></Typography>
+            {isEditing ? (
+              <TextField
+                name="location"
+                value={editableFields.location || ''}
+                onChange={handleInputChange}
+                fullWidth
+                size="small"
+              />
+            ) : (
+              <Typography variant="body2">{employee.location}</Typography>
+            )}
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1"><strong>Department:</strong></Typography>
+            {isEditing ? (
+              <TextField
+                name="department"
+                value={editableFields.department || ''}
+                onChange={handleInputChange}
+                fullWidth
+                size="small"
+              />
+            ) : (
+              <Typography variant="body2">{employee.department}</Typography>
+            )}
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1"><strong>Number of Garnishments:</strong></Typography>
+            {isEditing ? (
+              <TextField
+                type="number"
+                name="number_of_child_support_order"
+                value={editableFields.number_of_child_support_order || ''}
+                onChange={handleInputChange}
+                fullWidth
+                size="small"
+              />
+            ) : (
+              <Typography variant="body2">{employee.number_of_child_support_order}</Typography>
+            )}
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body1"><strong>Pay Cycle:</strong></Typography>
+            {isEditing ? (
+              <TextField
+                name="pay_cycle"
+                value={editableFields.pay_cycle || ''}
+                onChange={handleInputChange}
+                fullWidth
+                size="small"
+              />
+            ) : (
+              <Typography variant="body2">{employee.pay_cycle}</Typography>
+            )}
+          </Grid>
+        </Grid>
+
+        <Box mt={4} display="flex" gap={2}>
+          {isEditing ? (
+            <>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleSaveClick}
+              >
+                Save
+              </Button>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleEditClick}
+            >
+              Edit
+            </Button>
+          )}
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={() => navigate('/employee')}
+          >
+            Back to Employees
+          </Button>
+        </Box>
+      </>
+    )}
+  </Paper>
+</div>
           </div>
         </div>
       </div>

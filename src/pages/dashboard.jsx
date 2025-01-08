@@ -79,6 +79,7 @@ function dashboard(  ) {
          logsData();
         fetchData();
         Swal.fire({
+
           icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
           title: 'Welcome to Dashboard',
           showConfirmButton: false, // Hide the confirm button

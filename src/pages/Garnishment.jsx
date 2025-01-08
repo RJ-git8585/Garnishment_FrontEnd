@@ -170,21 +170,7 @@
               onClick={() => handleTabClick('Federal Tax')}>
               Federal Tax
             </button>
-            {/* <button 
-              className={activeTab === 'State Tax' ? 'active inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4' : 'inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4'} 
-              onClick={() => handleTabClick('State Tax')}>
-              State Tax
-            </button>
-            <button 
-              className={activeTab === 'Creditor' ? 'active inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4' : 'inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4'} 
-              onClick={() => handleTabClick('Creditor')}>
-              Creditor
-            </button> */}
-            {/* <button 
-              className={activeTab === 'Multiple Garnishments' ? 'active inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4' : 'inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4'} 
-              onClick={() => handleTabClick('Multiple Garnishments')}>
-              Multiple Garnishments 
-            </button> */}
+          
           </div>
 
           {/* Tab content */}

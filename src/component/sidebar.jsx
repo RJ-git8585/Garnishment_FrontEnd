@@ -1,127 +1,276 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo_b from '../Logo_black.png';
-import { FaDashcube,FaUserTie, FaTools, FaBalanceScaleRight } from 'react-icons/fa';
-import { BsFillClipboard2DataFill } from "react-icons/bs";
-import { HiChatBubbleLeftRight } from "react-icons/hi2";
-import { CgReadme } from "react-icons/cg";
-
+import { Drawer, List, ListItem, ListItemText, ListItemIcon, IconButton, Divider, Box } from '@mui/material';
+import { FaDashcube, FaUserTie, FaTools, FaBalanceScaleRight } from 'react-icons/fa';
+import { BsFillClipboard2DataFill } from 'react-icons/bs';
+import { HiChatBubbleLeftRight } from 'react-icons/hi2';
+import { CgReadme } from 'react-icons/cg';
 import Logout from '../pages/Logout';
-
-// import { FaLocationDot } from "react-icons/fa6";
+import logo_b from '../Logo_black.png';
 
 const Sidebar = () => {
-  // const [isSubmenuOpen, setSubmenuOpen] = useState(false);
-  // const toggleSubmenu = () => {
-  //   setSubmenuOpen(!isSubmenuOpen);
-  // };
-  
-  // eslint-disable-next-line no-unused-vars
-  const toggleMenuMObile = () => {
-    const menu = document.getElementById("mobile-menu");
-    menu.classList.toggle("hidden");
-  }
+  const [open, setOpen] = useState(false); // State to control mobile drawer
+
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
   return (
     <>
-      <div className="sidebar-header">
-        {/* You can include header content here if needed */}
-      </div>
-      <ul className="sidebar-nav hidden md:block">
-        <li className="sidebar-item">
-          <Link to="/dashboard" className="sidebar-link">
-            <img
-              className="h-6 logo-inner mb-6 ml-2 w-auto custom_logo_side"
-              src={logo_b}
-              alt="Garnishment"
-            />
-          </Link>
-        </li>
-        <li className="sidebar-item border-b-[3px] py-2">
-          <Link to="/dashboard" className="sidebar-link">
-            <FaDashcube />
-            <p>   Dashboard</p>
-          </Link>
-        </li>
-        {/* <li className="sidebar-item border-b-[3px] py-2">
-          <Link to="/profile" className="sidebar-link submen_cls" onClick={toggleSubmenu}>
-            <FaUserEdit />
-            <p> Profile</p>
-            {isSubmenuOpen ? <FaChevronUp className="ml-2 submen_cls_iocn"  /> : <FaChevronDown className="ml-2 submen_cls_iocn" />}
-          </Link> */}
-          {/* {isSubmenuOpen && (
-            <ul className="submenu"> */}
-              {/* <li className="submenu-item">
-                <Link to="/addlocation" className="sidebar-link">
-                <FaLocationDot />
-                <p>Location</p>
-                </Link>
-              </li>
-              <li className="submenu-item">
-                <Link to="/adddepartment" className="sidebar-link">
-                <FaBezierCurve />
-                  <p>Departmant</p>
-                </Link>
-              </li> */}
-              {/* Add more submenu items here */}
-            {/* </ul> */}
-          {/* )} */}
-        {/* </li> */}
-        <li className="sidebar-item border-b-[3px] py-3">
-          <Link to="/employee" className="sidebar-link">
-            <FaUserTie />
-            <p>Employee</p>
-          </Link>
-        </li>
-        <li className="sidebar-item border-b-[3px] py-3">
-          <Link to="/iwo" className="sidebar-link">
-            <CgReadme />
-            <p>IWO</p>
-          </Link>
-        </li>
-       
-        <li className="sidebar-item border-b-[3px] py-3">
-          <Link to="/garnishment" className="sidebar-link">
-            <FaBalanceScaleRight />
-            <p>Garnishment Calculator</p>
-          </Link>
-        </li>
-        <li className="sidebar-item border-b-[3px] py-3">
-          <Link to="/results" className="sidebar-link">
-            <BsFillClipboard2DataFill />
-            <p> Results</p>
-          </Link>
-        </li>
-        <li className="sidebar-item border-b-[3px] py-3">
-          <Link to="/setting" className="sidebar-link" >
-            <FaTools />
-            <p> Settings</p>
-          </Link>
-          
-        </li>
-        <li className="sidebar-item border-b-[3px] py-3">
-          <Link to="/help" className="sidebar-link">
-            <HiChatBubbleLeftRight />
-            <p> Help !</p>
-          </Link>
-        </li>
-        <li className="sidebar-item border-b-[3px] py-3 cus_svg">
-          
-          <p><Logout /></p>
-        </li>
-      </ul>
-      <button className="block md:hidden text-black" onClick={toggleMenuMObile}>
-      <span className="absolute -inset-0.5"></span><span className="sr-only">Open main menu</span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"  stroke="currentColor" aria-hidden="true" data-slot="icon" className="block h-6 w-6"><path  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg>
-      </button>
-      <div id="mobile-menu" className="hidden md:hidden">
-      <ul className="flex flex-col space-y-4 text-white p-4 bg-gray-800">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
+      {/* Main Drawer for Desktop */}
+      <Drawer
+        sx={{
+          width: 260,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: 260,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="permanent"
+        anchor="left"
+      >
+        <Box sx={{ p: 2 }}>
+          <img
+            className="h-6 logo-inner mb-6 ml-2 w-auto custom_logo_side"
+            src={logo_b}
+            alt="Logo"
+            style={{ width: '100%' }}
+          />
+        </Box>
+        <Divider />
+        <List sx={{ flexGrow: 1 }}>
+  <ListItem 
+    button 
+    component={Link} 
+    to="/dashboard" 
+    sx={{ 
+      mb: 2, 
+      '& .MuiListItemIcon-root': { 
+        minWidth: '40px', 
+      }, 
+      '& .MuiListItemText-root': { 
+        maxWidth: '150px', 
+        fontSize: '0.8rem', 
+      } 
+    }}
+  >
+    <ListItemIcon>
+      <FaDashcube />
+    </ListItemIcon>
+    <ListItemText primary="Dashboard" />
+  </ListItem>
+  <ListItem 
+    button 
+    component={Link} 
+    to="/employee" 
+    sx={{ 
+      mb: 2, 
+      '& .MuiListItemIcon-root': { 
+        minWidth: '40px', 
+      }, 
+      '& .MuiListItemText-root': { 
+        maxWidth: '150px', 
+        fontSize: '0.8rem', 
+      } 
+    }}
+  >
+    <ListItemIcon>
+      <FaUserTie />
+    </ListItemIcon>
+    <ListItemText primary="Employee" />
+  </ListItem>
+  <ListItem 
+    button 
+    component={Link} 
+    to="/iwo" 
+    sx={{ 
+      mb: 2, 
+      '& .MuiListItemIcon-root': { 
+        minWidth: '40px', 
+      }, 
+      '& .MuiListItemText-root': { 
+        maxWidth: '150px', 
+        fontSize: '0.8rem', 
+      } 
+    }}
+  >
+    <ListItemIcon>
+      <CgReadme />
+    </ListItemIcon>
+    <ListItemText primary="IWO" />
+  </ListItem>
+  <ListItem 
+    button 
+    component={Link} 
+    to="/garnishment" 
+    sx={{ 
+      mb: 2, 
+      '& .MuiListItemIcon-root': { 
+        minWidth: '40px', 
+      }, 
+      '& .MuiListItemText-root': { 
+        maxWidth: '150px', 
+        fontSize: '0.8rem', 
+      } 
+    }}
+  >
+    <ListItemIcon>
+      <FaBalanceScaleRight />
+    </ListItemIcon>
+    <ListItemText primary="Garnishment Calculator" />
+  </ListItem>
+  <ListItem 
+    button 
+    component={Link} 
+    to="/results" 
+    sx={{ 
+      mb: 2, 
+      '& .MuiListItemIcon-root': { 
+        minWidth: '40px', 
+      }, 
+      '& .MuiListItemText-root': { 
+        maxWidth: '150px', 
+        fontSize: '0.8rem', 
+      } 
+    }}
+  >
+    <ListItemIcon>
+      <BsFillClipboard2DataFill />
+    </ListItemIcon>
+    <ListItemText primary="Results" />
+  </ListItem>
+  <ListItem 
+    button 
+    component={Link} 
+    to="/setting" 
+    sx={{ 
+      mb: 2, 
+      '& .MuiListItemIcon-root': { 
+        minWidth: '40px', 
+      }, 
+      '& .MuiListItemText-root': { 
+        maxWidth: '150px', 
+        fontSize: '0.8rem', 
+      } 
+    }}
+  >
+    <ListItemIcon>
+      <FaTools />
+    </ListItemIcon>
+    <ListItemText primary="Settings" />
+  </ListItem>
+  <ListItem 
+    button 
+    component={Link} 
+    to="/help" 
+    sx={{ 
+      mb: 2, 
+      '& .MuiListItemIcon-root': { 
+        minWidth: '40px', 
+      }, 
+      '& .MuiListItemText-root': { 
+        maxWidth: '150px', 
+        fontSize: '0.8rem', 
+      } 
+    }}
+  >
+    <ListItemIcon>
+      <HiChatBubbleLeftRight />
+    </ListItemIcon>
+    <ListItemText primary="Help!" />
+  </ListItem>
+</List>
+
+        <Divider />
+        <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
+          <ListItem>
+            <Logout />
+          </ListItem>
+        </Box>
+      </Drawer>
+
+      {/* Mobile Drawer */}
+      <IconButton sx={{ display: { xs: 'block', md: 'none' } }} onClick={toggleDrawer}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" className="h-6 w-6">
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        </svg>
+      </IconButton>
+
+      <Drawer
+        sx={{
+          width: 240,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: 240,
+            boxSizing: 'border-box',
+          },
+        }}
+        variant="temporary"
+        anchor="left"
+        open={open}
+        onClose={toggleDrawer}
+      >
+        <Box sx={{ p: 2 }}>
+          <img
+            className="h-6 logo-inner mb-6 ml-2 w-auto custom_logo_side"
+            src={logo_b}
+            alt="Logo"
+            style={{ width: '100%' }}
+          />
+        </Box>
+        <Divider />
+        <List sx={{ flexGrow: 1 }}>
+          <ListItem button component={Link} to="/dashboard">
+            <ListItemIcon>
+              <FaDashcube />
+            </ListItemIcon>
+            <ListItemText primary="Dashboard" />
+          </ListItem>
+          <ListItem button component={Link} to="/employee">
+            <ListItemIcon>
+              <FaUserTie />
+            </ListItemIcon>
+            <ListItemText primary="Employee" />
+          </ListItem>
+          <ListItem button component={Link} to="/iwo">
+            <ListItemIcon>
+              <CgReadme />
+            </ListItemIcon>
+            <ListItemText primary="IWO" />
+          </ListItem>
+          <ListItem button component={Link} to="/garnishment">
+            <ListItemIcon>
+              <FaBalanceScaleRight />
+            </ListItemIcon>
+            <ListItemText primary="Garnishment Calculator" />
+          </ListItem>
+          <ListItem button component={Link} to="/results">
+            <ListItemIcon>
+              <BsFillClipboard2DataFill />
+            </ListItemIcon>
+            <ListItemText primary="Results" />
+          </ListItem>
+          <ListItem button component={Link} to="/setting">
+            <ListItemIcon>
+              <FaTools />
+            </ListItemIcon>
+            <ListItemText primary="Settings" />
+          </ListItem>
+          <ListItem button component={Link} to="/help">
+            <ListItemIcon>
+              <HiChatBubbleLeftRight />
+            </ListItemIcon>
+            <ListItemText primary="Help!" />
+          </ListItem>
+        </List>
+        <Divider />
+        <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
+          <ListItem>
+            <Logout />
+          </ListItem>
+        </Box>
+      </Drawer>
     </>
   );
 };

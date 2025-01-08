@@ -361,7 +361,15 @@ section {
     margin-top: 3px;
     margin-right: 4px;
 }
-
+.dark-mode {
+    background-color: #121212;
+    color: white;
+  }
+  
+  .light-mode {
+    background-color: white;
+    color: black;
+  }
 button.show_btn {
     padding: 5px 14px;
     border: 1px solid #ffffff4f !important;
