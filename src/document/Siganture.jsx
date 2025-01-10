@@ -7,7 +7,7 @@ import { CiCalculator1 } from "react-icons/ci";
 
 import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-import { Signature_crls,SignatureMenus}     from '../constants/signature';
+import { SignatureMenus}     from '../constants/signature';
 import Documentation from './Documentation';
 import ApiRef from './apiRef';
 import Calculation from './Calculation';
@@ -43,8 +43,9 @@ const Signature = () => {
       case 'documentation':
         return (
           <ul>
-            <li><a href="#PEOLogin">PEO Login</a></li>
-            <li><a href="#AuthLogin">{Signature_crls.AuthLogin}</a></li>
+            <li><a href="#Introduction">Introdution</a></li>
+            <li><a href="#PEOLogin">Login</a></li>
+            {/* <li><a href="#AuthLogin">{Signature_crls.AuthLogin}</a></li> */}
             {/* <li className="sub">
               <a href="#Authentication" onClick={() => toggleSubmenu('authentication')}>
                 <p>Authentication {submenuOpen['authentication'] ? <IoIosArrowUp/> : <IoIosArrowDown/>}</p>
@@ -68,9 +69,9 @@ const Signature = () => {
                 </ul>
               )}
             </li> */}
-             <li><a href="#CompanyOnboarding">Company Onboarding</a></li>
-            <li><a href="#EmployeeOnboarding">Employee Onboarding</a></li>
-            <li><a href="#EmployerPortal">Dashboard Portal</a></li>
+             <li><a href="#CompanyOnboarding">Company Registration</a></li>
+            <li><a href="#EmployeeOnboarding">Employee Registration</a></li>
+            {/* <li><a href="#EmployerPortal">Dashboard Portal</a></li> */}
             {/* <li><a href="#Garnishment">Garnishment</a></li> */}
             <li className="sub">
               <a href="#Garnishment" onClick={() => toggleSubmenu('Garnishment')}>
@@ -128,8 +129,8 @@ const Signature = () => {
               )}
             </li>
             <li><a href="#GarnishmentCalculation">GarnishmentCalculation <span className="post">Post</span></a></li>
-            <li><a href="#UserRemove">UserRemove <span className="delete">Delete</span></a></li>
-            <li><a href="#CompanyRemove">CompanyRemove <span className="delete">Delete</span></a></li>
+            {/* <li><a href="#UserRemove">UserRemove <span className="delete">Delete</span></a></li>
+            <li><a href="#CompanyRemove">CompanyRemove <span className="delete">Delete</span></a></li> */}
             {/* <li><a href="#initiateGarnishment">initiateGarnishment <span className="put">Put</span></a></li> */}
           </ul>
         );
@@ -220,7 +221,7 @@ const Signature = () => {
                 <FaCode /> API References
               </a>
             </li>
-            <li className={`mb-2 ${activeMenu === 'Calculation' ? 'active_cls' : ''}`}>z  
+            <li className={`mb-2 ${activeMenu === 'Calculation' ? 'active_cls' : ''}`}>
               <a href="#Login-Employer1" onClick={() => setActiveMenu('Calculation')}>
                 <CiCalculator1 /> Calculation
               </a>

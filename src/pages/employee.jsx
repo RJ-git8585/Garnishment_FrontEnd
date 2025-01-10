@@ -1,6 +1,6 @@
 
 // eslint-disable-next-line no-unused-vars
-import { React, useState, useEffect } from 'react';
+import { React, useState,useRef, useEffect } from 'react';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
 import DeleteItemComponent from '../component/DeleteItemComponent';
@@ -10,7 +10,7 @@ import { FaPlus } from "react-icons/fa";
 // import load from '../bouncing-circles.svg';
 import { BASE_URL } from '../Config';
 import {  Link } from 'react-router-dom';
-import { DataGrid,GridToolbar } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import '@mui/material/styles';
 
@@ -29,20 +29,23 @@ import '@mui/material/styles';
   // const [editId, setEditId] = useState(null);
   // const [editableFields, setEditableFields] = useState({});
 
+  const dataFetchedRef = useRef(false);
+
   useEffect(() => {
-    const fetchData = async () => {
-      // setLoading(true);
-      try {
-        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
-        const jsonData = await response.json();
-        setData(jsonData.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        // setLoading(false);
-      }
-    };
-    fetchData();
+      if (dataFetchedRef.current) return;
+      dataFetchedRef.current = true;
+      
+      const fetchData = async () => {
+        try {
+          const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
+          const jsonData = await response.json();
+          setData(jsonData.data);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+  
+      fetchData();
   }, [id]);
 
   // const selectPageHandler = (selectedPage) => {
@@ -192,17 +195,15 @@ import '@mui/material/styles';
         )
       },
     ]}
+    // x/ Allow density selection
     rows={data}
-    pageSize={10} // Display 10 rows per page
-    rowsPerPageOptions={[10, 20, 50]} // Dropdown options for page size
-    pagination
-    paginationMode="client" // Enable client-side pagination
-    components={{
-      Toolbar: GridToolbar, // Add Export and Search functionality
-    }}
-    disableColumnFilter={false} // Enable column filtering
-    disableColumnSelector={false} // Allow column selection
-    disableDensitySelector={false} // Allow density selection
+    // loading
+    //     slotProps={{
+    //       loadingOverlay: {
+    //         variant: 'linear-progress',
+    //         noRowsVariant: 'linear-progress',
+    //       },
+    //     }}
   />
 </Box>
 

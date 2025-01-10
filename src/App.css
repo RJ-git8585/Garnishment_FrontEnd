@@ -2,6 +2,7 @@
 body{
   font-size: 12px;
 }
+
 nav.navbar.navbar-expand-lg.bg-body-tertiary {
   background: rgb(14, 15, 15)  !important;
 }
@@ -23,6 +24,7 @@ nav.navbar.navbar-expand-lg.bg-body-tertiary {
   background-color: rgb(25, 26, 28) !important;
  
 }
+
 .nav {
   /* background-color: yellow;  */
   list-style-type: none;

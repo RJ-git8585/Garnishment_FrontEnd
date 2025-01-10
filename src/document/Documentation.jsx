@@ -1,217 +1,185 @@
-// import React from 'react'
+import { useState,useRef, useEffect } from 'react';
 import { FaCode } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import  { useState } from 'react';
-import { CompanyOnboarding,EmployeeOnboarding,LoginCrl,PEO} from '../constants/apiConstants'; // Import multiple constants
- // Import multiple constants
- import { Documentations }     from '../constants/signature';
+import { AppBar, Toolbar, Typography, TextField, Box, Button } from '@mui/material';
+import { CompanyOnboarding, EmployeeOnboarding, Authentication } from '../constants/apiConstants';
+import { Documentations } from '../constants/signature';
+import InputAdornment from '@mui/material/InputAdornment';
+import { TbArrowBigDownLinesFilled } from "react-icons/tb";
+
+
+// import TextField from '@mui/material/TextField';
 
 function Documentation() {
+  const [activeCode, setActiveCode] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const textFieldRef = useRef(null);
 
-     const [activeCode, setActiveCode] = useState(null);
-     const toggleCode = (codeType) => {
-        // If the clicked button's code is already shown, hide it, else show it
-        setActiveCode(activeCode === codeType ? null : codeType);
-      };
+  const toggleCode = (codeType) => {
+    setActiveCode(activeCode === codeType ? null : codeType);
+  };
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // Check for a specific key, e.g., "F"
+      if (event.key === 'F' || event.key === 'f') {
+        event.preventDefault(); // Prevent defafult browser behavior
+        textFieldRef.current.focus(); // Focus the TextField
+      }
+    };
 
+    // Add the event listener
+    window.addEventListener('keydown', handleKeyDown);
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  // Documentation Sections
+  const sections = [
+
+    {
+        id: 'Introduction',
+        title: 'Introduction',
+        description: 'The Garnishment Engine API provides programmatic access to manage and process garnishment orders, including employee wage deductions and reporting. It is designed for payroll systems and financial institutions to handle garnishment workflows efficiently and accurately',
+        hideButton: true, // Hide the button
+        inputsText: '',
+        code: '',
+      },
+    {
+      id: 'PEOLogin',
+      title: 'Login',
+      description: 'The Login API allows users to authenticate and gain access to the application. upon successful authentication, the API returns an access token, enabling secure communication with other protected endpoints.',
+      inputs: (
+        <>
+          <li><kbd>Username/email</kbd> - Login identifier for the user (email or username)</li>
+          <li><kbd>Password</kbd> - Password of the user</li>
+        
+        </>
+      ),
+      inputsText: 'PEOID, PEO Name, Address, User name, Email,Organisation',
+      code: Authentication,
+    },
+    // {
+    //   id: 'AuthLogin',s
+    //   title: Documentations.AuthLogin,
+    //   description: Documentations.authLoginSubtext,
+    //   inputsText: '',
+    //   code: LoginCrl,
+    // },
+    {
+      id: 'CompanyOnboarding',
+      title: Documentations.CompanyOnboardingtitle,
+      description: Documentations.CompanyOnboardingSubtext,
+      inputs: (
+        <>
+          <li><kbd>CID</kbd> - Unique Company / Client identifier no.</li>
+          <li><kbd>PEO Name</kbd> - Name of the Professional employer organisation</li>
+          <li><kbd>Address</kbd> - Registered or official address of the PEO</li>
+          <li><kbd>User name</kbd> - unique identifier for the PEO</li>
+          <li><kbd>Email</kbd> -  Email ID for the PEO</li>
+        </>
+      ),
+      inputsText: 'CID, PEO Name, Address, User name, Email',
+      code: CompanyOnboarding,
+    },
+    {
+      id: 'EmployeeOnboarding',
+      title: Documentations.EmployeeOnboardingtitle,
+      description: Documentations.EmployeeOnboardingSubtext,
+      inputsText: '',
+      code: EmployeeOnboarding,
+    },
+  ];
+
+  // Filter Sections Based on Search Query
+  const filteredSections = sections.filter((section) => 
+    section.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    section.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    section.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    section.inputsText.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>
-    <section id="post">
-                           <section>
-                                    <p className="overviews_cls">{Documentations.Overview}</p>    
-                                    <h1 className="mt-2 mb-20 font-bold text-gray-500">{Documentations.DocTitle}</h1>
-                                    <p>{Documentations.DoctitleSubtext}</p>
-                            </section>
+      {/* MUI Header with Search Bar */}
+      <AppBar position="static" sx={{ backgroundColor: 'transparent' }}>
+        <Toolbar>
+          <Typography variant="h5" sx={{ flexGrow: 1 }}>
+            Documentation
+          </Typography>
+            <TextField
+            variant="outlined"
+            size="small"
+            placeholder="Search..."
+            className="search_bar"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            inputRef={textFieldRef} // Attach the ref to the TextField
+            sx={{
+                backgroundColor: 'transparent',
+                borderRadius: '4px',
+                '& .MuiOutlinedInput-root': {
+                '& fieldset': { borderColor: '#9c9c9c40' },
+                '&:hover fieldset': { borderColor: '#aaa' },
+                '&.Mui-focused fieldset': { borderColor: '#aaa' },
+                },
+            }}
+            InputProps={{
+                endAdornment: (
+                    <InputAdornment className="Inputset_cls" position="end">
+                    <TbArrowBigDownLinesFilled sx={{ color: 'white', mr: 0.5 }} />
+                    <span style={{ color: '#817f7f99', fontWeight: 'bold', fontSize: '0.8rem',marginRight:'5px' }}>F</span>
+                  </InputAdornment>
+                ),
+            }}
+            />
+          <Button className="show_btn_New" variant="contained" sx={{ ml: 1, backgroundColor: '#2980b9' }}>
+            Search
+          </Button>
+        </Toolbar>
+      </AppBar>
 
-                              <section id="PEOLogin">
-            
-                                        <h2 >PEO / ADMIN LOGIN</h2>
-                                        <p>The PEO/ADMIN Login API allows users to authenticate and gain access to the application. Upon successful authentication, the API returns an access token, enabling secure communication with other protected endpoints.</p>
-                                        
-                                        <button 
-                                        onClick={() => toggleCode('PEOLogin')}
-                                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                        className="show_btn"
-                                        >
-                                        <FaCode /> {activeCode === 'PEOLogin' ? 'Hide Code' : 'Show Code'}
-                                        </button>
-                                        {activeCode === 'PEOLogin' && (
-                                            <SyntaxHighlighter language="json5" style={xonokai}>
-                                            {PEO}
-                                            </SyntaxHighlighter>
-                                        )}
-                                        
-                                        
-                            </section>
-                            
-   
-          
-                     {/* <section id="Authentication"> */}
-            
-                                {/* <h2 >{Documentations.AuthenticationTitle}</h2>
-                                <p>{Documentations.AuthenticationsubtestAuthtext1}</p>
-                                
-                                <button 
-                                onClick={() => toggleCode('EMPLOYER_PORTAL')}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                className="show_btn"
-                                >
-                                <FaCode /> {activeCode === 'EMPLOYER_PORTAL' ? 'Hide Code' : 'Show Code'}
-                                </button>
-                                {activeCode === 'EMPLOYER_PORTAL' && (
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                    {Authentication}
-                                    </SyntaxHighlighter>
-                                )} */}
-                                
-                                
-                     {/* </section> */}
-                     <section id="AuthLogin" className="SubSection">
-            
-                                                <h2 >{Documentations.AuthLogin}</h2>
-                                                <p>{Documentations.authLoginSubtext}</p>  
-                                                <button 
-                                                onClick={() => toggleCode('LOGIN')}
-                                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                                className="show_btn"
-                                                >
-                                                <FaCode /> {activeCode === 'LOGIN' ? 'Hide Code' : 'Show Code'}
-                                                </button>
-                                                {activeCode === 'LOGIN' && (
-                                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                                    {LoginCrl}
-                                                    </SyntaxHighlighter>
-                                                )}
-            
-            
-                                    </section>
-            
-                <section id="CompanyOnboarding">
-            
-                                <h2 >{Documentations.CompanyOnboardingtitle}</h2>
-                                <p>{Documentations.CompanyOnboardingSubtext}</p>
-                                            <button 
-                                onClick={() => toggleCode('COMPANY_ONBOARDING')}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                className="show_btn"
-                                >
-                                <FaCode /> {activeCode ? 'Hide Code' : 'Show Code'}
-                                </button>
-                                {activeCode === 'COMPANY_ONBOARDING' && (
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                    {CompanyOnboarding},
-                                    </SyntaxHighlighter>
-                                )}
-                 </section>
-
-               
-
-                <section id="EmployeeOnboarding">
-                                <h2>{Documentations.EmployeeOnboardingtitle}</h2>
-                                <p>{Documentations.EmployeeOnboardingSubtext}</p>
-                                <p><strong>Endpoint:</strong> <code>/User/EmployeeOnboarding</code></p>
-
-                                <button 
-                                onClick={() => toggleCode('EMPLOYEE_ONBOARDING')}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                className="show_btn"
-                                >
-                                <FaCode /> {activeCode === 'EMPLOYEE_ONBOARDING' ? 'Hide Code' : 'Show Code'}
-                                </button>
-                                {activeCode === 'EMPLOYEE_ONBOARDING' && (
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                    {EmployeeOnboarding}
-                                    </SyntaxHighlighter>
-                                )}
-        
-                </section>
-                {/* <section id="EmployerPortal">
-                                <h2>{Documentations.EmployersPortalTille}</h2>
-                                <p>{Documentations.EmployerPortalSubtext}</p>
-                                <p><strong>Endpoint:</strong> <code>/User/Dashboard</code></p>
-                                <button 
-                                onClick={() => toggleCode('DASHBOARD')}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                className="show_btn"
-                                >
-                                <FaCode /> {activeCode === 'DASHBOARD' ? 'Hide Code' : 'Show Code'}
-                                </button>
-                                {activeCode === 'DASHBOARD' && (
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                    {Dashboard}
-                                    </SyntaxHighlighter>
-                                )}
-                                
-                </section> */}
-                {/* <section id="Garnishment" className="">
-                                <h2>{Documentations.GarnishementPortalTille}</h2>
-                                <p>{Documentations.GarnishementPortalSubtext}</p>
-                </section>
-                <section id="ChildSupport" className="SubSection">
-                                <h2>Child Support</h2>
-                                <p>{Documentations.EmployerPortalSubtext}</p>
-                                <p><strong>Endpoint:</strong> <code>/User/CalculationDataView</code></p>
-                                <button 
-                                onClick={() => toggleCode('ChildSupport')}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                className="show_btn"
-                                >
-                                <FaCode /> {activeCode === 'ChildSupport' ? 'Hide Code' : 'Show Code'}
-                                </button>
-                                {activeCode === 'ChildSupport' && (
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                    {ChildSupport}
-                                    </SyntaxHighlighter>
-                                )}
-                                
-                </section>
-                <section id="Fedral" className="SubSection">
-                                <h2>Fedral</h2>
-                                <p>{Documentations.EmployerPortalSubtext}</p>
-                                <p><strong>Endpoint:</strong> <code>/User/FederalCaseData</code></p>
-                                <button 
-                                onClick={() => toggleCode('Fedral')}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                className="show_btn"
-                                >
-                                <FaCode /> {activeCode === 'Fedral' ? 'Hide Code' : 'Show Code'}
-                                </button>
-                                {activeCode === 'Fedral' && (
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                    {Fedral}
-                                    </SyntaxHighlighter>
-                                )}
-                                
-                </section>
-                <section id="StudentLoan" className="SubSection">
-                                <h2>Multi Student Loan</h2>
-                                <p>{Documentations.EmployerPortalSubtext}</p>
-                                <p><strong>Endpoint:</strong> <code>/User/MiltipleStudentLoanCalculationData</code></p>
-                                <button 
-                                onClick={() => toggleCode('StudentLoan')}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1em' }}
-                                className="show_btn"
-                                >
-                                <FaCode /> {activeCode === 'StudentLoan' ? 'Hide Code' : 'Show Code'}
-                                </button>
-                                {activeCode === 'StudentLoan' && (
-                                    <SyntaxHighlighter language="json5" style={xonokai}>
-                                    {StudentLoan}
-                                    </SyntaxHighlighter>
-                                )}
-                                
-                </section> */}
-    </section>
-
-
-
-
-    
+      {/* Documentation Sections */}
+      <section id="post">
+        <h2 className ="m-0">Garnishment Engine API Documentation</h2>
+        {filteredSections.length > 0 ? (
+          filteredSections.map((section) => (
+            <section key={section.id} id={section.id} className="SubSection">
+              <h3 >{section.title}</h3>
+              <p>{section.description}</p>
+              {section.inputs}
+                    {!section.hideButton && ( // Conditionally render the button
+                <button
+                    onClick={() => toggleCode(section.id)}
+                    style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    fontSize: '1em',
+                    }}
+                    className="show_btn"
+                >
+                    <FaCode /> {activeCode === section.id ? 'Hide Code' : 'Show Code'}
+                </button>
+                )}
+              {activeCode === section.id && (
+                <SyntaxHighlighter language="json5" style={xonokai}>
+                  {section.code} 
+                </SyntaxHighlighter>
+              )}
+            </section>
+          ))
+        ) : (
+          <Box sx={{ p: 4, textAlign: 'left', color: '#888' }}>
+            <Typography variant="h6">No matching documentation found.</Typography>
+          </Box>
+        )}
+      </section>
     </>
-  )
+  );
 }
 
-export default Documentation
+export default Documentation;

@@ -30,6 +30,7 @@ export const Signature_crls = {
     DoctitleSubtext: `The Garnishment Engine API provides programmatic access to manage and process garnishment orders, including employee wage deductions and reporting. It is designed for payroll systems and financial institutions to handle garnishment workflows efficiently and accurately.`,
 
 
+
     GettingStartTitle: `Get Started`,
     GettingStartsubtest:`Garnishment API provides programmatic access to read data. Retrieve Users, filter them, etc.`,
 
@@ -49,12 +50,13 @@ export const Signature_crls = {
     GarnishementPortalSubtext:`This core section dives deep into the APIs responsible for the actual payroll process. It covers everything from initiate payroll, through to running payroll, making adjustments, and resolving any issues that may arise.`,
 
 
-    EmployeeOnboardingtitle:`Employee Onboarding`,
-    EmployeeOnboardingSubtext:`Here you will find comprehensive information on the APIs used to onboard new employees, including personal details and tax information.`,
+    EmployeeOnboardingtitle:`Employee Registration`,
+    EmployeeOnboardingSubtext:`Here you will find comprehensive information on the API’s used to register new employees, including their demographic and tax details.`,
+    
 
 
-    CompanyOnboardingtitle:`Company Onboarding`,
-    CompanyOnboardingSubtext:`This section provides a step-by-step guide for integrating a new company into the system. It details the endpoints necessary for registering a company, setting up bank accounts, and configuring initial settings.`,
+    CompanyOnboardingtitle:`Company Registration`,
+    CompanyOnboardingSubtext:`This section has been updated to include a step-by-step guide for integrating a new company and configuring initial settings.`,
 
 
   };

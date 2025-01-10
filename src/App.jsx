@@ -17,6 +17,7 @@ import Forgot from './pages/forgot';
 import Setting from './pages/setting';
 import Help from './pages/Help';
 import Tax from './pages/Tax';
+
 // import SingleChild from './forms/SingleChild';
 import Garnishment from './pages/Garnishment';
 // import Privacy from './pages/privacy';
