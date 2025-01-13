@@ -272,12 +272,12 @@ li.mb-2.active_cls {
 }   
 
 .doc_content h3 {
-    color: #ffffff;
-    /* margin-top: 20px; */
+    color: #fff;
     margin-bottom: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: 'Roboto';
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-family: Roboto;
 }
 section#post {
     max-width: 100%;
@@ -288,9 +288,9 @@ section#post {
     color: #b8b8b8c7;
     line-height: 1.6;
     margin: 10px 0;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 100;
-    letter-spacing: 1.5px;   
+    letter-spacing: 1.1px;;   
 }
 .docs .query-params-table th{
     background: gray;
