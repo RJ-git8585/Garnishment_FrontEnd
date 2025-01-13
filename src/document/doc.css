@@ -138,7 +138,7 @@ li.mb-2.active_cls {
     display: none;
 }
 .doc_content h6 {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 800;
 }
 .menu-toggle:checked + .submenu {

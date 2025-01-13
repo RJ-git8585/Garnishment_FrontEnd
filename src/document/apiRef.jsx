@@ -88,7 +88,7 @@ function ApiRef() {
       <AppBar position="static" sx={{ backgroundColor: 'transparent' }}>
         <Toolbar>
           <Typography variant="h5" sx={{ flexGrow: 1 }}>
-            Documentation
+            API Reference
           </Typography>
             <TextField
             variant="outlined"
