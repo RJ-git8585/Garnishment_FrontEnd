@@ -1,80 +1,95 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
-import './App.css'
-
-import Products from './pages/Tax'
-import Signup from './pages/Signup'
+import React from 'react';
+import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Form from './component/form'  
+
+// Pages
 import Dashboard from './pages/dashboard';
-import Logout from './pages/Logout';
-import Profile from './pages/Profile';
-import Forgot from './pages/forgot';
-import Setting from './pages/Setting';
-import Help from './pages/Help';
-import Tax from './pages/Tax';
-import Garnishment from './pages/Garnishment';
-import PrivateRoute from './component/PrivateRoute';
 import Employee from './pages/employee';
-import Notfound from './pages/Notfound';
-import AddEmployee from './component/AddEmployee';
-import AddDepartment from './component/AddDepartment';
-import AddTax from './component/AddTax';
-import AddLocation from './component/AddLocation';
-import Department from './pages/department';
-import Location from './pages/Location';
-import Iwo from './pages/Iwo';
-import Apis from './component/Apis';
-import PasswordResetConfirm from './pages/PasswordResetConfirm';
-import Order from './pages/Order';
-import Results from './pages/Results';
-import PublicRoute from './component/PublicRoute';
-import Siganture from './document/Siganture';
 import EmployeeProfile from './pages/EmployeeProfile';
 import EmpImport from './pages/EmpImport';
+import Forgot from './pages/forgot';
+import Garnishment from './pages/Garnishment';
+import Help from './pages/Help';
+import Iwo from './pages/Iwo';
+import Location from './pages/Location';
+import Notfound from './pages/Notfound';
+import Order from './pages/Order';
+import PasswordResetConfirm from './pages/PasswordResetConfirm';
+import Products from './pages/Tax';
+import Profile from './pages/Profile';
+import Results from './pages/Results';
+import Setting from './pages/Setting';
+import Signup from './pages/Signup';
+import Tax from './pages/Tax';
+import AddDepartment from './component/AddDepartment';
+import AddEmployee from './component/AddEmployee';
+import AddLocation from './component/AddLocation';
+import AddTax from './component/AddTax';
+import Department from './pages/department';
+import Form from './component/form';
+import Logout from './pages/Logout';
+
+
+// Components
+import PrivateRoute from './component/PrivateRoute';
+import PublicRoute from './component/PublicRoute';
+import Signature from './document/Siganture';
 
 function App() {
-  return (
-    <>
-    
-      <BrowserRouter>
-      <Routes>
+  const publicRoutes = [
+    { path: '/', element: <Form />, restricted: true },
+    { path: '/signup', element: <Signup />, restricted: true },
+    { path: '/forgot', element: <Forgot />, restricted: true },
+    { path: '/reset-password/:token', element: <PasswordResetConfirm />, restricted: true },
+  ];
 
-        {/* Public routes */}
-        <Route path="/" element={<PublicRoute restricted={true}><Form /></PublicRoute>} />
-        <Route path="/signup" element={<PublicRoute restricted={true}><Signup /></PublicRoute>} />
-        <Route path="/forgot" element={<PublicRoute restricted={true}><Forgot /></PublicRoute>} />
-        <Route path="/reset-password/:token" element={<PublicRoute restricted={true}><PasswordResetConfirm /></PublicRoute>} />
-        {/* PRIVATE PAGE */}
-        <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
-        <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
-        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-        <Route path="/setting" element={<PrivateRoute><Setting /></PrivateRoute>} />
-        <Route path="/help" element={<PrivateRoute><Help /></PrivateRoute>} />
-        <Route path="/tax" element={<PrivateRoute><Tax /></PrivateRoute>} />
-        <Route path="/garnishment" element={<PrivateRoute><Garnishment /></PrivateRoute>} />
-        {/* <Route path="/privacy" element={<Privacy />} /> */}
-        <Route path="/employee" element={<PrivateRoute><Employee /></PrivateRoute>} />
-        <Route path="/order" element={<PrivateRoute><Order /></PrivateRoute>} />
-        <Route path="/addemployee" element={<PrivateRoute><AddEmployee /></PrivateRoute>} />
-        <Route path="/adddepartment" element={<PrivateRoute><AddDepartment /></PrivateRoute>} />
-        <Route path="/addlocation" element={<PrivateRoute><AddLocation /></PrivateRoute>} />
-        <Route path="/department" element={<PrivateRoute><Department /></PrivateRoute>} />
-        <Route path="/location" element={<PrivateRoute><Location /></PrivateRoute>} />
-        <Route path="/iwo" element={<PrivateRoute><Iwo /></PrivateRoute>} />
-        <Route path="/results" element={<PrivateRoute><Results /></PrivateRoute>} />
-        <Route path="/addtax" element={<PrivateRoute><AddTax /></PrivateRoute>} />
-        <Route path="/employee/:id/:employeeId" element={<PrivateRoute><EmployeeProfile /></PrivateRoute>} />
+  const privateRoutes = [
+    { path: '/dashboard', element: <Dashboard /> },
+    { path: '/logout', element: <Logout /> },
+    { path: '/products', element: <Products /> },
+    { path: '/profile', element: <Profile /> },
+    { path: '/setting', element: <Setting /> },
+    { path: '/help', element: <Help /> },
+    { path: '/tax', element: <Tax /> },
+    { path: '/garnishment', element: <Garnishment /> },
+    { path: '/employee', element: <Employee /> },
+    { path: '/order', element: <Order /> },
+    { path: '/addemployee', element: <AddEmployee /> },
+    { path: '/adddepartment', element: <AddDepartment /> },
+    { path: '/addlocation', element: <AddLocation /> },
+    { path: '/department', element: <Department /> },
+    { path: '/location', element: <Location /> },
+    { path: '/iwo', element: <Iwo /> },
+    { path: '/results', element: <Results /> },
+    { path: '/addtax', element: <AddTax /> },
+    { path: '/employee/:id/:employeeId', element: <EmployeeProfile /> },
+    { path: '/EmpImport', element: <EmpImport /> },
+  ];
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Public Routes */}
+        {publicRoutes.map(({ path, element, restricted }) => (
+          <Route
+            key={path}
+            path={path}
+            element={<PublicRoute restricted={restricted}>{element}</PublicRoute>}
+          />
+        ))}
+
+        {/* Private Routes */}
+        {privateRoutes.map(({ path, element }) => (
+          <Route key={path} path={path} element={<PrivateRoute>{element}</PrivateRoute>} />
+        ))}
+
+        {/* Other Routes */}
+        <Route path="/docs" element={<Signature />} />
         <Route path="*" element={<Notfound />} />
-        <Route path="/docs" element={<Siganture />} />
-        <Route path="apis" element={<Apis />} />
-        <Route path="EmpImport" element={<PrivateRoute><EmpImport /></PrivateRoute> } />
       </Routes>
     </BrowserRouter>
-       
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

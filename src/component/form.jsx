@@ -16,9 +16,6 @@ function Form() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-
-
-
   const togglePasswordVisibility = () => {
     // alert(showPassword)
       setShowPassword(!showPassword);
@@ -75,126 +72,124 @@ function Form() {
   
   return (
     <>
-      <div className="flex lg:h-screen  dark:bg-slate-800 flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="grid grid-flow-row-dense md:max-lg:flex lg:p-6 lg:mr-4 mt-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 items-center place-items-center">
-                  <div className=" sm:mx-auto left_side_login     border-orange-50 sm:w-full sm:max-w-md">
-                                  <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
-                        <h2 className=" text-center dark:text-white text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                          Sign in to your account
-                        </h2>
-                                <form onSubmit={handleSubmit} className="lg:mr-4 mt-10 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50">
-                                  <div>
-                                    <label htmlFor="username" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">
-                                      Email
-                                    </label>
-                                    <div className="mt-2">
-                                      <input
-                                        id="email"
-                                        name="email"
-                                        type="text"
-                                        value={email}
-                                        onChange={(e) => setemail(e.target.value)}
-                                        autoComplete="email"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <label htmlFor="password" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">
-                                      Password
-                                    </label>
-                                    <div className="mt-2">
-                                      <input
-                                        id="password"
-                                        name="password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        autoComplete="current-password"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                      />
-                                       <button
+     <div className="flex min-h-screen dark:bg-slate-800 flex-col lg:flex-row justify-center items-center px-6 py-12 lg:px-8">
+  {/* Left Section: Sign-In Form */}
+  <div className="max-w-md w-full p-6 bg-white dark:bg-slate-900 rounded-lg shadow-lg">
+    <img className="mx-auto h-12 w-auto mb-6" src={logo} alt="Your Company Logo" />
+    <h2 className="text-center text-2xl font-bold text-gray-800 dark:text-white mb-6">
+      Sign in to your account
+    </h2>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Email Input */}
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          value={email}
+          onChange={(e) => setemail(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 py-2 px-3 text-gray-800 dark:text-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Enter your email"
+        />
+      </div>
+
+      {/* Password Input */}
+      <div className="relative">
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="mt-1 block w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-800 py-2 px-3 text-gray-800 dark:text-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Enter your password"
+        />
+        <button
           type="button"
           onClick={togglePasswordVisibility}
-          className="absolute right-2 custom_position text-gray-500"
+          className="absolute right-3 top-9 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
         >
-        {showPassword ? (
-            // Eye SVG (colored) for visible password
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-.722 2.185-2.064 4.065-3.758 5.473M15 12l5.573 5.573M12 15v-3m6 6l-6-6" />
+          {showPassword ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 4.5c-4.97 0-9.27 3.11-10.99 7.5C2.73 15.89 7.03 19 12 19s9.27-3.11 10.99-7.5C21.27 7.61 16.97 4.5 12 4.5z" />
+              <circle cx="12" cy="12" r="3" />
             </svg>
           ) : (
-            // Eye-slash SVG (colored) for hidden password
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A9.972 9.972 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.984 9.984 0 012.45-4.596m6.198-1.203a9.969 9.969 0 014.894.555M12 12a3 3 0 103-3m0 0a9.984 9.984 0 013.742 6.242M3 3l18 18" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 4.5c4.97 0 9.27 3.11 10.99 7.5C21.27 15.89 16.97 19 12 19s-9.27-3.11-10.99-7.5C2.73 7.61 7.03 4.5 12 4.5z" />
+              <path d="M12 15c1.65 0 3-1.35 3-3s-1.35-3-3-3-3 1.35-3 3 1.35 3 3 3z" />
             </svg>
           )}
         </button>
-                                    </div>
-                                    {errorMessage && <p className="error">{errorMessage}</p>}
-                                  </div>
-                                  <div className="text-sm">
-                                      <a href="/forgot" className="font-semibold py-1.5 text-orange-500 hover:text-indigo-500">
-                                        Forgot password?
-                                      </a>
-                                      <p className="italic text-xs text-gray-400">By signing in, you agree to our  <a href="/privacy" className="font-semibold py-1.5 text-orange-500 hover:text-indigo-500">Privacy Policy. </a></p>
-                                    </div>
-                                  
-                                  <div>
-                                    <button
-                                      type="submit"
-                                      className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-                                    >
-                                      Sign in
-                                    </button>
-                                  
-                                    
-                                  </div>
-                                </form>
-                    <p className="mt-10 text-center text-sm p-6 text-gray-500 dark:text-white">
-                      Not a member?{' '}
-                      <a href="/signup" className="font-semibold leading-6 text-orange-500 hover:text-indigo-500">
-                        Signup
-                      </a>
-                    </p>
-                    
-                      </div>
-                             <div className="text-left mt-20 right_side_login ml-10 sm:mx-auto sm:w-full sm:max-w-lg">
-                                <div className='text-white  text-2xl'>Sign in easily using your existing account from <b className="text-amber-500" >Social Accounts</b>. No need to create a new password or remember multiple login credentials.</div>
-                                  <div className='text-white  border-b-[0.5px] border-orange-50 pb-5 text-2xl'>
-                                    Keep the text clear, concise, and easy to understand.
-                         Security: If applicable, you can mention that the SSO login process is secure and user credentials are not stored locally.  </div>
-                     
-
-                         <div className="custom_page  mt-8 pb-16">
-                   
-                   <h1 className='text-white text-2xl font-bold'>Login with SSO</h1>
-                   
-                  
-                     <h4 className='text-white mt-2'>We encountered an issue while signing you in with SSO.</h4>
-                     <p className='text-white text-xs mt-2'>SSO login process is secure and user credentials are not stored locally.</p>
-                   <div className='inline-block_cus'>
-                   <a href="https://dev-ntapzgi6ocsiwjal.us.auth0.com/samlp/PxYyuHmOIVRrsEHkWFpnOeJL0UpBAXD9">
-                   <FcGoogle className='text-3xl text-white mt-10' />
-                   </a>  
-                   <a href="https://www.facebook.com">
-                   <RiFacebookFill className='text-blue-500 text-3xl mt-10'  />
-                   </a>
-                   {/* <hr className=" text-white  border-b-[0.5px] border-orange-50"></hr> */}
-                     
-                   <div className="LinkForInternal mt-2 mb-8 text-white  border-t-[0.5px] border-orange-50 pb-2 ">
-                         <a href="/docs" className="font-semibold mt-10  ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Documentation</a> 
-                         <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">API</a> 
-                         <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Contact Us</a>
-                         </div>
-                   </div>
-                   
-</div>
-                      </div>
-             {/* <ToastContainer /> */}
-        </div>
       </div>
+
+      {/* Error Message */}
+      {errorMessage && <p className="text-sm text-red-500">{errorMessage}</p>}
+
+      {/* Forgot Password */}
+      <div className="flex items-center justify-between text-sm">
+        <a href="/forgot" className="text-indigo-600 hover:underline">
+          Forgot password?
+        </a>
+      </div>
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="w-full flex justify-center rounded-md bg-indigo-600 py-2 text-white text-sm font-medium hover:bg-indigo-700"
+      >
+        Sign In
+      </button>
+    </form>
+
+    {/* Signup Link */}
+    <p className="mt-6 text-center text-sm text-gray-500">
+      Not a member?{" "}
+      <a href="/signup" className="font-medium text-indigo-600 hover:underline">
+        Sign up
+      </a>
+    </p>
+  </div>
+
+  {/* Right Section: SSO Info */}
+  <div className="max-w-lg w-full mt-10 lg:mt-0 lg:ml-10 text-center lg:text-left text-gray-100">
+    <h3 className="text-2xl font-bold">
+      Sign in with <span className="text-amber-500">Social Accounts</span>
+    </h3>
+    <p className="mt-4 text-gray-300">
+      No need to create a new password. Enjoy a secure login process where user credentials are not stored locally.
+    </p>
+
+    {/* Social Icons */}
+    <div className="flex justify-center lg:justify-start mt-6 space-x-6">
+      <a href="https://dev-ntapzgi6ocsiwjal.us.auth0.com/samlp/PxYyuHmOIVRrsEHkWFpnOeJL0UpBAXD9">
+        <FcGoogle className="text-4xl" />
+      </a>
+      <a href="https://www.facebook.com">
+        <RiFacebookFill className="text-4xl text-blue-500" />
+      </a>
+    </div>
+
+    {/* Additional Links */}
+    <div className="mt-8 space-x-4 text-sm">
+      <a href="/docs" className="text-indigo-400 hover:underline">
+        Documentation
+      </a>
+      <a href="/api" className="text-indigo-400 hover:underline">
+        API
+      </a>
+      <a href="/contact" className="text-indigo-400 hover:underline">
+        Contact Us
+      </a>
+    </div>
+  </div>
+</div>
     </>
   );
 }

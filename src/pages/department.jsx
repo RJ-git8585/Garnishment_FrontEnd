@@ -3,7 +3,8 @@
 import { React, useState,useEffect } from 'react'
 import Headertop from '../component/Headertop'
 import ProfileHeader from '../component/ProfileHeader'
-import Sidebar from '../component/sidebar'
+import Sidebar from './component/Sidebar.jsx'
+// import {  toast } from 'react-toastify';
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import { FaPlusCircle } from "react-icons/fa";

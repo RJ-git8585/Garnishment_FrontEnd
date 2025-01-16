@@ -21,6 +21,7 @@ const Sidebar = () => {
     { text: 'Garnishment Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
     { text: 'Results', icon: <BsFillClipboard2DataFill />, path: '/results' },
     { text: 'Settings', icon: <FaTools />, path: '/setting' },
+    { text: 'BatchProccsor', icon: <FaBalanceScaleRight />, path: '/BatchCalculation' },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
   ];
 

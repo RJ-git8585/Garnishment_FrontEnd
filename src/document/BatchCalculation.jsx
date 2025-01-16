@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { BASE_URL } from '../Config';
 import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 
-const Calculation = () => {
+const BatchCalculation = () => {
   const [jsonInput, setJsonInput] = useState('');
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
@@ -250,4 +250,4 @@ const styles = {
   td: { border: '1px solid #ccc', padding: '8px', textAlign: 'left', color: '#fff' },
 };
 
-export default Calculation;
+export default BatchCalculation;
