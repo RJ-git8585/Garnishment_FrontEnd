@@ -9,7 +9,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { SignatureMenus}     from '../constants/signature';
 import Documentation from './Documentation';
-import ApiRef from './apiRef';
+import ApiRef from './ApiRef';
 import Calculation from './Calculation';
 
 

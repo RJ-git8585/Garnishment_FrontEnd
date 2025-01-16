@@ -9,267 +9,73 @@ import Logout from '../pages/Logout';
 import logo_b from '../Logo_black.png';
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false); // State to control mobile drawer
+  const [open, setOpen] = useState(false); // Mobile drawer state
 
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
+  const toggleDrawer = () => setOpen(!open);
+
+  const menuItems = [
+    { text: 'Dashboard', icon: <FaDashcube />, path: '/dashboard' },
+    { text: 'Employee', icon: <FaUserTie />, path: '/employee' },
+    { text: 'Company', icon: <FaUserTie />, path: '/employee' },
+    { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
+    { text: 'Garnishment Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
+    { text: 'Results', icon: <BsFillClipboard2DataFill />, path: '/results' },
+    { text: 'Settings', icon: <FaTools />, path: '/setting' },
+    { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
+  ];
+
+  const renderMenuItems = () =>
+    menuItems.map((item) => (
+      <ListItem button component={Link} to={item.path} key={item.text}>
+        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemText primary={item.text} />
+      </ListItem>
+    ));
+
+  const drawerContent = (
+    <Box>
+      <Box sx={{ p: 2 }}>
+        <img src={logo_b} alt="Logo" style={{ width: '100%' }} />
+      </Box>
+      <Divider />
+      <List>{renderMenuItems()}</List>
+      <Divider />
+      <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
+        <ListItem>
+          <Logout />
+        </ListItem>
+      </Box>
+    </Box>
+  );
 
   return (
     <>
-      {/* Main Drawer for Desktop */}
+      {/* Desktop Drawer */}
       <Drawer
-        sx={{
-          width: 260,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: 260,
-            boxSizing: 'border-box',
-          },
-        }}
         variant="permanent"
-        anchor="left"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          '& .MuiDrawer-paper': { width: 260, boxSizing: 'border-box' },
+        }}
       >
-        <Box sx={{ p: 2 }}>
-          <img
-            className="h-6 logo-inner mb-6 ml-2 w-auto custom_logo_side"
-            src={logo_b}
-            alt="Logo"
-            style={{ width: '100%' }}
-          />
-        </Box>
-        <Divider />
-        <List sx={{ flexGrow: 1 }}>
-  <ListItem 
-    button 
-    component={Link} 
-    to="/dashboard" 
-    sx={{ 
-      mb: 2, 
-      '& .MuiListItemIcon-root': { 
-        minWidth: '40px', 
-      }, 
-      '& .MuiListItemText-root': { 
-        maxWidth: '150px', 
-        fontSize: '0.8rem', 
-      } 
-    }}
-  >
-    <ListItemIcon>
-      <FaDashcube />
-    </ListItemIcon>
-    <ListItemText primary="Dashboard" />
-  </ListItem>
-  <ListItem 
-    button 
-    component={Link} 
-    to="/employee" 
-    sx={{ 
-      mb: 2, 
-      '& .MuiListItemIcon-root': { 
-        minWidth: '40px', 
-      }, 
-      '& .MuiListItemText-root': { 
-        maxWidth: '150px', 
-        fontSize: '0.8rem', 
-      } 
-    }}
-  >
-    <ListItemIcon>
-      <FaUserTie />
-    </ListItemIcon>
-    <ListItemText primary="Employee" />
-  </ListItem>
-  <ListItem 
-    button 
-    component={Link} 
-    to="/iwo" 
-    sx={{ 
-      mb: 2, 
-      '& .MuiListItemIcon-root': { 
-        minWidth: '40px', 
-      }, 
-      '& .MuiListItemText-root': { 
-        maxWidth: '150px', 
-        fontSize: '0.8rem', 
-      } 
-    }}
-  >
-    <ListItemIcon>
-      <CgReadme />
-    </ListItemIcon>
-    <ListItemText primary="IWO" />
-  </ListItem>
-  <ListItem 
-    button 
-    component={Link} 
-    to="/garnishment" 
-    sx={{ 
-      mb: 2, 
-      '& .MuiListItemIcon-root': { 
-        minWidth: '40px', 
-      }, 
-      '& .MuiListItemText-root': { 
-        maxWidth: '150px', 
-        fontSize: '0.8rem', 
-      } 
-    }}
-  >
-    <ListItemIcon>
-      <FaBalanceScaleRight />
-    </ListItemIcon>
-    <ListItemText primary="Garnishment Calculator" />
-  </ListItem>
-  <ListItem 
-    button 
-    component={Link} 
-    to="/results" 
-    sx={{ 
-      mb: 2, 
-      '& .MuiListItemIcon-root': { 
-        minWidth: '40px', 
-      }, 
-      '& .MuiListItemText-root': { 
-        maxWidth: '150px', 
-        fontSize: '0.8rem', 
-      } 
-    }}
-  >
-    <ListItemIcon>
-      <BsFillClipboard2DataFill />
-    </ListItemIcon>
-    <ListItemText primary="Results" />
-  </ListItem>
-  <ListItem 
-    button 
-    component={Link} 
-    to="/setting" 
-    sx={{ 
-      mb: 2, 
-      '& .MuiListItemIcon-root': { 
-        minWidth: '40px', 
-      }, 
-      '& .MuiListItemText-root': { 
-        maxWidth: '150px', 
-        fontSize: '0.8rem', 
-      } 
-    }}
-  >
-    <ListItemIcon>
-      <FaTools />
-    </ListItemIcon>
-    <ListItemText primary="Settings" />
-  </ListItem>
-  <ListItem 
-    button 
-    component={Link} 
-    to="/help" 
-    sx={{ 
-      mb: 2, 
-      '& .MuiListItemIcon-root': { 
-        minWidth: '40px', 
-      }, 
-      '& .MuiListItemText-root': { 
-        maxWidth: '150px', 
-        fontSize: '0.8rem', 
-      } 
-    }}
-  >
-    <ListItemIcon>
-      <HiChatBubbleLeftRight />
-    </ListItemIcon>
-    <ListItemText primary="Help!" />
-  </ListItem>
-</List>
-
-        <Divider />
-        <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
-          <ListItem>
-            <Logout />
-          </ListItem>
-        </Box>
+        {drawerContent}
       </Drawer>
 
       {/* Mobile Drawer */}
-      <IconButton sx={{ display: { xs: 'block', md: 'none' } }} onClick={toggleDrawer}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" className="h-6 w-6">
-          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+      <IconButton sx={{ display: { xs: 'block', md: 'none' }, p: 2 }} onClick={toggleDrawer}>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
+          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </IconButton>
-
       <Drawer
-        sx={{
-          width: 240,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: 240,
-            boxSizing: 'border-box',
-          },
-        }}
         variant="temporary"
-        anchor="left"
         open={open}
         onClose={toggleDrawer}
+        sx={{
+          '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box' },
+        }}
       >
-        <Box sx={{ p: 2 }}>
-          <img
-            className="h-6 logo-inner mb-6 ml-2 w-auto custom_logo_side"
-            src={logo_b}
-            alt="Logo"
-            style={{ width: '100%' }}
-          />
-        </Box>
-        <Divider />
-        <List sx={{ flexGrow: 1 }}>
-          <ListItem button component={Link} to="/dashboard">
-            <ListItemIcon>
-              <FaDashcube />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button component={Link} to="/employee">
-            <ListItemIcon>
-              <FaUserTie />
-            </ListItemIcon>
-            <ListItemText primary="Employee" />
-          </ListItem>
-          <ListItem button component={Link} to="/iwo">
-            <ListItemIcon>
-              <CgReadme />
-            </ListItemIcon>
-            <ListItemText primary="IWO" />
-          </ListItem>
-          <ListItem button component={Link} to="/garnishment">
-            <ListItemIcon>
-              <FaBalanceScaleRight />
-            </ListItemIcon>
-            <ListItemText primary="Garnishment Calculator" />
-          </ListItem>
-          <ListItem button component={Link} to="/results">
-            <ListItemIcon>
-              <BsFillClipboard2DataFill />
-            </ListItemIcon>
-            <ListItemText primary="Results" />
-          </ListItem>
-          <ListItem button component={Link} to="/setting">
-            <ListItemIcon>
-              <FaTools />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
-          <ListItem button component={Link} to="/help">
-            <ListItemIcon>
-              <HiChatBubbleLeftRight />
-            </ListItemIcon>
-            <ListItemText primary="Help!" />
-          </ListItem>
-        </List>
-        <Divider />
-        <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
-          <ListItem>
-            <Logout />
-          </ListItem>
-        </Box>
+        {drawerContent}
       </Drawer>
     </>
   );

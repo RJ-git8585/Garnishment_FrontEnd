@@ -1,26 +1,19 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-
-// eslint-disable-next-line no-unused-vars
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 
 import Products from './pages/Tax'
-import Signup from './pages/signup'
+import Signup from './pages/Signup'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Form from './component/form'  
 import Dashboard from './pages/dashboard';
 import Logout from './pages/Logout';
-import Profile from './pages/profile';
+import Profile from './pages/Profile';
 import Forgot from './pages/forgot';
-import Setting from './pages/setting';
+import Setting from './pages/Setting';
 import Help from './pages/Help';
 import Tax from './pages/Tax';
-
-// import SingleChild from './forms/SingleChild';
 import Garnishment from './pages/Garnishment';
-// import Privacy from './pages/privacy';
 import PrivateRoute from './component/PrivateRoute';
 import Employee from './pages/employee';
 import Notfound from './pages/Notfound';
@@ -29,18 +22,15 @@ import AddDepartment from './component/AddDepartment';
 import AddTax from './component/AddTax';
 import AddLocation from './component/AddLocation';
 import Department from './pages/department';
-import Location from './pages/location';
-import Iwo from './pages/iwo';
+import Location from './pages/Location';
+import Iwo from './pages/Iwo';
 import Apis from './component/Apis';
 import PasswordResetConfirm from './pages/PasswordResetConfirm';
-import Order from './pages/order';
-import Results from './pages/results';
-// eslint-disable-next-line no-unused-vars
-import Test from './component/test';
+import Order from './pages/Order';
+import Results from './pages/Results';
 import PublicRoute from './component/PublicRoute';
 import Siganture from './document/Siganture';
 import EmployeeProfile from './pages/EmployeeProfile';
-// import EmployeeList from './pages/EmployeeList';
 import EmpImport from './pages/EmpImport';
 
 function App() {
@@ -78,13 +68,8 @@ function App() {
         <Route path="/employee/:id/:employeeId" element={<PrivateRoute><EmployeeProfile /></PrivateRoute>} />
         <Route path="*" element={<Notfound />} />
         <Route path="/docs" element={<Siganture />} />
-        {/* <Route path="/SingleChild" element={<SingleChild />} />  */}
         <Route path="apis" element={<Apis />} />
-       
         <Route path="EmpImport" element={<PrivateRoute><EmpImport /></PrivateRoute> } />
-       
-        
-      
       </Routes>
     </BrowserRouter>
        

@@ -2,18 +2,6 @@
 import React, { useState } from 'react';
 import logo from '/src/Logo (1).png';
 import axios from 'axios';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-
-
-
-
-
-
-
-
-
-
 function Forgot() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
