@@ -65,10 +65,22 @@ function ApiRef() {
           <p><strong>Content-type:</strong> <code>application/json</code></p>
         </>
       ),
-      parameters: [
-        { name: 'email', type: 'string', required: '✅ Yes', description: 'Users registered email.' },
-        { name: 'password', type: 'string', required: '✅ Yes', description: 'Users account password.' },
-      ],
+     parameters: [
+  { name: 'Company Id', type: 'Integer', required: '✅ Yes', description: 'Unique identifier for the company' },
+  { name: 'EEID', type: 'Integer', required: '✅ Yes', description: 'Unique employee identification no. for each employee' },
+  { name: 'First Name', type: 'String', required: '✅ Yes', description: 'First Name of the Employee' },
+  { name: 'Middle Name (Optional)', type: 'String', required: '❌ No', description: 'Middle Name of the employee' },
+  { name: 'Last Name', type: 'String', required: '✅ Yes', description: 'Last Name of the employee' },
+  { name: 'Disability', type: 'String', required: '✅ Yes', description: 'Indicates if an employee has any disability' },
+  { name: 'Age', type: 'Integer', required: '✅ Yes', description: "Employee's age in years" },
+  { name: 'Work location - Address', type: 'String', required: '✅ Yes', description: 'Location where the employee works' },
+  { name: 'Work location - Zip Code', type: 'Integer', required: '✅ Yes', description: "Postal or Zip Code of the employee's work location" },
+  { name: 'Home location - Address', type: 'String', required: '✅ Yes', description: "Employee's residential address" },
+  { name: 'Home location - Zip Code', type: 'Integer', required: '✅ Yes', description: "Postal or Zip Code of the employee's residential address" },
+  { name: 'Number of garnishment', type: 'Integer', required: '✅ Yes', description: 'Number of garnishments on employee wages' },
+  { name: 'Types of garnishment', type: 'String', required: '✅ Yes', description: "Types of garnishments applied to the employee's wages" },
+  { name: 'SDU', type: 'String', required: '✅ Yes', description: 'State Disbursement Unit responsible for garnishment' }
+],
       curl: Registrationcrl,
       response: RegisterResponce,
     },
@@ -90,7 +102,7 @@ function ApiRef() {
           <Typography variant="h5" sx={{ flexGrow: 1 }}>
             API Reference
           </Typography>
-            <TextField
+          <TextField
             variant="outlined"
             size="small"
             placeholder="Search..."
@@ -108,12 +120,12 @@ function ApiRef() {
                 },
             }}
             InputProps={{
-                endAdornment: (
-                    <InputAdornment className="Inputset_cls" position="end">
-                    <TbArrowBigDownLinesFilled sx={{ color: 'white', mr: 0.5 }} />
-                    <span style={{ color: '#817f7f99', fontWeight: 'bold', fontSize: '0.8rem',marginRight:'5px' }}>F</span>
-                  </InputAdornment>
-                ),
+              endAdornment: (
+                <InputAdornment className='search_icon' position="end">
+                  <TbArrowBigDownLinesFilled style={{ color: '#aaa' }} />
+                  <span style={{ color: '#aaa', marginLeft: 2 }}>S</span>
+                </InputAdornment>
+              ),
             }}
             />
              

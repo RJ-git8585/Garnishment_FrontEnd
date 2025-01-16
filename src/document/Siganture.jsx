@@ -45,30 +45,7 @@ const Signature = () => {
           <ul>
             <li><a href="#Introduction">Introdution</a></li>
             <li><a href="#PEOLogin">Login</a></li>
-            {/* <li><a href="#AuthLogin">{Signature_crls.AuthLogin}</a></li> */}
-            {/* <li className="sub">
-              <a href="#Authentication" onClick={() => toggleSubmenu('authentication')}>
-                <p>Authentication {submenuOpen['authentication'] ? <IoIosArrowUp/> : <IoIosArrowDown/>}</p>
-              </a>
-              {submenuOpen['authentication'] && (
-                <ul className="submenu">
-                  
-                  <li><a href="#AuthLogin">{Signature_crls.AuthLogin}</a></li>
-                 <li><a href="#AuthRegister">{Signature_crls.AuthRegister}</a></li> 
-                </ul>
-              )}
-            </li> */}
-            {/* <li className="sub">
-              <a href="#CompanyOnboarding" onClick={() => toggleSubmenu('companyOnboarding')}>
-              <p> Company Onboarding {submenuOpen['companyOnboarding'] ? <IoIosArrowUp/> : <IoIosArrowDown/>}</p>
-              </a>
-              {submenuOpen['companyOnboarding'] && (
-                <ul className="submenu">
-                  <li><a href="#SingleStepApproach">SingleStepApproach</a></li>
-                  <li><a href="#MultiStepApproach">MultiStepApproach</a></li>
-                </ul>
-              )}
-            </li> */}
+         
              <li><a href="#CompanyOnboarding">Company Registration</a></li>
             <li><a href="#EmployeeOnboarding">Employee Registration</a></li>
             {/* <li><a href="#EmployerPortal">Dashboard Portal</a></li> */}
@@ -95,17 +72,7 @@ const Signature = () => {
              <li><a href="#PEOLogin">PEO Login</a></li>
              <li><a href="#AuthLogin">Login<span className="post">Post</span></a></li>
             <li><a href="#AuthRegister">Register<span className="post">Post</span></a></li>
-            {/* <li className="sub">
-              <a href="#Authentication" onClick={() => toggleSubmenu('authentication')}>
-                <p>Authentication {submenuOpen['authentication'] ? <IoIosArrowUp/> : <IoIosArrowDown/>}</p>
-              </a>
-              {submenuOpen['authentication'] && (
-                <ul className="submenu">
-                  <li><a href="#AuthLogin">Login<span className="post">Post</span></a></li>
-                  <li><a href="#AuthRegister">Register<span className="post">Post</span></a></li>
-                </ul>
-              )}
-            </li> */}
+           
             <li className="sub">
               <a href="#createBusiness" onClick={() => toggleSubmenu('createBusiness')}>
                 <p>Company Onboading    {submenuOpen['createBusiness'] ? <IoIosArrowUp/> : <IoIosArrowDown/>}</p>
@@ -129,9 +96,7 @@ const Signature = () => {
               )}
             </li>
             <li><a href="#GarnishmentCalculation">GarnishmentCalculation <span className="post">Post</span></a></li>
-            {/* <li><a href="#UserRemove">UserRemove <span className="delete">Delete</span></a></li>
-            <li><a href="#CompanyRemove">CompanyRemove <span className="delete">Delete</span></a></li> */}
-            {/* <li><a href="#initiateGarnishment">initiateGarnishment <span className="put">Put</span></a></li> */}
+   
           </ul>
         );
       case 'Calculation':

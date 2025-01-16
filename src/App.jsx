@@ -40,6 +40,9 @@ import Test from './component/test';
 import PublicRoute from './component/PublicRoute';
 import Siganture from './document/Siganture';
 import EmployeeProfile from './pages/EmployeeProfile';
+// import EmployeeList from './pages/EmployeeList';
+import EmpImport from './pages/EmpImport';
+
 function App() {
   return (
     <>
@@ -77,7 +80,8 @@ function App() {
         <Route path="/docs" element={<Siganture />} />
         {/* <Route path="/SingleChild" element={<SingleChild />} />  */}
         <Route path="apis" element={<Apis />} />
-        <Route path="test" element={<PrivateRoute><Test /></PrivateRoute> } />
+       
+        <Route path="EmpImport" element={<PrivateRoute><EmpImport /></PrivateRoute> } />
        
         
       

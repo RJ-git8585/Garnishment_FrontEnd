@@ -1,86 +1,73 @@
-import { useState,useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FaCode } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { AppBar, Toolbar, Typography, TextField, Box, Button } from '@mui/material';
-import { CompanyOnboarding, EmployeeOnboarding, Authentication } from '../constants/apiConstants';
-import { Documentations } from '../constants/signature';
 import InputAdornment from '@mui/material/InputAdornment';
 import { TbArrowBigDownLinesFilled } from "react-icons/tb";
+import { CompanyOnboarding, EmployeeOnboarding, Authentication } from '../constants/apiConstants';
+import { Documentations } from '../constants/signature';
 
-
-// import TextField from '@mui/material/TextField';
-
-function Documentation() {
+const Documentation = () => {
   const [activeCode, setActiveCode] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const textFieldRef = useRef(null);
 
   const toggleCode = (codeType) => {
-    setActiveCode(activeCode === codeType ? null : codeType);
+    setActiveCode((prev) => (prev === codeType ? null : codeType));
   };
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      // Check for a specific key, e.g., "F"
-      if (event.key === 'F' || event.key === 'f') {
-        event.preventDefault(); // Prevent defafult browser behavior
-        textFieldRef.current.focus(); // Focus the TextField
-      }
-    };
+                const handleKeyDown = (event) => {
+                if (event.key.toLowerCase() === 's') {
+                    event.preventDefault();
+                    textFieldRef.current.focus();
+                }
+                };
 
-    // Add the event listener
-    window.addEventListener('keydown', handleKeyDown);
-    // Cleanup the event listener on unmount
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+                window.addEventListener('keydown', handleKeyDown);
+                return () => window.removeEventListener('keydown', handleKeyDown);
+     }, []);
 
-  // Documentation Sections
   const sections = [
-
     {
-        id: 'Introduction',
-        title: 'Introduction',
-        description: 'The Garnishment Engine API provides programmatic access to manage and process garnishment orders, including employee wage deductions and reporting. It is designed for payroll systems and financial institutions to handle garnishment workflows efficiently and accurately',
-        hideButton: true, // Hide the button
-        inputsText: '',
-        code: '',
-      },
+      id: 'Introduction',
+      title: 'Introduction',
+      description:
+        'The Garnishment Engine API provides programmatic access to manage and process garnishment orders, including employee wage deductions and reporting. It is designed for payroll systems and financial institutions to handle garnishment workflows efficiently and accurately.',
+      hideButton: true,
+    },
     {
       id: 'PEOLogin',
       title: 'Login',
-      description: 'The Login API allows users to authenticate and gain access to the application. upon successful authentication, the API returns an access token, enabling secure communication with other protected endpoints.',
+      description:
+        'The Login API allows users to authenticate and gain access to the application. Upon successful authentication, the API returns an access token, enabling secure communication with other protected endpoints.',
       inputs: (
-        <>
+        <ul>
           <li><kbd>Username/email</kbd> - Login identifier for the user (email or username)</li>
           <li><kbd>Password</kbd> - Password of the user</li>
-        
-        </>
+        </ul>
       ),
-      inputsText: 'PEOID, PEO Name, Address, User name, Email,Organisation',
+      inputsText: 'PEOID, PEO Name, Address, User name, Email, Organisation',
       code: Authentication,
     },
-    // {
-    //   id: 'AuthLogin',s
-    //   title: Documentations.AuthLogin,
-    //   description: Documentations.authLoginSubtext,
-    //   inputsText: '',
-    //   code: LoginCrl,
-    // },
     {
       id: 'CompanyOnboarding',
       title: Documentations.CompanyOnboardingtitle,
       description: Documentations.CompanyOnboardingSubtext,
       inputs: (
-        <>
-          <li><kbd>CID</kbd> - Unique Company / Client identifier no.</li>
-          <li><kbd>PEO Name</kbd> - Name of the Professional employer organisation</li>
+        <ul>
+          <li><kbd>Company Name</kbd> - Unique Company Name</li>
+          <li><kbd>PEOID</kbd> - ID of the Professional Employer Organization</li>
           <li><kbd>Address</kbd> - Registered or official address of the PEO</li>
-          <li><kbd>User name</kbd> - unique identifier for the PEO</li>
-          <li><kbd>Email</kbd> -  Email ID for the PEO</li>
-        </>
+          <li><kbd>User name</kbd> - Unique identifier for the PEO</li>
+          <li><kbd>Email</kbd> - Email ID for the PEO</li>
+          <li><kbd>Bank name</kbd> - Name of the bank associated with the company</li>
+          <li><kbd>Bank account number</kbd> - Bank account number of the company</li>
+          <li><kbd>Location (presence)</kbd> - Locations where the company operates</li>
+          <li><kbd>DBA Name</kbd> - Doing Business As name, if applicable</li>
+          <li><kbd>EIN</kbd> - Unique Employer Identifier Number</li>
+        </ul>
       ),
       inputsText: 'CID, PEO Name, Address, User name, Email',
       code: CompanyOnboarding,
@@ -89,28 +76,43 @@ function Documentation() {
       id: 'EmployeeOnboarding',
       title: Documentations.EmployeeOnboardingtitle,
       description: Documentations.EmployeeOnboardingSubtext,
+      inputs: (
+        <ul>
+          <li><kbd>Company ID</kbd> - Unique identifier for the company</li>
+          <li><kbd>EEID</kbd> - Unique Employee Identification Number</li>
+          <li><kbd>First Name</kbd> - First name of the employee</li>
+          <li><kbd>Middle Name</kbd> (Optional) - Middle name of the employee</li>
+          <li><kbd>Last Name</kbd> - Last name of the employee</li>
+          <li><kbd>Disability</kbd> - Indicates if an employee has any disability</li>
+          <li><kbd>Age</kbd> - Employees age in years</li>
+          <li><kbd>Work location</kbd> - Address where the employee works</li>
+          <li><kbd>Home location</kbd> - Employees residential address</li>
+          <li><kbd>Number of garnishments</kbd> - Number of garnishments on employee wages</li>
+          <li><kbd>Types of garnishments</kbd> - Types of garnishments applied to wages</li>
+          <li><kbd>SDU</kbd> - State Disbursement Unit responsible for garnishment</li>
+        </ul>
+      ),
       inputsText: '',
       code: EmployeeOnboarding,
     },
   ];
 
-  // Filter Sections Based on Search Query
-  const filteredSections = sections.filter((section) => 
-    section.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    section.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    section.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    section.inputsText.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredSections = sections.filter(
+    ({ title, description, inputsText, code }) =>
+      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (inputsText && inputsText.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (code && code.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   return (
     <>
-      {/* MUI Header with Search Bar */}
       <AppBar position="static" sx={{ backgroundColor: 'transparent' }}>
         <Toolbar>
           <Typography variant="h5" sx={{ flexGrow: 1 }}>
             Documentation
           </Typography>
-            <TextField
+          <TextField
             variant="outlined"
             size="small"
             placeholder="Search..."
@@ -128,58 +130,57 @@ function Documentation() {
                 },
             }}
             InputProps={{
-                endAdornment: (
-                    <InputAdornment className="Inputset_cls" position="end">
-                    <TbArrowBigDownLinesFilled sx={{ color: 'white', mr: 0.5 }} />
-                    <span style={{ color: '#817f7f99', fontWeight: 'bold', fontSize: '0.8rem',marginRight:'5px' }}>F</span>
-                  </InputAdornment>
-                ),
+              endAdornment: (
+                <InputAdornment className='search_icon' position="end">
+                  <TbArrowBigDownLinesFilled style={{ color: '#aaa' }} />
+                  <span style={{ color: '#aaa', marginLeft: 2 }}>S</span>
+                </InputAdornment>
+              ),
             }}
-            />
-          <Button className="show_btn_New" variant="contained" sx={{ ml: 1, backgroundColor: '#2980b9' }}>
+          />
+          <Button variant="contained" sx={{ ml: 2, backgroundColor: '#0066cc' }}>
             Search
           </Button>
         </Toolbar>
       </AppBar>
 
-      {/* Documentation Sections */}
-      <section id="post">
-        <h2 className ="m-0">Garnishment Engine API Documentation</h2>
+      <Box sx={{ p: 4 }}>
+        <Typography variant="h5" className='Headeing_doc' gutterBottom>
+          Garnishment Engine API Documentation
+        </Typography>
         {filteredSections.length > 0 ? (
-          filteredSections.map((section) => (
-            <section key={section.id} id={section.id} className="SubSection">
-              <h3 >{section.title}</h3>
-              <p>{section.description}</p>
-              {section.inputs}
-                    {!section.hideButton && ( // Conditionally render the button
-                <button
-                    onClick={() => toggleCode(section.id)}
-                    style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '1em',
-                    }}
-                    className="show_btn"
+          filteredSections.map(({ id, title, description, inputs, code, hideButton }) => (
+            <Box key={id} sx={{ mb: 8 }}>
+              <Typography variant="h6">{title}</Typography>
+              <Typography>{description}</Typography>
+              {inputs}
+              {!hideButton && (
+                <Button
+                 className="show_btn"
+                  onClick={() => toggleCode(id)}
+                  startIcon={<FaCode />}
+                  
+                  
+                  sx={{ mt: 1 }}
                 >
-                    <FaCode /> {activeCode === section.id ? 'Hide Code' : 'Show Code'}
-                </button>
-                )}
-              {activeCode === section.id && (
-                <SyntaxHighlighter language="json5" style={xonokai}>
-                  {section.code} 
+                  {activeCode === id ? 'Hide Code' : 'Show Code'}
+                </Button>
+              )}
+              {activeCode === id && (
+                <SyntaxHighlighter language="json" style={xonokai}>
+                  {code}
                 </SyntaxHighlighter>
               )}
-            </section>
+            </Box>
           ))
         ) : (
-          <Box sx={{ p: 4, textAlign: 'left', color: '#888' }}>
-            <Typography variant="h6">No matching documentation found.</Typography>
-          </Box>
+          <Typography variant="body1" color="textSecondary">
+            No matching documentation found.
+          </Typography>
         )}
-      </section>
+      </Box>
     </>
   );
-}
+};
 
 export default Documentation;
