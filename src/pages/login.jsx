@@ -1,36 +1,27 @@
-import { Container, Box, Typography } from "@mui/material";
-import Form from "../component/form";
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { useNavigate } from 'react-router-dom';
+// import logo from '/src/Logo (1).png';
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css"; 
+import Form from '../component/form';
 
-const Login = () => {
-  const token = sessionStorage.getItem("token");
+function Login() {
 
-  if (!token) {
-    console.log("Token not found");
-  } else {
-    console.log("Token exists");
+  if (sessionStorage.getItem("token") == null) {
+    console.log('yaha tokan nhi h ')
   }
-
+  console.log('token hai abhi')
+  
   return (
-    <Container maxWidth="sm" sx={{ mt: 4 }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          boxShadow: 3,
-          borderRadius: 2,
-          p: 3,
-          backgroundColor: "#f9f9f9",
-        }}
-      >
-        <Typography variant="h5" component="h1" gutterBottom>
-          Login
-        </Typography>
-        {/* Render the Form Component */}
-        <Form />
-      </Box>
-    </Container>
-  );
-};
+  <Form/>
+
+
+
+
+
+)
+}
 
 export default Login;

@@ -6,6 +6,13 @@ body{
 nav.navbar.navbar-expand-lg.bg-body-tertiary {
   background: rgb(14, 15, 15)  !important;
 }
+.css-z2qibm-MuiListItem-root .active {
+    background-color: transparent !important;
+}
+.css-z2qibm-MuiListItem-root a.active {
+  color: #9c27b0 !important;
+  font-weight: 700 !important;
+}
 .aix {
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity));
@@ -18,6 +25,12 @@ nav.navbar.navbar-expand-lg.bg-body-tertiary {
   width: 200px;
   text-align: center;
 }
+.customBatchProcessing textarea {
+  background: #ff000000 !important;
+  border: 2px solid #a0a0a0 !important;
+  color:#000 !important;
+}
+
 
 .dark\:bg-slate-800 {
   --tw-bg-opacity: 1;
@@ -45,10 +58,29 @@ margin-right:4px ;
 
 .main {
   width:100%;
-    height:150vh; 
+    /* height:150vh;  */
     display:flex;
 }
-
+.full-page-height {
+  /* min-height: 100vh; */
+  display: flex; /* Enable flex layout */
+  flex-direction: column; /* Stack children vertically */
+}
+.css-rizt0-MuiTypography-root {
+  
+  font-size: 14px !important;
+  line-height: 1.5;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  text-transform: uppercase !important;
+}
+.css-z2qibm-MuiListItem-root{
+  padding:0px 16px !important;
+  
+}
+.css-z2qibm-MuiListItem-root:hover{
+  background: #fff !important;
+}
 span.cutom_error {
   font-size: 12px;
   margin-bottom: 10px;

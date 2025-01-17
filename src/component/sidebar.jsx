@@ -1,47 +1,78 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, IconButton, Divider, Box } from '@mui/material';
-import { FaDashcube, FaUserTie, FaTools, FaBalanceScaleRight } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  IconButton,
+  Divider,
+  Box,
+} from '@mui/material';
+import {
+  FaDashcube,
+  FaUserTie,
+  FaBalanceScaleRight,
+} from 'react-icons/fa';
 import { BsFillClipboard2DataFill } from 'react-icons/bs';
 import { HiChatBubbleLeftRight } from 'react-icons/hi2';
 import { CgReadme } from 'react-icons/cg';
 import Logout from '../pages/Logout';
 import logo_b from '../Logo_black.png';
+import { IoIosPeople } from 'react-icons/io';
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false); // Mobile drawer state
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
-  const toggleDrawer = () => setOpen(!open);
+  const toggleMobileDrawer = () => setIsMobileOpen((prev) => !prev);
 
   const menuItems = [
     { text: 'Dashboard', icon: <FaDashcube />, path: '/dashboard' },
     { text: 'Employee', icon: <FaUserTie />, path: '/employee' },
-    { text: 'Company', icon: <FaUserTie />, path: '/employee' },
+    { text: 'Company', icon: <IoIosPeople />, path: '/company' },
+    { text: 'Orders', icon: <FaUserTie />, path: '/orders' },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
-    { text: 'Garnishment Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
+    { text: 'Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
     { text: 'Results', icon: <BsFillClipboard2DataFill />, path: '/results' },
-    { text: 'Settings', icon: <FaTools />, path: '/setting' },
-    { text: 'BatchProccsor', icon: <FaBalanceScaleRight />, path: '/BatchCalculation' },
+    { text: 'Batch Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
   ];
 
-  const renderMenuItems = () =>
-    menuItems.map((item) => (
-      <ListItem button component={Link} to={item.path} key={item.text}>
-        <ListItemIcon>{item.icon}</ListItemIcon>
-        <ListItemText primary={item.text} />
-      </ListItem>
-    ));
+  const renderMenuItems = menuItems.map(({ text, icon, path }) => (
+    <ListItem button key={text}>
+      <NavLink
+        to={path}
+        style={({ isActive }) => ({
+          textDecoration: 'none',
+          color: 'inherit',
+          backgroundColor: isActive ? '#3f51b5' : 'inherit', // Active background color
+          fontWeight: isActive ? 'bold' : 'normal', // Bold font for active
+          padding: '10px 20px', // Padding for better button-like appearance
+          borderRadius: '5px', // Rounded corners
+          display: 'flex', // Flex display for horizontal alignment
+          alignItems: 'center', // Align items vertically centered
+        })}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <ListItemIcon sx={{ color: 'inherit' }}>
+            {icon}
+          </ListItemIcon>
+          <ListItemText primary={text} sx={{ color: 'inherit' }} />
+        </Box>
+      </NavLink>
+    </ListItem>
+  ));
 
   const drawerContent = (
-    <Box>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ p: 2 }}>
         <img src={logo_b} alt="Logo" style={{ width: '100%' }} />
       </Box>
       <Divider />
-      <List>{renderMenuItems()}</List>
+      <List>{renderMenuItems}</List>
       <Divider />
-      <Box sx={{ position: 'absolute', bottom: 0, width: '100%' }}>
+      <Box sx={{ mt: 'auto' }}>
         <ListItem>
           <Logout />
         </ListItem>
@@ -63,15 +94,24 @@ const Sidebar = () => {
       </Drawer>
 
       {/* Mobile Drawer */}
-      <IconButton sx={{ display: { xs: 'block', md: 'none' }, p: 2 }} onClick={toggleDrawer}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
+      <IconButton
+        sx={{ display: { xs: 'block', md: 'none' }, p: 2 }}
+        onClick={toggleMobileDrawer}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          className="h-6 w-6"
+        >
           <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </IconButton>
       <Drawer
         variant="temporary"
-        open={open}
-        onClose={toggleDrawer}
+        open={isMobileOpen}
+        onClose={toggleMobileDrawer}
         sx={{
           '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box' },
         }}

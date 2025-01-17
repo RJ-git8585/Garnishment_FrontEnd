@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 import logo from '/src/Logo (1).png';
@@ -10,8 +10,6 @@ import { FcGoogle } from "react-icons/fc";
 // import "react-toastify/dist/ReactToastify.css";
 import { RiFacebookFill } from "react-icons/ri";
 import { BASE_URL } from '../Config';
-
-
 function Form() {
   const [formData, setFormData] = useState({
     name: '',
@@ -22,6 +20,23 @@ function Form() {
   });
 
   // const navigate = useNavigate();s
+  useEffect(() => {
+    // Apply custom body styles
+    document.body.style.height = "100vh";
+    document.body.style.overflow = "hidden";
+    document.body.style.margin = "0";
+    document.body.style.padding = "0";
+    document.body.style.backgroundColor = "#f8fafc"; // Light gray background
+
+    return () => {
+      // Reset body styles on unmount
+      document.body.style.height = "";
+      document.body.style.overflow = "";
+      document.body.style.margin = "";
+      document.body.style.padding = "";
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

@@ -2,12 +2,12 @@ import "./Doc.css";
 import { useState, useEffect } from "react";
 import { FaCode } from "react-icons/fa";
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { CiCalculator1 } from "react-icons/ci";
+// import { CiCalculator1 } from "react-icons/ci";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import { SignatureMenus } from "../constants/signature";
+// import { SignatureMenus } from "../constants/signature";
 import Documentation from "./Documentation";
 import ApiRef from "./ApiRef";
-import BatchCalculation from "./BatchCalculation";
+// import BatchCalculation from "./BatchCalculation";
 
 const Footer = () => (
   <footer className="mt-10">
@@ -50,11 +50,11 @@ const menuData = {
     },
     { title: "Garnishment Calculation", link: "#GarnishmentCalculation", method: "Post" },
   ],
-  Calculation: [
-    { title: SignatureMenus.EmployeeOnboarding, link: "#EmployeeOnboarding" },
-    { title: SignatureMenus.Employer_Portal, link: "#EmployerPortal" },
-    { title: SignatureMenus.Garnishment, link: "#Garnishment" },
-  ],
+  // Calculation: [
+  //   { title: SignatureMenus.EmployeeOnboarding, link: "#EmployeeOnboarding" },
+  //   { title: SignatureMenus.Employer_Portal, link: "#EmployerPortal" },
+  //   { title: SignatureMenus.Garnishment, link: "#Garnishment" },
+  // ],
 };
 
 const Signature = () => {
@@ -118,8 +118,8 @@ const Signature = () => {
         return <Documentation />;
       case "api":
         return <ApiRef />;
-      case "Calculation":
-        return <BatchCalculation />;
+      // case "Calculation":
+      //   return <BatchCalculation />;
       default:
         return <Documentation />;
     }
@@ -139,12 +139,12 @@ const Signature = () => {
         <p className="text-center mb-10">Last Updated: 29th Dec, 2024</p>
         <hr />
         <div className="mt-6">
-          {["documentation", "api", "Calculation"].map((menu) => (
+          {["documentation", "api"].map((menu) => (
             <li key={menu} className={`mb-2 ${activeMenu === menu ? "active_cls" : ""}`}>
               <a href="#" onClick={() => setActiveMenu(menu)}>
                 {menu === "documentation" && <HiOutlineDocumentText />}
                 {menu === "api" && <FaCode />}
-                {menu === "Calculation" && <CiCalculator1 />}
+                {/* {menu === "Calculation" && <CiCalculator1 />} */}
                 {menu.charAt(0).toUpperCase() + menu.slice(1)}
               </a>
             </li>

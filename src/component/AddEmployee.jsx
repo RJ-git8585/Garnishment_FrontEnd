@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import { React, useState } from 'react';
 import Headertop from '../component/Headertop';
-import Sidebar from '../component/sidebar';
+import Sidebar from './sidebar';
 import { BASE_URL } from '../Config';
 import Swal from 'sweetalert2';
 import { FaUserTie } from "react-icons/fa";

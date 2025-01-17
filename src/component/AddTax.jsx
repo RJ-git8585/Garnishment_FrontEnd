@@ -2,7 +2,7 @@
 import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
 
-import Sidebar from '../component/sidebar'
+import Sidebar from './sidebar'
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
