@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css'
 
 import Products from './pages/Tax'
-import Signup from './pages/Signup'
+import Signup from './pages/signup'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Form from './component/form'  
 import Dashboard from './pages/dashboard';
