@@ -6,7 +6,7 @@ import { HiOutlineDocumentText } from "react-icons/hi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 // import { SignatureMenus } from "../constants/signature";
 import Documentation from "./Documentation";
-import ApiRef from "./ApiRef";
+import ApiRef from "./apiRef";
 // import BatchCalculation from "./BatchCalculation";
 
 const Footer = () => (
