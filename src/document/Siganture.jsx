@@ -1,4 +1,4 @@
-import "./Doc.css";
+import "./doc.css";
 import { useState, useEffect } from "react";
 import { FaCode } from "react-icons/fa";
 import { HiOutlineDocumentText } from "react-icons/hi";
