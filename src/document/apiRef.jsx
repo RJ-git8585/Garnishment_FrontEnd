@@ -18,22 +18,16 @@ function ApiRef() {
   };
 
    useEffect(() => {
-      const handleKeyDown = (event) => {
-        // Check for a specific key, e.g., "F"
-        if (event.key === 'F' || event.key === 'f') {
-          event.preventDefault(); // Prevent defafult browser behavior
-          textFieldRef.current.focus(); // Focus the TextField
-        }
+    const handleKeyDown = (event) => {
+      if (event.key.toLowerCase() === 's') {
+          event.preventDefault();
+          textFieldRef.current.focus();
+      }
       };
-  
-      // Add the event listener
+
       window.addEventListener('keydown', handleKeyDown);
-  
-      // Cleanup the event listener on unmount
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-      };
-    }, []);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+}, []);
   // API Documentation Sections
   const sections = [
     {
@@ -96,11 +90,11 @@ function ApiRef() {
   return (
     <>
      
-      {/* Header */}
-      <AppBar position="static" sx={{ backgroundColor: 'transparent' }}>
+     
+     <AppBar position="static" sx={{ backgroundColor: 'transparent' }}>
         <Toolbar>
           <Typography variant="h5" sx={{ flexGrow: 1 }}>
-            API Reference
+            API Refrence
           </Typography>
           <TextField
             variant="outlined"
@@ -127,9 +121,8 @@ function ApiRef() {
                 </InputAdornment>
               ),
             }}
-            />
-             
-          <Button className="show_btn_New" variant="contained" sx={{ ml: 1, backgroundColor: '#2980b9' }}>
+          />
+          <Button variant="contained" sx={{ ml: 2, backgroundColor: '#0066cc' }}>
             Search
           </Button>
         </Toolbar>

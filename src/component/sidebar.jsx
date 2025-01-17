@@ -40,14 +40,17 @@ const Sidebar = () => {
   ];
 
   const renderMenuItems = menuItems.map(({ text, icon, path }) => (
-    <ListItem button key={text}>
+    <ListItem  button key={text}>
       <NavLink
         to={path}
         style={({ isActive }) => ({
           textDecoration: 'none',
+          textTransform: 'uppercase',
+          fontStyle:'italic',
+          fontSize: '12px',
           color: 'inherit',
           backgroundColor: isActive ? '#3f51b5' : 'inherit', // Active background color
-          fontWeight: isActive ? 'bold' : 'normal', // Bold font for active
+          fontWeight: isActive ? '600' : '200', // Bold font for active
           padding: '10px 20px', // Padding for better button-like appearance
           borderRadius: '5px', // Rounded corners
           display: 'flex', // Flex display for horizontal alignment
@@ -58,7 +61,7 @@ const Sidebar = () => {
           <ListItemIcon sx={{ color: 'inherit' }}>
             {icon}
           </ListItemIcon>
-          <ListItemText primary={text} sx={{ color: 'inherit' }} />
+          <ListItemText className="MenuSpacial" primary={text} sx={{ color: 'inherit',fontSize: '12px !important', }} />
         </Box>
       </NavLink>
     </ListItem>

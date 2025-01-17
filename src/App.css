@@ -9,6 +9,9 @@ nav.navbar.navbar-expand-lg.bg-body-tertiary {
 .css-z2qibm-MuiListItem-root .active {
     background-color: transparent !important;
 }
+.MenuSpacial span {
+  font-size: 14px;
+}
 .css-z2qibm-MuiListItem-root a.active {
   color: #9c27b0 !important;
   font-weight: 700 !important;
@@ -66,14 +69,7 @@ margin-right:4px ;
   display: flex; /* Enable flex layout */
   flex-direction: column; /* Stack children vertically */
 }
-.css-rizt0-MuiTypography-root {
-  
-  font-size: 14px !important;
-  line-height: 1.5;
-  font-weight: 400 !important;
-  font-style: italic !important;
-  text-transform: uppercase !important;
-}
+
 .css-z2qibm-MuiListItem-root{
   padding:0px 16px !important;
   
