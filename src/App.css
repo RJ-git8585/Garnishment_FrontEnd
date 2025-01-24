@@ -6,13 +6,13 @@ body{
 nav.navbar.navbar-expand-lg.bg-body-tertiary {
   background: rgb(14, 15, 15)  !important;
 }
-.css-z2qibm-MuiListItem-root .active {
+.MuiListItem-root .active {
     background-color: transparent !important;
 }
 .MenuSpacial span {
   font-size: 14px;
 }
-.css-z2qibm-MuiListItem-root a.active {
+.MuiListItem-root a.active {
   color: #9c27b0 !important;
   font-weight: 700 !important;
 }
