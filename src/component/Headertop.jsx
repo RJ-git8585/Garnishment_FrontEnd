@@ -5,13 +5,13 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import myImage from '/girl.png' 
 
-
+const namedata = sessionStorage.getItem('name');
+const emaildata = sessionStorage.getItem('email');
 const user = {
-    name: 'Tom Cook',
-    email: 'tom@example.com',
-    imageUrl:
-      '',
+    name: namedata,
+    email: emaildata,
   }
+  
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', current: true },
     { name: 'Calculator', href: '/garnishment', current: false },

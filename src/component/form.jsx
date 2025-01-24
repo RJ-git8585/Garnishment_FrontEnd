@@ -72,6 +72,7 @@ function Form() {
 
         localStorage.setItem('cid', response.data.user_data.cid);
         sessionStorage.setItem('cid', response.data.user_data.cid);
+        sessionStorage.setItem('email', response.data.user_data.email);
         // Store the access token
         localStorage.setItem('name', response.data.user_data.name);
         sessionStorage.setItem('name', response.data.user_data.name);

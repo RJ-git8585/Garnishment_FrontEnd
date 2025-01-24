@@ -428,3 +428,14 @@ button.absolute.right-2.custom_position.text-gray-500 {
     }
     
   }
+
+
+  /* table css cosutom is used for */
+  .MuiDataGrid-columnHeader.MuiDataGrid-columnHeader--sortable.MuiDataGrid-withBorderColor {
+    background: #313131;
+    color: #fff;
+}
+
+button.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeSmall.css-r363y4-MuiButtonBase-root-MuiIconButton-root {
+  color: #fff !important;
+}

@@ -16,7 +16,7 @@ function Employee({ onDeleteSuccess }) {
   const id = sessionStorage.getItem("id");
   const cid = sessionStorage.getItem("cid");
   const [data, setData] = useState([]);
-  const Link1 = `${BASE_URL}/User/ExportEmployees/${id}/`;
+  const Link1 = `${BASE_URL}/User/ExportEmployees/${cid}/`;
 
   const dataFetchedRef = useRef(false);
   useEffect(() => {
@@ -55,9 +55,7 @@ function Employee({ onDeleteSuccess }) {
                 getRowId={(data) => data.id}
                 columns={[
                   { field: 'cid', headerName: 'Company ID', width: 120 },
-                  { field: 'ee_id', headerName: 'Employee ID', width: 120 },
-                  {
-                    field: 'social_security_number', headerName: 'SSN', width: 120,
+                  { field: 'ee_id', headerName: 'Employee ID', width: 120,
                     renderCell: (params) => (
                       <Link
                         to={`/employee/${id}/${params.row.id}`}
@@ -66,27 +64,40 @@ function Employee({ onDeleteSuccess }) {
                         {params.value}
                       </Link>
                     )
-                  },
-                  { field: 'is_blind', headerName: 'Blind', width: 100 },
+                   },
+                  {
+                    field: 'social_security_number', headerName: 'SSN', width: 120 },
+                    // renderCell: (params) => (
+                    //   <Link
+                    //     to={`/employee/${id}/${params.row.id}`}
+                    //     className="text-blue-500 hover:underline"
+                    //   >
+                    //     {params.value}
+                    //   </Link>
+                    // )
+                 
+                  { field: 'blind', headerName: 'Blind', width: 100 },
                   { field: 'age', headerName: 'Age', width: 100 },
                   { field: 'gender', headerName: 'Gender', width: 100 },
-                  { field: 'home', headerName: 'Home State', width: 100 },
-                  { field: 'location', headerName: 'Work State', width: 120 },
+                  { field: 'home_state', headerName: 'Home State', width: 100 },
+                  { field: 'work_state', headerName: 'Work State', width: 120 },
                   { field: 'pay_period', headerName: 'Pay Period', width: 120 },
-                  { field: 'Exemptions', headerName: 'Exemptions', width: 120 },
-                  { field: 'filling_status', headerName: 'Filling Status', width: 120 },
+                  { field: 'support_second_family', headerName: 'Support Family', width: 120 },
+                  { field: 'number_of_exemptions', headerName: 'Exemptions', width: 120 },
+                  { field: 'filing_status', headerName: 'Filling Status', width: 120 },
                   { field: 'marital_status', headerName: 'Marital Status', width: 120 },
-                  { field: 'status', headerName: 'Student Default Loan', width: 120 },
-                 
+                  { field: 'number_of_student_default_loan', headerName: 'Student Default Loan', width: 120 },
+                  { field: 'spouse_age', headerName: 'Spouse Age', width: 120 },
+                  { field: 'is_spouse_blind', headerName: 'Spouse Blind', width: 120 }, 
                   {
                     field: 'Actions', headerName: 'Actions', width: 100,
                     renderCell: (params) => (
                       <div className="flex space-x-2">
-                        <DeleteItemComponent
-                          id={params.row.employee_id}
-                          onDeleteSuccess={onDeleteSuccess}
-                        />
-                      </div>
+                      <DeleteItemComponent
+                        id={params.row.employee_id} // Ensure this key exists in the data
+                        onDeleteSuccess={onDeleteSuccess}
+                      />
+                    </div>
                     )
                   },
                 ]}
