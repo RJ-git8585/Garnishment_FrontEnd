@@ -14,6 +14,7 @@ import '@mui/material/styles';
  // eslint-disable-next-line react/prop-types
 function Employee({ onDeleteSuccess }) {
   const id = sessionStorage.getItem("id");
+  const cid = sessionStorage.getItem("cid");
   const [data, setData] = useState([]);
   const Link1 = `${BASE_URL}/User/ExportEmployees/${id}/`;
 
@@ -24,9 +25,10 @@ function Employee({ onDeleteSuccess }) {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
+        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${cid}/`);
         const jsonData = await response.json();
         setData(jsonData.data);
+        // console.log(jsonData.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -48,28 +50,36 @@ function Employee({ onDeleteSuccess }) {
               <a href="/EmpImport" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><CgImport /> Import</a>
               <a type="button" href="/addemployee" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><FaPlus /> Add</a>
             </div>
-            <Box sx={{ height: 600, width: '100%' }}>
+            <Box sx={{ height: 700, width: '100%' }}>
               <DataGrid
-                getRowId={(data) => data.employee_id}
+                getRowId={(data) => data.id}
                 columns={[
-                  { field: 'employee_id', headerName: 'Employee ID', width: 150 },
+                  { field: 'cid', headerName: 'Company ID', width: 120 },
+                  { field: 'ee_id', headerName: 'Employee ID', width: 120 },
                   {
-                    field: 'employee_name', headerName: 'Employee Name', width: 200,
+                    field: 'social_security_number', headerName: 'SSN', width: 120,
                     renderCell: (params) => (
                       <Link
-                        to={`/employee/${id}/${params.row.employee_id}`}
+                        to={`/employee/${id}/${params.row.id}`}
                         className="text-blue-500 hover:underline"
                       >
                         {params.value}
                       </Link>
                     )
                   },
-                  { field: 'department', headerName: 'Department', width: 150 },
-                  { field: 'pay_cycle', headerName: 'Pay Cycle', width: 150 },
-                  { field: 'location', headerName: 'Location', width: 150 },
-                  { field: 'number_of_child_support_order', headerName: 'Child Support Orders', width: 200 },
+                  { field: 'is_blind', headerName: 'Blind', width: 100 },
+                  { field: 'age', headerName: 'Age', width: 100 },
+                  { field: 'gender', headerName: 'Gender', width: 100 },
+                  { field: 'home', headerName: 'Home State', width: 100 },
+                  { field: 'location', headerName: 'Work State', width: 120 },
+                  { field: 'pay_period', headerName: 'Pay Period', width: 120 },
+                  { field: 'Exemptions', headerName: 'Exemptions', width: 120 },
+                  { field: 'filling_status', headerName: 'Filling Status', width: 120 },
+                  { field: 'marital_status', headerName: 'Marital Status', width: 120 },
+                  { field: 'status', headerName: 'Student Default Loan', width: 120 },
+                 
                   {
-                    field: 'Actions', headerName: 'Actions', width: 200,
+                    field: 'Actions', headerName: 'Actions', width: 100,
                     renderCell: (params) => (
                       <div className="flex space-x-2">
                         <DeleteItemComponent

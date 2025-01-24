@@ -40,7 +40,7 @@ const BatchCalculation = () => {
       setError('');
       setLoading(true);
 
-      const apiResponse = await fetch(`${BASE_URL}/User/MiltipleStudentLoanCalculationData/`, {
+      const apiResponse = await fetch(`${BASE_URL}/User/garnishment_calculate/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(parsedData),
@@ -109,7 +109,7 @@ const BatchCalculation = () => {
       ));
     }
 
-    if (data?.result) {
+    if (data?.results) {
       return renderResultTable(data.result);
     }
 

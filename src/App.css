@@ -86,7 +86,7 @@ span.cutom_error {
 }
 .sidebar {
   height: 100%;
-  width: 18%;
+  /* width: 18%; */
   position: fixed;
   z-index: 1;
   top:0;
@@ -358,6 +358,7 @@ button.sidebar-link {
   margin-left: 26px;
   margin-top: 6px;
 }
+
 
 .submenu-item .sidebar-link {
   color: #000;
