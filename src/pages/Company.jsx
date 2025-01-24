@@ -24,7 +24,7 @@ function Company({ onDeleteSuccess }) {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
+        const response = await fetch(`${BASE_URL}/User/CompanyDetails/`);
         const jsonData = await response.json();
         setData(jsonData.data);
       } catch (error) {
@@ -50,11 +50,11 @@ function Company({ onDeleteSuccess }) {
             </div>
             <Box sx={{ height: 600, width: '100%' }}>
               <DataGrid
-                getRowId={(data) => data.employee_id}
+            getRowId={(row) => row.cid}
                 columns={[
-                  { field: 'employee_id', headerName: 'Employee ID', width: 150 },
+                  { field: 'cid', headerName: 'Company ID', width: 150 },
                   {
-                    field: 'employee_name', headerName: 'Employee Name', width: 200,
+                    field: 'company_name', headerName: 'Company Name', width: 200,
                     renderCell: (params) => (
                       <Link
                         to={`/employee/${id}/${params.row.employee_id}`}
@@ -64,10 +64,14 @@ function Company({ onDeleteSuccess }) {
                       </Link>
                     )
                   },
-                  { field: 'department', headerName: 'Department', width: 150 },
-                  { field: 'pay_cycle', headerName: 'Pay Cycle', width: 150 },
+                  { field: 'ein', headerName: 'EIN', width: 150 },
+                  { field: 'registered_address', headerName: 'Address', width: 150 },
+                  { field: 'zipcode', headerName: 'Zipcode', width: 150 },
+                  { field: 'state', headerName: 'State', width: 100 },
+                  { field: 'dba_name', headerName: 'DBA Name', width: 150 },
+                  { field: 'bank_name', headerName: 'Bank Name', width: 150 },
+                  { field: 'bank_account_number', headerName: 'Bank Accpount', width: 150 },
                   { field: 'location', headerName: 'Location', width: 150 },
-                  { field: 'number_of_child_support_order', headerName: 'Child Support Orders', width: 200 },
                   {
                     field: 'Actions', headerName: 'Actions', width: 200,
                     renderCell: (params) => (
