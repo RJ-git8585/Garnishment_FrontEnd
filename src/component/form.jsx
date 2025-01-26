@@ -1,33 +1,29 @@
-// eslint-disable-next-line no-unused-vars
-import  { React, useState ,useEffect } from 'react';
+import {  useState, useEffect } from 'react';
 import logo from '/src/Logo (1).png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import {  ToastContainer,toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
 import { BASE_URL } from '../Config';
+import { CircularProgress, Backdrop, Typography } from "@mui/material";
+
 
 function Form() {
   const navigate = useNavigate();
-  const [email, setemail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
-
+  const [loading, setLoading] = useState(false); // Loader state
 
   useEffect(() => {
-    // Apply custom body styles
     document.body.style.height = "100vh";
     document.body.style.overflow = "hidden";
     document.body.style.margin = "0";
     document.body.style.padding = "0";
-    document.body.style.backgroundColor = "#f8fafc"; // Light gray background
+    document.body.style.backgroundColor = "#f8fafc";
 
     return () => {
-      // Reset body styles on unmount
       document.body.style.height = "";
       document.body.style.overflow = "";
       document.body.style.margin = "";
@@ -37,61 +33,50 @@ function Form() {
   }, []);
 
   const togglePasswordVisibility = () => {
-    // alert(showPassword)
-      setShowPassword(!showPassword);
-    };
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email)) {
       setErrorMessage('Please enter a valid email address.');
-      
-      return; // Exit function if email is invalid
+      return;
     }
-    
 
-    // Password validation (adjust validation rules as needed)
-    if (password.length < 9 ) {
+    if (password.length < 9) {
       setErrorMessage('Password must be at least 9 characters long.');
-      
-      return; // Exit function if password is invalid
+      return;
     }
 
     const loginCredentials = { email, password };
 
+    setLoading(true); // Start loader
+
     try {
-      const response = await axios.post(`${BASE_URL}/User/login`, loginCredentials,);
+      const response = await axios.post(`${BASE_URL}/User/login`, loginCredentials);
       if (response.data.success) {
-        console.log(response.data);
         localStorage.setItem('token', response.data.access);
         sessionStorage.setItem('token', response.data.access);
-        // Optionally store other user data
         localStorage.setItem('id', response.data.user_data.employer_id);
         sessionStorage.setItem('id', response.data.user_data.employer_id);
-
         localStorage.setItem('cid', response.data.user_data.cid);
         sessionStorage.setItem('cid', response.data.user_data.cid);
         sessionStorage.setItem('email', response.data.user_data.email);
-        // Store the access token
         localStorage.setItem('name', response.data.user_data.name);
         sessionStorage.setItem('name', response.data.user_data.name);
         navigate('/dashboard');
-        // toast('Login successful!', {
-        //   autoClose: 3000, // Delay in milliseconds
-        //   position: 'top-right',
-        // }); 
       } else {
-        // toast.success("Please Check Credentials!");
         setErrorMessage(response.data.message);
-        
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Login failed');
-      // toast.warning("Please Check Credentials!");
+    } finally {
+      setLoading(false); // Stop loader
     }
   };
-  
+
 
   
   
@@ -115,7 +100,7 @@ function Form() {
                                         name="email"
                                         type="text"
                                         value={email}
-                                        onChange={(e) => setemail(e.target.value)}
+                                        onChange={(e) => setEmail(e.target.value)}
                                         autoComplete="email"
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                       />
@@ -168,7 +153,8 @@ function Form() {
                                       type="submit"
                                       className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
                                     >
-                                      Sign in
+                                    
+                                      {loading ? 'Signing In...' : 'Sign in'}
                                     </button>
                                   
                                     
@@ -217,6 +203,28 @@ function Form() {
              {/* <ToastContainer /> */}
         </div>
       </div>
+      <Backdrop
+        open={loading}
+        sx={{
+          zIndex: 1300,
+          color: "#fff",
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+        }}
+      >
+        <CircularProgress
+          size={80}
+          thickness={5}
+          sx={{
+            color: "orange",
+            animation: "pulse 1.5s infinite",
+          }}
+        />
+        <Typography variant="h6" component="div">
+          Signing In...
+        </Typography>
+      </Backdrop>
     </>
   );
 }
