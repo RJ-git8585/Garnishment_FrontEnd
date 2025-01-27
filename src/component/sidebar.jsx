@@ -16,7 +16,7 @@ import {
   FaUserTie,
   FaBalanceScaleRight,
 } from 'react-icons/fa';
-import { BsFillClipboard2DataFill } from 'react-icons/bs';
+// import { BsFillClipboard2DataFill } from 'react-icons/bs';
 import { HiChatBubbleLeftRight } from 'react-icons/hi2';
 import { CgReadme } from 'react-icons/cg';
 import Logout from '../pages/Logout';
@@ -55,7 +55,7 @@ const Sidebar = () => {
     },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
     { text: 'Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
-    { text: 'Results', icon: <BsFillClipboard2DataFill />, path: '/results' },
+    // { text: 'Results', icon: <BsFillClipboard2DataFill />, path: '/results' },
     { text: 'Payroll Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
   ];
