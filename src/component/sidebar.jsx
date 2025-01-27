@@ -20,17 +20,11 @@ import { HiChatBubbleLeftRight } from 'react-icons/hi2';
 import { CgReadme } from 'react-icons/cg';
 import Logout from '../pages/Logout';
 import { IoIosPeople } from 'react-icons/io';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 const Sidebar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [openCompany, setOpenCompany] = useState(false);
-  const [openEmployee, setOpenEmployee] = useState(false);
 
   const toggleMobileDrawer = () => setIsMobileOpen((prev) => !prev);
-  const toggleCompanyMenu = () => setOpenCompany((prev) => !prev);
-  const toggleEmployeeMenu = () => setOpenEmployee((prev) => !prev);
 
   const menuItems = [
     { text: 'Dashboard', icon: <FaDashcube />, path: '/dashboard' },
@@ -38,17 +32,15 @@ const Sidebar = () => {
       text: 'Company',
       icon: <IoIosPeople />,
       isExpandable: true,
-      isOpen: openCompany,
+      isOpen: true, // Always open
       path: '/company',
-      onClick: toggleCompanyMenu,
       submenu: [
         {
           text: 'Employee',
           icon: <FaUserTie />,
           isExpandable: true,
-          isOpen: openEmployee,
+          isOpen: true, // Always open
           path: '/employee',
-          onClick: toggleEmployeeMenu,
         },
         { text: 'Orders', icon: <FaUserTie />, path: '/orders' },
       ],
@@ -61,9 +53,9 @@ const Sidebar = () => {
 
   const renderSubMenu = (submenu) => (
     <List component="div" disablePadding>
-      {submenu.map(({ text, icon, path, isExpandable, isOpen, onClick, submenu: nestedSubmenu }) => (
+      {submenu.map(({ text, icon, path, isExpandable, isOpen, submenu: nestedSubmenu }) => (
         <div key={text}>
-          <ListItem button onClick={onClick || (() => {})} sx={{ pl: 4 }}>
+          <ListItem button sx={{ pl: 4 }}>
             <NavLink
               to={path || '#'}
               style={({ isActive }) => ({
@@ -82,11 +74,6 @@ const Sidebar = () => {
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
                 <ListItemText primary={text} sx={{ color: 'inherit', fontSize: '12px !important' }} />
-                {isExpandable && (
-                  <IconButton sx={{ padding: 0 }}>
-                    {isOpen ? <ExpandLessIcon sx={{ color: 'inherit' }} /> : <ExpandMoreIcon sx={{ color: 'inherit' }} />}
-                  </IconButton>
-                )}
               </Box>
             </NavLink>
           </ListItem>
@@ -101,9 +88,9 @@ const Sidebar = () => {
     </List>
   );
 
-  const renderMenuItems = menuItems.map(({ text, icon, path, isExpandable, isOpen, onClick, submenu }) => (
+  const renderMenuItems = menuItems.map(({ text, icon, path, isExpandable, isOpen, submenu }) => (
     <div key={text}>
-      <ListItem button onClick={onClick || (() => {})}>
+      <ListItem button>
         <NavLink
           to={path || '#'}
           style={({ isActive }) => ({
@@ -122,12 +109,6 @@ const Sidebar = () => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
             <ListItemText primary={text} sx={{ color: 'inherit', fontSize: '12px !important' }} />
-            {/* Only show expand/collapse icon for menu items that have submenus */}
-            {isExpandable && text !== 'Employee' && (
-              <IconButton sx={{ padding: 0 }}>
-                {isOpen ? <ExpandLessIcon sx={{ color: 'inherit' }} /> : <ExpandMoreIcon sx={{ color: 'inherit' }} />}
-              </IconButton>
-            )}
           </Box>
         </NavLink>
       </ListItem>

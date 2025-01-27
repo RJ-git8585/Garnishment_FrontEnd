@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
-import DeleteItemComponent from '../component/DeleteItemComponent';
+// import DeleteItemComponent from '../component/DeleteItemComponent';
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";
 // import { FaPlus } from "react-icons/fa";
@@ -13,7 +13,8 @@ import CircularProgress from '@mui/material/CircularProgress';  // Import Circul
 import '@mui/material/styles';
 
 // eslint-disable-next-line react/prop-types
-function Company({ onDeleteSuccess }) {
+// function Company({ onDeleteSuccess }) {
+  function Company() {
   const id = sessionStorage.getItem("id");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // Add loading state
@@ -82,17 +83,17 @@ function Company({ onDeleteSuccess }) {
                       { field: 'bank_name', headerName: 'Bank Name', width: 150 },
                       { field: 'bank_account_number', headerName: 'Bank Account', width: 150 },
                       { field: 'location', headerName: 'Location', width: 150 },
-                      {
-                        field: 'Actions', headerName: 'Actions', width: 200,
-                        renderCell: (params) => (
-                          <div className="flex space-x-2">
-                            <DeleteItemComponent
-                              id={params.row.employee_id}
-                              onDeleteSuccess={onDeleteSuccess}
-                            />
-                          </div>
-                        )
-                      },
+                      // {
+                      //   field: 'Actions', headerName: 'Actions', width: 200,
+                      //   renderCell: (params) => (
+                      //     <div className="flex space-x-2">
+                      //       <DeleteItemComponent
+                      //         id={params.row.employee_id}
+                      //         onDeleteSuccess={onDeleteSuccess}
+                      //       />
+                      //     </div>
+                      //   )
+                      // },
                     ]}
                     rows={data}
                     pageSize={25} // Limit to 25 records per page
