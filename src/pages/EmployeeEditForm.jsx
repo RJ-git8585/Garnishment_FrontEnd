@@ -330,7 +330,7 @@ function EmployeeEditForm() {
               <div className="flex justify-end mt-6">
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-indigo-600 text-white font-medium rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                  className="px-6 py-3 bg-indigo-600 text-sm text-white font-medium rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                 >
                   Save Changes
                 </button>

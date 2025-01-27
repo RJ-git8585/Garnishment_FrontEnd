@@ -2,7 +2,9 @@
 body{
   font-size: 12px;
 }
-
+.css-fyswvn{
+  font-size: 14px !important;
+}
 nav.navbar.navbar-expand-lg.bg-body-tertiary {
   background: rgb(14, 15, 15)  !important;
 }
