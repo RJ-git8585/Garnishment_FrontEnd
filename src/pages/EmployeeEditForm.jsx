@@ -71,7 +71,10 @@ function EmployeeEditForm() {
     if (name === 'is_spouse_blind') {
       updatedValue = value === 'true'; // Convert 'true' string to boolean
     }
-  
+   // Special handling for 'is_blind'
+   if (name === 'is_blind') {
+    updatedValue = value === 'true'; // Convert 'true' string to boolean
+  }
     // Update state
     setEmployeeData({
       ...employeeData,
@@ -144,34 +147,33 @@ function EmployeeEditForm() {
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
-
                 <div>
-                  <label htmlFor="blind" className="block text-sm font-medium text-gray-700">Blind</label>
-                  <div className="mt-1 flex items-center space-x-4">
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        name="blind"
-                        value="Yes"
-                        checked={employeeData.blind === 'true'}
-                        onChange={handleInputChange}
-                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                      />
-                      <label htmlFor="blindYes" className="ml-2 text-sm text-gray-700">Yes</label>
-                    </div>
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        name="blind"
-                        value="No"
-                        checked={employeeData.blind === 'false'}
-                        onChange={handleInputChange}
-                        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-                      />
-                      <label htmlFor="blindNo" className="ml-2 text-sm text-gray-700">No</label>
-                    </div>
-                  </div>
-                </div>
+  <label htmlFor="is_spouse_blind" className="block text-sm font-medium text-gray-700">Is Blind</label>
+  <div className="mt-1 flex items-center space-x-4">
+    <div className="flex items-center">
+      <input
+        type="radio"
+        name="is_blind"
+        value="true" // Use 'true' as string value for the radio button
+        checked={employeeData.is_blind === true} // Compare to boolean true
+        onChange={handleInputChange}
+        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+      />
+      <label htmlFor="is_blindYes" className="ml-2 text-sm text-gray-700">Yes</label>
+    </div>
+    <div className="flex items-center">
+      <input
+        type="radio"
+        name="is_blind"
+        value="false" // Use 'false' as string value for the radio button
+        checked={employeeData.is_blind === false} // Compare to boolean false
+        onChange={handleInputChange}
+        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+      />
+      <label htmlFor="is_blindNo" className="ml-2 text-sm text-gray-700">No</label>
+    </div>
+  </div>
+</div>
 
                 <div>
                   <label htmlFor="age" className="block text-sm font-medium text-gray-700">Age</label>

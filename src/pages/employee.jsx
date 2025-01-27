@@ -77,7 +77,7 @@ function Employee({ onDeleteSuccess }) {
                     //   </Link>
                     // )
                  
-                  { field: 'is_blind', headerName: 'Blind', width: 100 },
+                  { field: 'is_blind', headerName: 'IsBlind', width: 100 },
                   { field: 'age', headerName: 'Age', width: 100 },
                   { field: 'gender', headerName: 'Gender', width: 100 },
                   { field: 'home_state', headerName: 'Home State', width: 100 },

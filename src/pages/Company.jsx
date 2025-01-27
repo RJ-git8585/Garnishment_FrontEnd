@@ -15,7 +15,7 @@ import '@mui/material/styles';
 function Company({ onDeleteSuccess }) {
   const id = sessionStorage.getItem("id");
   const [data, setData] = useState([]);
-  const Link1 = `${BASE_URL}/User/ExportEmployees/${id}/`;
+  const Link1 = `${BASE_URL}/User/ExportCompany/`;
 
   const dataFetchedRef = useRef(false);
   useEffect(() => {
