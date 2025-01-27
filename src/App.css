@@ -12,6 +12,10 @@ nav.navbar.navbar-expand-lg.bg-body-tertiary {
 .MenuSpacial span {
   font-size: 13px;
 }
+.css-1l2w8sj:hover {
+  /* text-decoration: none; */
+  background-color:transparent !important;;
+}
 .MuiListItem-root a.active {
   color: #9c27b0 !important;
   font-weight: 700 !important;
