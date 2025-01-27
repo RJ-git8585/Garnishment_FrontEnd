@@ -35,6 +35,7 @@ import Company from './pages/Company';
 import BatchCalculation from './document/BatchCalculation';
 import Orders from './pages/Orders';
 import EmployeeEditForm from './pages/EmployeeEditForm';
+import ComImport from './pages/ComImport';
 
 function App() {
   return (
@@ -75,6 +76,7 @@ function App() {
         <Route path="*" element={<Notfound />} />
         <Route path="/docs" element={<Siganture />} />
         <Route path="EmpImport" element={<PrivateRoute><EmpImport /></PrivateRoute> } />
+        <Route path="ComImport" element={<PrivateRoute><ComImport /></PrivateRoute> } />
         <Route path="/BatchCalculation" element={<PrivateRoute><BatchCalculation /></PrivateRoute> } />
         <Route path="/Orders" element={<PrivateRoute><Orders /></PrivateRoute> } />
       </Routes>

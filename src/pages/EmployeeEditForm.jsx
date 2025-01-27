@@ -55,6 +55,7 @@ function EmployeeEditForm() {
   
       // Ensure that the SSN is properly formatted (XXX-XX-XXXX)
       if (formattedValue.length <= 3) {
+        // eslint-disable-next-line no-self-assign
         formattedValue = formattedValue;
       } else if (formattedValue.length <= 5) {
         formattedValue = `${formattedValue.slice(0, 3)}-${formattedValue.slice(3)}`;
