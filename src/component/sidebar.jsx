@@ -105,7 +105,6 @@ const Sidebar = () => {
           style={({ isActive }) => ({
             textDecoration: 'none',
             textTransform: 'uppercase',
-         
             fontSize: '12px',
             color: 'inherit',
             backgroundColor: isActive ? '#3f51b5' : 'inherit',
@@ -137,7 +136,7 @@ const Sidebar = () => {
         <h2 className="Logo">GarnishEdge</h2>
       </Box>
       <Divider />
-      <List>{renderMenuItems}</List>
+      <List className='menu_cls'>{renderMenuItems}</List>
       <Divider />
       <Box sx={{ mt: 'auto' }}>
         <ListItem>

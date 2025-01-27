@@ -7,7 +7,7 @@ import Sidebar from '../component/sidebar'
 // import {  toast } from 'react-toastify';
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
-import { FaPlusCircle } from "react-icons/fa";
+// import { FaPlusCircle } from "react-icons/fa";
 
 
 import { TiExport } from "react-icons/ti";
@@ -64,9 +64,9 @@ function Department() {
             <a href="#" className=" border inline-flex items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><TiExport />
         Export
         </a>
-        <a href="/adddepartment" className=" border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><FaPlusCircle />
+        {/* <a href="/adddepartment" className=" border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><FaPlusCircle />
        Add
-       </a>
+       </a> */}
        </div>
             <table className="min-w-full divide-y divide-gray-200 mt-6">
               

@@ -4,7 +4,7 @@ import Sidebar from '../component/sidebar';
 import DeleteItemComponent from '../component/DeleteItemComponent';
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";
-import { FaPlus } from "react-icons/fa";
+// import { FaPlus } from "react-icons/fa";
 import { BASE_URL } from '../Config';
 import { Link } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
@@ -46,15 +46,15 @@ function Orders({ onDeleteSuccess }) {
             <div className="items-right text-right mt-4 mb-4 customexport">
               <a href={Link1} className="border inline-flex items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><TiExport /> Export</a>
               <a href="/EmpImport" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><CgImport /> Import</a>
-              <a type="button" href="/addemployee" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><FaPlus /> Add</a>
+              {/* <a type="button" href="/addemployee" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><FaPlus /> Add</a> */}
             </div>
             <Box sx={{ height: 600, width: '100%' }}>
               <DataGrid
-                getRowId={(data) => data.employee_id}
+                getRowId={(row) => row.id}
                 columns={[
-                  { field: 'employee_id', headerName: 'Employee ID', width: 150 },
+                  { field: 'cid', headerName: 'CID', width: 150 },
                   {
-                    field: 'employee_name', headerName: 'Employee Name', width: 200,
+                    field: 'eeid', headerName: 'Employee Id', width: 200,
                     renderCell: (params) => (
                       <Link
                         to={`/employee/${cid}/${params.row.employee_id}`}
@@ -64,10 +64,15 @@ function Orders({ onDeleteSuccess }) {
                       </Link>
                     )
                   },
-                  { field: 'department', headerName: 'Department', width: 150 },
-                  { field: 'pay_cycle', headerName: 'Pay Cycle', width: 150 },
-                  { field: 'location', headerName: 'Location', width: 150 },
-                  { field: 'number_of_child_support_order', headerName: 'Child Support Orders', width: 200 },
+                  { field: 'case_id', headerName: 'CaseID', width: 150 },
+                  { field: 'state', headerName: 'State', width: 150 },
+                  { field: 'type', headerName: 'GarrnishmentType', width: 150 },
+                  { field: 'sdu', headerName: 'SDU', width: 150 },
+                  { field: 'start_date', headerName: 'Start Date', width: 150 },
+                  { field: 'end_date', headerName: 'End Date', width: 150 },
+                  { field: 'amount', headerName: 'Amount', width: 200 },
+                  { field: 'arrear_greater_than_12_weeks', headerName: 'Arrears Graeter', width: 200 },
+                  { field: 'arrear_amount', headerName: 'Arrear Amount', width: 200 },
                   {
                     field: 'Actions', headerName: 'Actions', width: 200,
                     renderCell: (params) => (

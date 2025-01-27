@@ -355,9 +355,16 @@ button.sidebar-link {
   font-weight: 600;
   font-style: italic;
 }
+.css-rizt0-MuiTypography-root {
+
+  font-size: 14px;
+}
 .submenu {
   list-style-type: none;
   /* padding-left: 37px; */
+}
+.menu_cls .css-rizt0-MuiTypography-root{
+  font-size: 14px !important;
 }
 
 .submenu-item {
