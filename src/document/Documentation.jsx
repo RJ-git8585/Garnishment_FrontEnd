@@ -34,7 +34,7 @@ const Documentation = () => {
       id: 'Introduction',
       title: 'Introduction',
       description:
-        'The Garnishment Engine API provides programmatic access to manage and process garnishment orders, including employee wage deductions and reporting. It is designed for payroll systems and financial institutions to handle garnishment workflows efficiently and accurately.',
+        'The GarnishEdge Engine API provides programmatic access to manage and process garnishment orders, including employee wage deductions and reporting. It is designed for payroll systems and financial institutions to handle garnishment workflows efficiently and accurately.',
       hideButton: true,
     },
     {
@@ -146,7 +146,7 @@ const Documentation = () => {
 
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" className='Headeing_doc' gutterBottom>
-          Garnishment Engine API Documentation
+        GarnishEdge Engine API Documentation
         </Typography>
         {filteredSections.length > 0 ? (
           filteredSections.map(({ id, title, description, inputs, code, hideButton }) => (

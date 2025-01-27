@@ -58,7 +58,7 @@ function Employee({ onDeleteSuccess }) {
                   { field: 'ee_id', headerName: 'Employee ID', width: 120,
                     renderCell: (params) => (
                       <Link
-                        to={`/employee/${id}/${params.row.id}`}
+                        to={`/employee/${cid}/${params.row.ee_id}`}
                         className="text-blue-500 hover:underline"
                       >
                         {params.value}

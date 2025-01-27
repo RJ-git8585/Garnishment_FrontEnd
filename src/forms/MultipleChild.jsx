@@ -1,19 +1,15 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
+
 /* eslint-disable react/no-unknown-property */
-import React, { useState, useEffect } from 'react';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import  { useState, useEffect } from 'react';
 import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
 import { RxQuestionMarkCircled } from "react-icons/rx";
-// import { v4 as uuidv4 } from 'uuid';
 import Swal from 'sweetalert2';
 
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
   const [disposable_income, setDisposableIncome] = useState(''); 
-   const [filledInputs, setFilledInputs] = useState([]);
+  const [filledInputs, setFilledInputs] = useState([]);
   const [garnishment_fees, setGarnishmentFees] = useState('');
   const [order_id, setOrderID] = useState('');
   const [state, setState] = useState('');
@@ -28,6 +24,7 @@ function MultipleChild() {
   const employer_id = parseInt(sessionStorage.getItem("id"));
   const [options, setOptions] = useState([]);
   const style = { color: "#b90707", fontSize: "1.2em" };
+  // eslint-disable-next-line no-unused-vars
   const [numFields, setNumFields] = useState(0);
   const [fieldValues, setFieldValues] = useState([]);
   const [pay_period, setPay] = useState('weekly');
@@ -45,6 +42,7 @@ const handleChangePay = (e) => {
 };
   
     // Handle number input change
+    // eslint-disable-next-line no-unused-vars
     const handleNumberChange = (e) => {
       // alert('this is testing');
       const number = parseInt(e.target.value) || 0;
@@ -61,6 +59,7 @@ const handleChangePay = (e) => {
     };
   
     // Handle dynamic field value changes
+    // eslint-disable-next-line no-unused-vars
     const handleFieldChange = (index, value) => {
       const updatedValues = [...fieldValues];
       updatedValues[index] = value;
@@ -130,13 +129,10 @@ const handleChangePay = (e) => {
       const newInput = { id: inputs.length + 1, value: '' };
       setInputs([...inputs, newInput]);
     } else {
-      // salert('You can only add up to 5 inputs.');
+    
       Swal.fire({
-        // toast: true, // This enables the toast mode
-        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
-        icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+      
         title: 'You can only add up to 5 inputs.',
-        // text: "Now Calculation result will not stored !!",
         showConfirmButton: false, // Hide the confirm button
         timer: 3000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
@@ -150,8 +146,6 @@ const handleChangePay = (e) => {
       setInputs(updatedInputs);
     } else {
       Swal.fire({
-        // toast: true, // This enables the toast mode
-        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
         icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'One Input Required',
         // text: "Now Calculation result will not stored !!",
@@ -162,6 +156,7 @@ const handleChangePay = (e) => {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleChange = (event) => {
     setSelectedOption(parseInt(event.target.value, 10));
   };
@@ -172,8 +167,6 @@ const handleChangePay = (e) => {
       setArrearInputs([...arrearInputs, newInputArrear]);
     } else {
       Swal.fire({
-        // toast: true, // This enables the toast mode
-        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
         icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'You can only add up to 5 inputs.',
         // text: "Now Calculation result will not stored !!",
@@ -190,8 +183,6 @@ const handleChangePay = (e) => {
       setArrearInputs(updatedInputs);
     } else {
       Swal.fire({
-        // toast: true, // This enables the toast mode
-        // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
         icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
         title: 'One Input Required',
         // text: "Now Calculation result will not stored !!",
@@ -233,8 +224,8 @@ const handleChangePay = (e) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const id = sessionStorage.getItem("id");
-        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
+        const cid = sessionStorage.getItem("cid");
+        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${cid}/`);
         const jsonData = await response.json();
         setOptions(jsonData.data);
       } catch (error) {
@@ -260,10 +251,7 @@ const handleChangePay = (e) => {
     setInputs([{ id: 1, value: '' }]);
     setCalculationResult('');
     setArrearInputs([{ id: 1, value: '' }]);
-    // setFederalIncmoeTax('');
-    // setSocialTax('');
-    // setMedicareTax('');
-    // setStateTax('');
+
   };
   
   const handleSubmit = async (event) => {
@@ -284,7 +272,6 @@ const handleChangePay = (e) => {
       filledArrears.push({ id: filledArrears.length + 1, value: '0' });
     }
 
-    // Convert string inputs to numbers before sending to the backend
     const postData = {
 
       batch_id:generateUniqueNumber(),
@@ -295,7 +282,6 @@ const handleChangePay = (e) => {
       employee_name,
       disposable_income: parseFloat(disposable_income),  // Ensure it's a number
       garnishment_fees: parseFloat(garnishment_fees),
-      // order_id: parseInt(order_id, 10),
       order_id,
       state,
       pay_period,
@@ -313,10 +299,6 @@ const handleChangePay = (e) => {
       arrears_amt_Child3: parseFloat(filledArrears[2].value),
       arrears_amt_Child4: parseFloat(filledArrears[3].value),
       arrears_amt_Child5: parseFloat(filledArrears[4].value),
-      // federal_income_tax: parseFloat(federal_income_tax),
-      // social_tax: parseFloat(social_tax),
-      // medicare_tax: parseFloat(medicare_tax),
-      // state_tax: parseFloat(state_tax),
     }]};
 
   try {
@@ -333,8 +315,6 @@ const handleChangePay = (e) => {
     const resultLoanData = await resultResponse.json();
     if (!resultResponse.ok) throw new Error('Failed to fetch loan results');
     Swal.fire({
-      // toast: true, // This enables the toast mode
-      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
       icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
       title: 'Your Calculation was successful stored.',
       text: "Now Calculation result will show below the form !!",
@@ -346,14 +326,10 @@ const handleChangePay = (e) => {
 
   
   window.scrollTo({ bottom: 1000, behavior: 'smooth' });
-    // Set the calculation result
     setCalculationResult(resultLoanData.data[0]);
-    // toast.success(`Result: ${resultLoanData.data[0].result}`);
 } catch (error) {
     console.error('Submission Error:', error);
     Swal.fire({
-      // toast: true, // This enables the toast mode
-      // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
       icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
       title: 'Your action was unsuccessful',
       text: "Now Calculation result will not stored !!",
@@ -362,7 +338,6 @@ const handleChangePay = (e) => {
       timerProgressBar: true,
       didClose: () => window.scrollTo(0, document.body.scrollHeight)// Show a progress bar
   });
-    // toast.error(`Error: ${error.message}`);
 }
 };
 
@@ -386,8 +361,8 @@ return (
                   <select value={employee_id}   onChange={handleChangeName} id="countries" className=" appearance-none  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white-50 border border-white-300 text-white-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 focus:shadow-outline dark:text-black dark:focus:ring-white-500 dark:focus:border-white-500" required>
                         <option value="">Select Employee</option>
                         {options.map((option) => (
-                          <option key={option.employee_id}   value={(parseInt(option.employee_id,10))}>
-                            {option.employee_name}_{option.employee_id} 
+                          <option key={option.ee_id}   value={(parseInt(option.ee_id,10))}>
+                            {option.employee_name}_{option.ee_id} 
                           </option>
                         ))}
                       </select>
@@ -465,8 +440,6 @@ return (
                       {/* <option value="Daily"> Daily</option> */}
                       <option value="biweekly">Biweekly
                       </option>
-                      {/* <option value="Semimonthly">Semimonthly</option> */}
-                      {/* <option value="Monthly">Monthly</option> */}
                     </select>
                   </div>
                
@@ -626,100 +599,7 @@ return (
                    ))}
 
              </div>
-             {/* <div className="mt-6  appearance-none border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
-                  {/* <div> */}
-                    
-                              {/* <label htmlFor="federal_income_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                                Federal Income Tax <span className="text-red-700"> * </span>:
-                                <div className="inline relative group">
-                                <RxQuestionMarkCircled className="inline custom-note-icon" />
-                                          <div className="absolute bottom-full transform w-48 -translate-x-y 
-                                          hidden group-hover:block bg-gray-600 text-white text-sm px-3 py-1 rounded  mini-font">
-                                       ( Federal Income Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
-                                          </div>
-                                          </div>
-                              </label>
-                     
-                 <input
-                        type="number"
-                        step="0.01"
-                        placeholder='Enter Federal Income Tax'
-                        id="federal_income_tax"
-                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={federal_income_tax}
-                        onChange={(e) => setFederalIncmoeTax(parseFloat(e.target.value))}
-                      /> */}
-                  {/* </div> */} 
-                  {/* SOCIAL&SECURITY_TAX */}
-                  {/* <div>
-                      <label htmlFor="social_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        Social Security Tax <span className="text-red-700"> * </span>:
-                        <div className="inline relative group">
-                          <RxQuestionMarkCircled className="inline custom-note-icon" />
-                                  <div className="absolute bottom-full transform -translate-x-y 
-                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
-                                   ( Social Security Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
-                                      
-                                  </div>
-                                  </div>
-                      </label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        id="social_tax"
-                         placeholder='Enter Social Security Tax'
-                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={social_tax}
-                        onChange={(e) => setSocialTax(parseFloat(e.target.value))}
-                      />
-                  </div> */}
-
-                  {/* <div>
-                      <label htmlFor="medicare_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        Medicare Tax <span className="text-red-700"> * </span>:
-                        <div className="inline relative group">
-                          <RxQuestionMarkCircled className="inline custom-note-icon" />
-                                  <div className="absolute bottom-full transform -translate-x-y 
-                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
-                                   ( Medicare Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
-                                      
-                                  </div>
-                                  </div>
-                      </label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        id="medicare_tax"
-                       placeholder='Enter Medicare Tax'
-                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={medicare_tax}
-                        onChange={(e) => setMedicareTax(parseFloat(e.target.value))}
-                      />
-                  </div> */}
-                    {/*  */}
-                  {/* <div>
-                      <label htmlFor="state_tax" className="block text-gray-700 text-sm font-bold mb-2">
-                        State Tax <span className="text-red-700"> * </span>:
-                        <div className="inline relative group">
-                          <RxQuestionMarkCircled className="inline custom-note-icon" />
-                                  <div className="absolute bottom-full transform -translate-x-y 
-                                  hidden group-hover:block bg-gray-600 text-white w-48 text-sm px-3 py-1 rounded  mini-font">
-                                   ( State Tax ) require numeric values. Please ensure that you enter only numbers in these fields.
-                                      
-                                  </div>
-                                  </div>
-                      </label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        id="state_tax"
-                       placeholder='Enter State Tax'
-                        className=" appearance-none text-right border rounded w-full text-sm py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        value={state_tax}
-                        onChange={(e) => setStateTax(parseFloat(e.target.value))}
-                      />
-                  </div> */}
-                  {/* </div> */}
+           
 
               <div className="flex items-center sm:mx-auto sm:w-full sm:max-w-lg justify-center mt-4">
                 <button

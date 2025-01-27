@@ -129,13 +129,8 @@ const Signature = () => {
   return (
     <div className="docs bg-black">
       <div className="doc_sidebar">
-        <h2>
-          <img
-            src="https://garnishment-react-main.vercel.app/assets/Logo%20(1)-vJni-coq.png"
-            width="250px"
-            alt="Logo"
-          />
-        </h2>
+        <h2 className="Logo_w">
+        GarnishEdge</h2>
         <p className="text-center">Version: 1.0</p>
         <p className="text-center mb-10">Last Updated: 29th Dec, 2024</p>
         <hr />

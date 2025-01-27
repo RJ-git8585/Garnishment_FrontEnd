@@ -10,7 +10,7 @@ nav.navbar.navbar-expand-lg.bg-body-tertiary {
     background-color: transparent !important;
 }
 .MenuSpacial span {
-  font-size: 14px;
+  font-size: 13px;
 }
 .MuiListItem-root a.active {
   color: #9c27b0 !important;
@@ -110,6 +110,24 @@ li.sidebar-item {
 h1.edit-profile.mt-6.inline-block svg {
   display: inline;
   margin-right: 10px;
+}
+h2.Logo {
+  font-size: 32px;
+  font-weight: bolder;
+  text-transform: capitalize;
+  /* font-style: italic; */
+  text-align: center;
+}
+h2.Logo_w {
+  font-size: 42px;
+  color: white;
+  font-weight: bolder;
+  text-transform: capitalize;
+  /* font-style: italic; */
+  text-align: center;
+}
+input[type="file"] {
+  font-size: 14px;
 }
 .customexport svg{
   margin-top: 2px;
@@ -366,6 +384,10 @@ button.sidebar-link {
 
 .submenu-item .sidebar-link:hover {
   color: #000;
+}
+.css-1thdd5r-MuiDrawer-docked .MuiDrawer-paper {
+  width: 280px !important;
+  box-sizing: border-box;
 }
 
 .active {

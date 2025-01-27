@@ -7,11 +7,7 @@ function Notfound() {
   return (
     <div className="flex h-screen  dark:bg-slate-800 flex-1 flex-col justify-center px-6 py-12 px-16 sm:px-8 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          className="mx-auto h-10 w-auto"
-          src="/src/Logo (1).png"
-          alt="Your Company"
-        />
+      <h2 className="Logo_w">GarnishEdge</h2>
         <h2 className="mt-10 text-center dark:text-white text-2xl font-bold leading-9 tracking-tight text-gray-900">
           404 - Page Not Found
         </h2>

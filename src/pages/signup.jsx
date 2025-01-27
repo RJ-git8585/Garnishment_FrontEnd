@@ -2,7 +2,7 @@
 import React, { useState ,useEffect } from 'react';
 import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
-import logo from '/src/Logo (1).png';
+// import logo from '/src/Logo (1).png';
 // eslint-disable-next-line no-unused-vars
 // import {  toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
@@ -66,7 +66,7 @@ function Form() {
     <div className="flex lg:h-screen dark:bg-slate-800 flex-1 flex-col justify-center px-6 py-2 lg:px-8">
       <div className="grid grid-flow-row-dense items-center place-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
             <div className="sm:mx-auto   sm:w-full sm:max-w-md ]">
-            <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
+            <h2 className="Logo_w">GarnishEdge</h2>
                       <h2 className=" mb-10 text-center dark:text-white text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Sign up to your account
                       </h2>
@@ -177,7 +177,7 @@ function Form() {
                    <div className="LinkForInternal mt-2 mb-8 text-white  border-t-[0.5px] border-orange-50 pb-2 ">
                          <a href="/docs" className="font-semibold mt-10  ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Documentation</a> 
                          <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">API</a> 
-                         <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Contact Us</a>
+                         <a href="https://garnishedge.com/" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Contact Us</a>
                          </div>
                 
 

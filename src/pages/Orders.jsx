@@ -13,9 +13,9 @@ import '@mui/material/styles';
 
  // eslint-disable-next-line react/prop-types
 function Orders({ onDeleteSuccess }) {
-  const id = sessionStorage.getItem("id");
+  const cid = sessionStorage.getItem("cid");
   const [data, setData] = useState([]);
-  const Link1 = `${BASE_URL}/User/ExportEmployees/${id}/`;
+  const Link1 = `${BASE_URL}/User/ExportEmployees/${cid}/`;
 
   const dataFetchedRef = useRef(false);
   useEffect(() => {
@@ -24,7 +24,7 @@ function Orders({ onDeleteSuccess }) {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/User/getemployeedetails/${id}/`);
+        const response = await fetch(`${BASE_URL}/User/GetOrderDetails/${cid}/`);
         const jsonData = await response.json();
         setData(jsonData.data);
       } catch (error) {
@@ -33,7 +33,7 @@ function Orders({ onDeleteSuccess }) {
     };
 
     fetchData();
-  }, [id]);
+  }, [cid]);
 
   return (
 <div>
@@ -57,7 +57,7 @@ function Orders({ onDeleteSuccess }) {
                     field: 'employee_name', headerName: 'Employee Name', width: 200,
                     renderCell: (params) => (
                       <Link
-                        to={`/employee/${id}/${params.row.employee_id}`}
+                        to={`/employee/${cid}/${params.row.employee_id}`}
                         className="text-blue-500 hover:underline"
                       >
                         {params.value}

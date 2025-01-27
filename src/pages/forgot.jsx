@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
-import logo from "/src/Logo (1).png";
+
 import axios from "axios";
 
 function Forgot() {
@@ -51,7 +51,7 @@ function Forgot() {
   return (
     <div className="flex h-screen dark:bg-slate-800 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
+      <h2 className="Logo_w">GarnishEdge</h2>
         <h2 className="mt-10 text-center text-2xl font-bold dark:text-white text-gray-900">
           PASSWORD RECOVERY
         </h2>

@@ -34,6 +34,7 @@ import EmpImport from './pages/EmpImport';
 import Company from './pages/Company';
 import BatchCalculation from './document/BatchCalculation';
 import Orders from './pages/Orders';
+import EditEmployee from './pages/EditEmployee';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
         <Route path="/forgot" element={<PublicRoute restricted={true}><Forgot /></PublicRoute>} />
         <Route path="/reset-password/:token" element={<PublicRoute restricted={true}><PasswordResetConfirm /></PublicRoute>} />
         {/* PRIVATE PAGE */}
+        <Route path="/employee/:cid/:ee_id" element={<PrivateRoute><EditEmployee /></PrivateRoute>} />
         <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
         <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
