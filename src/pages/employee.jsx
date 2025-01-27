@@ -50,6 +50,7 @@ function Employee({ onDeleteSuccess }) {
               <a href="/EmpImport" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><CgImport /> Import</a>
               {/* <a type="button" href="/addemployee" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><FaPlus /> Add</a> */}
             </div>
+            <h4 className="text-l text-black-800 mb-4">Employees</h4>
             <Box sx={{ height: 700, width: '100%' }}>
               <DataGrid
                 getRowId={(data) => data.id}
@@ -76,7 +77,7 @@ function Employee({ onDeleteSuccess }) {
                     //   </Link>
                     // )
                  
-                  { field: 'blind', headerName: 'Blind', width: 100 },
+                  { field: 'is_blind', headerName: 'Blind', width: 100 },
                   { field: 'age', headerName: 'Age', width: 100 },
                   { field: 'gender', headerName: 'Gender', width: 100 },
                   { field: 'home_state', headerName: 'Home State', width: 100 },
