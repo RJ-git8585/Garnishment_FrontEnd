@@ -56,7 +56,7 @@ const Sidebar = () => {
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
     { text: 'Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
     // { text: 'Results', icon: <BsFillClipboard2DataFill />, path: '/results' },
-    { text: 'Payroll Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
+    { text: 'Garnihment Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
   ];
 
