@@ -16,11 +16,12 @@ import {
   FaUserTie,
   FaBalanceScaleRight,
 } from 'react-icons/fa';
-// import { BsFillClipboard2DataFill } from 'react-icons/bs';
 import { HiChatBubbleLeftRight } from 'react-icons/hi2';
 import { CgReadme } from 'react-icons/cg';
 import Logout from '../pages/Logout';
 import { IoIosPeople } from 'react-icons/io';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 const Sidebar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -48,15 +49,13 @@ const Sidebar = () => {
           isOpen: openEmployee,
           path: '/employee',
           onClick: toggleEmployeeMenu,
-          
         },
         { text: 'Orders', icon: <FaUserTie />, path: '/orders' },
       ],
     },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
     { text: 'Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
-    // { text: 'Results', icon: <BsFillClipboard2DataFill />, path: '/results' },
-    { text: 'Garnihment Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
+    { text: 'Garnishment Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
   ];
 
@@ -83,6 +82,11 @@ const Sidebar = () => {
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
                 <ListItemText primary={text} sx={{ color: 'inherit', fontSize: '12px !important' }} />
+                {isExpandable && (
+                  <IconButton sx={{ padding: 0 }}>
+                    {isOpen ? <ExpandLessIcon sx={{ color: 'inherit' }} /> : <ExpandMoreIcon sx={{ color: 'inherit' }} />}
+                  </IconButton>
+                )}
               </Box>
             </NavLink>
           </ListItem>
@@ -118,6 +122,12 @@ const Sidebar = () => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
             <ListItemText primary={text} sx={{ color: 'inherit', fontSize: '12px !important' }} />
+            {/* Only show expand/collapse icon for menu items that have submenus */}
+            {isExpandable && text !== 'Employee' && (
+              <IconButton sx={{ padding: 0 }}>
+                {isOpen ? <ExpandLessIcon sx={{ color: 'inherit' }} /> : <ExpandMoreIcon sx={{ color: 'inherit' }} />}
+              </IconButton>
+            )}
           </Box>
         </NavLink>
       </ListItem>

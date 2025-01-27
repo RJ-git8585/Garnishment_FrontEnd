@@ -15,12 +15,13 @@ function DeleteItemComponent({id, onDeleteSuccess, onDeleteError }) {
 //   const [error, setError] = useState(null);
 // confirm('this is deleted') 
   const handleDelete = async () => {
-    const employerid = sessionStorage.getItem("id");
+    const cid = sessionStorage.getItem("cid");
+    console.log(id)
     // const { swal, ...rest } = props;
 
     // alert('Are you sure you want to edit this item?');
     try {
-      const response = await axios.delete(`${BASE_URL}/User/EmployeeDelete/${id}/${employerid}`);
+      const response = await axios.delete(`${BASE_URL}/User/EmployeeDelete/${cid}/${id}`);
 
       if (response.status === 200 || response.status === 204) { // Handle successful deletion
         console.log('Item deleted successfully!');

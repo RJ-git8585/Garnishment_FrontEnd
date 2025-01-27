@@ -164,7 +164,7 @@ const BatchCalculation = () => {
           <Headertop />
           <hr />
           <div style={styles.container} ref={containerRef}>
-            <h2 style={styles.header}>Garnihsment Processor</h2>
+            <h2 style={styles.header}>Garnishment Processor</h2>
 
             <div style={styles.columnContainer}>
               <div style={styles.inputSection}>
