@@ -191,11 +191,11 @@ const XmlProcessor = () => {
                     <TableCell style={{ textAlign: 'center' }}>
                       {garnishment.student_loan_withhold_amt ||
                         garnishment.child_support_withhold_amt ||
-                        'N/A'}
+                        '0'}
                     </TableCell>
                     {/* Display the arrear amount if available, otherwise show 'N/A' */}
                     <TableCell style={{ textAlign: 'center' }}>
-                      {garnishment.arrear_amount ? garnishment.arrear_amount : 'N/A'}
+                      {garnishment.arrear_amount ? garnishment.arrear_amount : '0'}
                     </TableCell>
                     {/* <TableCell style={{ textAlign: 'center' }}>
                       {garnishment.arrear_amount
