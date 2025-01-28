@@ -124,7 +124,7 @@ const BatchCalculation = () => {
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Case ID</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Garnishment Type</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Amount</TableCell>
-                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Additional Info</TableCell>
+                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Arrear Amount</TableCell> 
               </TableRow>
             </TableHead>
             <TableBody>
@@ -138,12 +138,11 @@ const BatchCalculation = () => {
                     <TableCell style={{ textAlign: 'center' }}>
                       {garnishment.student_loan_withhold_amt ||
                         garnishment.child_support_withhold_amt ||
-                        'N/A'}
+                        '0'}
                     </TableCell>
+                    {/* Display the arrear amount if available, otherwise show 'N/A' */}
                     <TableCell style={{ textAlign: 'center' }}>
-                      {garnishment.arrear_amount
-                        ? `Arrear Amount: ${garnishment.arrear_amount}`
-                        : 'N/A'}
+                      {garnishment.arrear_amount ? garnishment.arrear_amount : '0'}
                     </TableCell>
                   </TableRow>
                 ))
