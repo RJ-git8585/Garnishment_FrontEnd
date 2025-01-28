@@ -138,6 +138,7 @@ const BatchCalculation = () => {
                     <TableCell style={{ textAlign: 'center' }}>
                       {garnishment.student_loan_withhold_amt ||
                         garnishment.child_support_withhold_amt ||
+                        garnishment.federal_tax_withhold_amt ||
                         '0'}
                     </TableCell>
                     {/* Display the arrear amount if available, otherwise show 'N/A' */}
