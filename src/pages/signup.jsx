@@ -4,6 +4,7 @@ import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 // import logo from '/src/Logo (1).png';
 // eslint-disable-next-line no-unused-vars
+import logo from '/src/Logo_g.png';
 // import {  toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 // import {  ToastContainer,toast } from "react-toastify";
@@ -66,7 +67,8 @@ function Form() {
     <div className="flex lg:h-screen dark:bg-slate-800 flex-1 flex-col justify-center px-6 py-2 lg:px-8">
       <div className="grid grid-flow-row-dense items-center place-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
             <div className="sm:mx-auto   sm:w-full sm:max-w-md ]">
-            <h2 className="Logo_w">GarnishEdge</h2>
+            {/* <h2 className="Logo_w">GarnishEdge</h2> */}
+            <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" /> 
                       <h2 className=" mb-10 text-center dark:text-white text-2xl font-bold leading-9 tracking-tight text-gray-900">
                         Sign up to your account
                       </h2>

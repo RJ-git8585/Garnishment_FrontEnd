@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import logo from '/src/Logo_g.png';
 import {
   Drawer,
   List,
@@ -124,7 +125,8 @@ const Sidebar = () => {
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ p: 2 }}>
-        <h2 className="Logo">GarnishEdge</h2>
+       <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" /> 
+        {/* <h2 className="Logo">GarnishEdge</h2> */}
       </Box>
       <Divider />
       <List className='menu_cls'>{renderMenuItems}</List>

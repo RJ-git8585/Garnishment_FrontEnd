@@ -42,10 +42,10 @@ function ComImport() {
     setSuccess('');
 
     try {
-        const id = sessionStorage.getItem("id");
-      const response = await fetch(`${BASE_URL}/User/EmployeeImportView/${id}/`, {
+        // const id = sessionStorage.getItem("id");
+      const response = await fetch(`${BASE_URL}/User/upsert-company-details/`, {
         method: 'POST',
-        body: formData,
+        body: formData, 
       });
 
       if (!response.ok) {

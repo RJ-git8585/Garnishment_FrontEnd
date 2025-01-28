@@ -42,8 +42,8 @@ function EmpImport() {
     setSuccess('');
 
     try {
-        const id = sessionStorage.getItem("id");
-      const response = await fetch(`${BASE_URL}/User/EmployeeImportView/${id}/`, {
+        // const id = sessionStorage.getItem("id");
+      const response = await fetch(`${BASE_URL}/User/upsert-employees-details/`, {
         method: 'POST',
         body: formData,
       });

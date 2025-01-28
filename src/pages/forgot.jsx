@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
-
+import logo from '/src/Logo_g.png';
 function Forgot() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -51,7 +51,7 @@ function Forgot() {
   return (
     <div className="flex h-screen dark:bg-slate-800 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-      <h2 className="Logo_w">GarnishEdge</h2>
+        <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" /> 
         <h2 className="mt-10 text-center text-2xl font-bold dark:text-white text-gray-900">
           PASSWORD RECOVERY
         </h2>

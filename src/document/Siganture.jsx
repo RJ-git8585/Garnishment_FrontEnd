@@ -7,6 +7,7 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 // import { SignatureMenus } from "../constants/signature";
 import Documentation from "./Documentation";
 import ApiRef from "./apiRef";
+import logo from '/src/Logo_g.png';
 // import BatchCalculation from "./BatchCalculation";
 
 const Footer = () => (
@@ -129,8 +130,7 @@ const Signature = () => {
   return (
     <div className="docs bg-black">
       <div className="doc_sidebar">
-        <h2 className="Logo_w">
-        GarnishEdge</h2>
+       <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" /> 
         <p className="text-center">Version: 1.0</p>
         <p className="text-center mb-10">Last Updated: 29th Dec, 2024</p>
         <hr />
