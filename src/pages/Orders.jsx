@@ -73,7 +73,7 @@ import '@mui/material/styles';
                   { field: 'start_date', headerName: 'Start Date', width: 150 },
                   { field: 'end_date', headerName: 'End Date', width: 150 },
                   { field: 'amount', headerName: 'Amount', width: 200 },
-                  { field: 'arrear_greater_than_12_weeks', headerName: 'Arrears Graeter', width: 200 },
+                  { field: 'arrear_greater_than_12_weeks', headerName: 'Arrears Greater Then 12 Weeks', width: 200 },
                   { field: 'arrear_amount', headerName: 'Arrear Amount', width: 200 },
                   // {
                   //   field: 'Actions', headerName: 'Actions', width: 200,

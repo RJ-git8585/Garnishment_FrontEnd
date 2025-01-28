@@ -4,8 +4,8 @@ import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import Sidebar from '../component/sidebar';
 import { useState, useRef } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
-import * as XLSX from 'xlsx'; // Library to parse Excel files
-import xml2js from 'xml2js'; // Library to convert XML to JSON and vice versa
+// import * as XLSX from 'xlsx'; // Library to parse Excel files
+// import xml2js from 'xml2js'; // Library to convert XML to JSON and vice versa
 
 const XmlProcessor = () => {
   const [reloadKey, setReloadKey] = useState(0);
@@ -60,45 +60,45 @@ const XmlProcessor = () => {
     }
   };
 
-  const handleConvertToXml = (jsonContent) => {
-    try {
-      const builder = new xml2js.Builder();
-      const xmlData = builder.buildObject(jsonContent); // Convert JSON to XML
-      return xmlData;
-    } catch (err) {
-      setError('Error converting JSON to XML');
-      return null;
-    }
-  };
+  // const handleConvertToXml = (jsonContent) => {
+  //   try {
+  //     const builder = new xml2js.Builder();
+  //     const xmlData = builder.buildObject(jsonContent); // Convert JSON to XML
+  //     return xmlData;
+  //   } catch (err) {
+  //     setError('Error converting JSON to XML');
+  //     return null;
+  //   }
+  // };
 
   // Convert XML to JSON (if needed)
-  const handleConvertXmlToJson = async (xmlContent) => {
-    try {
-      setLoading(true);
-      setError('');
+  // const handleConvertXmlToJson = async (xmlContent) => {
+  //   try {
+  //     setLoading(true);
+  //     setError('');
 
-      // Parse XML to JSON
-      const parser = new xml2js.Parser();
-      parser.parseString(xmlContent, (err, result) => {
-        if (err) {
-          throw new Error('Error parsing XML to JSON');
-        }
+  //     // Parse XML to JSON
+  //     const parser = new xml2js.Parser();
+  //     parser.parseString(xmlContent, (err, result) => {
+  //       if (err) {
+  //         throw new Error('Error parsing XML to JSON');
+  //       }
 
-        const jsonData = JSON.stringify(result, null, 2);
-        setJsonInput(jsonData); // Show JSON in the textarea
+  //       const jsonData = JSON.stringify(result, null, 2);
+  //       setJsonInput(jsonData); // Show JSON in the textarea
 
-        // Optionally call another API for garnishment calculations, if needed
-        // await handleGarnishmentCalculation(result);
-      });
+  //       // Optionally call another API for garnishment calculations, if needed
+  //       // await handleGarnishmentCalculation(result);
+  //     });
 
-    } catch (err) {
-      setError(err.message || 'An error occurred while converting the XML.');
-      setResponse(null);
-      console.error('Error in handleConvertXmlToJson:', err); // Log the error for debugging
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   } catch (err) {
+  //     setError(err.message || 'An error occurred while converting the XML.');
+  //     setResponse(null);
+  //     console.error('Error in handleConvertXmlToJson:', err); // Log the error for debugging
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleGarnishmentCalculation = async (data) => {
     try {
@@ -150,7 +150,7 @@ const XmlProcessor = () => {
     if (!data || !data.results) {
       return <p style={styles.error}>No valid results found.</p>;
     }
-
+  
     const groupedData = data.results.reduce((acc, result) => {
       result.employees.forEach((employee) => {
         const clientId = result.cid;
@@ -161,7 +161,7 @@ const XmlProcessor = () => {
       });
       return acc;
     }, {});
-
+  
     return Object.keys(groupedData).map((clientId) => (
       <div key={clientId} style={styles.resultContainer}>
         <h4 style={styles.subTableHeader}>
@@ -176,7 +176,8 @@ const XmlProcessor = () => {
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Case ID</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Garnishment Type</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Amount</TableCell>
-                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Additional Info</TableCell>
+                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Arrear Amount</TableCell> {/* New column for arrear amount */}
+                {/* <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Additional Info</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -192,11 +193,15 @@ const XmlProcessor = () => {
                         garnishment.child_support_withhold_amt ||
                         'N/A'}
                     </TableCell>
+                    {/* Display the arrear amount if available, otherwise show 'N/A' */}
                     <TableCell style={{ textAlign: 'center' }}>
+                      {garnishment.arrear_amount ? garnishment.arrear_amount : 'N/A'}
+                    </TableCell>
+                    {/* <TableCell style={{ textAlign: 'center' }}>
                       {garnishment.arrear_amount
                         ? `Arrear Amount: ${garnishment.arrear_amount}`
                         : 'N/A'}
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))
               )}
@@ -206,6 +211,7 @@ const XmlProcessor = () => {
       </div>
     ));
   };
+  
 
   return (
     <div className="min-h-full" key={reloadKey}>
