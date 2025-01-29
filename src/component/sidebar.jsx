@@ -20,6 +20,11 @@ import { HiChatBubbleLeftRight } from 'react-icons/hi2';
 import { CgReadme } from 'react-icons/cg';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import Logout from '../pages/Logout';
+import { LiaFirstOrderAlt } from "react-icons/lia";
+import { FcProcess } from "react-icons/fc";
+import { LuLoader } from "react-icons/lu";
+import { CiCalculator2 } from "react-icons/ci";
+import { GiTakeMyMoney } from "react-icons/gi";
 
 const Sidebar = () => {
   const [openMenu, setOpenMenu] = useState({});
@@ -40,18 +45,23 @@ const Sidebar = () => {
     },
     {
       text: 'Orders',
-      icon: <FaUserTie />,
+      icon: <LiaFirstOrderAlt />,
       path: '/orders',
     },
+    {
+      text: 'Fees',
+      icon: <GiTakeMyMoney />,
+      path: '/Company',
+    },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
-    { text: 'Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
+    { text: 'Calculator', icon: <CiCalculator2 />, path: '/garnishment' },
     {
       text: 'Processing',
       icon: <FaBalanceScaleRight />,
       isExpandable: true,
       submenu: [
-        { text: 'Garnishment Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
-        { text: 'Batch Processor', icon: <FaBalanceScaleRight />, path: '/xmlProcessor' },
+        { text: 'Garnishment Processor', icon: <FcProcess />, path: '/batchcalculation' },
+        { text: 'Batch Processor', icon: <LuLoader />, path: '/xmlProcessor' },
       ],
     },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
@@ -83,7 +93,7 @@ const Sidebar = () => {
                 sx={{
                   color: 'inherit',
                   fontSize: '12px !important',
-                  fontFamily: 'Roboto, sans-serif',  // Apply Roboto font here
+                  fontFamily: 'Poppins, sans-serif',  // Updated to Poppins font here
                 }}
               />
             </Box>
@@ -131,7 +141,7 @@ const Sidebar = () => {
               sx={{
                 color: 'inherit',
                 fontSize: '12px !important',
-                fontFamily: 'Roboto, sans-serif',  // Apply Roboto font here
+                fontFamily: 'Poppins, sans-serif',  // Apply Poppins font here
               }}
             />
             {isExpandable && (

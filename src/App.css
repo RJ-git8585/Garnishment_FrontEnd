@@ -377,7 +377,8 @@ button.sidebar-link {
 }
 .menu_cls .css-rizt0-MuiTypography-root{
   font-size: 14px !important;
-  font-weight: 700;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 .css-ro2zky-MuiListItemIcon-root {
   min-width: 29px !important;}
@@ -410,6 +411,7 @@ button.sidebar-link {
 .css-1thdd5r-MuiDrawer-docked .MuiDrawer-paper {
   width: 280px !important;
   box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .active {

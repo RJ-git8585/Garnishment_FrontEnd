@@ -97,7 +97,10 @@ function Employee({ onDeleteSuccess }) {
                     renderCell: (params) => (
                       <div className="flex space-x-2">
                       <DeleteItemComponent
-                        id={params.row.ee_id} // Ensure this key exists in the data
+                        id={params.row.ee_id}
+                        cid={params.row.cid}
+                        type={'emp'}
+                         // Ensure this key exists in the data
                         onDeleteSuccess={onDeleteSuccess}
                       />
                     </div>

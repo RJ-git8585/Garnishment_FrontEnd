@@ -8,26 +8,17 @@ import Swal from 'sweetalert2';
 // import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-function DeleteItemComponent({id, onDeleteSuccess, onDeleteError }) {
-//   const [isLoading, setIsLoading] = useState(false);
-// const navigate = useNavigate();
+function DeleteItemComponent({id,cid, onDeleteSuccess, onDeleteError }) {
 
-//   const [error, setError] = useState(null);
-// confirm('this is deleted') 
   const handleDelete = async () => {
-    const cid = sessionStorage.getItem("cid");
+    // const cid = sessionStorage.getItem("cid");
     console.log(id)
-    // const { swal, ...rest } = props;
-
-    // alert('Are you sure you want to edit this item?');
     try {
       const response = await axios.delete(`${BASE_URL}/User/EmployeeDelete/${cid}/${id}`);
 
       if (response.status === 200 || response.status === 204) { // Handle successful deletion
         console.log('Item deleted successfully!');
         Swal.fire({
-          // toast: true, // This enables the toast mode
-          // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
           icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
           title: 'Employee Deleted',
           // text: "Now Calculation result will not stored !!",
@@ -48,16 +39,12 @@ function DeleteItemComponent({id, onDeleteSuccess, onDeleteError }) {
       }
     } catch (error) {   
       console.error('Error deleting item:', error);
-      // toast.warning('Item deleted successfully!!! Error From catch');
-      
-    //   setError(error.message || 'An error occurred.');
       onDeleteError && onDeleteError(error); // Optional callback for error handling
     } finally {
     //   setIsLoading(false);
     // toast.warning('Item deleted successfully!!!');
     }
-    // const navigate = useNavigate();
-    // navigate('/employee', { replace: true });
+
   };
 
   return (

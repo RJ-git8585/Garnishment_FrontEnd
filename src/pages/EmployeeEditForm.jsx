@@ -121,7 +121,7 @@ function EmployeeEditForm() {
             <h2 className="mb-2">Edit Employee</h2>
             <hr className="mb-4"></hr>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 p-4">
                 <div>
                   <label htmlFor="ee_id" className="block text-sm font-medium text-gray-700">Employee ID</label>
                   <input
