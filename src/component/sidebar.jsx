@@ -7,7 +7,6 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  IconButton,
   Divider,
   Box,
   Collapse,
@@ -19,89 +18,133 @@ import {
 } from 'react-icons/fa';
 import { HiChatBubbleLeftRight } from 'react-icons/hi2';
 import { CgReadme } from 'react-icons/cg';
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import Logout from '../pages/Logout';
-// import { IoIosPeople } from 'react-icons/io';
 
 const Sidebar = () => {
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState({});
 
-  const toggleMobileDrawer = () => setIsMobileOpen((prev) => !prev);
+  const handleMenuClick = (menu) => {
+    setOpenMenu((prevState) => ({
+      ...prevState,
+      [menu]: !prevState[menu],
+    }));
+  };
 
   const menuItems = [
     { text: 'Dashboard', icon: <FaDashcube />, path: '/dashboard' },
-    { text: 'Employee', icon: <FaUserTie />, path: '/employee' },
-    { text: 'Orders', icon: <FaUserTie />, path: '/orders' },
+    {
+      text: 'Employee',
+      icon: <FaUserTie />,
+      path: '/employee',
+    },
+    {
+      text: 'Orders',
+      icon: <FaUserTie />,
+      path: '/orders',
+    },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
     { text: 'Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
-    { text: 'Garnishment Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
-    { text: 'Batch Processor', icon: <FaBalanceScaleRight />, path: '/xmlProcessor' },
+    {
+      text: 'Processing',
+      icon: <FaBalanceScaleRight />,
+      isExpandable: true,
+      submenu: [
+        { text: 'Garnishment Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
+        { text: 'Batch Processor', icon: <FaBalanceScaleRight />, path: '/xmlProcessor' },
+      ],
+    },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
   ];
 
   const renderSubMenu = (submenu) => (
     <List component="div" disablePadding>
-      {submenu.map(({ text, icon, path, isExpandable, isOpen, submenu: nestedSubmenu }) => (
-        <div key={text}>
-          <ListItem button sx={{ pl: 4 }}>
-            <NavLink
-              to={path || '#'}
-              style={({ isActive }) => ({
-                textDecoration: 'none',
-                textTransform: 'uppercase',
-                fontSize: '12px',
-                color: 'inherit',
-                backgroundColor: isActive ? '#3f51b5' : 'inherit',
-                fontWeight: isActive ? '600' : '200',
-                padding: '10px 20px',
-                borderRadius: '5px',
-                display: 'flex',
-                alignItems: 'center',
-              })}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
-                <ListItemText primary={text} sx={{ color: 'inherit', fontSize: '12px !important' }} />
-              </Box>
-            </NavLink>
-          </ListItem>
-
-          {isExpandable && nestedSubmenu && (
-            <Collapse in={isOpen} timeout="auto" unmountOnExit>
-              {renderSubMenu(nestedSubmenu)}
-            </Collapse>
-          )}
-        </div>
+      {submenu.map(({ text, icon, path }) => (
+        <ListItem button key={text} sx={{ pl: 4 }}>
+          <NavLink
+            to={path || '#'}
+            style={({ isActive }) => ({
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              fontSize: '12px',
+              color: 'inherit',
+              backgroundColor: isActive ? '#3f51b5' : 'inherit',
+              fontWeight: isActive ? '600' : '200',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              display: 'flex',
+              alignItems: 'center',
+            })}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
+              <ListItemText
+                primary={text}
+                sx={{
+                  color: 'inherit',
+                  fontSize: '12px !important',
+                  fontFamily: 'Roboto, sans-serif',  // Apply Roboto font here
+                }}
+              />
+            </Box>
+          </NavLink>
+        </ListItem>
       ))}
     </List>
   );
 
-  const renderMenuItems = menuItems.map(({ text, icon, path, isExpandable, isOpen, submenu }) => (
+  const renderMenuItems = menuItems.map(({ text, icon, path, isExpandable, submenu }) => (
     <div key={text}>
-      <ListItem button>
+      <ListItem button onClick={() => isExpandable && handleMenuClick(text)}>
         <NavLink
           to={path || '#'}
-          style={({ isActive }) => ({
-            textDecoration: 'none',
-            textTransform: 'uppercase',
-            fontSize: '12px',
-            color: 'inherit',
-            backgroundColor: isActive ? '#3f51b5' : 'inherit',
-            fontWeight: isActive ? '600' : '200',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            display: 'flex',
-            alignItems: 'center',
-          })}
+          style={({ isActive }) => {
+            const activeStyle = {
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              fontSize: '12px',
+              color: 'inherit',
+              backgroundColor: isActive ? '#3f51b5' : 'inherit',
+              fontWeight: isActive ? '600' : '200',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              display: 'flex',
+              alignItems: 'center',
+            };
+
+            // Check if the submenu is open to avoid active style when collapsed
+            if (isExpandable && !openMenu[text]) {
+              return {
+                ...activeStyle,
+                backgroundColor: 'inherit', // Remove background when collapsed
+                fontWeight: '200', // Remove bold font weight when collapsed
+              };
+            }
+
+            return activeStyle;
+          }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
-            <ListItemText primary={text} sx={{ color: 'inherit', fontSize: '12px !important' }} />
+            <ListItemText
+              primary={text}
+              sx={{
+                color: 'inherit',
+                fontSize: '12px !important',
+                fontFamily: 'Roboto, sans-serif',  // Apply Roboto font here
+              }}
+            />
+            {isExpandable && (
+              <Box sx={{ marginLeft: 'auto' }}>
+                {openMenu[text] ? <ArrowDropUp /> : <ArrowDropDown />}
+              </Box>
+            )}
           </Box>
         </NavLink>
       </ListItem>
 
       {isExpandable && submenu && (
-        <Collapse in={isOpen} timeout="auto" unmountOnExit>
+        <Collapse in={openMenu[text]} timeout="auto" unmountOnExit>
           {renderSubMenu(submenu)}
         </Collapse>
       )}
@@ -125,31 +168,15 @@ const Sidebar = () => {
   );
 
   return (
-    <>
-      <Drawer
-        variant="permanent"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          '& .MuiDrawer-paper': { width: 260, boxSizing: 'border-box' },
-        }}
-      >
-        {drawerContent}
-      </Drawer>
-
-      <IconButton sx={{ display: { xs: 'block', md: 'none' }, p: 2 }} onClick={toggleMobileDrawer}>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-6 w-6">
-          <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
-      </IconButton>
-      <Drawer
-        variant="temporary"
-        open={isMobileOpen}
-        onClose={toggleMobileDrawer}
-        sx={{ '& .MuiDrawer-paper': { width: 240, boxSizing: 'border-box' } }}
-      >
-        {drawerContent}
-      </Drawer>
-    </>
+    <Drawer
+      variant="permanent"
+      sx={{
+        display: { xs: 'none', md: 'block' },
+        '& .MuiDrawer-paper': { width: 260, boxSizing: 'border-box' },
+      }}
+    >
+      {drawerContent}
+    </Drawer>
   );
 };
 

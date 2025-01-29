@@ -2,6 +2,9 @@
 body{
   font-size: 12px;
 }
+body {
+  font-family: 'Roboto', sans-serif;
+}
 .css-fyswvn{
   font-size: 14px !important;
 }
@@ -10,6 +13,9 @@ nav.navbar.navbar-expand-lg.bg-body-tertiary {
 }
 .MuiListItem-root .active {
     background-color: transparent !important;
+}
+.css-ha8abz-MuiListItem-root a {
+  padding: 3px 5px !important;
 }
 .MenuSpacial span {
   font-size: 13px;
@@ -371,7 +377,10 @@ button.sidebar-link {
 }
 .menu_cls .css-rizt0-MuiTypography-root{
   font-size: 14px !important;
+  font-weight: 700;
 }
+.css-ro2zky-MuiListItemIcon-root {
+  min-width: 29px !important;}
 
 .submenu-item {
   padding: 10px 0;
