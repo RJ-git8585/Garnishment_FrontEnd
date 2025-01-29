@@ -20,7 +20,7 @@ import {
 import { HiChatBubbleLeftRight } from 'react-icons/hi2';
 import { CgReadme } from 'react-icons/cg';
 import Logout from '../pages/Logout';
-import { IoIosPeople } from 'react-icons/io';
+// import { IoIosPeople } from 'react-icons/io';
 
 const Sidebar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -29,27 +29,12 @@ const Sidebar = () => {
 
   const menuItems = [
     { text: 'Dashboard', icon: <FaDashcube />, path: '/dashboard' },
-    {
-      text: 'Company',
-      icon: <IoIosPeople />,
-      isExpandable: true,
-      isOpen: true, // Always open
-      path: '/company',
-      submenu: [
-        {
-          text: 'Employee',
-          icon: <FaUserTie />,
-          isExpandable: true,
-          isOpen: true, // Always open
-          path: '/employee',
-        },
-        { text: 'Orders', icon: <FaUserTie />, path: '/orders' },
-      ],
-    },
+    { text: 'Employee', icon: <FaUserTie />, path: '/employee' },
+    { text: 'Orders', icon: <FaUserTie />, path: '/orders' },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
     { text: 'Calculator', icon: <FaBalanceScaleRight />, path: '/garnishment' },
     { text: 'Garnishment Processor', icon: <FaBalanceScaleRight />, path: '/batchcalculation' },
-     { text: 'Batch Processor', icon: <FaBalanceScaleRight />, path: '/xmlProcessor' },
+    { text: 'Batch Processor', icon: <FaBalanceScaleRight />, path: '/xmlProcessor' },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },
   ];
 
@@ -126,11 +111,10 @@ const Sidebar = () => {
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ p: 2 }}>
-       <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" /> 
-        {/* <h2 className="Logo">GarnishEdge</h2> */}
+        <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
       </Box>
       <Divider />
-      <List className='menu_cls'>{renderMenuItems}</List>
+      <List className="menu_cls">{renderMenuItems}</List>
       <Divider />
       <Box sx={{ mt: 'auto' }}>
         <ListItem>
