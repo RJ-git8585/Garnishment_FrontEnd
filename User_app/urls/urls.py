@@ -50,7 +50,7 @@ urlpatterns = [
     path('upsert-employees-details/', upsert_employees_data, name='import_employees_api'),
     path('upsert-company-details/', upsert_company_details, name='upsert_company_details'),
     path('upsert_gar_order/', upsert_garnishment_order, name='upsert_garnishment_order'),
-    path('CompanyDetails/', CompanyDetails.as_view(), name='CompanyDetails'),
+    path('Company_Details/', CompanyDetails.as_view(), name='CompanyDetails'),
     path('ExportCompany/', export_company_data, name='export_company_data')
 
 
