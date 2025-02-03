@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 function DeleteItemComponent({id,cid, onDeleteSuccess, onDeleteError }) {
 
   const handleDelete = async () => {
-    // const cid = sessionStorage.getItem("cid");
+
     console.log(id)
     try {
       const response = await axios.delete(`${BASE_URL}/User/EmployeeDelete/${cid}/${id}`);
