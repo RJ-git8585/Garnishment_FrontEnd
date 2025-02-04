@@ -461,6 +461,8 @@ class garnishment_fees_rules(models.Model):
     per_month = models.DecimalField(max_digits=250,decimal_places=2)
     per_remittance=models.DecimalField(max_digits=250,decimal_places=2)
 
+
+
 class company_details(models.Model):
     cid= models.CharField(max_length=255) 
     ein = models.IntegerField() 

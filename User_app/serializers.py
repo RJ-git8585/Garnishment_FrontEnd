@@ -141,3 +141,5 @@ class garnishment_fees_rules_serializer(serializers.ModelSerializer):
         model = garnishment_fees_rules
         fields = ['id','state','maximum_fee_deduction','per_pay_period','per_month','per_remittance'] 
 
+
+
