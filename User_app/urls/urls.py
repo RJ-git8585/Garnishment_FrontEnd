@@ -52,7 +52,8 @@ urlpatterns = [
     path('upsert_gar_order/', upsert_garnishment_order, name='upsert_garnishment_order'),
     path('Company_Details/', CompanyDetails.as_view(), name='CompanyDetails'),
     path('ExportCompany/', export_company_data, name='export_company_data'),
-    path('GFStatesRule/', GETGarnishmentFeesStatesRule.as_view(), name='export_company_data')
+    path('GarnishmentFeesStatesRules/', GETGarnishmentFeesStatesRule.as_view(), name='export_company_data'),
+    path('GarnishmentFeesRules/', GETGarnishmentFeesRules.as_view(), name='export_company_data')
 
 
     

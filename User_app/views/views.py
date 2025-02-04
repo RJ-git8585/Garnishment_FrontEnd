@@ -889,6 +889,22 @@ class GETGarnishmentFeesStatesRule(APIView):
             return JsonResponse(response_data)
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)}, status=500)
+        
+        
+class GETGarnishmentFeesRules(APIView):
+    def get(self, request, format=None):
+        try:
+            employees = garnishment_fees_rules.objects.all()
+            serializer = garnishment_fees_rules_serializer(employees, many=True)
+            response_data = {
+                        'success': True,
+                        'message': 'Data Get successfully',
+                        'status code': status.HTTP_200_OK,
+                        'data' : serializer.data}
+            return JsonResponse(response_data)
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)}, status=500)
+
 
 class CompanyDetails(APIView):
     def get(self, request, format=None):

@@ -133,5 +133,11 @@ class company_details_serializer(serializers.ModelSerializer):
 class garnishment_fees_states_rule_serializer(serializers.ModelSerializer):
     class Meta:
         model = garnishment_fees_states_rule
-        fields = '__all__' 
+        fields = ['id','state','pay_period','rule'] 
+
+
+class garnishment_fees_rules_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = garnishment_fees_rules
+        fields = ['id','state','maximum_fee_deduction','per_pay_period','per_month','per_remittance'] 
 
