@@ -51,7 +51,8 @@ urlpatterns = [
     path('upsert-company-details/', upsert_company_details, name='upsert_company_details'),
     path('upsert_gar_order/', upsert_garnishment_order, name='upsert_garnishment_order'),
     path('Company_Details/', CompanyDetails.as_view(), name='CompanyDetails'),
-    path('ExportCompany/', export_company_data, name='export_company_data')
+    path('ExportCompany/', export_company_data, name='export_company_data'),
+    path('GETGarnishmentFeesData/', GETGarnishmentFeesData.as_view(), name='export_company_data')
 
 
     

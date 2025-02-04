@@ -99,7 +99,7 @@ def test_calculation_data_view_invalid_garnishment_type(api_client):
                 "employees": [
                     {
                         "ee_id": "EE005114",
-                        "garnishment_data": [{"type": "Student Default Loan", "data": []}]
+                        "garnishment_data": [{"type": "Student Default Loanss", "data": []}]
                     }
                 ]
             }

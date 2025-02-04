@@ -29,6 +29,8 @@ from rest_framework.views import APIView
 from User_app.models import Employee_Detail
 import pandas as pd
 import json
+import os
+from auth_project import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
@@ -718,7 +720,6 @@ class DepartmentDeleteAPIView(DestroyAPIView):
     
 
 # Export employee details into the csv
-# Export employee details into the csv
 @api_view(['GET'])
 def export_employee_data(request, cid):
     try:
@@ -876,6 +877,23 @@ class EmployeeDetailsList(APIView):
         except Exception as e:
             return Response({"error": str(e), "status code" :status.HTTP_500_INTERNAL_SERVER_ERROR})
 
+
+
+class GETGarnishmentFeesData(APIView):
+    def get(self,request):
+        file_path = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/garnishment_fees.json')
+
+        try:
+            with open(file_path, "r") as file:
+                data = json.load(file)
+            response_data = {
+            'success': True,
+            'message': 'Data Get successfully',
+            'status code': status.HTTP_200_OK,
+            'data' : data["fees"]}
+            return JsonResponse(response_data)
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)}, status=500)
 
 class CompanyDetails(APIView):
     def get(self, request, format=None):
