@@ -890,9 +890,7 @@ class GETGarnishmentFeesStatesRule(APIView):
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)}, status=500)
         
-        
 
-        
 class GETGarnishmentFeesRules(APIView):
     def get(self, request, format=None):
         try:
