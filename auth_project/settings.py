@@ -72,7 +72,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'auth_project.urls'
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://garnishment-backend.onrender.com", 
+]
 
 
 CORS_ALLOW_ALL_ORIGINS = True
