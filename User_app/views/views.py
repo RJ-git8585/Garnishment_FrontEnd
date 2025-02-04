@@ -876,18 +876,16 @@ class EmployeeDetailsList(APIView):
 
 
 
-class GETGarnishmentFeesData(APIView):
-    def get(self,request):
-        file_path = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/garnishment_fees.json')
-
+class GETGarnishmentFeesStatesRule(APIView):
+    def get(self, request, format=None):
         try:
-            with open(file_path, "r") as file:
-                data = json.load(file)
+            employees = garnishment_fees_states_rule.objects.all()
+            serializer = garnishment_fees_states_rule_serializer(employees, many=True)
             response_data = {
-            'success': True,
-            'message': 'Data Get successfully',
-            'status code': status.HTTP_200_OK,
-            'data' : data["fees"]}
+                        'success': True,
+                        'message': 'Data Get successfully',
+                        'status code': status.HTTP_200_OK,
+                        'data' : serializer.data}
             return JsonResponse(response_data)
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)}, status=500)
