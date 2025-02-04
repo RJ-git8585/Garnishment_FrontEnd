@@ -1,12 +1,11 @@
 from rest_framework import status
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from ..models import *
 import math
-import pandas 
 from User_app.models import *
-from django.contrib.auth import authenticate, login as auth_login ,get_user_model
+from django.contrib.auth import  login as auth_login ,get_user_model
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.db.models import Count
@@ -28,12 +27,10 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from User_app.models import Employee_Detail
 import pandas as pd
-import json
 import os
 from auth_project import settings
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.files.storage import default_storage
 from User_app.models import garnishment_order, Employee_Detail, company_details
 
 
