@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from ..models import *
+import pandas
 import math
 from User_app.models import *
 from django.contrib.auth import  login as auth_login ,get_user_model
@@ -890,11 +891,30 @@ class GETGarnishmentFeesStatesRule(APIView):
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)}, status=500)
         
+# @api_view(['GET'])
+# def get_single_employee_details(request, cid,ee_id):
+#     employees=Employee_Detail.objects.filter(cid=cid,ee_id=ee_id)
+#     if employees.exists():
+#         try:
+#             serializer = EmployeeDetailsSerializer(employees, many=True)
+#             response_data = {
+#                     'success': True,
+#                     'message': 'Data Get successfully',
+#                     'status code': status.HTTP_200_OK}
+#             response_data['data'] = serializer.data
+#             return JsonResponse(response_data)
+#         except Employee_Detail.DoesNotExist:
+#             return JsonResponse({'message': 'Data not found', 'status code':status.HTTP_404_NOT_FOUND})
+#     else:
+#         return JsonResponse({'message': 'Employer ID not found', 'status code':status.HTTP_404_NOT_FOUND})
 
-class GETGarnishmentFeesRules(APIView):
-    def get(self, request, format=None):
+
+@api_view(['GET'])
+def GETGarnishmentFeesRules(request,rule):
+    employees=garnishment_fees_rules.objects.filter(rule=rule)
+
+    if employees.exists():
         try:
-            employees = garnishment_fees_rules.objects.all()
             serializer = garnishment_fees_rules_serializer(employees, many=True)
             response_data = {
                         'success': True,
@@ -904,7 +924,8 @@ class GETGarnishmentFeesRules(APIView):
             return JsonResponse(response_data)
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)}, status=500)
-
+    else:
+        return JsonResponse({'message': 'Company ID not found', 'status code':status.HTTP_404_NOT_FOUND})
 
 class CompanyDetails(APIView):
     def get(self, request, format=None):
