@@ -53,7 +53,9 @@ urlpatterns = [
     path('Company_Details/', CompanyDetails.as_view(), name='CompanyDetails'),
     path('ExportCompany/', export_company_data, name='export_company_data'),
     path('GarnishmentFeesStatesRules/', GETGarnishmentFeesStatesRule.as_view(), name='GETGarnishmentFeesStatesRule'),
-    path('GarnishmentFeesRules/<str:rule>/', GETGarnishmentFeesRules, name='GETGarnishmentFeesRules')
+    path('GarnishmentFeesRules/<str:rule>/', GETGarnishmentFeesRules, name='GETGarnishmentFeesRules'),
+    path('GarnishmentFeesRulesUpdate/<str:rule>/', GarFeesRulesUpdateAPIView.as_view(), name='GETGarnishmentFeesRules')
+    
 
     
 
