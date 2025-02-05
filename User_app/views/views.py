@@ -998,6 +998,39 @@ def GETGarnishmentFeesRules(request,rule):
     else:
         return JsonResponse({'message': 'Rule not found', 'status code':status.HTTP_404_NOT_FOUND})
 
+
+
+
+
+@api_view(['GET'])
+def garnishment_fees_rules_based_on_state(request, state):
+    state = state.lower()
+    employees = garnishment_fees_states_rule.objects.filter(state=state)
+
+    if employees:
+        try:
+            serializer = garnishment_fees_states_rule_serializer(employees, many=True)
+            response_data = {
+                'success': True,
+                'message': 'Data retrieved successfully',
+                'status_code': status.HTTP_200_OK,
+                'data': serializer.data
+            }
+            return JsonResponse(response_data, status=status.HTTP_200_OK, safe=False)
+        except Exception as e:
+            return JsonResponse({
+                'success': False,
+                'message': 'An error occurred while processing your request',
+                'error': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    return JsonResponse({
+        'success': False,
+        'message': 'Rule not found',
+        'status_code': status.HTTP_404_NOT_FOUND
+    }, status=status.HTTP_404_NOT_FOUND)
+
+
 class CompanyDetails(APIView):
     def get(self, request, format=None):
         try:
