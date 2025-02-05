@@ -58,13 +58,13 @@ function GarnishFee() {
               <DataGrid
                 getRowId={(row) => row.id}
                 columns={[
-                  { field: "id", headerName: "ID", width: 100 },
-                  { field: "state", headerName: "State", width: 200 },
-                  { field: "pay_period", headerName: "Pay Period", width: 200 },
+                  { field: "id", headerName: "ID", width: 260 },
+                  { field: "state", headerName: "State", width: 320 },
+                  { field: "pay_period", headerName: "Pay Period", width: 320 },
                   {
                     field: "rule",
                     headerName: "Rule",
-                    width: 250,
+                    width: 320,
                     renderCell: (params) => (
                       <Button
                         variant="text"
@@ -77,8 +77,8 @@ function GarnishFee() {
                   },
                 ]}
                 rows={loading ? [] : data}
-                pageSize={25}
-                rowsPerPageOptions={[25]}
+                pageSize={20}
+                rowsPerPageOptions={[20]}
                 pagination
                 paginationMode="client"
                 loading={loading}

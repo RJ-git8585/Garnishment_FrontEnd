@@ -1,342 +1,218 @@
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../Config';
-import Headertop from '../component/Headertop';
-import Sidebar from '../component/sidebar';
-
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../Config";
+import Headertop from "../component/Headertop";
+import Sidebar from "../component/sidebar";
 
 function EmployeeEditForm() {
-  const { cid, ee_id } = useParams(); // Get the company ID and employee ID from URL
+  const { cid, ee_id } = useParams();
   const navigate = useNavigate();
-
-
   const [employeeData, setEmployeeData] = useState({
-    ee_id: '',
-    social_security_number: '',
-    blind: '',
-    age: '',
-    gender: '',
-    home_state: '',
-    work_state: '',
-    pay_period: '',
-    support_second_family: '',
-    number_of_exemptions: '',
-    filing_status: '',
-    marital_status: '',
-    number_of_student_default_loan: '',
-    spouse_age: '',
-    is_spouse_blind: '',
+    ee_id: "",
+    social_security_number: "",
+    blind: "",
+    age: "",
+    gender: "",
+    home_state: "",
+    work_state: "",
+    pay_period: "",
+    support_second_family: "",
+    number_of_exemptions: "",
+    filing_status: "",
+    marital_status: "",
+    number_of_student_default_loan: "",
+    spouse_age: "",
+    is_spouse_blind: "",
   });
-
-  // Fetch the employee data when the component mounts
+  const GenderList = [
+    { id: 1, label: 'Male' },
+    { id: 2, label: 'Female' },
+    { id: 3, label: 'Other' }
+  ]
+  const StateList = [
+    { id: 1, label: 'Alabama' },
+    { id: 2, label: 'Arizona' },
+    { id: 3, label: 'California' },
+    { id: 4, label: 'Colorado' },
+    { id: 5, label: 'Connecticut' },
+    { id: 6, label: 'Florida' },
+    { id: 7, label: 'Georgia' },
+    { id: 8, label: 'Idaho' },
+    { id: 9, label: 'Illinois' },
+    { id: 10, label: 'Indiana' },
+    { id: 11, label: 'Iowa' },
+    { id: 12, label: 'Kansas' },
+    { id: 13, label: 'Kentucky' },
+    { id: 14, label: 'Louisiana' },
+    { id: 511, label: 'Maine' },
+    { id: 15, label: 'Maryland' },
+    { id: 16, label: 'Massachusetts' },
+    { id: 17, label: 'Michigan' },
+    { id: 18, label: 'Minnesota' },
+    { id: 19, label: 'Mississippi' },
+    { id: 20, label: 'Missouri' },
+    { id: 21, label: 'Montana' },
+    { id: 22, label: 'Nebraska' },
+    { id: 23, label: 'Nevada' },
+    { id: 24, label: 'New Hampshire' },
+    { id: 25, label: 'New Jersey' },
+    { id: 26, label: 'New Mexico' },
+    { id: 27, label: 'North Carolina' },
+    { id: 28, label: 'North Dakota' },
+    { id: 29, label: 'Ohio' },
+    { id: 30, label: 'Oklahoma' },
+    { id: 31, label: 'Oregon' },
+    { id: 32, label: 'Pennsylvania' },
+    { id: 33, label: 'Rhode Island' },
+    { id: 34, label: 'South Carolina' },
+    { id: 35, label: 'South Dakota' },
+    { id: 36, label: 'Tennessee' },
+    { id: 37, label: 'Texas' },
+    { id: 38, label: 'Utah' },
+    { id: 39, label: 'Vermont' },
+    { id: 40, label: 'Virginia' },
+    { id: 41, label: 'Washington' },
+    { id: 42, label: 'West Virginia' },
+    { id: 43, label: 'Wisconsin' },
+    { id: 44, label: 'Wyoming' },
+    { id: 45, label: 'Alaska' },
+    { id: 46, label: 'Arkansas' },
+    { id: 47, label: 'Delaware' },
+    { id: 48, label: 'Hawaii' },
+    { id: 49, label: 'Montana' },
+    { id: 50, label: 'New York' },
+  ];
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
         const response = await fetch(`${BASE_URL}/User/GetSingleEmployee/${cid}/${ee_id}/`);
         const jsonData = await response.json();
-        setEmployeeData(jsonData.data[0]); // Assuming the response data is in jsonData.data
+        setEmployeeData(jsonData.data[0]);
       } catch (error) {
-        console.error('Error fetching employee data:', error);
+        console.error("Error fetching employee data:", error);
       }
     };
-
     fetchEmployeeData();
   }, [cid, ee_id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-  
-    let updatedValue = value;
-  
-    // Special handling for 'social_security_number'
-    if (name === 'social_security_number') {
-      // Remove any non-numeric characters
-      let formattedValue = value.replace(/\D/g, '');
-  
-      // Ensure that the SSN is properly formatted (XXX-XX-XXXX)
-      if (formattedValue.length <= 3) {
-        // eslint-disable-next-line no-self-assign
-        formattedValue = formattedValue;
-      } else if (formattedValue.length <= 5) {
-        formattedValue = `${formattedValue.slice(0, 3)}-${formattedValue.slice(3)}`;
-      } else if (formattedValue.length <= 9) {
-        formattedValue = `${formattedValue.slice(0, 3)}-${formattedValue.slice(3, 5)}-${formattedValue.slice(5, 9)}`;
-      } else {
-        formattedValue = formattedValue.slice(0, 9); // Limit to 9 digits
-      }
-  
-      updatedValue = formattedValue;
+    let updatedValue = name.includes("blind") ? value === "true" : value;
+
+    if (name === "social_security_number") {
+      updatedValue = value.replace(/\D/g, "").slice(0, 9);
+      updatedValue = updatedValue
+        .replace(/^(\d{3})(\d{0,2})/, "$1-$2")
+        .replace(/^(\d{3}-\d{2})(\d{0,4})/, "$1-$2");
     }
-  
-    // Special handling for 'is_spouse_blind'
-    if (name === 'is_spouse_blind') {
-      updatedValue = value === 'true'; // Convert 'true' string to boolean
-    }
-   // Special handling for 'is_blind'
-   if (name === 'is_blind') {
-    updatedValue = value === 'true'; // Convert 'true' string to boolean
-  }
-    // Update state
-    setEmployeeData({
-      ...employeeData,
-      [name]: updatedValue,
-    });
+
+    setEmployeeData({ ...employeeData, [name]: updatedValue });
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(`${BASE_URL}/User/update_employee_details/${cid}/${ee_id}/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(employeeData),
       });
-
-      if (response.ok) {
-        // Redirect back to the employee list page after successful update
-        navigate('/employee');
-      } else {
-        console.error('Failed to update employee');
-      }
+      if (response.ok) navigate("/employee");
+      else console.error("Failed to update employee");
     } catch (error) {
-      console.error('Error updating employee:', error);
+      console.error("Error updating employee:", error);
     }
   };
 
-  return (
+  const renderInput = (label, name, type = "text") => (
     <div>
-      <div className="min-h-full">
-        <div className="container main ml-auto">
-          <div className="sidebar hidden lg:block"><Sidebar /></div>
-          <div className="content ml-auto flex flex-col">
-            <Headertop />
-            <hr />
-            <div className="items-right text-right mt-4 mb-4 customexport">
-              
+      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <input
+        type={type}
+        name={name}
+        value={employeeData[name]}
+        onChange={handleInputChange}
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        {...(name === "ee_id" && { readOnly: true })}
+        {...(name === "social_security_number" && { maxLength: 11, placeholder: "XXX-XX-XXXX" })}
+      />
+    </div>
+  );
+
+  const renderRadio = (label, name) => (
+    <div>
+      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <div className="mt-1 flex items-center space-x-4">
+        {["Yes", "No"].map((option, idx) => (
+          <label key={idx} className="flex items-center">
+            <input
+              type="radio"
+              name={name}
+              value={option === "Yes"}
+              checked={employeeData[name] === (option === "Yes")}
+              onChange={handleInputChange}
+              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
+            />
+            <span className="ml-2 text-sm text-gray-700">{option}</span>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+  const renderSelect = (label, name, options) => (
+    <div>
+      <label className="block text-sm font-medium text-gray-700">{label}</label>
+      <select
+        name={name}
+        value={employeeData[name]}
+        onChange={handleInputChange}
+        className="mt-1 block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm"
+      >
+        <option value="">Select {label}</option>
+        {options.map((option) => (
+          <option key={option.id} value={option.label}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+  return (
+    <div className="min-h-full">
+      <div className="container main ml-auto">
+        <Sidebar className="sidebar hidden lg:block" />
+        <div className="content ml-auto flex flex-col">
+          <Headertop />
+          <hr />
+          <h2 className="mb-2">Edit Employee</h2>
+          <hr className="mb-4" />
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 p-4">
+              {renderInput("Employee ID", "ee_id")}
+              {renderInput("Social Security Number", "social_security_number")}
+              {renderRadio("Is Blind", "is_blind")}
+              {renderInput("Age", "age")}
+              {renderSelect("Gender", "gender",GenderList)}
+              {renderSelect("Home State", "home_state", StateList)}
+              {renderSelect("Work State", "work_state", StateList)}
+              {renderInput("Pay Period", "pay_period")}
+              {renderInput("Support Family", "support_second_family")}
+              {renderInput("Exemptions", "number_of_exemptions")}
+              {renderInput("Filing Status", "filing_status")}
+              {renderInput("Marital Status", "marital_status")}
+              {renderInput("Student Default Loan", "number_of_student_default_loan")}
+              {renderInput("Spouse Age", "spouse_age")}
+              {renderRadio("Spouse Blind", "is_spouse_blind")}
             </div>
-
-            <h2 className="mb-2">Edit Employee</h2>
-            <hr className="mb-4"></hr>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 p-4">
-                <div>
-                  <label htmlFor="ee_id" className="block text-sm font-medium text-gray-700">Employee ID</label>
-                  <input
-                    type="text"
-                    name="ee_id"
-                    value={employeeData.ee_id}
-                    onChange={handleInputChange}
-                    readOnly
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="social_security_number" className="block text-sm font-medium text-gray-700">
-                    Social Security Number
-                  </label>
-                  <input
-                    type="text"
-                    name="social_security_number"
-                    value={employeeData.social_security_number}
-                    onChange={handleInputChange}
-                    maxLength={11} // Restrict total input length (XXX-XX-XXXX)
-                    placeholder="XXX-XX-XXXX"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <div>
-  <label htmlFor="is_spouse_blind" className="block text-sm font-medium text-gray-700">Is Blind</label>
-  <div className="mt-1 flex items-center space-x-4">
-    <div className="flex items-center">
-      <input
-        type="radio"
-        name="is_blind"
-        value="true" // Use 'true' as string value for the radio button
-        checked={employeeData.is_blind === true} // Compare to boolean true
-        onChange={handleInputChange}
-        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-      />
-      <label htmlFor="is_blindYes" className="ml-2 text-sm text-gray-700">Yes</label>
-    </div>
-    <div className="flex items-center">
-      <input
-        type="radio"
-        name="is_blind"
-        value="false" // Use 'false' as string value for the radio button
-        checked={employeeData.is_blind === false} // Compare to boolean false
-        onChange={handleInputChange}
-        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-      />
-      <label htmlFor="is_blindNo" className="ml-2 text-sm text-gray-700">No</label>
-    </div>
-  </div>
-</div>
-
-                <div>
-                  <label htmlFor="age" className="block text-sm font-medium text-gray-700">Age</label>
-                  <input
-                    type="text"
-                    name="age"
-                    value={employeeData.age}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
-                  <input
-                    type="text"
-                    name="gender"
-                    value={employeeData.gender}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="home_state" className="block text-sm font-medium text-gray-700">Home State</label>
-                  <input
-                    type="text"
-                    name="home_state"
-                    value={employeeData.home_state}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="work_state" className="block text-sm font-medium text-gray-700">Work State</label>
-                  <input
-                    type="text"
-                    name="work_state"
-                    value={employeeData.work_state}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="pay_period" className="block text-sm font-medium text-gray-700">Pay Period</label>
-                  <input
-                    type="text"
-                    name="pay_period"
-                    value={employeeData.pay_period}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="support_second_family" className="block text-sm font-medium text-gray-700">Support Family</label>
-                  <input
-                    type="text"
-                    name="support_second_family"
-                    value={employeeData.support_second_family}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="number_of_exemptions" className="block text-sm font-medium text-gray-700">Exemptions</label>
-                  <input
-                    type="text"
-                    name="number_of_exemptions"
-                    value={employeeData.number_of_exemptions}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="filing_status" className="block text-sm font-medium text-gray-700">Filing Status</label>
-                  <input
-                    type="text"
-                    name="filing_status"
-                    value={employeeData.filing_status}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="marital_status" className="block text-sm font-medium text-gray-700">Marital Status</label>
-                  <input
-                    type="text"
-                    name="marital_status"
-                    value={employeeData.marital_status}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="number_of_student_default_loan" className="block text-sm font-medium text-gray-700">Student Default Loan</label>
-                  <input
-                    type="text"
-                    name="number_of_student_default_loan"
-                    value={employeeData.number_of_student_default_loan}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="spouse_age" className="block text-sm font-medium text-gray-700">Spouse Age</label>
-                  <input
-                    type="text"
-                    name="spouse_age"
-                    value={employeeData.spouse_age}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                </div>
-                <div>
-  <label htmlFor="is_spouse_blind" className="block text-sm font-medium text-gray-700">Spouse Blind</label>
-  <div className="mt-1 flex items-center space-x-4">
-    <div className="flex items-center">
-      <input
-        type="radio"
-        name="is_spouse_blind"
-        value="true" // Use 'true' as string value for the radio button
-        checked={employeeData.is_spouse_blind === true} // Compare to boolean true
-        onChange={handleInputChange}
-        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-      />
-      <label htmlFor="is_spouse_blindYes" className="ml-2 text-sm text-gray-700">Yes</label>
-    </div>
-    <div className="flex items-center">
-      <input
-        type="radio"
-        name="is_spouse_blind"
-        value="false" // Use 'false' as string value for the radio button
-        checked={employeeData.is_spouse_blind === false} // Compare to boolean false
-        onChange={handleInputChange}
-        className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-      />
-      <label htmlFor="is_spouse_blindNo" className="ml-2 text-sm text-gray-700">No</label>
-    </div>
-  </div>
-</div>
-
-
-              </div>
-
-              <div className="flex justify-end mt-6">
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-indigo-600 text-sm text-white font-medium rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </form>
-          </div>
+            <div className="flex justify-end mt-6">
+              <button
+                type="submit"
+                className="px-6 py-3 bg-indigo-600 text-sm text-white font-medium rounded-md shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+              >
+                Save Changes
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
