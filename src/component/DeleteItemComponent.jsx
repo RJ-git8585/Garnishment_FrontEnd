@@ -41,10 +41,9 @@ function DeleteItemComponent({id,cid, onDeleteSuccess, onDeleteError }) {
       console.error('Error deleting item:', error);
       onDeleteError && onDeleteError(error); // Optional callback for error handling
     } finally {
-    //   setIsLoading(false);
+
     // toast.warning('Item deleted successfully!!!');
     }
-
   };
 
   return (

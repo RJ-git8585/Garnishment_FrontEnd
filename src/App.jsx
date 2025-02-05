@@ -31,7 +31,7 @@ import PublicRoute from './component/PublicRoute';
 import Siganture from './document/Siganture';
 import EmployeeProfile from './pages/EmployeeProfile';
 import EmpImport from './pages/EmpImport';
-import Company from './pages/Company';
+import GarnishFee from './pages/GarnishFee';
 import BatchCalculation from './document/BatchCalculation';
 import Orders from './pages/Orders';
 import EmployeeEditForm from './pages/EmployeeEditForm';
@@ -53,7 +53,6 @@ function App() {
         <Route path="/reset-password/:token" element={<PublicRoute restricted={true}><PasswordResetConfirm /></PublicRoute>} />
         {/* PRIVATE PAGE */}
         <Route path="/employee/edit/:cid/:ee_id" element={<EmployeeEditForm />} /> {/* New route for editing */}
-      
         <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
         <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
@@ -74,7 +73,7 @@ function App() {
         <Route path="/results" element={<PrivateRoute><Results /></PrivateRoute>} />
         <Route path="/addtax" element={<PrivateRoute><AddTax /></PrivateRoute>} />
         <Route path="/employee/:id/:employeeId" element={<PrivateRoute><EmployeeProfile /></PrivateRoute>} />
-        <Route path="/company" element={<PrivateRoute><Company /></PrivateRoute>} />
+        <Route path="/GarnishFee" element={<PrivateRoute><GarnishFee /></PrivateRoute>} />
         <Route path="*" element={<Notfound />} />
         <Route path="/docs" element={<Siganture />} />
         <Route path="/EmpImport" element={<PrivateRoute><EmpImport /></PrivateRoute> } />
