@@ -100,6 +100,7 @@ class Employee_Detail(models.Model):
     is_spouse_blind = models.BooleanField(null=True, blank=True)
     record_import = models.DateTimeField(auto_now_add=True)
     record_updated = models.DateTimeField(auto_now_add=True)
+    garnishment_fees_status=models.BooleanField()
 
 class payroll(models.Model):
     cid= models.CharField(max_length=255)
@@ -159,19 +160,7 @@ class garnishment_order(models.Model):
 
     def __str__(self):
         return self.username
-class Tax_details(models.Model):
-    tax_id = models.AutoField(primary_key=True)
-    employer_id=models.IntegerField(unique=True)
-    fedral_income_tax =models.FloatField()
-    social_and_security =models.FloatField()
-    medicare_tax= models.FloatField()
-    state_tax =models.FloatField()
-    SDI_tax=models.FloatField()
-    mexico_tax=models.FloatField()
-    workers_compensation=models.FloatField()
-    medical_insurance=models.FloatField()
-    contribution=models.FloatField()
-    united_way_contribution=models.FloatField()
+
 
 
 class IWOPDFFile(models.Model):
@@ -188,17 +177,6 @@ class IWO_Details_PDF(models.Model):
     IWO_Status =models.CharField(max_length=250)
 
 
-class Department(models.Model):
-    department_id = models.AutoField(primary_key=True)
-    department_name=models.CharField(max_length=250)
-    employer_id=models.IntegerField(unique=True)
-
-class Location(models.Model):
-    location_id = models.AutoField(primary_key=True)
-    employer_id=models.IntegerField(unique=True)
-    state=models.CharField(max_length=250)
-    city=models.CharField(max_length=250)
-    # street=models.CharField(max_length=250)
 
 class Garcalculation_data(models.Model):
     employee_id = models.CharField(max_length=255)
@@ -461,7 +439,26 @@ class garnishment_fees_rules(models.Model):
     per_month = models.DecimalField(max_digits=250,decimal_places=2)
     per_remittance=models.DecimalField(max_digits=250,decimal_places=2)
 
+class disposable_earning_rules(models.Model):
+    state = models.CharField(max_length=255)
+    disposable_earnings = models.CharField(max_length=255) 
 
+class withholding_rules(models.Model):
+    state = models.CharField(max_length=255)
+    rule = models.CharField(max_length=255) 
+    abv = models.CharField(max_length=255) 
+    allocation_method = models.CharField(max_length=255) 
+    withholding_limit = models.CharField(max_length=255) 
+
+
+class withholding_limit(models.Model):
+    rule = models.CharField(max_length=255) 
+    withholding_limit = models.CharField(max_length=255) 
+    supports_2nd_family = models.CharField(max_length=255) 
+    arrears_of_more_than_12_weeks = models.CharField(max_length=255) 
+    json_Key = models.CharField(max_length=255) 
+    no_of_orders = models.CharField(max_length=255) 
+    weekly_de = models.CharField(max_length=255) 
 
 class company_details(models.Model):
     cid= models.CharField(max_length=255) 
