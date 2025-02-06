@@ -101,6 +101,7 @@ class Employee_Detail(models.Model):
     record_import = models.DateTimeField(auto_now_add=True)
     record_updated = models.DateTimeField(auto_now_add=True)
     garnishment_fees_status=models.BooleanField()
+    garnishment_fees_suspended_till=models.DateField()
 
 class payroll(models.Model):
     cid= models.CharField(max_length=255)
