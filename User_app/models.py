@@ -103,6 +103,7 @@ class Employee_Detail(models.Model):
     garnishment_fees_status=models.BooleanField()
     garnishment_fees_suspended_till=models.DateField()
 
+
 class payroll(models.Model):
     cid= models.CharField(max_length=255)
     eeid= models.CharField(max_length=255)
@@ -156,11 +157,11 @@ class garnishment_order(models.Model):
 #     location = models.CharField(max_length=255, null=True, blank=True)
 
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'employer_name']
+    # USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = ['username', 'employer_name']
 
-    def __str__(self):
-        return self.username
+    # def __str__(self):
+    #     return self.username
 
 
 
@@ -474,3 +475,12 @@ class company_details(models.Model):
     location = models.CharField(max_length=255, null=True, blank=True)
     record_import = models.DateTimeField(auto_now_add=True)
     record_updated = models.DateTimeField(auto_now_add=True)
+
+class garnishment_fees(models.Model):
+    state= models.CharField(max_length=255)
+    type= models.CharField(max_length=255)
+    pay_period = models.CharField(max_length=255)
+    amount= models.CharField(max_length=255, null=True, blank=True)
+    status= models.CharField(max_length=255)
+    rules=models.CharField(max_length=255)
+

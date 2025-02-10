@@ -8,6 +8,7 @@ from auth_project.garnishment_library import gar_resused_classes as gc
 from auth_project.garnishment_library.child_support import ChildSupport,MultipleChild,SingleChild 
 from auth_project.garnishment_library.student_loan import student_loan_calculate
 from django.utils.decorators import method_decorator
+from auth_project.garnishment_library import gar_fees as gar_fees
 from auth_project.garnishment_library.federal_case import federal_tax
 
 
@@ -42,6 +43,8 @@ class CalculationDataView(APIView):
                     garnishment_data = record.get("garnishment_data", [])
                     #Garnishment Fees 
                     gar_fees=gc.GarnishmentFeesIdentifier().calculate(record)
+
+                    print("new",gar_fees.gar_fees_rules_engine.apply_rule(record))
     
                     gar_type = record.get("garnishment_data")[0]
                     garnishment_type=gar_type.get('type')

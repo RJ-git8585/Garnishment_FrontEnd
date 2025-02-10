@@ -1191,6 +1191,77 @@ class APICallCountView(APIView):
         logs = APICallLog.objects.values('date', 'endpoint', 'count')
         return Response(logs)
 
+    def get(self,request):
+        record={
+                "ee_id": "EE005114",
+                "gross_pay": 1000.0,
+                "state": "alaska",
+                "no_of_exemption_for_self": 2,
+                "pay_period": "Weekly",
+                "filing_status": "single_filing_status",
+                "net_pay": 858.8,
+                "payroll_taxes": [
+                    {
+                        "federal_income_tax": 80.0
+                    },
+                    {
+                        "social_security_tax": 49.6
+                    },
+                    {
+                        "medicare_tax": 11.6
+                    },
+                    {
+                        "state_tax": 0.0
+                    },
+                    {
+                        "local_tax": 0.0
+                    }
+                ],
+                "payroll_deductions": {
+                    "medical_insurance": 0.0
+                },
+                "age": 50,
+                "is_blind": True,
+                "is_spouse_blind": True,
+                "spouse_age": 39,
+                "support_second_family": "Yes",
+                "no_of_student_default_loan": 2,
+                "arrears_greater_than_12_weeks": "No",
+                "garnishment_data": [
+                    {
+                        "type": "child_support",
+                        "data": [
+                            {
+                                "case_id": "C13278",
+                                "amount": 200.0,
+                                "arrear": 0
+                            }
+                        ]
+                    }
+                ]
+            }
+
+        state=record.get("state").lower()
+        gar_type = record.get("garnishment_data")[0]
+        type=gar_type.get('type').lower()
+        pay_period=record.get('pay_period').lower()
+        print("State:", state)
+        print("Garnishment Type:", type)
+        print("Pay Period:", pay_period)
+        data = garnishment_fees.objects.all()
+        serializer = garnishment_fees_serializer(data, many=True)
+
+        for item in serializer.data:
+            if (item["state"].strip().lower() == state.strip().lower() and
+                item["pay_period"].strip().lower() == pay_period.strip().lower() and
+                item["type"].strip().lower() == type.strip().lower()):
+                return Response(item["amount"])
+
+        
+        # print("data",data)
+
+        # return Response({"data":data})
+
 
 @csrf_exempt
 def import_employees_api(request):
