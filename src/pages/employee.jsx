@@ -10,13 +10,17 @@ import { Link } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import '@mui/material/styles';
-
+// eslint-disable-next-line no-unused-vars
+import EditGarnishmentRule from './EditGarnishmentRule';
+// import Button from "@mui/material/Button";
  // eslint-disable-next-line react/prop-types
 function Employee({ onDeleteSuccess }) {
   // function Employee() {
   const id = sessionStorage.getItem("id");
   const cid = sessionStorage.getItem("cid");
   const [data, setData] = useState([]);
+  // const [selectedRuleId, setSelectedRuleId] = useState(null);
+  // const [editOpen, setEditOpen] = useState(false);
   const Link1 = `${BASE_URL}/User/ExportEmployees/${cid}/`;
 
   const dataFetchedRef = useRef(false);
@@ -37,6 +41,16 @@ function Employee({ onDeleteSuccess }) {
 
     fetchData();
   }, [id]);
+
+  // const handleEditOpen = (rule) => {
+  //   setSelectedRuleId(rule);
+  //   setEditOpen(true);
+  // };
+
+  // const handleEditClose = () => {
+  //   setEditOpen(false);
+  //   setSelectedRuleId(null);
+  // };
 
   return (
 <div>
@@ -92,6 +106,9 @@ function Employee({ onDeleteSuccess }) {
                   { field: 'number_of_student_default_loan', headerName: 'Student Default Loan', width: 120 },
                   { field: 'spouse_age', headerName: 'Spouse Age', width: 120 },
                   { field: 'is_spouse_blind', headerName: 'Spouse Blind', width: 120 }, 
+                  { field: 'garnishment_fees_status', headerName: 'Garnishment Fees Status', width: 220 },
+                  { field: 'garnishment_fees_suspended_till', headerName: 'Status Suspended Till Date', width: 220 },
+                  
                   {
                     field: 'Actions', headerName: 'Actions', width: 100,
                     renderCell: (params) => (

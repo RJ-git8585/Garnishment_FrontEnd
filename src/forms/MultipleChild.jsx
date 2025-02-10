@@ -5,6 +5,7 @@ import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";
 import { RxQuestionMarkCircled } from "react-icons/rx";
 import Swal from 'sweetalert2';
+import { StateList } from "../Constant";
 
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');
@@ -65,60 +66,6 @@ const handleChangePay = (e) => {
       updatedValues[index] = value;
       setFieldValues(updatedValues);
     };
-
-  const StateList = [
-    { id: 1, label: 'Alabama' },
-    { id: 2, label: 'Arizona' },
-    { id: 3, label: 'California' },
-    { id: 4, label: 'Colorado' },
-    { id: 5, label: 'Connecticut' },
-    { id: 6, label: 'Florida' },
-    { id: 7, label: 'Georgia' },
-    { id: 8, label: 'Idaho' },
-    { id: 9, label: 'Illinois' },
-    { id: 10, label: 'Indiana' },
-    { id: 11, label: 'Iowa' },
-    { id: 12, label: 'Kansas' },
-    { id: 13, label: 'Kentucky' },
-    { id: 14, label: 'Louisiana' },
-    { id: 511, label: 'Maine' },
-    { id: 15, label: 'Maryland' },
-    { id: 16, label: 'Massachusetts' },
-    { id: 17, label: 'Michigan' },
-    { id: 18, label: 'Minnesota' },
-    { id: 19, label: 'Mississippi' },
-    { id: 20, label: 'Missouri' },
-    { id: 21, label: 'Montana' },
-    { id: 22, label: 'Nebraska' },
-    { id: 23, label: 'Nevada' },
-    { id: 24, label: 'New Hampshire' },
-    { id: 25, label: 'New Jersey' },
-    { id: 26, label: 'New Mexico' },
-    { id: 27, label: 'North Carolina' },
-    { id: 28, label: 'North Dakota' },
-    { id: 29, label: 'Ohio' },
-    { id: 30, label: 'Oklahoma' },
-    { id: 31, label: 'Oregon' },
-    { id: 32, label: 'Pennsylvania' },
-    { id: 33, label: 'Rhode Island' },
-    { id: 34, label: 'South Carolina' },
-    { id: 35, label: 'South Dakota' },
-    { id: 36, label: 'Tennessee' },
-    { id: 37, label: 'Texas' },
-    { id: 38, label: 'Utah' },
-    { id: 39, label: 'Vermont' },
-    { id: 40, label: 'Virginia' },
-    { id: 41, label: 'Washington' },
-    { id: 42, label: 'West Virginia' },
-    { id: 43, label: 'Wisconsin' },
-    { id: 44, label: 'Wyoming' },
-    { id: 45, label: 'Alaska' },
-    { id: 46, label: 'Arkansas' },
-    { id: 47, label: 'Delaware' },
-    { id: 48, label: 'Hawaii' },
-    { id: 49, label: 'Montana' },
-    { id: 50, label: 'New York' },
-  ];
 
   const handleState = (event) => {
     setState(event.target.value);

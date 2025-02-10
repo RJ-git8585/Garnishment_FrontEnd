@@ -55,6 +55,7 @@ function Dashboard() {
 
   return (
     <div className="min-h-full">
+      
       <div className="container">
         <div className="sidebar hidden lg:block">
           <Sidebar />

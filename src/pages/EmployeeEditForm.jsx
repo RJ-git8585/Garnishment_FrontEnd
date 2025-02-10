@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../Config";
 import Headertop from "../component/Headertop";
 import Sidebar from "../component/sidebar";
+import { StateList,GenderList,PeriodList,FillingStatusList } from "../Constant";
+import { Radio,TextField } from "@mui/material"; 
+import { FormControl, InputLabel, Select, MenuItem,FormLabel, RadioGroup, FormControlLabel } from "@mui/material";
 
 function EmployeeEditForm() {
   const { cid, ee_id } = useParams();
@@ -23,65 +26,11 @@ function EmployeeEditForm() {
     number_of_student_default_loan: "",
     spouse_age: "",
     is_spouse_blind: "",
+    garnishment_fees_status: "",
+    garnishment_fees_suspended_till: "",
   });
-  const GenderList = [
-    { id: 1, label: 'Male' },
-    { id: 2, label: 'Female' },
-    { id: 3, label: 'Other' }
-  ]
-  const StateList = [
-    { id: 1, label: 'Alabama' },
-    { id: 2, label: 'Arizona' },
-    { id: 3, label: 'California' },
-    { id: 4, label: 'Colorado' },
-    { id: 5, label: 'Connecticut' },
-    { id: 6, label: 'Florida' },
-    { id: 7, label: 'Georgia' },
-    { id: 8, label: 'Idaho' },
-    { id: 9, label: 'Illinois' },
-    { id: 10, label: 'Indiana' },
-    { id: 11, label: 'Iowa' },
-    { id: 12, label: 'Kansas' },
-    { id: 13, label: 'Kentucky' },
-    { id: 14, label: 'Louisiana' },
-    { id: 511, label: 'Maine' },
-    { id: 15, label: 'Maryland' },
-    { id: 16, label: 'Massachusetts' },
-    { id: 17, label: 'Michigan' },
-    { id: 18, label: 'Minnesota' },
-    { id: 19, label: 'Mississippi' },
-    { id: 20, label: 'Missouri' },
-    { id: 21, label: 'Montana' },
-    { id: 22, label: 'Nebraska' },
-    { id: 23, label: 'Nevada' },
-    { id: 24, label: 'New Hampshire' },
-    { id: 25, label: 'New Jersey' },
-    { id: 26, label: 'New Mexico' },
-    { id: 27, label: 'North Carolina' },
-    { id: 28, label: 'North Dakota' },
-    { id: 29, label: 'Ohio' },
-    { id: 30, label: 'Oklahoma' },
-    { id: 31, label: 'Oregon' },
-    { id: 32, label: 'Pennsylvania' },
-    { id: 33, label: 'Rhode Island' },
-    { id: 34, label: 'South Carolina' },
-    { id: 35, label: 'South Dakota' },
-    { id: 36, label: 'Tennessee' },
-    { id: 37, label: 'Texas' },
-    { id: 38, label: 'Utah' },
-    { id: 39, label: 'Vermont' },
-    { id: 40, label: 'Virginia' },
-    { id: 41, label: 'Washington' },
-    { id: 42, label: 'West Virginia' },
-    { id: 43, label: 'Wisconsin' },
-    { id: 44, label: 'Wyoming' },
-    { id: 45, label: 'Alaska' },
-    { id: 46, label: 'Arkansas' },
-    { id: 47, label: 'Delaware' },
-    { id: 48, label: 'Hawaii' },
-    { id: 49, label: 'Montana' },
-    { id: 50, label: 'New York' },
-  ];
+
+
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
@@ -96,8 +45,12 @@ function EmployeeEditForm() {
   }, [cid, ee_id]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    let updatedValue = name.includes("blind") ? value === "true" : value;
+    const { name, value, type } = e.target;
+  let updatedValue = value;
+
+  if (type === "radio") {
+    updatedValue = value === "true";  // Convert "true"/"false" strings to boolean
+  }
 
     if (name === "social_security_number") {
       updatedValue = value.replace(/\D/g, "").slice(0, 9);
@@ -118,64 +71,105 @@ function EmployeeEditForm() {
         body: JSON.stringify(employeeData),
       });
       if (response.ok) navigate("/employee");
-      else console.error("Failed to update employee");
+      else { 
+        console.error("Failed to update employee");
+        alert("Failed to update employee. Please try again.");
+      }
     } catch (error) {
       console.error("Error updating employee:", error);
     }
   };
 
+
+
   const renderInput = (label, name, type = "text") => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
-      <input
-        type={type}
-        name={name}
-        value={employeeData[name]}
-        onChange={handleInputChange}
-        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        {...(name === "ee_id" && { readOnly: true })}
-        {...(name === "social_security_number" && { maxLength: 11, placeholder: "XXX-XX-XXXX" })}
-      />
-    </div>
+    <TextField
+      label={label}
+      name={name}
+      type={type}
+      value={employeeData[name]}
+      onChange={handleInputChange}
+      variant="outlined"
+      fullWidth
+      size="small"
+      sx={{
+        mt: 1,
+        "& .MuiOutlinedInput-root": {
+          borderRadius: "6px",
+          boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
+          "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#6366F1" }, // Indigo-500
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "#6366F1" },
+        },
+      }}
+      InputProps={{
+        readOnly: name === "ee_id",
+      }}
+      inputProps={{
+        ...(name === "social_security_number" && { maxLength: 11, placeholder: "XXX-XX-XXXX" }),
+      }}
+    />
   );
+  
+
 
   const renderRadio = (label, name) => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
-      <div className="mt-1 flex items-center space-x-4">
-        {["Yes", "No"].map((option, idx) => (
-          <label key={idx} className="flex items-center">
-            <input
-              type="radio"
-              name={name}
-              value={option === "Yes"}
-              checked={employeeData[name] === (option === "Yes")}
-              onChange={handleInputChange}
-              className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300"
-            />
-            <span className="ml-2 text-sm text-gray-700">{option}</span>
-          </label>
+    <FormControl fullWidth sx={{ mt: 1 }}>
+      <FormLabel sx={{ fontSize: "14px", color: "#374151", fontWeight: 500 }}>
+        {label}
+      </FormLabel>
+      <RadioGroup
+        row
+        name={name}
+        value={String(employeeData[name])}
+        onChange={handleInputChange}
+        sx={{ mt: 0.5 }}
+      >
+        {["true", "false"].map((option) => (
+          <FormControlLabel
+            key={option}
+            value={option}
+            control={<Radio color={option === "false" ? "error" : "primary"} />}
+            label={option === "true" ? "Yes" : "No"}
+            sx={{
+              "& .MuiTypography-root": {
+                fontSize: "14px",
+                fontWeight: option === "false" ? 600 : 400,
+                color: option === "false" ? "#D32F2F" : "#4B5563", // Red-700 & Gray-600
+              },
+            }}
+          />
         ))}
-      </div>
-    </div>
+      </RadioGroup>
+    </FormControl>
   );
+  
+
+  
+  
   const renderSelect = (label, name, options) => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
-      <select
+    <FormControl fullWidth sx={{ mt: 1 }}>
+      <InputLabel>{label}</InputLabel>
+      <Select
         name={name}
         value={employeeData[name]}
         onChange={handleInputChange}
-        className="mt-1 block w-full px-3 py-2 text-sm border border-gray-300 rounded-md shadow-sm"
+        label={label}
+        size="small"
+        sx={{
+          borderRadius: "6px",
+          boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
+          "&:hover .MuiOutlinedInput-notchedOutline": { borderColor: "#6366F1" }, // Indigo-500
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "#6366F1" },
+        }}
       >
-        <option value="">Select {label}</option>
+        <MenuItem value="">Select {label}</MenuItem>
         {options.map((option) => (
-          <option key={option.id} value={option.label}>
+          <MenuItem key={option.id} value={option.label}>
             {option.label}
-          </option>
+          </MenuItem>
         ))}
-      </select>
-    </div>
+      </Select>
+    </FormControl>
   );
   return (
     <div className="min-h-full">
@@ -186,22 +180,24 @@ function EmployeeEditForm() {
           <hr />
           <h2 className="mb-2">Edit Employee</h2>
           <hr className="mb-4" />
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6 form_cls">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 p-4">
               {renderInput("Employee ID", "ee_id")}
               {renderInput("Social Security Number", "social_security_number")}
               {renderRadio("Is Blind", "is_blind")}
               {renderInput("Age", "age")}
-              {renderSelect("Gender", "gender",GenderList)}
+              {renderSelect("Gender", "gender", GenderList)}
               {renderSelect("Home State", "home_state", StateList)}
               {renderSelect("Work State", "work_state", StateList)}
-              {renderInput("Pay Period", "pay_period")}
-              {renderInput("Support Family", "support_second_family")}
+              {renderSelect("Pay Period", "pay_period" , PeriodList)}
+              {renderRadio("Support Family", "support_second_family")}
               {renderInput("Exemptions", "number_of_exemptions")}
-              {renderInput("Filing Status", "filing_status")}
+              {renderSelect("Filing Status", "filing_status",FillingStatusList)}
               {renderInput("Marital Status", "marital_status")}
               {renderInput("Student Default Loan", "number_of_student_default_loan")}
               {renderInput("Spouse Age", "spouse_age")}
+              {renderRadio("Garnishment Fees Status", "garnishment_fees_status")}
+              {renderInput("Garnishment Fees Suspended Till", "garnishment_fees_suspended_till", "date")}
               {renderRadio("Spouse Blind", "is_spouse_blind")}
             </div>
             <div className="flex justify-end mt-6">
