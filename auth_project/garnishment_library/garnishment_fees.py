@@ -5,13 +5,15 @@ class gar_fees_rules_engine():
     def __init__(self):
         
         # Mapping rule names to their corresponding methods
-        self.rule_map = {f'Rule_{i}': getattr(self, f'Rule_{i}') for i in range(1, 3)}
+        self.rule_map = {f'Rule_{i}': getattr(self, f'Rule_{i}') for i in range(1, 7)}
     
     def get_serialized_data(self):
         data = garnishment_fees.objects.all()
         serializer = garnishment_fees_serializer(data, many=True)
         return serializer.data
-
+    
+    def calculate_rule(self,withhold_amt, percentage, min_value=0):
+        return max(min_value, 0 if withhold_amt == 0 else withhold_amt * percentage)
 
     def find_rule(self,record):
         state=record.get("state").lower()
@@ -26,8 +28,8 @@ class gar_fees_rules_engine():
                 item["pay_period"].strip().lower() == pay_period.strip().lower() and
                 item["type"].strip().lower() == type.strip().lower()):
                 return (item["rules"])
-            
-    def Rule_1(self,record):
+
+    def Rule_1(self,record,withhold_amt):
         state=record.get("state").lower()
         gar_type = record.get("garnishment_data")[0]
         type=gar_type.get('type').lower()
@@ -40,15 +42,52 @@ class gar_fees_rules_engine():
                 item["type"].strip().lower() == type.strip().lower()):
                 return (item["amount"])
             
-    def Rule_2(self,record):
+    def Rule_2(self,record,withhold_amt):
         return ("No Provision")
-
     
-    def apply_rule(self, record):
+    def Rule_3(self,record,withhold_amt):
+        state=record.get("state").strip().lower()
+        gar_type = record.get("garnishment_data")[0]
+        type=gar_type.get('type').strip().lower()
+        pay_period=record.get('pay_period').strip().lower()
+        rules_data=self.get_serialized_data()
+        for item in rules_data:
+            if (item["state"].strip().lower() == state and
+                item["pay_period"].strip().lower() == pay_period and
+                item["type"].strip().lower() == type):
+
+                gar_fees = 0  # Default value
+
+                if type == "state tax":
+                    withhold_amt *= 0.10
+                    gar_fees = withhold_amt if withhold_amt < 50 else 0
+
+                elif type == "creditor":
+                    withhold_amt *= 0.10
+                    max_gar_fees = max(50, withhold_amt)
+                    gar_fees = max_gar_fees if max_gar_fees < 100 else 0
+
+                return gar_fees
+            
+
+    def Rule_4(self, record, withhold_amt):
+        return self.calculate_rule(withhold_amt, 0.020)
+    
+    def Rule_5(self, record, withhold_amt):
+        return self.calculate_rule(withhold_amt, 0.030, 12)
+    
+    def Rule_6(self, record, withhold_amt):
+        return self.calculate_rule(withhold_amt, 0.020, 8)
+    
+    def Rule_7(self, record, withhold_amt):
+        return self.calculate_rule(withhold_amt, 0.025, 10)
+        
+
+    def apply_rule(self, record,withhold_amt):
         rule_name=self.find_rule(record)
         """Dynamically applies the rule based on the rule name"""
         if rule_name in self.rule_map:
-            return self.rule_map[rule_name](record)
+            return self.rule_map[rule_name](record,withhold_amt)
         else:
             raise ValueError(f"Rule '{rule_name}' is not defined.")
 
@@ -56,7 +95,7 @@ class gar_fees_rules_engine():
 record={
                 "ee_id": "EE005114",
                 "gross_pay": 1000.0,
-                "state": "alaska",
+                "state": "Alabama",
                 "no_of_exemption_for_self": 2,
                 "pay_period": "Weekly",
                 "filing_status": "single_filing_status",
@@ -90,7 +129,7 @@ record={
                 "arrears_greater_than_12_weeks": "No",
                 "garnishment_data": [
                     {
-                        "type": "student_default_loan",
+                        "type": "Child Support" ,
                         "data": [
                             {
                                 "case_id": "C13278",
@@ -102,7 +141,9 @@ record={
                 ]
             }
 
-print(gar_fees_rules_engine().apply_rule(record))
+
+
+print(gar_fees_rules_engine().apply_rule(record,0))
 
 
 

@@ -1705,3 +1705,42 @@ def upsert_company_details(request):
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
+class Employeegarnishment_orderMatch_details(APIView):
+    
+    def get(self, request):
+       
+        employees = Employee_Detail.objects.all()
+        garnishments = garnishment_order.objects.all()
+        fees = garnishment_fees.objects.all()
+
+       
+        if not employees.exists() or not garnishments.exists() or not fees.exists():
+            return Response({"message": "No data available"}, status=status.HTTP_204_NO_CONTENT)
+
+        
+        df_employees = pd.DataFrame(list(employees.values()))
+        df_garnishments = pd.DataFrame(list(garnishments.values()))
+        df_fees = pd.DataFrame(list(fees.values()))
+
+       
+        if df_employees.empty or df_garnishments.empty or df_fees.empty:
+            return Response({"message": "No matching data found"}, status=status.HTTP_204_NO_CONTENT)
+
+       
+        merged_df = df_employees.merge(df_garnishments[['eeid', 'type']], left_on='ee_id', right_on='eeid', how='left')
+        merged_df.drop(columns=['eeid'], inplace=True) 
+
+        
+        final_df = merged_df.merge(df_fees[['state', 'type', 'pay_period', 'rules']], 
+                           left_on=['work_state', 'type', 'pay_period'], 
+                           right_on=['state', 'type', 'pay_period'], 
+                           how='left')
+
+
+        final_df.drop(columns=['state'], inplace=True) 
+
+        # Convert DataFrame to JSON response
+        response_data = final_df.where(pd.notna(final_df), None).to_dict(orient='records')
+
+
+        return Response(response_data, status=status.HTTP_200_OK)

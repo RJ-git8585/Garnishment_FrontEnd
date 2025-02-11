@@ -8,8 +8,9 @@ from auth_project.garnishment_library import gar_resused_classes as gc
 from auth_project.garnishment_library.child_support import ChildSupport,MultipleChild,SingleChild 
 from auth_project.garnishment_library.student_loan import student_loan_calculate
 from django.utils.decorators import method_decorator
-from auth_project.garnishment_library import gar_fees as gar_fees
+from auth_project.garnishment_library import garnishment_fees as garnishment_fees 
 from auth_project.garnishment_library.federal_case import federal_tax
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -33,19 +34,13 @@ class CalculationDataView(APIView):
             if not cid_data:
                 return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-
             for cid, cid_info in cid_data.items():
                 cid_summary = {"cid": cid, "employees": []}
     
                 for record in cid_info.get("employees", []):
 
                     garnishment_data = record.get("garnishment_data", [])
-                    #Garnishment Fees 
-                    gar_fees=gc.GarnishmentFeesIdentifier().calculate(record)
-
-                    print("new",gar_fees.gar_fees_rules_engine.apply_rule(record))
-    
+                    
                     gar_type = record.get("garnishment_data")[0]
                     garnishment_type=gar_type.get('type')
 
@@ -67,14 +62,20 @@ class CalculationDataView(APIView):
                             )
                             child_support_data = result[0]
                             arrear_amount_data = result[1]
-                            case_id_get=garnishment_data[0]["data"]
                             child_support=[]
                             arrears=[]
+
                             for i in range(1, len(child_support_data) + 1):
                                 child_support.append({"child_support_withhold_amt": child_support_data[f'child support amount{i}']})
                                 arrears.append({"arrear_amount": arrear_amount_data[f'arrear amount{i}']})
                             record["Agency"]=[{"withholding_amt":child_support}]
                             record['Arrear']=arrears
+                            
+                            #Garnishment Fees 
+                            total_child_support=sum(amount for item in child_support for amount in item.values())
+                            total_arrers=sum(amount for item in arrears for amount in item.values())
+                            total_withhold_amt=total_child_support+total_arrers
+                            gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,total_withhold_amt)
                             record['ER_deduction']={"garnishment_fees":gar_fees}
                         else:
                             result = {"error": f"Missing fields in record: {', '.join(missing_fields)}"}

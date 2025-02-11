@@ -52,11 +52,8 @@ urlpatterns = [
     path('GarnishmentFeesStatesRules/', GETGarnishmentFeesStatesRule.as_view(), name='GETGarnishmentFeesStatesRule'),
     path('GarnishmentFeesRules/<str:rule>/', GETGarnishmentFeesRules, name='GETGarnishmentFeesRules'),
     path('GarnishmentFeesRulesUpdate/<str:rule>/', GarFeesRulesUpdateAPIView.as_view(), name='GETGarnishmentFeesRules'),
-    path('GarnishmentFeesRulesBasedOnState/<str:state>/', garnishment_fees_rules_based_on_state, name='GarnishmentFeesRulesBasedOnState')
-
-    
-
-    
+    path('GarnishmentFeesRulesBasedOnState/<str:state>/', garnishment_fees_rules_based_on_state, name='GarnishmentFeesRulesBasedOnState'),
+    path('EmployeeRules/', Employeegarnishment_orderMatch_details.as_view(), name='employee-garnishment-match')
 
 ]
 
