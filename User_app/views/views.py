@@ -1760,7 +1760,18 @@ class Employeegarnishment_orderMatch_details(APIView):
             how='left'
         ).drop(columns=['state'])  
 
+        print()
+
        
-        response_data = final_df.where(pd.notna(final_df), None).to_dict(orient='records')
+        data = final_df.where(pd.notna(final_df), None).to_dict(orient='records')
+
+        response_data = {
+                'success': True,
+                'message': 'Data Get successfully',
+                'status_code': status.HTTP_200_OK,
+                "data": data
+
+            }
+        print("length",len(data))
 
         return Response(response_data, status=status.HTTP_200_OK)
