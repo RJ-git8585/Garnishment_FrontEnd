@@ -47,7 +47,6 @@ function GarnishFee() {
           <Headertop />
           <hr />
           <h4 className="text-l text-black-800 mb-4">Garnishment Fee</h4>
-
           <Box sx={{ height: 600, width: "100%" }}>
             <DataGrid
               getRowId={(row) => row.id}
@@ -76,8 +75,6 @@ function GarnishFee() {
           </Box>
         </div>
       </div>
-
-      {/* Edit Rule Popup */}
       {selectedRuleId && <EditGarnishmentRule rule={selectedRuleId} open={editOpen} handleClose={handleEditClose} />}
     </div>
   );
