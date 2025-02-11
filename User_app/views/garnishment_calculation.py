@@ -89,6 +89,7 @@ class CalculationDataView(APIView):
                         if not missing_fields:
                             result = federal_tax().calculate(record)
                             record["Agency"]=[{"withholding_amt":result}]
+                            gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,result)
                             record['ER_deduction']={"garnishment_fees":gar_fees}
                           
                         else:
@@ -106,14 +107,19 @@ class CalculationDataView(APIView):
                             # Transform data into the desired format
                             if len(result)==1:
                                 record["Agency"]=[{"student_loan_withhold_amt":result['student_loan_amt']}]
+                                gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,result['student_loan_amt'])
                                 record['ER_deduction']={"Garnishment_fees":gar_fees}
                             else:
                                 student_loan=[]
                                 for i in range(1, len(result) + 1):
                                     student_loan.append({"student_loan_withhold_amt":result[f'student_loan_amt{i}']})
                                 record["Agency"]=[{"student_loan_withhold_amt":student_loan}]
-                                record['ER_deduction']={"Garnishment_fees":gar_fees}
 
+                                #Garnishment Fees
+                                total_loan_amt=sum(amount for item in student_loan for amount in item.values())
+                                gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,total_loan_amt)
+                                record['ER_deduction']={"Garnishment_fees":gar_fees}
+                                
                         else:
                             result = {"error": f"Missing fields in record: {', '.join(missing_fields)}"}
 
@@ -150,8 +156,8 @@ class CalculationDataView(APIView):
                 {"error": "Employee details not found"},
                 status=status.HTTP_404_NOT_FOUND
             )
-        except Exception as e:
-            return Response(
-                {"error": str(e), "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        # except Exception as e:
+        #     return Response(
+        #         {"error": str(e), "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR},
+        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        #     )

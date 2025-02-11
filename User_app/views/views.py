@@ -1749,4 +1749,4 @@ class Employeegarnishment_orderMatch_details(APIView):
                     'data' : data
         }
 
-        return Response({"data":response_data}, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)

@@ -92,58 +92,58 @@ class gar_fees_rules_engine():
             raise ValueError(f"Rule '{rule_name}' is not defined.")
 
 
-record={
-                "ee_id": "EE005114",
-                "gross_pay": 1000.0,
-                "state": "Alabama",
-                "no_of_exemption_for_self": 2,
-                "pay_period": "Weekly",
-                "filing_status": "single_filing_status",
-                "net_pay": 858.8,
-                "payroll_taxes": [
-                    {
-                        "federal_income_tax": 80.0
-                    },
-                    {
-                        "social_security_tax": 49.6
-                    },
-                    {
-                        "medicare_tax": 11.6
-                    },
-                    {
-                        "state_tax": 0.0
-                    },
-                    {
-                        "local_tax": 0.0
-                    }
-                ],
-                "payroll_deductions": {
-                    "medical_insurance": 0.0
-                },
-                "age": 50,
-                "is_blind": True,
-                "is_spouse_blind": True,
-                "spouse_age": 39,
-                "support_second_family": "Yes",
-                "no_of_student_default_loan": 2,
-                "arrears_greater_than_12_weeks": "No",
-                "garnishment_data": [
-                    {
-                        "type": "Child Support" ,
-                        "data": [
-                            {
-                                "case_id": "C13278",
-                                "amount": 200.0,
-                                "arrear": 0
-                            }
-                        ]
-                    }
-                ]
-            }
+# record={
+#                 "ee_id": "EE005114",
+#                 "gross_pay": 1000.0,
+#                 "state": "Alabama",
+#                 "no_of_exemption_for_self": 2,
+#                 "pay_period": "Weekly",
+#                 "filing_status": "single_filing_status",
+#                 "net_pay": 858.8,
+#                 "payroll_taxes": [
+#                     {
+#                         "federal_income_tax": 80.0
+#                     },
+#                     {
+#                         "social_security_tax": 49.6
+#                     },
+#                     {
+#                         "medicare_tax": 11.6
+#                     },
+#                     {
+#                         "state_tax": 0.0
+#                     },
+#                     {
+#                         "local_tax": 0.0
+#                     }
+#                 ],
+#                 "payroll_deductions": {
+#                     "medical_insurance": 0.0
+#                 },
+#                 "age": 50,
+#                 "is_blind": True,
+#                 "is_spouse_blind": True,
+#                 "spouse_age": 39,
+#                 "support_second_family": "Yes",
+#                 "no_of_student_default_loan": 2,
+#                 "arrears_greater_than_12_weeks": "No",
+#                 "garnishment_data": [
+#                     {
+#                         "type": "Child Support" ,
+#                         "data": [
+#                             {
+#                                 "case_id": "C13278",
+#                                 "amount": 200.0,
+#                                 "arrear": 0
+#                             }
+#                         ]
+#                     }
+#                 ]
+#             }
 
 
 
-print(gar_fees_rules_engine().apply_rule(record,0))
+# print(gar_fees_rules_engine().apply_rule(record,0))
 
 
 
