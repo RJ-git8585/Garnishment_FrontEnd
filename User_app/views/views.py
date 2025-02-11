@@ -1740,7 +1740,13 @@ class Employeegarnishment_orderMatch_details(APIView):
         final_df.drop(columns=['state'], inplace=True) 
 
         # Convert DataFrame to JSON response
-        response_data = final_df.where(pd.notna(final_df), None).to_dict(orient='records')
+        data = final_df.where(pd.notna(final_df), None).to_dict(orient='records')
 
+        response_data = {
+                    'success': True,
+                    'message': 'Data Get successfully',
+                    'status code': status.HTTP_200_OK,
+                    'data' : data
+        }
 
         return Response({"data":response_data}, status=status.HTTP_200_OK)
