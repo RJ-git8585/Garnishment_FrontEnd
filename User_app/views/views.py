@@ -1743,4 +1743,4 @@ class Employeegarnishment_orderMatch_details(APIView):
         response_data = final_df.where(pd.notna(final_df), None).to_dict(orient='records')
 
 
-        return Response(response_data, status=status.HTTP_200_OK)
+        return Response({"data":response_data}, status=status.HTTP_200_OK)
