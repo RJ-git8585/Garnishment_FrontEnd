@@ -1704,16 +1704,13 @@ def upsert_company_details(request):
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
-
 class Employeegarnishment_orderMatch_details(APIView):
-    
+
     def get(self, request):
-       
         employees = Employee_Detail.objects.all()
         garnishments = garnishment_order.objects.all()
         fees = garnishment_fees.objects.all()
 
-       
         if not employees.exists() or not garnishments.exists() or not fees.exists():
             return Response({"message": "No data available"}, status=status.HTTP_204_NO_CONTENT)
 
@@ -1722,31 +1719,48 @@ class Employeegarnishment_orderMatch_details(APIView):
         df_garnishments = pd.DataFrame(list(garnishments.values()))
         df_fees = pd.DataFrame(list(fees.values()))
 
-       
         if df_employees.empty or df_garnishments.empty or df_fees.empty:
             return Response({"message": "No matching data found"}, status=status.HTTP_204_NO_CONTENT)
 
-       
-        merged_df = df_employees.merge(df_garnishments[['eeid', 'type']], left_on='ee_id', right_on='eeid', how='left')
-        merged_df.drop(columns=['eeid'], inplace=True) 
+        
+        required_columns_employees = {'ee_id', 'work_state', 'pay_period'}
+        required_columns_garnishments = {'eeid', 'type'}
+        required_columns_fees = {'state', 'type', 'pay_period', 'rules'}
+
+        if not required_columns_employees.issubset(df_employees.columns) or \
+           not required_columns_garnishments.issubset(df_garnishments.columns) or \
+           not required_columns_fees.issubset(df_fees.columns):
+            return Response({"message": "Missing required columns"}, status=status.HTTP_400_BAD_REQUEST)
 
         
-        final_df = merged_df.merge(df_fees[['state', 'type', 'pay_period', 'rules']], 
-                           left_on=['work_state', 'type', 'pay_period'], 
-                           right_on=['state', 'type', 'pay_period'], 
-                           how='left')
+        df_employees['work_state'] = df_employees['work_state'].str.strip().str.lower()
+        df_employees['pay_period'] = df_employees['pay_period'].astype(str).str.strip().str.lower()
+        
+        df_garnishments['type'] = df_garnishments['type'].str.strip().str.lower()
+        df_garnishments['eeid'] = df_garnishments['eeid'].astype(str).str.strip()
+
+        df_fees['state'] = df_fees['state'].str.strip().str.lower()
+        df_fees['type'] = df_fees['type'].str.strip().str.lower()
+        df_fees['pay_period'] = df_fees['pay_period'].astype(str).str.strip().str.lower()
+
+        
+        merged_df = df_employees.merge(
+            df_garnishments[['eeid', 'cid', 'type']], 
+            left_on=['ee_id', 'cid'], 
+            right_on=['eeid', 'cid'], 
+            how='left'
+            ).drop(columns=['eeid'])
 
 
-        final_df.drop(columns=['state'], inplace=True) 
+        
+        final_df = merged_df.merge(
+            df_fees[['state', 'type', 'pay_period', 'rules']], 
+            left_on=['work_state', 'type', 'pay_period'], 
+            right_on=['state', 'type', 'pay_period'], 
+            how='left'
+        ).drop(columns=['state'])  
 
-        # Convert DataFrame to JSON response
-        data = final_df.where(pd.notna(final_df), None).to_dict(orient='records')
-
-        response_data = {
-                    'success': True,
-                    'message': 'Data Get successfully',
-                    'status code': status.HTTP_200_OK,
-                    'data' : data
-        }
+       
+        response_data = final_df.where(pd.notna(final_df), None).to_dict(orient='records')
 
         return Response(response_data, status=status.HTTP_200_OK)

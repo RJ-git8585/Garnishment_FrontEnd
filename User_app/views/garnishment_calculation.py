@@ -122,6 +122,10 @@ class CalculationDataView(APIView):
                                 
                         else:
                             result = {"error": f"Missing fields in record: {', '.join(missing_fields)}"}
+                    elif garnishment_type.lower() == "state tax":
+                        gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,200)
+                        record['ER_deduction']={"Garnishment_fees":gar_fees}
+
 
                     else:
                         return Response(

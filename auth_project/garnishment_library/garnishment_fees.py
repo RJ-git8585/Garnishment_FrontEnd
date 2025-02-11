@@ -74,14 +74,28 @@ class gar_fees_rules_engine():
         return self.calculate_rule(withhold_amt, 0.020)
     
     def Rule_5(self, record, withhold_amt):
-        return self.calculate_rule(withhold_amt, 0.030, 12)
-    
+        return f"${self.calculate_rule(withhold_amt, 0.030, 12)} Payable by employee"
+
     def Rule_6(self, record, withhold_amt):
         return self.calculate_rule(withhold_amt, 0.020, 8)
     
     def Rule_7(self, record, withhold_amt):
-        return self.calculate_rule(withhold_amt, 0.025, 10)
-        
+        return self.calculate_rule(withhold_amt, 0.010, 2)
+    
+    def Rule_19(self, record, withhold_amt):
+        return "$15 paid by creditor"
+    
+    def Rule_26(self, record, withhold_amt):
+        return "One-time fee of $10 for creditor debts & $20 for the court debt collection of fines & costs"
+
+    def Rule_27(self, record, withhold_amt):
+        return "One time fee of $25 deducted from employee earnings" 
+
+    def Rule_28(self, record, withhold_amt):
+        return "$15 is paid by creditor at the time of Writ is served" 
+    
+    def Rule_29(self, record, withhold_amt):
+        return f"{self.calculate_rule(withhold_amt, 0.030, 12)} Payable half by employee and half by creditor"
 
     def apply_rule(self, record,withhold_amt):
         rule_name=self.find_rule(record)
