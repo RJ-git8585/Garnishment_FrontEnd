@@ -67,10 +67,10 @@ class CalculationDataView(APIView):
         record["Agency"] = [{"withholding_amt": [
             {"child_support_withhold_amt": child_support_data[f'child support amount{i}']}
             for i in range(1, len(child_support_data) + 1)
-        ]}]
+        ]},{"Arrear" : [{"arrear_amount": arrear_amount_data[f'arrear amount{i}']}
+                            for i in range(1, len(arrear_amount_data) + 1)]}]
 
-        record["Arrear"] = [{"arrear_amount": arrear_amount_data[f'arrear amount{i}']}
-                            for i in range(1, len(arrear_amount_data) + 1)]
+        
 
         total_withhold_amt = sum(cs["child_support_withhold_amt"] for cs in record["Agency"][0]["withholding_amt"]) + \
                              sum(arr["arrear_amount"] for arr in record["Arrear"])
