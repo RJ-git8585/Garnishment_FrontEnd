@@ -46,7 +46,7 @@ class gar_fees_rules_engine():
             if (item["state"].strip().lower() == state.strip().lower() and
                 item["pay_period"].strip().lower() == pay_period.strip().lower() and
                 item["type"].strip().lower() == type.strip().lower()):
-                return (item["amount"])
+                return f"${(item["amount"])} and Payable by {self.get_payable_name('Rule_7')}"
             
     def Rule_2(self,record,withhold_amt):
         return ("No Provision")
@@ -79,16 +79,16 @@ class gar_fees_rules_engine():
 
 
     def Rule_4(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.020)} and {self.get_payable_name('Rule_4')}"
+        return f"${self.calculate_rule(withhold_amt, 0.020)} and Payable by {self.get_payable_name('Rule_4')}"
     
     def Rule_5(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.030, 12)} and {self.get_payable_name('Rule_5')}"
+        return f"${self.calculate_rule(withhold_amt, 0.030, 12)} and Payable by {self.get_payable_name('Rule_5')}"
 
     def Rule_6(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.020, 8)} and {self.get_payable_name('Rule_6')}"
+        return f"${self.calculate_rule(withhold_amt, 0.020, 8)} and Payable by {self.get_payable_name('Rule_6')}"
     
     def Rule_7(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.010, 2)} and {self.get_payable_name('Rule_7')}"
+        return f"${self.calculate_rule(withhold_amt, 0.010, 2)} and Payable by {self.get_payable_name('Rule_7')}"
     
     def Rule_8(self, record, withhold_amt):
         return "Income submitted by electronic means: $1 each payment,but not to exceed $2 per month. Income submitted by other means: $2 each payment, but not to exceed $4 per month"
@@ -106,10 +106,10 @@ class gar_fees_rules_engine():
         return "$2 for each deduction taken after the levy has expired or is released"
     
     def Rule_13(self, record, withhold_amt):
-        return f'{withhold_amt*0.02} and {self.get_payable_name("Rule_13")}'
+        return f'{withhold_amt*0.02} and Payable by {self.get_payable_name("Rule_13")}'
     
     def Rule_14(self, record, withhold_amt):
-        return f'{withhold_amt*0.02} and {self.get_payable_name("Rule_14")}'
+        return f'{withhold_amt*0.02} and Payable by {self.get_payable_name("Rule_14")}'
     
     def Rule_15(self, record, withhold_amt):
         return f'$5 from landlord amount'
@@ -121,7 +121,7 @@ class gar_fees_rules_engine():
         return f'$15 paid by creditor'
     
     def Rule_18(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.050, 5)} and {self.get_payable_name('Rule_18')}"
+        return f"${self.calculate_rule(withhold_amt, 0.050, 5)} and Payable by {self.get_payable_name('Rule_18')}"
 
     def Rule_19(self, record, withhold_amt):
         return "may deduct $5.00 for state employees"
@@ -146,7 +146,7 @@ class gar_fees_rules_engine():
         return "$15 is paid by creditor at the time of Writ is served" 
     
     def Rule_26(self, record, withhold_amt):
-        return f"{self.calculate_rule(withhold_amt, 0.030, 12)} and {self.get_payable_name('Rule_26')}"
+        return f"{self.calculate_rule(withhold_amt, 0.030, 12)} and Payable by {self.get_payable_name('Rule_26')}"
 
     def apply_rule(self, record,withhold_amt):
         rule_name=self.find_rule(record)
