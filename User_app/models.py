@@ -483,4 +483,4 @@ class garnishment_fees(models.Model):
     amount= models.CharField(max_length=255, null=True, blank=True)
     status= models.CharField(max_length=255)
     rules=models.CharField(max_length=255)
-
+    payable_by= models.CharField(max_length=255,null=True, blank=True)

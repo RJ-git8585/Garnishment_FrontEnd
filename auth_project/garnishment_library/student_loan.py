@@ -139,7 +139,7 @@ class student_loan_calculate():
             return student_loan_amt
         except Exception as e:
             return Response(
-                {"error": str(e), "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,"ee_id":record.get("ee_id")}
+                {"error": str(e), "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR}
             )
 
 

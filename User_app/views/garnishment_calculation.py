@@ -11,157 +11,142 @@ from django.utils.decorators import method_decorator
 from auth_project.garnishment_library import garnishment_fees as garnishment_fees 
 from auth_project.garnishment_library.federal_case import federal_tax
 
-
-
 @method_decorator(csrf_exempt, name='dispatch')
 class CalculationDataView(APIView):
     """
     API View to handle Garnishment calculations and save data to the database.
     """
+
+    def validate_fields(self, record, required_fields):
+        """Validate required fields and return missing fields."""
+        return [field for field in required_fields if field not in record]
+
+    def calculate_garnishment(self, garnishment_type, record):
+        """Handles garnishment calculations based on type."""
+        garnishment_type = garnishment_type.lower()
+
+        garnishment_rules = {
+            "child support": {
+                "fields": [
+                    "arrears_greater_than_12_weeks", "support_second_family",
+                    "gross_pay", "payroll_taxes"
+                ],
+                "calculate": self.calculate_child_support
+            },
+            "federal tax levy": {
+                "fields": ["filing_status", "pay_period", "net_pay", "age", "is_blind"],
+                "calculate": self.calculate_federal_tax
+            },
+            "student default loan": {
+                "fields": ["gross_pay", "pay_period", "no_of_student_default_loan", "payroll_taxes"],
+                "calculate": self.calculate_student_loan
+            }
+        }
+
+        if garnishment_type in garnishment_rules:
+            required_fields = garnishment_rules[garnishment_type]["fields"]
+            missing_fields = self.validate_fields(record, required_fields)
+
+            if missing_fields:
+                return {"error": f"Missing fields in record: {', '.join(missing_fields)}"}
+
+            return garnishment_rules[garnishment_type]["calculate"](record)
+
+        elif garnishment_type in {"State Tax Levy", "creditor debt", "creditor"}:
+            return {"ER_deduction": {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, 200)}}
+
+        return {"error": f"Unsupported garnishment_type: {garnishment_type}"}
+
+    def calculate_child_support(self, record):
+        """Calculate child support garnishment."""
+        tcsa = ChildSupport().get_list_supportAmt(record)
+        result = MultipleChild().calculate(record) if len(tcsa) > 1 else SingleChild().calculate(record)
+
+        child_support_data, arrear_amount_data = result[0], result[1]
+
+        record["Agency"] = [{"withholding_amt": [
+            {"child_support_withhold_amt": child_support_data[f'child support amount{i}']}
+            for i in range(1, len(child_support_data) + 1)
+        ]}]
+
+        record["Arrear"] = [{"arrear_amount": arrear_amount_data[f'arrear amount{i}']}
+                            for i in range(1, len(arrear_amount_data) + 1)]
+
+        total_withhold_amt = sum(cs["child_support_withhold_amt"] for cs in record["Agency"][0]["withholding_amt"]) + \
+                             sum(arr["arrear_amount"] for arr in record["Arrear"])
+
+        record["ER_deduction"] = {"garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
+        return record
+
+    def calculate_federal_tax(self, record):
+        """Calculate federal tax garnishment."""
+        result = federal_tax().calculate(record)
+        record["Agency"] = [{"withholding_amt": result}]
+        record["ER_deduction"] = {"garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, result)}
+        return record
+
+    def calculate_student_loan(self, record):
+        """Calculate student loan garnishment."""
+        result = student_loan_calculate().calculate(record)
+
+        if len(result) == 1:
+            record["Agency"] = [{"student_loan_withhold_amt": result['student_loan_amt']}]
+            total_loan_amt = result['student_loan_amt']
+        else:
+            record["Agency"] = [{"student_loan_withhold_amt": [
+                {"student_loan_withhold_amt": result[f'student_loan_amt{i}']} for i in range(1, len(result) + 1)
+            ]}]
+            total_loan_amt = sum(item["student_loan_withhold_amt"] for item in record["Agency"][0]["student_loan_withhold_amt"])
+
+        record["ER_deduction"] = {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_loan_amt)}
+        return record
+
     def post(self, request, *args, **kwargs):
         try:
-            # Use request.data directly
             data = request.data
             batch_id = data.get("batch_id")
             cid_data = data.get("cid", {})
-            output = []
-    
-            # Validate batch_id
+
             if not batch_id:
                 return Response({"error": "batch_id is required"}, status=status.HTTP_400_BAD_REQUEST)
-    
-            # Validate cid_data
+
             if not cid_data:
                 return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
 
+            output = []
+
             for cid, cid_info in cid_data.items():
                 cid_summary = {"cid": cid, "employees": []}
-    
+
                 for record in cid_info.get("employees", []):
-
                     garnishment_data = record.get("garnishment_data", [])
-                    
-                    gar_type = record.get("garnishment_data")[0]
-                    garnishment_type=gar_type.get('type')
+                    if not garnishment_data:
+                        continue  # Skip if no garnishment data is present
 
-                    if garnishment_type.lower() == "child support":
-                        
-                        # Validate child support fields
-                        required_fields = [
-                            "arrears_greater_than_12_weeks",
-                            "support_second_family", "gross_pay", "payroll_taxes"
-                        ]
-                        missing_fields = [field for field in required_fields if field not in record]
+                    garnishment_type = garnishment_data[0].get('type', '').strip().lower()
+                    result = self.calculate_garnishment(garnishment_type, record)
 
-                        if not missing_fields:
-                            tcsa = ChildSupport().get_list_supportAmt(record)
-                            result = (
-                                MultipleChild().calculate(record)
-                                if len(tcsa) > 1
-                                else SingleChild().calculate(record)
-                            )
-                            child_support_data = result[0]
-                            arrear_amount_data = result[1]
-                            child_support=[]
-                            arrears=[]
+                    if "error" in result:
+                        return Response(result, status=status.HTTP_400_BAD_REQUEST)
 
-                            for i in range(1, len(child_support_data) + 1):
-                                child_support.append({"child_support_withhold_amt": child_support_data[f'child support amount{i}']})
-                                arrears.append({"arrear_amount": arrear_amount_data[f'arrear amount{i}']})
-                            record["Agency"]=[{"withholding_amt":child_support}]
-                            record['Arrear']=arrears
-                            
-                            #Garnishment Fees 
-                            total_child_support=sum(amount for item in child_support for amount in item.values())
-                            total_arrers=sum(amount for item in arrears for amount in item.values())
-                            total_withhold_amt=total_child_support+total_arrers
-                            gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,total_withhold_amt)
-                            record['ER_deduction']={"garnishment_fees":gar_fees}
-                        else:
-                            result = {"error": f"Missing fields in record: {', '.join(missing_fields)}"}
-
-                    elif garnishment_type.lower() == "federal tax levy":
-                        
-                        # Validate federal tax fields
-                        required_fields = ["filing_status", "pay_period", "net_pay", "age", "is_blind"]
-                        missing_fields = [field for field in required_fields if field not in record]
-
-                        if not missing_fields:
-                            result = federal_tax().calculate(record)
-                            record["Agency"]=[{"withholding_amt":result}]
-                            gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,result)
-                            record['ER_deduction']={"garnishment_fees":gar_fees}
-                          
-                        else:
-                            result = {"error": f"Missing fields in record: {', '.join(missing_fields)}"}
-
-                    elif garnishment_type.lower() == "student default loan":
-                        
-                        # Validate student loan fields
-                        required_fields = ["gross_pay", "pay_period", "no_of_student_default_loan", "payroll_taxes"]
-                        missing_fields = [field for field in required_fields if field not in record]
-
-                        if not missing_fields:
-                            result = student_loan_calculate().calculate(record)
-                                              
-                            # Transform data into the desired format
-                            if len(result)==1:
-                                record["Agency"]=[{"student_loan_withhold_amt":result['student_loan_amt']}]
-                                gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,result['student_loan_amt'])
-                                record['ER_deduction']={"Garnishment_fees":gar_fees}
-                            else:
-                                student_loan=[]
-                                for i in range(1, len(result) + 1):
-                                    student_loan.append({"student_loan_withhold_amt":result[f'student_loan_amt{i}']})
-                                record["Agency"]=[{"student_loan_withhold_amt":student_loan}]
-
-                                #Garnishment Fees
-                                total_loan_amt=sum(amount for item in student_loan for amount in item.values())
-                                gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,total_loan_amt)
-                                record['ER_deduction']={"Garnishment_fees":gar_fees}
-                                
-                        else:
-                            result = {"error": f"Missing fields in record: {', '.join(missing_fields)}"}
-                    elif garnishment_type.lower() == "state tax":
-                        gar_fees=garnishment_fees.gar_fees_rules_engine().apply_rule(record,200)
-                        record['ER_deduction']={"Garnishment_fees":gar_fees}
-
-
-                    else:
-                        return Response(
-                            {"error": f"Unsupported garnishment_type: {garnishment_type}"},
-                            status=status.HTTP_400_BAD_REQUEST
-                        )
-                    
                     cid_summary["employees"].append(record)
-    
+
                 output.append(cid_summary)
-    
-                # Log the action
-                LogEntry.objects.create(
-                    action="Calculation data added",
-                    details=(
-                        f"Calculation data added successfully with employer ID "
-                        f"{record.get('batch_id')} and employee ID {record.get('ee_id')}"
-                    )
-                )    
-            return Response(
-                {
-                    "message": "Result Generated Successfully",
-                    "status_code": status.HTTP_200_OK,
-                    "batch_id": batch_id,
-                    "results": output
-                },
-                status=status.HTTP_200_OK
+
+            # Log the action
+            LogEntry.objects.create(
+                action="Calculation data added",
+                details=f"Calculation data added successfully with batch ID {batch_id}"
             )
-    
+
+            return Response({
+                "message": "Result Generated Successfully",
+                "status_code": status.HTTP_200_OK,
+                "batch_id": batch_id,
+                "results": output
+            }, status=status.HTTP_200_OK)
+
         except Employee_Detail.DoesNotExist:
-            return Response(
-                {"error": "Employee details not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
-        # except Exception as e:
-        #     return Response(
-        #         {"error": str(e), "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR},
-        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR
-        #     )
+            return Response({"error": "Employee details not found", "status":status.HTTP_404_NOT_FOUND})
+        except Exception as e:
+            return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
