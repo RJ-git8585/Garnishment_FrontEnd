@@ -73,7 +73,7 @@ class CalculationDataView(APIView):
         
 
         total_withhold_amt = sum(cs["child_support_withhold_amt"] for cs in record["Agency"][0]["withholding_amt"]) + \
-                             sum(arr["arrear_amount"] for arr in record["Arrear"])
+                             sum(arr["arrear_amount"] for arr in record["Agency"][1]["Arrear"])
 
         record["ER_deduction"] = {"garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
         return record
@@ -150,3 +150,4 @@ class CalculationDataView(APIView):
             return Response({"error": "Employee details not found", "status":status.HTTP_404_NOT_FOUND})
         except Exception as e:
             return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
+
