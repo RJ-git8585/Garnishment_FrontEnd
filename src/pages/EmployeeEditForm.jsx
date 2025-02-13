@@ -29,14 +29,13 @@ function EmployeeEditForm() {
     garnishment_fees_status: "",
     garnishment_fees_suspended_till: "",
   });
-
-
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
         const response = await fetch(`${BASE_URL}/User/GetSingleEmployee/${cid}/${ee_id}/`);
         const jsonData = await response.json();
         setEmployeeData(jsonData.data[0]);
+        console.log(jsonData);
       } catch (error) {
         console.error("Error fetching employee data:", error);
       }
@@ -58,10 +57,8 @@ function EmployeeEditForm() {
         .replace(/^(\d{3})(\d{0,2})/, "$1-$2")
         .replace(/^(\d{3}-\d{2})(\d{0,4})/, "$1-$2");
     }
-
     setEmployeeData({ ...employeeData, [name]: updatedValue });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -79,9 +76,6 @@ function EmployeeEditForm() {
       console.error("Error updating employee:", error);
     }
   };
-
-
-
   const renderInput = (label, name, type = "text") => (
     <TextField
       label={label}
@@ -109,8 +103,6 @@ function EmployeeEditForm() {
       }}
     />
   );
-  
-
 
   const renderRadio = (label, name) => (
     <FormControl fullWidth sx={{ mt: 1 }}>
@@ -142,10 +134,6 @@ function EmployeeEditForm() {
       </RadioGroup>
     </FormControl>
   );
-  
-
-  
-  
   const renderSelect = (label, name, options) => (
     <FormControl fullWidth sx={{ mt: 1 }}>
       <InputLabel>{label}</InputLabel>

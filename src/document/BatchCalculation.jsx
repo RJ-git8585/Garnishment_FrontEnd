@@ -154,9 +154,7 @@ const BatchCalculation = () => {
       </div>
     ));
   };
-  
-
-  return (
+ return (
     <div className="min-h-full" key={reloadKey}>
       <div className="container main ml-auto">
         <div className='sidebar hidden lg:block'><Sidebar /></div>
@@ -219,7 +217,7 @@ const BatchCalculation = () => {
 };
 
 const styles = {
-  container: { maxWidth: '1000px', margin: '0 auto', padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#fff' },
+  container: { maxWidth: '100%',  padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#fff' },
   header: { textAlign: 'center', marginBottom: '10px' },
   columnContainer: { display: 'flex', flexDirection: 'column', gap: '20px' },
   inputSection: { flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' },

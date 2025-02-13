@@ -4,7 +4,7 @@ import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import Sidebar from '../component/sidebar';
 import { useState, useRef } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
-
+import './xml.css'
 const XmlProcessor = () => {
   const [reloadKey, setReloadKey] = useState(0);
   const [jsonInput, setJsonInput] = useState('');
@@ -115,59 +115,68 @@ const XmlProcessor = () => {
     if (!data || !data.results) {
       return <p style={styles.error}>No valid results found.</p>;
     }
-
+  
     const groupedData = data.results.reduce((acc, result) => {
       result.employees.forEach((employee) => {
         const clientId = result.cid;
+  
         if (!acc[clientId]) {
           acc[clientId] = [];
         }
-        acc[clientId].push(employee);
+  
+        // Extract garnishment details correctly
+        employee.garnishment_data.forEach((garnishment) => {
+          garnishment.data.forEach((caseData) => {
+            acc[clientId].push({
+              ee_id: employee.ee_id,
+              case_id: caseData.case_id,
+              garnishment_type: garnishment.type,
+              amount: caseData.amount,
+              arrear_amount: caseData.arrear,
+              er_deduction: employee.ER_deduction?.garnishment_fees || "N/A",
+            });
+          });
+        });
       });
       return acc;
     }, {});
-
+  
     return Object.keys(groupedData).map((clientId) => (
       <div key={clientId} style={styles.resultContainer}>
-        <h4 style={styles.subTableHeader}>CID: {clientId}</h4>
+        {/* <h4 style={styles.subTableHeader}>CID: {clientId}</h4> */}
         <TableContainer component={Paper} style={{ marginTop: '20px', overflowX: 'auto' }}>
           <Table>
             <TableHead>
-              <TableRow style={{ backgroundColor: '#f5f5f5' }}>
+              <TableRow style={{ backgroundColor: '#c1c1c1' }}>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>CID</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Employee ID</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Case ID</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Garnishment Type</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Amount</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Arrear Amount</TableCell>
+                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>ER Deduction</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {groupedData[clientId].map((employee, empIndex) =>
-                employee.garnishment.map((garnishment, garnIndex) => (
-                  <TableRow key={`${empIndex}-${garnIndex}`}>
-                    <TableCell style={{ textAlign: 'center' }}>{clientId}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>{employee.ee_id}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>{garnishment.case_id}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>{garnishment.garnishment_type}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>
-                      {garnishment.student_loan_withhold_amt ||
-                        garnishment.child_support_withhold_amt ||
-                        garnishment.federal_tax_withhold_amt ||
-                        '0'}
-                    </TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>
-                      {garnishment.arrear_amount ? garnishment.arrear_amount : '0'}
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
+              {groupedData[clientId].map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell style={{ textAlign: 'center' }}>{clientId}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>{item.ee_id}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>{item.case_id}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>{item.garnishment_type}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>${item.amount}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>${item.arrear_amount}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>{item.er_deduction}</TableCell>
+                  
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
       </div>
     ));
   };
+  
 
   return (
     <div className="min-h-full" key={reloadKey}>
@@ -241,9 +250,10 @@ const XmlProcessor = () => {
   );
 };
 
+
 const styles = {
-  container: { maxWidth: '1000px', margin: '0 auto', padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#fff' },
-  header: { textAlign: 'center', marginBottom: '10px' },
+  // container: { maxWidth: '1000px', margin: '0 auto', padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#fff' },
+  // header: { textAlign: 'center', marginBottom: '10px' },
   columnContainer: { display: 'flex', flexDirection: 'column', gap: '20px' },
   inputSection: { flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' },
   responseSection: { flex: 1.5, padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff' },
