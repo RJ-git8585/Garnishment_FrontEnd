@@ -10,6 +10,8 @@ from auth_project.garnishment_library.student_loan import student_loan_calculate
 from django.utils.decorators import method_decorator
 from auth_project.garnishment_library import garnishment_fees as garnishment_fees 
 from auth_project.garnishment_library.federal_case import federal_tax
+from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CalculationDataView(APIView):
@@ -100,6 +102,22 @@ class CalculationDataView(APIView):
 
         record["ER_deduction"] = {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_loan_amt)}
         return record
+    
+    def calculate_garnishment_wrapper(self, record):
+        """
+        Wrapper function for parallel processing of garnishment calculations.
+        """
+        garnishment_data = record.get("garnishment_data", [])
+        if not garnishment_data:
+            return None  # Skip if no garnishment data is present
+
+        garnishment_type = garnishment_data[0].get('type', '').strip().lower()
+        result = self.calculate_garnishment(garnishment_type, record)
+
+        if "error" in result:
+            return {"error": result["error"]}
+
+        return record
 
     def post(self, request, *args, **kwargs):
         try:
@@ -118,18 +136,15 @@ class CalculationDataView(APIView):
             for cid, cid_info in cid_data.items():
                 cid_summary = {"cid": cid, "employees": []}
 
-                for record in cid_info.get("employees", []):
-                    garnishment_data = record.get("garnishment_data", [])
-                    if not garnishment_data:
-                        continue  # Skip if no garnishment data is present
+                # Extract employee records
+                employee_records = cid_info.get("employees", [])
 
-                    garnishment_type = garnishment_data[0].get('type', '').strip().lower()
-                    result = self.calculate_garnishment(garnishment_type, record)
+                # Use ThreadPoolExecutor for parallel processing
+                with ThreadPoolExecutor(max_workers=25) as executor:
+                    results = list(executor.map(self.calculate_garnishment_wrapper, employee_records))
 
-                    if "error" in result:
-                        return Response(result, status=status.HTTP_400_BAD_REQUEST)
-
-                    cid_summary["employees"].append(record)
+                # Filter out None values (if any record was skipped)
+                cid_summary["employees"] = [res for res in results if res]
 
                 output.append(cid_summary)
 
@@ -147,7 +162,6 @@ class CalculationDataView(APIView):
             }, status=status.HTTP_200_OK)
 
         except Employee_Detail.DoesNotExist:
-            return Response({"error": "Employee details not found", "status":status.HTTP_404_NOT_FOUND})
+            return Response({"error": "Employee details not found", "status": status.HTTP_404_NOT_FOUND})
         except Exception as e:
             return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
-
