@@ -140,7 +140,7 @@ class CalculationDataView(APIView):
                 employee_records = cid_info.get("employees", [])
 
                 # Use ThreadPoolExecutor for parallel processing
-                with ThreadPoolExecutor(max_workers=25) as executor:
+                with ThreadPoolExecutor(max_workers=80) as executor:
                     results = list(executor.map(self.calculate_garnishment_wrapper, employee_records))
 
                 # Filter out None values (if any record was skipped)

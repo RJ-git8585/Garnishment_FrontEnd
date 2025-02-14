@@ -84,7 +84,7 @@ class Calculation_data_results(models.Model):
 class Employee_Detail(models.Model):
     ee_id = models.CharField(max_length=255)
     cid=models.CharField(max_length=255)
-    age = models.IntegerField()
+    age = models.CharField(max_length=255)
     social_security_number = models.CharField(max_length=255)
     is_blind = models.BooleanField(null=True, blank=True)
     home_state=models.CharField(max_length=255)
@@ -102,6 +102,7 @@ class Employee_Detail(models.Model):
     record_updated = models.DateTimeField(auto_now_add=True)
     garnishment_fees_status=models.BooleanField()
     garnishment_fees_suspended_till=models.DateField()
+    case_id=models.CharField(max_length=255)
 
 
 class payroll(models.Model):

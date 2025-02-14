@@ -287,7 +287,7 @@ class EmployerProfileEditView(RetrieveUpdateAPIView):
 class EmployeeDetailsUpdateAPIView(RetrieveUpdateAPIView):
     queryset = Employee_Detail.objects.all()
     serializer_class = EmployeeDetailsSerializer
-    lookup_fields = ('ee_id', 'cid')  # Corrected to a tuple for multiple fields
+    lookup_fields = ('ee_id', 'case_id')  # Corrected to a tuple for multiple fields
 
     def get_object(self):
         """
@@ -486,8 +486,8 @@ def get_order_details(request, cid):
 
 
 @api_view(['GET'])
-def get_single_employee_details(request, cid,ee_id):
-    employees=Employee_Detail.objects.filter(cid=cid,ee_id=ee_id)
+def get_single_employee_details(request, case_id,ee_id):
+    employees=Employee_Detail.objects.filter(case_id=case_id,ee_id=ee_id)
     if employees.exists():
         try:
             serializer = EmployeeDetailsSerializer(employees, many=True)
@@ -1401,7 +1401,8 @@ def upsert_employees_data(request):
                         updated_row[k] = v
 
                 try:
-                    
+
+
                     employee_detail = Employee_Detail.objects.get(ee_id=updated_row['ee_id'], cid=updated_row['cid'])
 
                     
@@ -1409,7 +1410,7 @@ def upsert_employees_data(request):
                     for field_name in [
                         'age', 'social_security_number', 'is_blind', 'home_state', 'work_state', 'gender', 'pay_period',
                         'number_of_exemptions', 'filing_status', 'marital_status', 'number_of_student_default_loan',
-                        'support_second_family', 'spouse_age', 'is_spouse_blind'
+                        'support_second_family', 'spouse_age', 'is_spouse_blind',"garnishment_fees_status","garnishment_fees_suspended_till","case_id"
                     ]:
                         incoming_value = updated_row.get(field_name)
                         if isinstance(getattr(employee_detail, field_name), bool) and isinstance(incoming_value, str):
@@ -1423,10 +1424,10 @@ def upsert_employees_data(request):
                     if has_changes:
                         
                         for field_name in [
-                            'age', 'social_security_number', 'is_blind', 'home_state', 'work_state', 'gender', 'pay_period',
-                            'number_of_exemptions', 'filing_status', 'marital_status', 'number_of_student_default_loan',
-                            'support_second_family', 'spouse_age', 'is_spouse_blind'
-                        ]:
+                        'age', 'social_security_number', 'is_blind', 'home_state', 'work_state', 'gender', 'pay_period',
+                        'number_of_exemptions', 'filing_status', 'marital_status', 'number_of_student_default_loan',
+                        'support_second_family', 'spouse_age', 'is_spouse_blind',"garnishment_fees_status","garnishment_fees_suspended_till","case_id"
+                    ]:
                             incoming_value = updated_row.get(field_name)
                             if isinstance(getattr(employee_detail, field_name), bool) and isinstance(incoming_value, str):
                                 incoming_value = incoming_value.lower() in ['true', '1', 'yes']
@@ -1453,6 +1454,9 @@ def upsert_employees_data(request):
                         number_of_student_default_loan=updated_row.get('number_of_student_default_loan'),
                         support_second_family=updated_row.get('support_second_family').lower() in ['true', '1', 'yes'] if isinstance(updated_row.get('support_second_family'), str) else updated_row.get('support_second_family'),
                         spouse_age=updated_row.get('spouse_age'),
+                        garnishment_fees_status=updated_row.get("garnishment_fees_status"),
+                        garnishment_fees_suspended_till=updated_row.get("garnishment_fees_suspended_till"),
+                        case_id=updated_row.get("case_id"),
                         is_spouse_blind=updated_row.get('is_spouse_blind').lower() in ['true', '1', 'yes'] if isinstance(updated_row.get('is_spouse_blind'), str) else updated_row.get('is_spouse_blind')
                     )
                     added_employees.append(updated_row['ee_id'])
