@@ -22,6 +22,10 @@ class CalculationDataView(APIView):
     def validate_fields(self, record, required_fields):
         """Validate required fields and return missing fields."""
         return [field for field in required_fields if field not in record]
+    
+    def calculate_garfees(self, record):
+        """Calculate garnishment fees."""
+       
 
     def calculate_garnishment(self, garnishment_type, record):
         """Handles garnishment calculations based on type."""

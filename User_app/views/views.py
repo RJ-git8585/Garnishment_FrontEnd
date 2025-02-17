@@ -447,8 +447,8 @@ def PDFFileUploadView(request, employer_id):
 
 
 @api_view(['GET'])
-def get_employee_by_employer_id(request, cid):
-    employees=Employee_Detail.objects.filter(cid=cid)
+def get_employee_details(request):
+    employees=Employee_Detail.objects.all()
     if employees.exists():
         try:
             serializer = EmployeeDetailsSerializer(employees, many=True)
@@ -500,7 +500,7 @@ def get_single_employee_details(request, case_id,ee_id):
         except Employee_Detail.DoesNotExist:
             return JsonResponse({'message': 'Data not found', 'status code':status.HTTP_404_NOT_FOUND})
     else:
-        return JsonResponse({'message': 'Employer ID not found', 'status code':status.HTTP_404_NOT_FOUND})
+        return JsonResponse({'message': 'Employee ID not found', 'status code':status.HTTP_404_NOT_FOUND})
 
 #Get Employer Details from employer ID
 @api_view(['GET'])
