@@ -84,12 +84,19 @@ class ChildSupport:
             mandatory_deductions = sum(tax_amt)
 
         return mandatory_deductions
-
     
+    def calculate_gross_pay(self, record):
+        """
+        Calculate the gross pay based on the record.
+        """
+        Wages=record.get("wages")
+        commission_and_bonus=record.get("commission_and_bonus")
+        non_accountable_allowances=record.get("non_accountable_allowances")
+        return Wages+commission_and_bonus+non_accountable_allowances
 
 
     def calculate_de(self,record):
-        gross_pay = record.get("gross_pay") 
+        gross_pay = self.calculate_gross_pay(record) 
         mandatory_deductions=self.calculate_md(record)
         # Calculate disposable earnings
         return gross_pay - mandatory_deductions
@@ -103,7 +110,6 @@ class ChildSupport:
             for key, value in Amt_dict.items() 
             if key.lower().startswith('amount')
         ]
-
 
     def get_list_support_arrearAmt(self, record):
         child_support_data = record["garnishment_data"][0]["data"]

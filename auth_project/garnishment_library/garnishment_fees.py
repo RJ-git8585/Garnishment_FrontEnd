@@ -149,13 +149,21 @@ class gar_fees_rules_engine():
         return f"{self.calculate_rule(withhold_amt, 0.030, 12)} and Payable by {self.get_payable_name('Rule_26')}"
 
     def apply_rule(self, record,withhold_amt):
-        rule_name=self.find_rule(record)
         """Dynamically applies the rule based on the rule name"""
+
+        rule_name=self.find_rule(record)
+        case_id=record.get("case_id")
+        order = garnishment_order.objects.filter(cid=row['cid'], eeid=row['eeid']).first()
+
+        if case_id==case_id:
+
+            return 0
+
         if rule_name in self.rule_map:
             return self.rule_map[rule_name](record,withhold_amt)
         else:
             raise ValueError(f"Rule '{rule_name}' is not defined.")
-
+        
 
 # record={
 #                 "ee_id": "EE005114",

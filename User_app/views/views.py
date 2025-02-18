@@ -1776,6 +1776,4 @@ class Employeegarnishment_orderMatch_details(APIView):
                 "data": data
 
             }
-        print("length",len(data))
-
         return Response(response_data, status=status.HTTP_200_OK)

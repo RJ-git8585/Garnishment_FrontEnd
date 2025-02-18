@@ -1,5 +1,4 @@
 from User_app.models import *
-from django.contrib.auth import  login as auth_login ,get_user_model
 from User_app.serializers import *
 import json
 import os
@@ -51,12 +50,11 @@ class federal_tax_calculation():
         filing_status=record.get('filing_status')
 
         no_of_exemption=self.get_total_exemption_self(record)
-
+        
         file_path=os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/federal tables/additional_exempt_amount.json')
         result = 0
-        with open(file_path, 'r') as file:
-            data = json.load(file)
 
+        data=self.get_file_data(file_path)
 
         data = data["additional_exempt_amt"]
         no_of_exemption_list=[]
@@ -67,17 +65,13 @@ class federal_tax_calculation():
         head_of_household_list=[]
         any_other_filing_status=[]
         for item in no_of_exemption_list:
-          if "single_filing_status" == item.get("filing_status"):
+          if "single" == item.get("filing_status"):
             single_filing_status_list.append(item)
           elif "head_of_household" == item.get("filing_status"):
              head_of_household_list.append(item)
           else:
               any_other_filing_status.append(item)
-        # print("single_filing_status_list",single_filing_status_list)
-        # print("head_of_household_list",head_of_household_list)
-        # print("any_other_filing_status",any_other_filing_status)
-        # print("filing_status",filing_status)
-        if filing_status == "single_filing_status":
+        if filing_status == "single":
           result = single_filing_status_list[0].get(pay_period)
 
         elif filing_status == "head_of_household":
@@ -93,30 +87,31 @@ class federal_tax_calculation():
         pay_period=record.get('pay_period').lower()
         filing_status=record.get('filing_status')
         no_of_exemption=self.get_total_exemption_dependent(record)
+        
         file_path=os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/federal tables/additional_exempt_amount.json')
 
         result = 0
-        with open(file_path, 'r') as file:
-            data = json.load(file)
-
+        data=self.get_file_data(file_path)
 
         data = data["additional_exempt_amt"]
         no_of_exemption_list=[]
         for item in data:
           if item.get("no_of_exemption") ==no_of_exemption:
             no_of_exemption_list.append(item)
+
         single_filing_status_list=[]
         head_of_household_list=[]
         any_other_filing_status=[]
+
         for item in no_of_exemption_list:
-          if "single_filing_status" == item.get("filing_status"):
+          if "single" == item.get("filing_status"):
             single_filing_status_list.append(item)
           elif "head_of_household" == item.get("filing_status"):
              head_of_household_list.append(item)
           else:
               any_other_filing_status.append(item)
 
-        if filing_status == "single_filing_status":
+        if filing_status == "single":
           result = single_filing_status_list[0].get(pay_period)
 
         elif filing_status == "head_of_household":
@@ -137,10 +132,14 @@ class federal_tax_calculation():
         # Check if the number of exceptions is greater than 5
         exempt= 6 if no_of_exemption_for_self >5 else no_of_exemption_for_self
 
-        file_path=os.path.join(settings.BASE_DIR, 'User_app', f'configuration files/federal tables/{filing_status}.json')
-
-        data = self.get_file_data(file_path)
-        status_data = data.get(filing_status, [])
+        if filing_status == "married_filing_qualifying_widowers" or filing_status == "married_filing_joint_return":
+            file_path=os.path.join(settings.BASE_DIR, 'User_app', f'configuration files/federal tables/married_filing_joint_return.json')
+            data = self.get_file_data(file_path)
+            status_data = data.get("married_filing_joint_return", [])
+        else:
+            file_path=os.path.join(settings.BASE_DIR, 'User_app', f'configuration files/federal tables/{filing_status}.json')
+            data = self.get_file_data(file_path)
+            status_data = data.get(filing_status, [])
 
 
         # Accessing federal tax data
@@ -199,19 +198,13 @@ class federal_tax(federal_tax_calculation):
         return (round(amount_deduct,2))
 
 
-
-
-
-
-
-
 # record =    {
 #           "ee_id": "EE005114",
 #           "gross_pay": 1000,
-#           "state": "Texas",
-#           "no_of_exemption_for_self": 1,
-#           "pay_period": "Weekly",
-#           "filing_status": "single_filing_status",
+#           "state": "Alabama",
+#           "no_of_exemption_for_self": 2,
+#           "pay_period": "weekly",
+#           "filing_status": "married_filing_separate_return",
 #           "net_pay": 858.8,
 #           "payroll_taxes": [
 #             {
@@ -240,13 +233,16 @@ class federal_tax(federal_tax_calculation):
 #           "support_second_family": "Yes",
 #           "no_of_student_default_loan": 1,
 #           "arrears_greater_than_12_weeks": "No",
+#           "wages":2821.00,
+#           "commission_and_bonus":519,
+#           "non_accountable_allowances":454,
 #           "garnishment_data": [
 #             {
-#               "type": "student default loan",
+#               "type": "federal tax levy",
 #               "data": [
 #                 {
 #                   "case_id": "C13278",
-#                   "amount": 128.82,
+#                   "amount": 200,
 #                   "arrear": 0
 #                 }
 #               ]

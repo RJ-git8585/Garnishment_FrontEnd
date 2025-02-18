@@ -2,7 +2,7 @@
     [
         {
             "no_of_exemption": 1,
-            "filing_status": "single_filing_status",
+            "filing_status": "single",
             "daily": 7.69,
             "weekly": 38.46,
             "biweekly": 76.92,
@@ -20,7 +20,7 @@
         },   
         {
             "no_of_exemption": 2,
-            "filing_status": "single_filing_status",
+            "filing_status": "single",
             "daily": 15.38,
             "weekly": 76.92,
             "biweekly": 153.85,
