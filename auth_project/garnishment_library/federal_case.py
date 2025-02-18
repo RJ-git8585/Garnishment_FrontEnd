@@ -132,7 +132,7 @@ class federal_tax_calculation():
         # Check if the number of exceptions is greater than 5
         exempt= 6 if no_of_exemption_for_self >5 else no_of_exemption_for_self
 
-        if filing_status == "married_filing_qualifying_widowers" or filing_status == "married_filing_joint_return":
+        if filing_status == "qualifying_widowers" or filing_status == "married_filing_joint_return":
             file_path=os.path.join(settings.BASE_DIR, 'User_app', f'configuration files/federal tables/married_filing_joint_return.json')
             data = self.get_file_data(file_path)
             status_data = data.get("married_filing_joint_return", [])
@@ -204,7 +204,7 @@ class federal_tax(federal_tax_calculation):
 #           "state": "Alabama",
 #           "no_of_exemption_for_self": 2,
 #           "pay_period": "weekly",
-#           "filing_status": "married_filing_separate_return",
+#           "filing_status": "qualifying_widowers",
 #           "net_pay": 858.8,
 #           "payroll_taxes": [
 #             {
