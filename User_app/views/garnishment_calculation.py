@@ -71,14 +71,14 @@ class CalculationDataView(APIView):
         child_support_data, arrear_amount_data = result[0], result[1]
 
         record["Agency"] = [{"withholding_amt": [
-            {"child_support_withhold_amt": child_support_data[f'child support amount{i}']}
+            {"child_support": child_support_data[f'child support amount{i}']}
             for i in range(1, len(child_support_data) + 1)
         ]},{"Arrear" : [{"arrear_amount": arrear_amount_data[f'arrear amount{i}']}
                             for i in range(1, len(arrear_amount_data) + 1)]}]
 
         
 
-        total_withhold_amt = sum(cs["child_support_withhold_amt"] for cs in record["Agency"][0]["withholding_amt"]) + \
+        total_withhold_amt = sum(cs["child_support"] for cs in record["Agency"][0]["withholding_amt"]) + \
                              sum(arr["arrear_amount"] for arr in record["Agency"][1]["Arrear"])
 
         record["ER_deduction"] = {"garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
@@ -87,7 +87,7 @@ class CalculationDataView(APIView):
     def calculate_federal_tax(self, record):
         """Calculate federal tax garnishment."""
         result = federal_tax().calculate(record)
-        record["Agency"] = [{"withholding_amt": result}]
+        record["Agency"] = [{"withholding_amt": [{"federal tax":result}]}]
         record["ER_deduction"] = {"garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, result)}
         return record
 
@@ -96,12 +96,12 @@ class CalculationDataView(APIView):
         result = student_loan_calculate().calculate(record)
 
         if len(result) == 1:
-            record["Agency"] = [{"student_loan_withhold_amt": result['student_loan_amt']}]
+            record["Agency"] = [{"withholding_amt":[{"student_loan": result['student_loan_amt']}]}]
             total_loan_amt = result['student_loan_amt']
         else:
-            record["Agency"] = [{"student_loan_withhold_amt": [
+            record["Agency"] = [
                 {"student_loan_withhold_amt": result[f'student_loan_amt{i}']} for i in range(1, len(result) + 1)
-            ]}]
+            ]
             total_loan_amt = sum(item["student_loan_withhold_amt"] for item in record["Agency"][0]["student_loan_withhold_amt"])
 
         record["ER_deduction"] = {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_loan_amt)}
@@ -151,12 +151,6 @@ class CalculationDataView(APIView):
                 cid_summary["employees"] = [res for res in results if res]
 
                 output.append(cid_summary)
-
-            # # Log the action
-            # LogEntry.objects.create(
-            #     action="Calculation data added",
-            #     details=f"Calculation data added successfully with batch ID {batch_id}"
-            # )
 
             return Response({
                 "message": "Result Generated Successfully",
