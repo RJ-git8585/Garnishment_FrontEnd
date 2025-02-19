@@ -1,6 +1,5 @@
 from rest_framework import status
 from django.contrib import messages
-from auth_project.config import ccpa_limit
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -195,13 +194,13 @@ class SingleStudentLoanBatchResult(APIView):
         if employees.exists():
             try:
                 employee= employees.order_by('-timestamp')       
-                serializer = SingleStudentLoanSerializer(employee,many=True)
+                # serializer = SingleStudentLoanSerializer(employee,many=True)
 
                 response_data = {
                     'success': True,
                     'message': 'Data retrieved successfully',
                     'status code': status.HTTP_200_OK,
-                    'data': serializer.data
+                    # 'data': serializer.data
                 }
                 return JsonResponse(response_data)
             except Employer_Profile.DoesNotExist:

@@ -1,6 +1,4 @@
-
 import os
-import sys
 from pathlib import Path
 import dj_database_url
 from datetime import timedelta
@@ -17,9 +15,6 @@ SIMPLE_JWT = {
 }
 # BASE_DIR = Path(__file__).resolve().parent.parent
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(os.path.join(BASE_DIR, 'garnishment_library'))
-
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-4j-q2^gpu9&%imydt@@vq*h0i#9#(yv0)&q5ewvaftj(eocs2='
@@ -30,7 +25,7 @@ SECRET_KEY = 'django-insecure-4j-q2^gpu9&%imydt@@vq*h0i#9#(yv0)&q5ewvaftj(eocs2=
 # ]
 
 
-DEBUG = os.environ.get('DEBUG','False')=="False"
+DEBUG = "True"
 STATIC_URL = '/static/'
 ALLOWED_HOSTS = ['*']
 
@@ -45,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    "debug_toolbar",
     'rest_framework.authtoken',
     'django_rest_passwordreset',
     # 'celery',
@@ -55,6 +51,7 @@ INSTALLED_APPS = [
 AUTHENTICATION_BACKENDS=[
     'django.contrib.auth.backends.ModelBackend'
 ]
+INTERNAL_IPS = ['127.0.0.1',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -67,6 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'User_app.middleware.APICallLoggerMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'auth_project.urls'
@@ -99,21 +97,20 @@ TEMPLATES = [
 ]
 
 # Celery Configuration
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'  # Use Redis as broker
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379' 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
 # Django-Celery-Results
-
 CELERY_RESULT_BACKEND = 'django-db'
 
 
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#     )
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 
 
@@ -135,26 +132,6 @@ CELERY_RESULT_BACKEND = 'django-db'
 #     }
 # }
 
-# import os
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'mssql',
-
-#         'NAME': os.getenv('DB_NAME', 'garnishment-db'),  # Default to 'local_db_name' if DB_NAME is not set
-#         'USER': os.getenv('DB_USER', 'garnish-dev@garnish-dev1'),  # Default to 'local_db_user' if DB_USER is not set
-#         'PASSWORD': os.getenv('DB_PASSWORD', 'G@rnish-D3v'),  # Default to 'local_db_password'
-#         'HOST': os.getenv('DB_HOST', 'garnish-dev1.database.windows.net'),  # Default to 'localhost' if DB_HOST is not set
-#         'PORT': os.getenv('DB_PORT', '1433'),  # Default to '1433' if DB_PORT is not set
-#         'OPTIONS': {
-#             'driver': 'ODBC Driver 17 for SQL Server',
-#             'extra_params': 'TrustServerCertificate=yes;',
-#         },
-#     },
-# }
-
-
-# postgres://gdb_9usu_user:1WIRSGucNXebb5DcoSI1e2hp7RNSuRwn@dpg-cpa5u6dds78s73crqbag-a.singapore-postgres.render.com/gdb_9usu'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -212,8 +189,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 
 # Default primary key field type

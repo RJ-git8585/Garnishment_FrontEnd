@@ -152,11 +152,11 @@ class CalculationDataView(APIView):
 
                 output.append(cid_summary)
 
-            # Log the action
-            LogEntry.objects.create(
-                action="Calculation data added",
-                details=f"Calculation data added successfully with batch ID {batch_id}"
-            )
+            # # Log the action
+            # LogEntry.objects.create(
+            #     action="Calculation data added",
+            #     details=f"Calculation data added successfully with batch ID {batch_id}"
+            # )
 
             return Response({
                 "message": "Result Generated Successfully",
@@ -167,5 +167,5 @@ class CalculationDataView(APIView):
 
         except Employee_Detail.DoesNotExist:
             return Response({"error": "Employee details not found", "status": status.HTTP_404_NOT_FOUND})
-        # except Exception as e:
-        #     return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
+        except Exception as e:
+            return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})

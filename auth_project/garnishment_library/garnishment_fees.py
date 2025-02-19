@@ -153,8 +153,6 @@ class gar_fees_rules_engine():
 
         rule_name=self.find_rule(record)
         case_id=record.get("case_id")
-        order = garnishment_order.objects.filter(cid=row['cid'], eeid=row['eeid']).first()
-
         if case_id==case_id:
 
             return 0
