@@ -59,7 +59,7 @@ class CalculationDataView(APIView):
             return garnishment_rules[garnishment_type]["calculate"](record)
 
         elif garnishment_type in {"State Tax Levy", "creditor debt", "creditor"}:
-            return {"ER_deduction": {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, 200)}}
+            return {"ER_deduction": {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record,2000)}}
 
         return {"error": f"Unsupported garnishment_type: {garnishment_type}"}
 
@@ -100,9 +100,10 @@ class CalculationDataView(APIView):
             total_loan_amt = result['student_loan_amt']
         else:
             record["Agency"] = [
-                {"student_loan_withhold_amt": result[f'student_loan_amt{i}']} for i in range(1, len(result) + 1)
+                {"withholding_amt": [{"student_loan":result[f'student_loan_amt{i}']} for i in range(1, len(result) + 1)]}
             ]
-            total_loan_amt = sum(item["student_loan_withhold_amt"] for item in record["Agency"][0]["student_loan_withhold_amt"])
+
+            total_loan_amt = sum(item["student_loan"] for item in record["Agency"][0]["withholding_amt"])
 
         record["ER_deduction"] = {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_loan_amt)}
         return record
@@ -127,28 +128,23 @@ class CalculationDataView(APIView):
         try:
             data = request.data
             batch_id = data.get("batch_id")
-            cid_data = data.get("cid", {})
+            Cases_data = data.get("cases", [])
 
             if not batch_id:
                 return Response({"error": "batch_id is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-            if not cid_data:
+            if not Cases_data:
                 return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
 
             output = []
 
-            for cid, cid_info in cid_data.items():
-                cid_summary = {"cid": cid, "employees": []}
+            for case_info in Cases_data:
+                cid_summary = {"cases": []}
 
-                # Extract employee records
-                employee_records = cid_info.get("employees", [])
+                results = self.calculate_garnishment_wrapper(case_info)
 
-                # Use ThreadPoolExecutor for parallel processing
-                with ThreadPoolExecutor(max_workers=80) as executor:
-                    results = list(executor.map(self.calculate_garnishment_wrapper, employee_records))
-
-                # Filter out None values (if any record was skipped)
-                cid_summary["employees"] = [res for res in results if res]
+                if results:  
+                    cid_summary["cases"].append(results)  # Append the full record instead of just keys
 
                 output.append(cid_summary)
 
@@ -161,5 +157,4 @@ class CalculationDataView(APIView):
 
         except Employee_Detail.DoesNotExist:
             return Response({"error": "Employee details not found", "status": status.HTTP_404_NOT_FOUND})
-        except Exception as e:
-            return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
+

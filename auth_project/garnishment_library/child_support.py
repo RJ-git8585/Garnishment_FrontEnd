@@ -39,8 +39,8 @@ class ChildSupport:
         """
         Calculate the Disposable Earnings (DE) rule based on the state.
         """
-        state = record.get("state")
-        if not state:
+        work_state = record.get("work_state")
+        if not work_state:
             raise ValueError("State information is missing in the record.")
 
         data = self._load_json_file(self.de_rules_file)
@@ -48,10 +48,10 @@ class ChildSupport:
 
         # Find matching state in DE rules
         for rule in de_rules:
-            if rule['State'].lower() == state.lower():
+            if rule['State'].lower() == work_state.lower():
                 return rule['taxes_deduction']
 
-        raise ValueError(f"No DE rule found for state: {state}")
+        raise ValueError(f"No DE rule found for state: {work_state}")
     
     def get_mapping_keys(self,record):
         """
@@ -71,16 +71,17 @@ class ChildSupport:
         Calculate mandatory deductions based on state and tax rules.
         """
         gross_pay = record.get("gross_pay")
-        state = record.get("state")
+        work_state = record.get("work_state")
         payroll_taxes = record.get("payroll_taxes")
 
-        if gross_pay is None or state is None or payroll_taxes is None:
-            raise ValueError("Record must include 'gross_pay', 'state', and 'taxs' fields.")
+
+        if gross_pay is None or work_state is None or payroll_taxes is None:
+            raise ValueError("Record must include 'gross_pay', 'work_state', and 'taxs' fields.")
 
         de_rule = self.get_mapping_keys(record)
 
         # Calculate mandatory deductions
-        tax_amt = [tax.get(k, 0) for tax in payroll_taxes for k in de_rule if k in tax]
+        tax_amt = [payroll_taxes[key] for key in de_rule]
         mandatory_deductions = sum(tax_amt)
         return mandatory_deductions
     
@@ -107,7 +108,7 @@ class ChildSupport:
             value 
             for Amt_dict in child_support_data
             for key, value in Amt_dict.items() 
-            if key.lower().startswith('amount')
+            if key.lower().startswith('orderedamount')
         ]
 
     def get_list_support_arrearAmt(self, record):
@@ -116,20 +117,20 @@ class ChildSupport:
             value
             for Amt_dict in child_support_data
             for key, value in Amt_dict.items() 
-            if key.lower().startswith('arrear')
+            if key.lower().startswith('arrearamount')
         ]
 
 
     def calculate_wl(self, record):
 
         # Extract necessary values from the record
-        state = record.get("state")
+        work_state = record.get("work_state")
         employee_id = record.get("employee_id")
         supports_2nd_family = record.get("support_second_family")
         arrears_of_more_than_12_weeks = record.get("arrears_of_more_than_12_weeks")
 
         # Determine the state rules
-        state_rules = gc.WLIdentifier().get_state_rules(state)
+        state_rules = gc.WLIdentifier().get_state_rules(work_state)
 
         calculate_tcsa = len(self.get_list_supportAmt(record))
        
@@ -146,7 +147,7 @@ class ChildSupport:
         order_gt_one = "No" if calculate_tcsa > 1 or state_rules != "Rule_4" else "Yes"
         
         # Identify withholding limit using state rules
-        wl_limit = gc.WLIdentifier().find_wl_value(de,state, employee_id, supports_2nd_family, arrears_of_more_than_12_weeks, de_gt_145, order_gt_one)
+        wl_limit = gc.WLIdentifier().find_wl_value(de,work_state, employee_id, supports_2nd_family, arrears_of_more_than_12_weeks, de_gt_145, order_gt_one)
 
         return wl_limit
 
@@ -218,10 +219,10 @@ class MultipleChild(ChildSupport):
         taa = self.get_list_support_arrearAmt(record)
         twa = self.calculate_twa(record)
         wa = self.calculate_wa(record)
-        state = record.get("state")
+        work_state = record.get("work_state")
 
         # Determine the allocation method for garnishment based on the state
-        allocation_method_for_garnishment = gc.AllocationMethodIdentifiers(state).get_allocation_method()
+        allocation_method_for_garnishment = gc.AllocationMethodIdentifiers(work_state).get_allocation_method()
 
         if ade > twa:
             # ADE is sufficient to cover the total withholding amount (TWA)
@@ -263,95 +264,52 @@ class MultipleChild(ChildSupport):
 
         return child_support_amount, arrear_amount
     
-# record=   {
-#           "ee_id": "EMP002",
-#           "gross_pay": 670,
-#           "state": "Alabama",
-#           "pay_period": "weekly",
-#           "order_id":"DE101",
-          
-#           "payroll_taxes": [
-#             { "federal_income_tax": 12 },
-#             { "social_security_tax": 18 },
-#             { "medicare_tax": 5 },
-#             { "state_tax": 5 },
-#             { "local_tax": 10 }
-#           ],
-#           "payroll_deductions": {
-#             "medical_insurance": 400
-#           },
-#           "no_of_student_default_loan": 2,
-#           "support_second_family": "Yes",
-#           "arrears_greater_than_12_weeks": "Yes",
-#           "age": 43,
-#           "is_blind": True,
-#           "is_spouse_blind": True,
-#           "spouse_age": 38,
-#           "garnishment_data": [
-#               {" type": "child_support",
-#               "data":[
-       
-#                   { "amount": 190, "arrear": 0 ,"case_id":101}
-#                 ]
-#             }
-#           ]}
     
 # record=  {
-#           "ee_id": "EE005256",
-#           "gross_pay": 1500,
-#           "state": "california",
-#           "no_of_exemption_for_self": 2,
-#           "pay_period": "Biweekly",
-#           "filing_status": "married_filing_separate_return",
-#           "net_pay": 1230.3400000000001,
-#           "payroll_taxes": [
-#             {
-#               "federal_income_tax": 60.0
-#             },
-#             {
-#               "social_security_tax": 78.9
-#             },
-#             {
-#               "medicare_tax": 45.76
-#             },
-#             {
-#               "state_tax": 13.0
-#             },
-#             {
-#               "local_tax": 12.0
-#             },{"medical_insurance_pretax":11},{"union_dues":222},{"CaliforniaSDI":12}
-#           ],
-#           "payroll_deductions": {
-#             "medical_insurance": 60
-#           },
-#           "age": 59,
-#           "is_blind": False,
-#           "is_spouse_blind": False,
-#           "spouse_age": 63,
-#           "support_second_family": "No",
-#           "no_of_student_default_loan": 0,
-#           "arrears_greater_than_12_weeks": "Yes",
-#           "wages":2821.00,
-#           "commission_and_bonus":519,
-#           "non_accountable_allowances":454,
-#           "garnishment_data": [
-#             {
-#               "type": "Child Support",
-#               "data": [
-#                 {
-#                   "case_id": "C72298",
-#                   "amount": 400,
-#                   "arrear": 35
+#             "case_id": "C5635",
+#                 "ee_id": "EE005120",
+#                 "gross_pay": 1205.0,
+#                 "work_state": "Alabama",
+#                 "no_of_exemption_for_self": 0,
+#                 "pay_period": "Weekly",
+#                 "filing_status": "single",
+#                 "net_pay": 966.15,
+#                 "payroll_taxes": {
+#                     "federal_income_tax": 90.0,
+#                     "social_security_tax": 55.8,
+#                     "medicare_tax": 13.05,
+#                     "state_tax": 25.0,
+#                     "local_tax": 5.0
 #                 },
-#                 {
-#                   "case_id": "C72298",
-#                   "amount": 450,
-#                   "arrear": 25
-#                 }
-#               ]
+#                 "payroll_deductions": {
+#                     "medical_insurance": 50.0
+#                 },
+#                 "age": 32,
+#                 "is_blind": False,
+#                 "is_spouse_blind": False,
+#                 "spouse_age": 0,
+#                 "support_second_family": "Yes",
+#                 "no_of_student_default_loan": 0,
+#                 "arrears_greater_than_12_weeks": "No",
+#                 "wages": 1205.0,
+#                 "commission_and_bonus": 0.0,
+#                 "non_accountable_allowances": 0.0,
+#                 "garnishment_data": [
+#                     {
+#                         "type": "Child Support",
+#                         "data": [
+#                             {
+#                                 "orderedamount": 135.0,
+#                                 "arrearamount": 0,
+#                                 "current_medical_support":0,
+#                                 "past_due_medical_support":0,
+#                                 "current_spousal_support":0,
+#                                 "past_due_spousal_support":0
+#                             }
+#                         ]
+#                     }
+#                 ]
 #             }
-#           ]
-#         }
 
 # tcsa = ChildSupport().get_list_supportAmt(record)
 # # print("11111rrr",ChildSupport().calculate_de_rule(record))

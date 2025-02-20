@@ -13,8 +13,8 @@ class DisposableIncomeCalculator:
         return monthly_garnishment_amount
 
 class AllocationMethodIdentifiers:
-    def __init__(self, state):
-        self.state = state.lower()  
+    def __init__(self, work_state):
+        self.work_state = work_state.lower()  
 
     def get_allocation_method(self):
 
@@ -29,11 +29,11 @@ class AllocationMethodIdentifiers:
         
         # Searching for the matching state
         for record in child_support_data:
-            if record['State'].lower() == self.state:
+            if record['State'].lower() == self.work_state:
                 return record['AllocationMethod'].lower()
         
         # If no matching record is found
-        return f"No allocation method found for the state: {self.state.capitalize()}."
+        return f"No allocation method found for the state: {self.work_state.capitalize()}."
     
 
 
@@ -75,7 +75,7 @@ class CalculateArrearAmountForChild:
             return 0        
 
 class WLIdentifier:
-    def get_state_rules(self, state):
+    def get_state_rules(self, work_state):
         file_path = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/withholding_rules.json')
 
         # Reading the JSON file
@@ -87,15 +87,15 @@ class WLIdentifier:
         
         # Searching for the matching state
         for record in ccpa_rules_data:
-            if record['State'].lower() == state.lower():
+            if record['State'].lower() == work_state.lower():
                 return record['Rule']  
 
         # If no matching record is found
-        return f"No allocation method found for the state: {state.capitalize()}." 
+        return f"No allocation method found for the state: {work_state.capitalize()}." 
 
-    def find_wl_value(self, de,state, employee_id, supports_2nd_family, arrears_of_more_than_12_weeks, de_gt_145, order_gt_one):
+    def find_wl_value(self, de,work_state, employee_id, supports_2nd_family, arrears_of_more_than_12_weeks, de_gt_145, order_gt_one):
         file_path = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/withholding_limits.json')
-        state_rule = self.get_state_rules(state)
+        state_rule = self.get_state_rules(work_state)
 
         # Reading the JSON file
         with open(file_path, 'r') as file:
@@ -119,7 +119,7 @@ class WLIdentifier:
 class GarnishmentFeesIdentifier:
     @staticmethod
     def calculate(record):
-        state = record.get("state", "").lower()
+        work_state = record.get("work_state").lower()
         pay_period = record.get("pay_period")
 
         gar_type = record.get("garnishment_data")[0]
@@ -133,7 +133,7 @@ class GarnishmentFeesIdentifier:
         # Search for matching rule
         for rule in data.get("fees", []):
             if (
-                rule.get("State", "").lower() == state
+                rule.get("State", "").lower() == work_state
                 and rule.get("Type") == garnishment_type
                 and rule.get("Pay Period") == pay_period
             ):

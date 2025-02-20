@@ -16,7 +16,7 @@ class gar_fees_rules_engine():
         return max(min_value, 0 if withhold_amt == 0 else withhold_amt * percentage)
 
     def find_rule(self,record):
-        state=record.get("state").lower()
+        work_state=record.get("work_state").lower()
         gar_type = record.get("garnishment_data")[0]
         type=gar_type.get('type').lower()
         pay_period=record.get('pay_period').lower()
@@ -24,7 +24,7 @@ class gar_fees_rules_engine():
         serializer = garnishment_fees_serializer(data, many=True)
 
         for item in serializer.data:
-            if (item["state"].strip().lower() == state.strip().lower() and
+            if (item["state"].strip().lower() == work_state.strip().lower() and
                 item["pay_period"].strip().lower() == pay_period.strip().lower() and
                 item["type"].strip().lower() == type.strip().lower()):
                 return (item["rules"])
@@ -36,29 +36,29 @@ class gar_fees_rules_engine():
                 return (item["payable_by"])
 
     def Rule_1(self,record,withhold_amt):
-        state=record.get("state").lower()
+        work_state=record.get("work_state").lower()
         gar_type = record.get("garnishment_data")[0]
         type=gar_type.get('type').lower()
         pay_period=record.get('pay_period').lower()
         rules_data=self.get_serialized_data()
 
         for item in rules_data:
-            if (item["state"].strip().lower() == state.strip().lower() and
+            if (item["state"].strip().lower() == work_state.strip().lower() and
                 item["pay_period"].strip().lower() == pay_period.strip().lower() and
                 item["type"].strip().lower() == type.strip().lower()):
-                return f"${(item["amount"])} and Payable by {self.get_payable_name('Rule_7')}"
+                return f"${(item["amount"])}, Payable by {self.get_payable_name('Rule_1')}"
             
     def Rule_2(self,record,withhold_amt):
         return ("No Provision")
     
     def Rule_3(self,record,withhold_amt):
-        state=record.get("state").strip().lower()
+        work_state=record.get("work_state").strip().lower()
         gar_type = record.get("garnishment_data")[0]
         type=gar_type.get('type').strip().lower()
         pay_period=record.get('pay_period').strip().lower()
         rules_data=self.get_serialized_data()
         for item in rules_data:
-            if (item["state"].strip().lower() == state and
+            if (item["state"].strip().lower() == work_state and
                 item["pay_period"].strip().lower() == pay_period and
                 item["type"].strip().lower() == type):
 
@@ -79,16 +79,16 @@ class gar_fees_rules_engine():
 
 
     def Rule_4(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.020)} and Payable by {self.get_payable_name('Rule_4')}"
+        return f"${self.calculate_rule(withhold_amt, 0.020)}, Payable by {self.get_payable_name('Rule_4')}"
     
     def Rule_5(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.030, 12)} and Payable by {self.get_payable_name('Rule_5')}"
+        return f"${self.calculate_rule(withhold_amt, 0.030, 12)}, Payable by {self.get_payable_name('Rule_5')}"
 
     def Rule_6(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.020, 8)} and Payable by {self.get_payable_name('Rule_6')}"
+        return f"${self.calculate_rule(withhold_amt, 0.020, 8)}, Payable by {self.get_payable_name('Rule_6')}"
     
     def Rule_7(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.010, 2)} and Payable by {self.get_payable_name('Rule_7')}"
+        return f"${self.calculate_rule(withhold_amt, 0.010, 2)}, Payable by {self.get_payable_name('Rule_7')}"
     
     def Rule_8(self, record, withhold_amt):
         return "Income submitted by electronic means: $1 each payment,but not to exceed $2 per month. Income submitted by other means: $2 each payment, but not to exceed $4 per month"
@@ -106,10 +106,10 @@ class gar_fees_rules_engine():
         return "$2 for each deduction taken after the levy has expired or is released"
     
     def Rule_13(self, record, withhold_amt):
-        return f'{withhold_amt*0.02} and Payable by {self.get_payable_name("Rule_13")}'
+        return f'{withhold_amt*0.02}, Payable by {self.get_payable_name("Rule_13")}'
     
     def Rule_14(self, record, withhold_amt):
-        return f'{withhold_amt*0.02} and Payable by {self.get_payable_name("Rule_14")}'
+        return f'{withhold_amt*0.02}, Payable by {self.get_payable_name("Rule_14")}'
     
     def Rule_15(self, record, withhold_amt):
         return f'$5 from landlord amount'
@@ -121,7 +121,7 @@ class gar_fees_rules_engine():
         return f'$15 paid by creditor'
     
     def Rule_18(self, record, withhold_amt):
-        return f"${self.calculate_rule(withhold_amt, 0.050, 5)} and Payable by {self.get_payable_name('Rule_18')}"
+        return f"${self.calculate_rule(withhold_amt, 0.050, 5)}, Payable by {self.get_payable_name('Rule_18')}"
 
     def Rule_19(self, record, withhold_amt):
         return "may deduct $5.00 for state employees"
@@ -152,10 +152,6 @@ class gar_fees_rules_engine():
         """Dynamically applies the rule based on the rule name"""
 
         rule_name=self.find_rule(record)
-        case_id=record.get("case_id")
-        if case_id==case_id:
-
-            return 0
 
         if rule_name in self.rule_map:
             return self.rule_map[rule_name](record,withhold_amt)
@@ -164,47 +160,40 @@ class gar_fees_rules_engine():
         
 
 # record={
-#                 "ee_id": "EE005114",
-#                 "gross_pay": 1000.0,
-#                 "state": "Alabama",
-#                 "no_of_exemption_for_self": 2,
-#                 "pay_period": "Weekly",
-#                 "filing_status": "single_filing_status",
-#                 "net_pay": 858.8,
-#                 "payroll_taxes": [
-#                     {
-#                         "federal_income_tax": 80.0
-#                     },
-#                     {
-#                         "social_security_tax": 49.6
-#                     },
-#                     {
-#                         "medicare_tax": 11.6
-#                     },
-#                     {
-#                         "state_tax": 0.0
-#                     },
-#                     {
-#                         "local_tax": 0.0
-#                     }
-#                 ],
-#                 "payroll_deductions": {
-#                     "medical_insurance": 0.0
+#             "case_id": "C5635",
+#                 "ee_id": "EE005120",
+#                 "gross_pay": 1205.0,
+#                 "state": "alabama",
+#                 "no_of_exemption_for_self": 0,
+#                 "pay_period": "weekly",
+#                 "filing_status": "single",
+#                 "net_pay": 966.15,
+#                 "payroll_taxes": {
+#                     "federal_income_tax": 90.0,
+#                     "social_security_tax": 55.8,
+#                     "medicare_tax": 13.05,
+#                     "state_tax": 25.0,
+#                     "local_tax": 5.0
 #                 },
-#                 "age": 50,
-#                 "is_blind": True,
-#                 "is_spouse_blind": True,
-#                 "spouse_age": 39,
+#                 "payroll_deductions": {
+#                     "medical_insurance": 50.0
+#                 },
+#                 "age": 32,
+#                 "is_blind": False,
+#                 "is_spouse_blind": False,
+#                 "spouse_age": 14,
 #                 "support_second_family": "Yes",
 #                 "no_of_student_default_loan": 2,
 #                 "arrears_greater_than_12_weeks": "No",
+#                 "wages": 1205.0,
+#                 "commission_and_bonus": 22,
+#                 "non_accountable_allowances":44,
 #                 "garnishment_data": [
 #                     {
-#                         "type": "Child Support" ,
+#                         "type": "Child Support",
 #                         "data": [
 #                             {
-#                                 "case_id": "C13278",
-#                                 "amount": 200.0,
+#                                 "amount": 135.0,
 #                                 "arrear": 0
 #                             }
 #                         ]
@@ -214,7 +203,7 @@ class gar_fees_rules_engine():
 
 
 
-# print(gar_fees_rules_engine().apply_rule(record,0))
+# print("gar_fees",gar_fees_rules_engine().apply_rule(record,0))
 
 
 

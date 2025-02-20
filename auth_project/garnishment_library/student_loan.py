@@ -10,65 +10,90 @@ from rest_framework import status
 class StudentLoan():
     """ Calculate Student Loan garnishment amount based on the provided data."""
 
+    def __init__(self):
+        self.de_rules_file  = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/disposable earning rules.json')
 
-    def calculate_disposable_earnings(self,record):
+    def _load_json_file(self, file_path):
         """
-        Calculate Disposable Earnings (DE) based on state and rules.
+        Helper method to load a JSON file.
         """
-        # Define file paths
-        de_rules_file = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/disposable earning rules.json')
-        ccpa_rules_file = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/ccpa_rules.json')
-    
-        def _load_json_file(file_path):
-            """Helper function to load a JSON file."""
-            try:
-                with open(file_path, 'r') as file:
-                    return json.load(file)
-            except FileNotFoundError:
-                raise Exception(f"File not found: {file_path}")
-            except json.JSONDecodeError:
-                raise Exception(f"Invalid JSON format in file: {file_path}")
-    
-        # Extract values from the record
-        state = record.get("state")
-        gross_pay = record.get("gross_pay")
-        payroll_taxes = record.get("payroll_taxes")
-    
-        if not state:
+        try:
+            with open(file_path, 'r') as file:
+                # Load and return the JSON data in one step
+                data = json.load(file)  # Load the JSON data once
+
+                return data  # Return the loaded data
+        except FileNotFoundError:
+            raise Exception(f"File not found: {file_path}")
+        except json.JSONDecodeError:
+            raise Exception(f"Invalid JSON format in file: {file_path}")
+
+    def calculate_deduction_rules(self, record):
+        """
+        Calculate the Disposable Earnings (DE) rule based on the state.
+        """
+        work_state = record.get("work_state")
+        if not work_state:
             raise ValueError("State information is missing in the record.")
-        if gross_pay is None or payroll_taxes is None:
-            raise ValueError("Record must include 'gross_pay', 'state', and 'taxes' fields.")
-    
-        # Load DE rules
-        de_data = _load_json_file(de_rules_file)
-        de_rules = de_data.get("de", [])
-        de_rule = None
-    
+
+        data = self._load_json_file(self.de_rules_file)
+        de_rules = data.get("de", [])
+
         # Find matching state in DE rules
         for rule in de_rules:
-            if rule['State'] == state:
-                de_rule = rule['Disposable Earnings']
-                break
-        if de_rule is None:
-            raise ValueError(f"No DE rule found for state: {state}")
+            if rule['State'].lower() == work_state.lower():
+                return rule['taxes_deduction']
+
+        raise ValueError(f"No DE rule found for state: {work_state}")
     
-        # Load CCPA rules
-        ccpa_data = _load_json_file(ccpa_rules_file)
-        ccpa_rules = ccpa_data.get("CCPA_Rules", {})
+    def get_mapping_keys(self,record):
+        """
+        Get the Mapping keys of tax.
+        """
+        keys = self.calculate_deduction_rules(record)
+
+        data = self._load_json_file(self.de_rules_file)
+        actual_keys = data.get("mapping", [])
+        actual_keys_list =  [next((actual_key_dict[key] for actual_key_dict in actual_keys if key in actual_key_dict), key)
+                                        for key in keys]
+        return actual_keys_list
     
+
+    def calculate_md(self, record):
+        """
+        Calculate mandatory deductions based on state and tax rules.
+        """
+        gross_pay = record.get("gross_pay")
+        work_state = record.get("work_state")
+        payroll_taxes = record.get("payroll_taxes")
+
+
+        if gross_pay is None or work_state is None or payroll_taxes is None:
+            raise ValueError("Record must include 'gross_pay', 'work_state', and 'taxs' fields.")
+
+        de_rule = self.get_mapping_keys(record)
+
         # Calculate mandatory deductions
-        mandatory_deductions = 0
-        if de_rule.lower() == "ccpa":
-            mandatory_tax_keys = ccpa_rules.get("Mandatory_deductions", [])
-            tax_amt = [tax.get(k, 0) for tax in payroll_taxes for k in mandatory_tax_keys if k in tax]
-            mandatory_deductions = sum(tax_amt)
-
+        tax_amt = [payroll_taxes[key] for key in de_rule]
+        mandatory_deductions = sum(tax_amt)
+        return mandatory_deductions
     
-        # Calculate and return disposable earnings
+    def calculate_gross_pay(self, record):
+        """
+        Calculate the gross pay based on the record.
+        """
+        Wages=record.get("wages")
+        commission_and_bonus=record.get("commission_and_bonus")
+        non_accountable_allowances=record.get("non_accountable_allowances")
+        return Wages+commission_and_bonus+non_accountable_allowances
+
+
+    def calculate_de(self,record):
+        gross_pay = self.calculate_gross_pay(record) 
+        mandatory_deductions=self.calculate_md(record)
+        # Calculate disposable earnings
         return gross_pay - mandatory_deductions
-    
 
-    
     def get_fmw(self,record):
       pay_period=record.get("pay_period")
       if pay_period.lower()=="weekly":
@@ -82,7 +107,7 @@ class StudentLoan():
 
     def get_single_student_amount(self, record):
         # Calculate disposable earnings
-        disposable_earning = self.calculate_disposable_earnings(record)
+        disposable_earning = self.calculate_de(record)
 
         # Calculate percentages earnings
         fifteen_percent_of_earning = disposable_earning *.15
@@ -110,7 +135,7 @@ class StudentLoan():
     def get_multiple_student_amount(self, record):
 
         fmw = self.get_fmw(record)
-        disposable_earning = self.calculate_disposable_earnings(record)
+        disposable_earning = self.calculate_de(record)
 
         difference_of_de_and_fmw = disposable_earning - fmw
 
@@ -144,55 +169,49 @@ class student_loan_calculate():
 
 
 
-# record=        {
-#           "ee_id": "EE005114",
-#           "gross_pay": 1000,
-#           "state": "Alabama",
-#           "pay_period": "Weekly",
-#           "no_of_exception_for_self": 1,
-#           "filing_status": "single_filing_status",
-#           "net_pay": 858.8,
-#           "payroll_taxes": [
-#             {
-#               "federal_income_tax": 80
-#             },
-#             {
-#               "social_security_tax": 49.6
-#             },
-#             {
-#               "medicare_tax": 11.6
-#             },
-#             {
-#               "state_tax": 0
-#             },
-#             {
-#               "local_tax": 0
-#             }
-#           ],
-#           "payroll_deductions": {
-#             "medical_insurance": 0
-#           },
-#           "age": 50,
-#           "is_blind": True,
-#           "is_spouse_blind": True,
-#           "spouse_age": 39,
-#           "support_second_family": True,
-#           "arrears_greater_than_12_weeks": 0,
-#           "garnishment_data": [
-#             {
-#               "type": "student default loan",
-#               "data": [
-#                 {
-#                   "amount": 200,
-#                   "arrear": 0,
-#                   "case_id": "C13278"
+# record=        {   "case_id": "C5635",
+#                 "ee_id": "EE005120",
+#                 "work_state": "Alabama",
+#                 "no_of_exemption_for_self": 0,
+#                 "pay_period": "Weekly",
+#                 "filing_status": "single",
+#                 "wages": 1205.0,
+#                 "commission_and_bonus": 22,
+#                 "non_accountable_allowances":44,
+#                 "gross_pay": 1205.0,
+#                 "payroll_taxes": {
+#                     "federal_income_tax": 90.0,
+#                     "social_security_tax": 55.8,
+#                     "medicare_tax": 13.05,
+#                     "state_tax": 25.0,
+#                     "local_tax": 5.0
+#                 },
+#                 "payroll_deductions": {
+#                     "medical_insurance": 50.0
+#                 },
+#                 "net_pay": 966.15,
+#                 "age": 32,
+#                 "is_blind": False,
+#                 "is_spouse_blind": False,
+#                 "spouse_age": 14,
+#                 "support_second_family": "Yes",
+#                 "no_of_student_default_loan": 2,
+#                 "arrears_greater_than_12_weeks": "No",
+#                 "garnishment_data": [
+#                             {
+#                               "type": "Federal Tax Levy",
+#                               "data": [
+#                                 {
+#                                   "case_id": "C59615",
+#                                   "amount": 0,
+#                                   "arrear": 0
+#                                 }
+#                               ]
+#                             }
+#                 ]
 #                 }
-#               ]
-#             }
-#           ]
-#         }
 
-# # # print("get_percentages:",StudentLoan().get_percentage)
-# # print("get_single_student_amount",StudentLoan().get_single_student_amount(record))
-# # print("get_multiple_student_amount",StudentLoan().get_multiple_student_amount(record))
+# # print("get_percentages:",StudentLoan().get_percentage)
+# print("get_single_student_amount",StudentLoan().get_single_student_amount(record))
+# print("get_multiple_student_amount",StudentLoan().get_multiple_student_amount(record))
 # print("student_loan",student_loan_calculate().calculate( record ))
