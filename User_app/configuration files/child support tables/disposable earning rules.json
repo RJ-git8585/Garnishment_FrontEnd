@@ -6,7 +6,7 @@
       {"State": "California", "taxes_deduction": ["FIT" , "SST" , "MT" , "CaliforniaSDI"]},
       {"State": "Colorado", "taxes_deduction": ["FIT" , "SST" , "MT" ,"FAMLI"]},
       {"State": "Connecticut", "taxes_deduction":  ["FIT","SST","MT","MIP","UD"]},
-      {"State": "Delaware", "taxes_deduction": ["FIT","SST","MT","ST","Wilmington tax","UD"]},
+      {"State": "Delaware", "taxes_deduction": ["FIT","SST","MT","ST","wilmington_tax","UD"]},
       {"State": "Florida", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Georgia", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Hawaii", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
@@ -27,7 +27,7 @@
       {"State": "Montana", "taxes_deduction": ["FIT", "SST", "MT" ,"UD"]},
       {"State": "Nebraska", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Nevada", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
-      {"State": "New Hampshire", "taxes_deduction": "CCPA; & Mandatory deductions as a condition of employment"},
+      {"State": "New Hampshire", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "New Jersey", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "New Mexico", "taxes_deduction": "CCPA; & required union dues"},
       {"State": "New York", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
@@ -40,7 +40,7 @@
       {"State": "Rhode Island", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "South Carolina", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "South Dakota", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
-      {"State": "Tennessee", "taxes_deduction": "CCPA & health insurance premiums for dependents listed on the child support order"},
+      {"State": "Tennessee", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Texas", "taxes_deduction": ["FIT", "SST", "MT" ,"UD","MIP"]},
       {"State": "Utah", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Vermont", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
@@ -50,6 +50,6 @@
       {"State": "Wisconsin", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Wyoming", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]}
     ],
-    "Mapping":[{"FIT":"federal_income_tax"},{"SST":"social_security_tax"},{"MT":"medicare_tax"},{"ST":"state_tax"},{"LT":"local_tax"},{"UD":"union_dues"},{"MIP":"medical_insurance_pretax"},{"LI":"life_insurance"},{"II":"industrial_insurance"}]
+    "mapping":[{"FIT":"federal_income_tax"},{"SST":"social_security_tax"},{"MT":"medicare_tax"},{"ST":"state_tax"},{"LT":"local_tax"},{"UD":"union_dues"},{"MIP":"medical_insurance_pretax"},{"LI":"life_insurance"},{"II":"industrial_insurance"}]
 }
 

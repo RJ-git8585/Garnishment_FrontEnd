@@ -1,6 +1,3 @@
-from rest_framework import status
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from User_app.models import *
 from rest_framework.response import Response
 from User_app.serializers import *
@@ -23,7 +20,6 @@ class ChildSupport:
     def __init__(self):
         self.de_rules_file  = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/disposable earning rules.json')
 
-        self.ccpa_rules_file = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/ccpa_rules.json')
     def _load_json_file(self, file_path):
         """
         Helper method to load a JSON file.
@@ -39,7 +35,7 @@ class ChildSupport:
         except json.JSONDecodeError:
             raise Exception(f"Invalid JSON format in file: {file_path}")
 
-    def calculate_de_rule(self, record):
+    def calculate_deduction_rules(self, record):
         """
         Calculate the Disposable Earnings (DE) rule based on the state.
         """
@@ -53,11 +49,22 @@ class ChildSupport:
         # Find matching state in DE rules
         for rule in de_rules:
             if rule['State'].lower() == state.lower():
-                return rule['Disposable Earnings']
+                return rule['taxes_deduction']
 
         raise ValueError(f"No DE rule found for state: {state}")
+    
+    def get_mapping_keys(self,record):
+        """
+        Get the Mapping keys of tax.
+        """
+        keys = self.calculate_deduction_rules(record)
 
-
+        data = self._load_json_file(self.de_rules_file)
+        actual_keys = data.get("mapping", [])
+        actual_keys_list =  [next((actual_key_dict[key] for actual_key_dict in actual_keys if key in actual_key_dict), key)
+                                        for key in keys]
+        return actual_keys_list
+    
 
     def calculate_md(self, record):
         """
@@ -70,19 +77,11 @@ class ChildSupport:
         if gross_pay is None or state is None or payroll_taxes is None:
             raise ValueError("Record must include 'gross_pay', 'state', and 'taxs' fields.")
 
-        de_rule = self.calculate_de_rule(record)
-
-
-        data = self._load_json_file(self.ccpa_rules_file)
-        ccpa_rules = data.get("CCPA_Rules", {})
+        de_rule = self.get_mapping_keys(record)
 
         # Calculate mandatory deductions
-        mandatory_deductions = 0
-        if de_rule.lower() == "ccpa":
-            mandatory_tax_keys = ccpa_rules.get("Mandatory_deductions", [])
-            tax_amt = [tax.get(k, 0) for tax in payroll_taxes for k in mandatory_tax_keys if k in tax]
-            mandatory_deductions = sum(tax_amt)
-
+        tax_amt = [tax.get(k, 0) for tax in payroll_taxes for k in de_rule if k in tax]
+        mandatory_deductions = sum(tax_amt)
         return mandatory_deductions
     
     def calculate_gross_pay(self, record):
@@ -300,7 +299,7 @@ class MultipleChild(ChildSupport):
 # record=  {
 #           "ee_id": "EE005256",
 #           "gross_pay": 1500,
-#           "state": "Hawaii",
+#           "state": "california",
 #           "no_of_exemption_for_self": 2,
 #           "pay_period": "Biweekly",
 #           "filing_status": "married_filing_separate_return",
@@ -320,7 +319,7 @@ class MultipleChild(ChildSupport):
 #             },
 #             {
 #               "local_tax": 12.0
-#             }
+#             },{"medical_insurance_pretax":11},{"union_dues":222},{"CaliforniaSDI":12}
 #           ],
 #           "payroll_deductions": {
 #             "medical_insurance": 60
@@ -332,6 +331,9 @@ class MultipleChild(ChildSupport):
 #           "support_second_family": "No",
 #           "no_of_student_default_loan": 0,
 #           "arrears_greater_than_12_weeks": "Yes",
+#           "wages":2821.00,
+#           "commission_and_bonus":519,
+#           "non_accountable_allowances":454,
 #           "garnishment_data": [
 #             {
 #               "type": "Child Support",
