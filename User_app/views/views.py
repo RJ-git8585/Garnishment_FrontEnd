@@ -465,8 +465,8 @@ def get_employee_details(request):
     
 
 @api_view(['GET'])
-def get_order_details(request, cid):
-    employees=garnishment_order.objects.filter(cid=cid)
+def get_order_details(request):
+    employees=garnishment_order.objects.all()
     if employees.exists():
         try:
             serializer = garnishment_order_serializer(employees, many=True)

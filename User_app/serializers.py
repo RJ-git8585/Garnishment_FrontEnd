@@ -25,7 +25,7 @@ class EmployeeDetailsSerializer(serializers.ModelSerializer):
 class garnishment_order_serializer(serializers.ModelSerializer):
     class Meta:
         model = garnishment_order
-        fields = ['id','cid','eeid','case_id','state','type','sdu','start_date','end_date','amount','arrear_greater_than_12_weeks','arrear_amount']
+        fields = '__all__'
  
 
 class GetEmployerDetailsSerializer(serializers.ModelSerializer):
