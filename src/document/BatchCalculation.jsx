@@ -3,6 +3,9 @@ import { BASE_URL } from '../Config';
 import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
+import { FaTableCells } from "react-icons/fa6";
+
+import { BsFiletypeJson  } from "react-icons/bs";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 const BatchCalculation = () => {
   const [reloadKey, setReloadKey] = useState(0);
@@ -92,68 +95,73 @@ const BatchCalculation = () => {
     }
     setIsFullscreen(!isFullscreen);
   };
-
   const renderTable = (data) => {
     if (!data || !data.results) {
       return <p style={styles.error}>No valid results found.</p>;
     }
   
-    // Grouping data by client_id
-    const groupedData = data.results.reduce((acc, result) => {
-      result.employees.forEach((employee) => {
-        const clientId = result.cid;
-        if (!acc[clientId]) {
-          acc[clientId] = [];
-        }
-        acc[clientId].push(employee);
-      });
-      return acc;
-    }, {});
+    // Collect all rows in a single array
+    const tableRows = [];
   
-    return Object.keys(groupedData).map((clientId) => (
-      <div key={clientId} style={styles.resultContainer}>
-        <h4 style={styles.subTableHeader}>
-          CID: {clientId}
-        </h4>
-        <TableContainer component={Paper} style={{ marginTop: '20px', overflowX: 'auto' }}>
-          <Table>
-            <TableHead>
-              <TableRow style={{ backgroundColor: '#f5f5f5' }}>
-              <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}> CID</TableCell>
-                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Employee ID</TableCell>
-                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Case ID</TableCell>
-                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Garnishment Type</TableCell>
-                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Amount</TableCell>
-                <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Arrear Amount</TableCell> 
+    data.results.forEach((result) => {
+      result.cases.forEach((caseItem) => {
+        caseItem.garnishment_data.forEach((garnishment) => {
+          // Extract Arrear Amount from Agency > Arrear
+          const arrearAmount = caseItem.Agency?.find((agency) => agency.Arrear)?.Arrear[0]?.arrear_amount || 0;
+  
+          // Extract Withholding Child Support from Agency > withholding_amt
+          const withholdingChildSupport = caseItem.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]?.child_support || 0;
+  
+          // Ensure garnishment data exists before mapping
+          if (garnishment.data && garnishment.data.length > 0) {
+            garnishment.data.forEach(() => {
+              tableRows.push({
+                employeeId: caseItem.ee_id,
+                caseId: caseItem.case_id,
+                garnishmentType: garnishment.type,
+                arrearAmount,
+                withholdingChildSupport
+              });
+            });
+          }
+        });
+      });
+    });
+  
+    return (
+      <TableContainer component={Paper} style={{ marginTop: '20px', overflowX: 'auto' }}>
+        <Table>
+          <TableHead>
+            <TableRow style={{ backgroundColor: '#f5f5f5' }}>
+              <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Employee ID</TableCell>
+              <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Case ID</TableCell>
+              <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Garnishment Type</TableCell>
+              <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Arrear Amount</TableCell>
+              <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>Withholding Child Support</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tableRows.length > 0 ? (
+              tableRows.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell style={{ textAlign: 'center' }}>{row.employeeId}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>{row.caseId}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>{row.garnishmentType}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>{row.arrearAmount}</TableCell>
+                  <TableCell style={{ textAlign: 'center' }}>{row.withholdingChildSupport}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5} style={{ textAlign: 'center' }}>No Data Available</TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {groupedData[clientId].map((employee, empIndex) =>
-                employee.garnishment.map((garnishment, garnIndex) => (
-                  <TableRow key={`${empIndex}-${garnIndex}`}>
-                     <TableCell style={{ textAlign: 'center' }}>{clientId}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>{employee.ee_id}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>{garnishment.case_id}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>{garnishment.garnishment_type}</TableCell>
-                    <TableCell style={{ textAlign: 'center' }}>
-                      {garnishment.student_loan_withhold_amt ||
-                        garnishment.child_support_withhold_amt ||
-                        garnishment.federal_tax_withhold_amt ||
-                        '0'}
-                    </TableCell>
-                    {/* Display the arrear amount if available, otherwise show 'N/A' */}
-                    <TableCell style={{ textAlign: 'center' }}>
-                      {garnishment.arrear_amount ? garnishment.arrear_amount : '0'}
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    ));
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
   };
+    
  return (
     <div className="min-h-full" key={reloadKey}>
       <div className="container main ml-auto">
@@ -192,9 +200,9 @@ const BatchCalculation = () => {
                   <div style={styles.responseHeader}>
                     <h3>API Response</h3>
                     <div>
-                      <button style={styles.copyButton} onClick={handleCopy}><FaCopy /></button>
+                      <button style={styles.copyButton} onClick={handleCopy}> <FaCopy /></button>
                       <button style={styles.toggleButton} onClick={() => setShowTable(!showTable)}>
-                        {showTable ? 'Show JSON' : 'Show Table'}
+                         {showTable ? <BsFiletypeJson /> : <FaTableCells />}
                       </button>
                       <button style={styles.toggleButton} onClick={toggleFullscreen}>
                         {isFullscreen ? <FaCompress /> : <FaExpand />}
@@ -230,7 +238,7 @@ const styles = {
   responseContainer: { maxHeight: '400px', overflowY: 'auto' },
   response: { fontFamily: 'monospace', color: '#000', whiteSpace: 'pre-wrap', fontSize: '12px' },
   toggleButton: { padding: '5px 10px', fontSize: '12px', backgroundColor: 'rgb(62 72 76)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '5px' },
-  copyButton: { padding: '10px 20px', fontSize: '12px', backgroundColor: 'rgb(62 72 76)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' },
+  copyButton: { padding: '5px 10px', fontSize: '12px', backgroundColor: 'rgb(62 72 76)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' },
   resultContainer: { marginBottom: '30px' },
   subTableHeader: { fontSize: '18px', fontWeight: 'bold', margin: '10px 0' },
   employeeSection: { marginBottom: '20px', padding: '10px', backgroundColor: '#f9f9f9' },
