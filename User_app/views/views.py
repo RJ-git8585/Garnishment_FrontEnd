@@ -1039,153 +1039,6 @@ class GETSettingDetails(APIView):
             return JsonResponse({'message': 'Employee ID not found', 'status code': status.HTTP_404_NOT_FOUND})
 
 
-
-
-class convert_excel_to_json(APIView):
-    parser_classes = [MultiPartParser]
-
-    def post(self, request):
-        file = request.FILES.get('file')
-        try:
-            if not file:
-                return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
-
-            # try:
-            # Load the Excel workbook
-
-            employee_details = pd.read_excel(file, sheet_name='Employee Details ')
-            garnishment_order_details = pd.read_excel(file, sheet_name='Garnishment Order details')
-            payroll_batch_details = pd.read_excel(file, sheet_name='Payroll Batch Details', header=[0, 1])
-            # Concatenate the DataFrames
-            concatenated_df = pd.concat([employee_details, garnishment_order_details, payroll_batch_details], axis=1)
-            # Column cleanup
-            concatenated_df.columns = concatenated_df.columns.map(
-                lambda x: '_'.join(str(i) for i in x) if isinstance(x, tuple) else x
-            )
-
-            concatenated_df.rename(columns={
-                "Deductions 401K": 'Deductions 401(K)',
-                "Deductions_MedicalInsurance": 'medical_insurance',
-                "Deductions_SDI": 'SDI',
-                "Deductions_UnionDues": 'union_dues',
-                "Deductions_Voluntary": 'voluntary',
-                "GrossPay_Unnamed: 6_level_1": 'gross_pay',
-                "NetPay_Unnamed: 17_level_1": 'net_pay',
-                "PayPeriod_Unnamed: 3_level_1": 'Pay cycle',
-                "PayPeriod": "pay_period",
-                "PayDate_Unnamed: 5_level_1": 'Pay Date',
-                "PayrollDate_Unnamed: 4_level_1": 'Payroll Date',
-                "State Unnamed: 2_level_1": 'state',
-                'Taxes_FederalIncomeTax': 'federal_income_tax',
-                'Taxes_StateTax': 'state_tax',
-                'Taxes_LocalTax': 'local_tax',
-                "FilingStatus":'filing_status',
-
-                'Taxes_SocialSecurityTax': 'social_security_tax',
-                'Taxes_MedicareTax': 'medicare_tax',
-            }, inplace=True)
-
-
-            # Create a dictionary mapping merged_df column names to JSON keys
-            column_mapping = {
-                'EEID': 'ee_id',
-                "CID": 'cid',
-                'IsBlind': 'is_blind',
-                'Age': 'age',
-                'FilingStatus': 'filing_status',
-                'SupportSecondFamily': 'support_second_family',
-                'SpouseAge ': 'spouse_age',
-                'IsSpouseBlind': 'is_spouse_blind',
-                'Amount': 'amount',
-                'ArrearsGreaterThan12Weeks': 'arrears_greater_than_12_weeks',
-                "CaseID":'case_id',
-                'TotalExemptions':'no_of_exception_for_self',
-                'WorkState':'Work State',
-                'HomeState':'Home State',
-                'NumberofStudentLoan' : 'no_of_student_default_loan',
-                'No.OFExemptionIncludingSelf':'no_of_exception_for_self',
-                "Type":"garnishment_type",
-                "ArrearAmount":"arrear",
-                "State":"state"
-            }
-            concatenated_df = concatenated_df.rename(columns=column_mapping)
-            concatenated_df = concatenated_df.loc[:, ~concatenated_df.columns.duplicated(keep='first')] 
-
-
-            # print(concatenated_df.columns)
-            # Data preparation
-            concatenated_df['filing_status'] = concatenated_df['filing_status'].str.lower().str.replace(' ', '_')
-            concatenated_df['batch_id'] = "B001A"
-            concatenated_df['arrears_greater_than_12_weeks'] = concatenated_df['arrears_greater_than_12_weeks'].replace(
-                {True: "Yes", False: "No"}
-            )
-            concatenated_df['support_second_family'] = concatenated_df['support_second_family'].replace(
-                {True: "Yes", False: "No"}
-            )
-            concatenated_df['garnishment_type'] = concatenated_df['garnishment_type'].replace(
-                {'Student Loan': "student default loan"}
-            )
-            concatenated_df['filing_status'] = concatenated_df['filing_status'].apply(
-                lambda x: 'married_filing_separate' if x == 'married_filing_separate_return' else x
-            )
-            concatenated_df = concatenated_df.fillna(0)
-            # print(concatenated_df.columns)
-            # Create JSON structure
-            output_json = {}
-            for (batch_id, cid), group in concatenated_df.groupby(["batch_id", "cid"]):
-                employees = []
-                for _, row in group.iterrows():
-                    employee = {
-                        "ee_id": row["ee_id"],
-                        "gross_pay": row["gross_pay"],
-                        "state": row["state"],
-                        "no_of_exemption_for_self": row["no_of_exception_for_self"],
-                        "pay_period": row["pay_period"],
-                        "filing_status": row["filing_status"],
-                        "net_pay": row["net_pay"],
-                        "payroll_taxes": [
-                            {"federal_income_tax": row["federal_income_tax"]},
-                            {"social_security_tax": row["social_security_tax"]},
-                            {"medicare_tax": row["medicare_tax"]},
-                            {"state_tax": row["state_tax"]},
-                            {"local_tax": row["local_tax"]}
-                        ],
-                        "payroll_deductions": {
-                            "medical_insurance": row["medical_insurance"]
-                        },
-                        "age": row["age"],
-                        "is_blind": row["is_blind"],
-                        "is_spouse_blind": row["is_spouse_blind"],
-                        "spouse_age": row["spouse_age"],
-                        "support_second_family": row["support_second_family"],
-                        "no_of_student_default_loan": row["no_of_student_default_loan"],
-                        "arrears_greater_than_12_weeks": row["arrears_greater_than_12_weeks"],
-                        "garnishment_data": [
-                            {
-                                "type": row["garnishment_type"],
-                                "data": [
-                                    {
-                                        "case_id": row["case_id"],
-                                        "amount": row["amount"],
-                                        "arrear": row["arrear"]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                    employees.append(employee)
-
-                output_json["batch_id"] = batch_id  # Add batch_id key as a top-level key
-                if "cid" not in output_json:
-                    output_json["cid"] = {}  # Create "cid" as a top-level key
-                output_json["cid"][cid] = {"employees": employees}
-            return Response(output_json, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
-
 class APICallCountView(APIView):
     def get(self, request):
         logs = APICallLog.objects.values('date', 'endpoint', 'count')
@@ -1519,7 +1372,7 @@ def upsert_garnishment_order(request):
                         continue
 
                     # Retrieve existing order
-                    order = garnishment_order.objects.filter(cid=row['cid'], eeid=row['eeid']).first()
+                    order = garnishment_order.objects.filter(eeid=row['eeid']).first()
 
                     if order:
                         # Check for changes
@@ -1777,3 +1630,150 @@ class Employeegarnishment_orderMatch_details(APIView):
 
             }
         return Response(response_data, status=status.HTTP_200_OK)
+    
+class convert_excel_to_json(APIView):
+    parser_classes = [MultiPartParser]
+
+    def post(self, request):
+        file = request.FILES.get('file')
+        try:
+            if not file:
+                return Response({"error": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Read the Excel sheets
+            garnishment_order_details = pd.read_excel(file, sheet_name='Garnishment Order')
+            payroll_batch_details = pd.read_excel(file, sheet_name='Payroll Batch', header=[0, 1])
+
+            # Convert multi-index columns to single-level
+            payroll_batch_details.columns = payroll_batch_details.columns.map(
+                lambda x: '_'.join(str(i) for i in x) if isinstance(x, tuple) else x
+            )
+
+            # Strip spaces from column names
+            payroll_batch_details.columns = payroll_batch_details.columns.str.strip()
+            # Rename columns properly
+            column_mapping = {
+                'Unnamed: 1_level_0_EEID': 'ee_id',
+                'Unnamed: 0_level_0_CaseID' :"case_id",
+                'Unnamed: 2_level_0_PayPeriod': 'pay_period',
+                'Earnings_Gross Pay': 'gross_pay',
+                'Earnings_Wages': 'wages',
+                'Earnings_Commission+Bonus': 'commission_and_bonus',
+                'Earnings_Non Accountable Allowances': 'non_accountable_allowances',
+                'Taxes_FederalIncomeTax': 'federal_income_tax',
+                'Taxes_StateTax': 'state_tax',
+                'Taxes_LocalTax': 'local_tax',
+                'Taxes_MedicareTax': 'medicare_tax',
+                'Taxes_SocialSecurityTax': 'social_security_tax',
+                'Deductions_MedicalInsurance': 'medical_insurance',
+                'NetPay_Unnamed: 20_level_1': 'net_pay'
+            }
+            payroll_batch_details.rename(columns=column_mapping, inplace=True)
+            # Rename columns in garnishment_order_details
+           
+            column_mapping_garnishment = {
+                'EEID': 'ee_id',
+                'CaseID': 'case_id',
+                'FEIN': 'fein',
+                'IsBlind': 'is_blind',
+                'Age': 'age',
+                'FilingStatus': 'filing_status',
+                'SupportSecondFamily': 'support_second_family',
+                'SpouseAge ': 'spouse_age',
+                'IsSpouseBlind': 'is_spouse_blind',
+                'OrderedAmount': 'ordered_amount',
+                'ArrearsGreaterThan12Weeks': 'arrears_greater_than_12_weeks',
+                'TotalExemptions': 'no_of_exemption_including_self',
+                'WorkState': 'state',
+                'HomeState': 'home_state',
+                'NumberofStudentLoan': 'no_of_student_default_loan',
+                'No.OFExemptionIncludingSelf': 'no_of_exemption_including_self',
+                "Type": "garnishment_type",
+                "ArrearAmount": "arrear_amount",
+                "CurrentMedicalSupport": "current_medical_support",
+                "Past-Due MedicalSupport": "past_due_medical_support",
+                "CurrentSpousalSupport": "current_spousal_support",
+                "Past-DueSpousalSupport": "past_due_spousal_support"
+            }
+            garnishment_order_details.rename(columns=column_mapping_garnishment, inplace=True)
+
+            concatenated_df = pd.merge(garnishment_order_details, payroll_batch_details, on='ee_id')
+            concatenated_df = concatenated_df.loc[:, ~concatenated_df.columns.duplicated(keep='first')]
+
+            # Data transformations
+            concatenated_df['filing_status'] = concatenated_df['filing_status'].str.lower().str.replace(' ', '_')
+            concatenated_df['batch_id'] = "B001A"
+            concatenated_df['arrears_greater_than_12_weeks'] = concatenated_df['arrears_greater_than_12_weeks'].replace(
+                {1: "Yes", 0: "No"}
+            )
+            concatenated_df['support_second_family'] = concatenated_df['support_second_family'].replace(
+                {1: "Yes", 0: "No"}
+            )
+            concatenated_df['is_blind'] = concatenated_df['is_blind'].replace(
+                {1: True, 0: False}
+            )
+            concatenated_df['is_spouse_blind'] = concatenated_df['is_spouse_blind'].replace(
+                {1: True, 0: False}
+            )
+            concatenated_df['garnishment_type'] = concatenated_df['garnishment_type'].replace(
+                {'Student Loan': "student default loan"}
+            )
+            concatenated_df['filing_status'] = concatenated_df['filing_status'].apply(
+                lambda x: 'married_filing_separate' if x == 'married_filing_separate_return' else x
+            )
+            concatenated_df = concatenated_df.dropna()
+
+            # Create JSON structure
+            output_json = {"batch_id": "B001A", "cases": []}
+            for case_id, group in concatenated_df.groupby("case_id_y"):
+                for _, row in group.iterrows():
+                    employee = {
+                        "case_id": case_id,
+                        "ee_id": row["ee_id"],
+                        "work_state": row.get("state"),
+                        "no_of_exemption_for_self": row["no_of_exemption_including_self"],
+                        "pay_period": row["pay_period"],
+                        "filing_status": row["filing_status"],
+                        "wages": row.get("wages", 0),
+                        "commission_and_bonus": row.get("commission_and_bonus", 0),
+                        "non_accountable_allowances": row.get("non_accountable_allowances", 0),
+                        "gross_pay": row.get("gross_pay", 0),
+                        "payroll_taxes": {
+                            "federal_income_tax": row.get("federal_income_tax", 0),
+                            "social_security_tax": row.get("social_security_tax", 0),
+                            "medicare_tax": row.get("medicare_tax", 0),
+                            "state_tax": row.get("state_tax", 0),
+                            "local_tax": row.get("local_tax", 0)
+                        },
+                        "payroll_deductions": {
+                            "medical_insurance": row.get("medical_insurance", 0)
+                        },
+                        "net_pay": row.get("net_pay", 0),
+                        "age": row["age"],
+                        "is_blind": row["is_blind"],
+                        "is_spouse_blind": row["is_spouse_blind"],
+                        "spouse_age": row["spouse_age"],
+                        "support_second_family": row["support_second_family"],
+                        "no_of_student_default_loan": row["no_of_student_default_loan"],
+                        "arrears_greater_than_12_weeks": row["arrears_greater_than_12_weeks"],
+                        "garnishment_data": [
+                            {
+                                "type": row["garnishment_type"],
+                                "data": [{
+                                    "ordered_amount": row["ordered_amount"],
+                                    "arrear_amount": row["arrear_amount"],
+                                    "current_medical_support": row["current_medical_support"],
+                                    "past_due_medical_support": row["past_due_medical_support"],
+                                    "current_spousal_support": row["current_spousal_support"],
+                                    "past_due_spousal_support": row["past_due_spousal_support"]
+                                }]
+                            }
+                        ]
+                    }
+
+
+                    output_json["cases"].append(employee)
+
+            return Response(output_json, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

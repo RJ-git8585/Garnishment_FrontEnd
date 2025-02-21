@@ -108,7 +108,7 @@ class ChildSupport:
             value 
             for Amt_dict in child_support_data
             for key, value in Amt_dict.items() 
-            if key.lower().startswith('orderedamount')
+            if key.lower().startswith('ordered_amount')
         ]
 
     def get_list_support_arrearAmt(self, record):
@@ -117,7 +117,7 @@ class ChildSupport:
             value
             for Amt_dict in child_support_data
             for key, value in Amt_dict.items() 
-            if key.lower().startswith('arrearamount')
+            if key.lower().startswith('arrear_amount')
         ]
 
 
