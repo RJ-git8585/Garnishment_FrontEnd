@@ -265,49 +265,49 @@ class MultipleChild(ChildSupport):
         return child_support_amount, arrear_amount
     
     
-record=  {   "case_id": "C10851",
-                "ee_id": "EE005114",
-                "work_state": "Alabama",
-                "no_of_exemption_for_self": 1,
-                "pay_period": "Weekly",
-                "filing_status": "single",
-                "wages": 3132,
-                "commission_and_bonus": 0,
-                "non_accountable_allowances":0,
-                "gross_pay": 2000,
-                "payroll_taxes": {
-                    "federal_income_tax": 185,
-                    "social_security_tax": 0,
-                    "medicare_tax": 0,
-                    "state_tax": 89.32,
-                    "local_tax": 20.5
-                },
-                "payroll_deductions": {
-                    "medical_insurance": 0
-                },
-                "net_pay": 1673.08,
-                "age": 50,
-                "is_blind": True,
-                "is_spouse_blind": True,
-                "spouse_age": 43,
-                "support_second_family": "Yes",
-                "no_of_student_default_loan": 1,
-                "arrears_greater_than_12_weeks": "No",
-                "garnishment_data": [
-                            {
-                              "type": "child support",
-                              "data": [
-                                {
-                                  "case_id": "C10851",
-                                  "orderedamount": 200,
-                                  "arrearamount": 10
-                                }
-                              ]
-                            }
-                ]
-                }
+# record=  {   "case_id": "C10851",
+#                 "ee_id": "EE005114",
+#                 "work_state": "Alabama",
+#                 "no_of_exemption_for_self": 1,
+#                 "pay_period": "Weekly",
+#                 "filing_status": "single",
+#                 "wages": 3132,
+#                 "commission_and_bonus": 0,
+#                 "non_accountable_allowances":0,
+#                 "gross_pay": 2000,
+#                 "payroll_taxes": {
+#                     "federal_income_tax": 185,
+#                     "social_security_tax": 0,
+#                     "medicare_tax": 0,
+#                     "state_tax": 89.32,
+#                     "local_tax": 20.5
+#                 },
+#                 "payroll_deductions": {
+#                     "medical_insurance": 0
+#                 },
+#                 "net_pay": 1673.08,
+#                 "age": 50,
+#                 "is_blind": True,
+#                 "is_spouse_blind": True,
+#                 "spouse_age": 43,
+#                 "support_second_family": "Yes",
+#                 "no_of_student_default_loan": 1,
+#                 "arrears_greater_than_12_weeks": "No",
+#                 "garnishment_data": [
+#                             {
+#                               "type": "child support",
+#                               "data": [
+#                                 {
+#                                   "case_id": "C10851",
+#                                   "orderedamount": 200,
+#                                   "arrearamount": 10
+#                                 }
+#                               ]
+#                             }
+#                 ]
+#                 }
 
-tcsa = ChildSupport().get_list_supportAmt(record)
-print("result",MultipleChild().calculate(record) if len(tcsa) > 1 else SingleChild().calculate(record))
+# tcsa = ChildSupport().get_list_supportAmt(record)
+# print("result",MultipleChild().calculate(record) if len(tcsa) > 1 else SingleChild().calculate(record))
 
-print("11111ddd",ChildSupport().calculate_de(record))
+# print("11111ddd",ChildSupport().calculate_de(record))
