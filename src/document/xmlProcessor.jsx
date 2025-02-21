@@ -66,37 +66,47 @@ const XmlProcessor = () => {
       }
     }  
   };
+
+
   const exportToExcel = () => {
-    if (!response || !response.results) {
-      alert("No data available to export.");
-      return;
-    }
-  
-    const groupedData = response.results.reduce((acc, result) => {
-      result.employees.forEach((employee) => {
-        employee.garnishment_data.forEach((garnishment) => {
-          garnishment.data.forEach((caseData) => {
-            acc.push({
-              CID: result.cid,
-              "Employee ID": employee.ee_id,
-              "Case ID": caseData.case_id,
-              "Garnishment Type": garnishment.type,
-              Amount: caseData.amount,
-              "Arrear Amount": caseData.arrear,
-              "ER Deduction": employee.ER_deduction?.garnishment_fees || "N/A",
-            });
+  if (!response || !response.results) {
+    alert("No data available to export.");
+    return;
+  }
+
+  const formattedData = response.results.reduce((acc, result) => {
+    result.cases.forEach((caseItem) => {
+      caseItem.garnishment_data.forEach((garnishment) => {
+        garnishment.data.forEach((garnData) => {
+          acc.push({
+            "Employee ID": caseItem.ee_id,
+            "Case ID": caseItem.case_id,
+            "Garnishment Type": garnishment.type,
+            "Ordered Amount": garnData.ordered_amount ?? "N/A",
+            "Arrear Amount":
+              caseItem.Agency?.[1]?.Arrear?.[0]?.arrear_amount ?? "N/A",
+            "Withholding Amount":
+              caseItem.Agency?.[0]?.withholding_amt?.[0]?.child_support ?? "N/A",
+            "ER Deduction": caseItem.ER_deduction?.garnishment_fees || "N/A",
           });
         });
       });
-      return acc;
-    }, []);
-  
-    const worksheet = XLSX.utils.json_to_sheet(groupedData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Garnishment Data");
-  
-    XLSX.writeFile(workbook, "Garnishment_Data.xlsx");
-  };
+    });
+    return acc;
+  }, []);
+
+  if (formattedData.length === 0) {
+    alert("No valid data found for export.");
+    return;
+  }
+
+  const worksheet = XLSX.utils.json_to_sheet(formattedData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Garnishment Data");
+
+  XLSX.writeFile(workbook, "Garnishment_Data.xlsx");
+};
+
   
   const handleGarnishmentCalculation = async (data) => {
     try {
