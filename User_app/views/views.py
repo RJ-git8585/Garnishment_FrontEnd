@@ -1602,9 +1602,9 @@ class Employeegarnishment_orderMatch_details(APIView):
 
         
         merged_df = df_employees.merge(
-            df_garnishments[['eeid', 'cid', 'type']], 
-            left_on=['ee_id', 'cid'], 
-            right_on=['eeid', 'cid'], 
+            df_garnishments[['eeid', 'case_id', 'type']], 
+            left_on=['ee_id', 'case_id'], 
+            right_on=['eeid', 'case_id'], 
             how='left'
             ).drop(columns=['eeid'])
 
