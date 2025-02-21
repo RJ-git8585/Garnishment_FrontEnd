@@ -1,10 +1,16 @@
 import { BASE_URL } from '../Config';
 import Headertop from '../component/Headertop';
+import { FaTableCells } from "react-icons/fa6";
 import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
+import { BsFiletypeJson,BsFiletypeXml  } from "react-icons/bs";
+import Tooltip from '@mui/material/Tooltip';
+
 import Sidebar from '../component/sidebar';
 import { useState, useRef } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 import './xml.css'
+import * as XLSX from "xlsx";
+
 const XmlProcessor = () => {
   const [reloadKey, setReloadKey] = useState(0);
   const [jsonInput, setJsonInput] = useState('');
@@ -58,9 +64,40 @@ const XmlProcessor = () => {
       } finally {
         setLoading(false);
       }
-    }
+    }  
   };
-
+  const exportToExcel = () => {
+    if (!response || !response.results) {
+      alert("No data available to export.");
+      return;
+    }
+  
+    const groupedData = response.results.reduce((acc, result) => {
+      result.employees.forEach((employee) => {
+        employee.garnishment_data.forEach((garnishment) => {
+          garnishment.data.forEach((caseData) => {
+            acc.push({
+              CID: result.cid,
+              "Employee ID": employee.ee_id,
+              "Case ID": caseData.case_id,
+              "Garnishment Type": garnishment.type,
+              Amount: caseData.amount,
+              "Arrear Amount": caseData.arrear,
+              "ER Deduction": employee.ER_deduction?.garnishment_fees || "N/A",
+            });
+          });
+        });
+      });
+      return acc;
+    }, []);
+  
+    const worksheet = XLSX.utils.json_to_sheet(groupedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Garnishment Data");
+  
+    XLSX.writeFile(workbook, "Garnishment_Data.xlsx");
+  };
+  
   const handleGarnishmentCalculation = async (data) => {
     try {
       setLoading(true);
@@ -113,9 +150,9 @@ const XmlProcessor = () => {
 
   const renderTable = (data) => {
     if (!data || !data.results) {
-      return <p style={styles.error}>No valid results found.</p>;
+      return <p className="error">No valid results found.</p>;
     }
-  
+
     const groupedData = data.results.reduce((acc, result) => {
       result.employees.forEach((employee) => {
         const clientId = result.cid;
@@ -142,7 +179,7 @@ const XmlProcessor = () => {
     }, {});
   
     return Object.keys(groupedData).map((clientId) => (
-      <div key={clientId} style={styles.resultContainer}>
+      <div key={clientId} className="resultContainer">
         {/* <h4 style={styles.subTableHeader}>CID: {clientId}</h4> */}
         <TableContainer component={Paper} style={{ marginTop: '20px', overflowX: 'auto' }}>
           <Table>
@@ -185,26 +222,26 @@ const XmlProcessor = () => {
         <div className='contant content ml-auto customBatchProcessing'>
           <Headertop />
           <hr />
-          <div style={styles.container} ref={containerRef}>
-            <h2 style={styles.header}>Batch Processor</h2>
+          <div className="bg_cls container" ref={containerRef}>
+            <h2 className="header">Batch Processor</h2>
 
             {/* Display time response outside API response box */}
-            <div style={styles.timeContainer}>
+            <div className="timeContainer">
               {fileUploadTime && <p className="text-black">File Upload Time: <b>{fileUploadTime}</b> ms</p>}
               {garnishmentCalcTime && <p className="text-black">Garnishment Calculation Time:<b> {garnishmentCalcTime}</b> ms</p>}
             </div>
 
-            <div style={styles.columnContainer}>
-              <div style={styles.inputSection}>
-                <div style={styles.fileInputContainer}>
+            <div className="columnContainer">
+              <div className="inputSection">
+                <div className="fileInputContainer">
                   <input
                     type="file"
                     accept=".xlsx"
                     onChange={handleFileUpload}
-                    style={styles.fileInput}
+                    className="fileInput"
                   />
                   <button
-                    style={styles.resetButton}
+                    className="resetButton"
                     onClick={reloadComponent}
                     disabled={loading}
                   >
@@ -213,31 +250,49 @@ const XmlProcessor = () => {
                 </div>
 
                 <textarea
-                  style={styles.textArea}
+                  className="textArea"
                   placeholder="Paste your JSON here..."
                   value={jsonInput}
                   onChange={(e) => setJsonInput(e.target.value)}
                 />
-                {error && <p style={styles.error}>{error}</p>}
+                {error && <p className="error">{error}</p>}
               </div>
 
               {response && (
-                <div style={styles.responseSection}>
-                  <div style={styles.responseHeader}>
+                <div className="responseSection">
+                  <div className="responseHeader">
                     <h3>API Response</h3>
                     <div>
-                      <button style={styles.copyButton} onClick={handleCopy}><FaCopy /></button>
-                      <button style={styles.toggleButton} onClick={() => setShowTable(!showTable)}>
-                        {showTable ? 'Show JSON' : 'Show Table'}
-                      </button>
-                      <button style={styles.toggleButton} onClick={toggleFullscreen}>
-                        {isFullscreen ? <FaCompress /> : <FaExpand />}
-                      </button>
-                    </div>
+              <Tooltip title="Copy JSON Response">
+                <button className="copyButton" onClick={handleCopy}>
+                  <FaCopy />
+                </button>
+              </Tooltip>
+
+              <Tooltip title={showTable ? "Show JSON" : "Show Table"}>
+                <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
+                  {showTable ? <BsFiletypeJson /> : <FaTableCells />}
+                </button>
+              </Tooltip>
+
+              <Tooltip title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}>
+                <button className="toggleButton" onClick={toggleFullscreen}>
+                  {isFullscreen ? <FaCompress /> : <FaExpand />}
+                </button>
+              </Tooltip>
+
+              <Tooltip title="Export to Excel">
+                <button className="toggleButton" onClick={exportToExcel}>
+                  <BsFiletypeXml />
+                </button>
+              </Tooltip>
+          </div>
+
+
                   </div>
-                  <div style={styles.responseContainer}>
+                  <div className="responseContainer">
                     {showTable ? renderTable(response) : (
-                      <pre style={styles.response}>{JSON.stringify(response, null, 2)}</pre>
+                      <pre className="responsejson">{JSON.stringify(response, null, 2)}</pre>
                     )}
                   </div>
                 </div>
@@ -251,29 +306,6 @@ const XmlProcessor = () => {
 };
 
 
-const styles = {
-  // container: { maxWidth: '1000px', margin: '0 auto', padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#fff' },
-  // header: { textAlign: 'center', marginBottom: '10px' },
-  columnContainer: { display: 'flex', flexDirection: 'column', gap: '20px' },
-  inputSection: { flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' },
-  responseSection: { flex: 1.5, padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff' },
-  textArea: { width: '100%', height: '200px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', fontSize: '14px', backgroundColor: '#000', color: '#fff' },
-  button: { padding: '10px', fontSize: '14px', backgroundColor: 'rgb(163 163 163)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', width: '40%', marginLeft: '10px' },
-  resetButton: { padding: '10px', fontSize: '14px', backgroundColor: 'rgb(163 163 163)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginTop: '10px', width: '40%', marginLeft: '10px' },
-  error: { color: 'red', marginTop: '10px' },
-  responseHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' },
-  responseContainer: { maxHeight: '400px', overflowY: 'auto' },
-  response: { fontFamily: 'monospace', color: '#000', whiteSpace: 'pre-wrap', fontSize: '12px' },
-  toggleButton: { padding: '5px 10px', fontSize: '12px', backgroundColor: 'rgb(62 72 76)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '5px' },
-  copyButton: { padding: '10px 20px', fontSize: '12px', backgroundColor: 'rgb(62 72 76)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' },
-  resultContainer: { marginBottom: '30px' },
-  subTableHeader: { fontSize: '18px', fontWeight: 'bold', margin: '10px 0' },
-  employeeSection: { marginBottom: '20px', padding: '10px', backgroundColor: '#f9f9f9' },
-  employeeHeader: { fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' },
-  table: { width: '100%', borderCollapse: 'collapse', marginBottom: '20px' },
-  fileInputContainer: { display: 'flex', alignItems: 'center', gap: '10px' },
-  fileInput: { marginBottom: '10px' },
-  timeContainer: { marginBottom: '20px', fontSize: '14px', color: '#555' }
-};
+
 
 export default XmlProcessor;

@@ -16,6 +16,13 @@ body {
   min-width: 40px !important;
  
 }
+.MuiDataGrid-cell.MuiDataGrid-cell--textLeft {
+  text-transform: capitalize;
+}
+.bg_cls {
+  background: #fff !important;
+  padding: 10px !important;
+}
 .css-10fm534 {
   padding-left: 5px !important;
 }

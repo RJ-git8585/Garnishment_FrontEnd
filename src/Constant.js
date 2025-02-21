@@ -59,15 +59,15 @@ export const StateList = [
 
   export const PeriodList = [
     { id: 1, label: 'Weekly' },
-    { id: 2, label: 'BiWeekly' },
+    { id: 2, label: 'Biweekly' },
     { id: 3, label: 'SemiMonthly' },
     { id: 4, label: 'Monthly' }
   ];
 
   export const FillingStatusList = [
-    { id: 1, label: 'Married filing separate return' },
-    { id: 2, label: 'Married filing joint return' },
-    { id: 3, label: 'Single filing status' },
-    { id: 4, label: 'Head of household' }
+    { id: 1, label: 'Married filing separate' },
+    { id: 2, label: 'Married Filing Joint Return' },
+    { id: 3, label: 'Single' },
+    { id: 4, label: 'Head of Household' }
   ];
   

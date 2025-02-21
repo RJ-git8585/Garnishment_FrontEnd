@@ -34,6 +34,7 @@ import EmployeeEditForm from './pages/EmployeeEditForm';
 import ComImport from './pages/ComImport';
 import OrdImport from './pages/OrdImport';
 import XmlProcessor from './document/xmlProcessor';
+import CaseRegister from './pages/CaseRegister';
 
 function RoutesPath() {
   return (
@@ -44,14 +45,16 @@ function RoutesPath() {
         {/* Public routes */}
         <Route path="/" element={<PublicRoute restricted={true}><Form /></PublicRoute>} />
         <Route path="/signup" element={<PublicRoute restricted={true}><Signup /></PublicRoute>} />
+        
         <Route path="/forgot" element={<PublicRoute restricted={true}><Forgot /></PublicRoute>} />
         <Route path="/reset-password/:token" element={<PublicRoute restricted={true}><PasswordResetConfirm /></PublicRoute>} />
         {/* PRIVATE PAGE */}
-        <Route path="/employee/edit/:cid/:ee_id" element={<EmployeeEditForm />} /> {/* New route for editing */}
+        <Route path="/employee/edit/:case_id/:ee_id" element={<EmployeeEditForm />} /> {/* New route for editing */}
         <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
         <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
         <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path="/case" element={<PrivateRoute><CaseRegister /></PrivateRoute>} />
         <Route path="/setting" element={<PrivateRoute><Setting /></PrivateRoute>} />
         <Route path="/help" element={<PrivateRoute><Help /></PrivateRoute>} />
         <Route path="/tax" element={<PrivateRoute><Tax /></PrivateRoute>} />

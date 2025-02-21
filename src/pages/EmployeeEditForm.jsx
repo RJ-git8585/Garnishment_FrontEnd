@@ -7,11 +7,16 @@ import { StateList,GenderList,PeriodList,FillingStatusList } from "../Constant";
 import { Radio,TextField } from "@mui/material"; 
 import { FormControl, InputLabel, Select, MenuItem,FormLabel, RadioGroup, FormControlLabel } from "@mui/material";
 
+
+
+
 function EmployeeEditForm() {
-  const { cid, ee_id } = useParams();
+  const { case_id, ee_id } = useParams();
+  console.log(case_id, ee_id)
   const navigate = useNavigate();
   const [employeeData, setEmployeeData] = useState({
     ee_id: "",
+    case_id: "",
     social_security_number: "",
     blind: "",
     age: "",
@@ -32,7 +37,7 @@ function EmployeeEditForm() {
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/User/GetSingleEmployee/${cid}/${ee_id}/`);
+        const response = await fetch(`${BASE_URL}/User/GetSingleEmployee/${case_id}/${ee_id}/`);
         const jsonData = await response.json();
         setEmployeeData(jsonData.data[0]);
         console.log(jsonData);
@@ -41,7 +46,7 @@ function EmployeeEditForm() {
       }
     };
     fetchEmployeeData();
-  }, [cid, ee_id]);
+  }, [case_id, ee_id]);
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;
@@ -62,7 +67,7 @@ function EmployeeEditForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL}/User/update_employee_details/${cid}/${ee_id}/`, {
+      const response = await fetch(`${BASE_URL}/User/update_employee_details/${case_id}/${ee_id}/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(employeeData),
@@ -96,7 +101,7 @@ function EmployeeEditForm() {
         },
       }}
       InputProps={{
-        readOnly: name === "ee_id",
+        readOnly: name === "ee_id" || name === "case_id",
       }}
       inputProps={{
         ...(name === "social_security_number" && { maxLength: 11, placeholder: "XXX-XX-XXXX" }),
@@ -104,7 +109,7 @@ function EmployeeEditForm() {
     />
   );
 
-  const renderRadio = (label, name) => (
+  const renderRadio = (label, name, garnishment_fees_status = false) => (
     <FormControl fullWidth sx={{ mt: 1 }}>
       <FormLabel sx={{ fontSize: "14px", color: "#374151", fontWeight: 500 }}>
         {label}
@@ -120,8 +125,16 @@ function EmployeeEditForm() {
           <FormControlLabel
             key={option}
             value={option}
-            control={<Radio color={option === "false" ? "error" : "primary"} />}
-            label={option === "true" ? "Yes" : "No"}
+            control={<Radio color={option === "false" ? "error" : "success"} />}
+            label={
+              garnishment_fees_status
+                ? option === "true"
+                  ? "Active"
+                  : "Suspended"
+                : option === "true"
+                ? "Yes"
+                : "No"
+            }
             sx={{
               "& .MuiTypography-root": {
                 fontSize: "14px",
@@ -134,6 +147,7 @@ function EmployeeEditForm() {
       </RadioGroup>
     </FormControl>
   );
+  
   const renderSelect = (label, name, options) => (
     <FormControl fullWidth sx={{ mt: 1 }}>
       <InputLabel>{label}</InputLabel>
@@ -150,7 +164,7 @@ function EmployeeEditForm() {
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": { borderColor: "#6366F1" },
         }}
       >
-        <MenuItem value="">Select {label}</MenuItem>
+        <MenuItem value="" disabled>Select {label}</MenuItem>
         {options.map((option) => (
           <MenuItem key={option.id} value={option.label}>
             {option.label}
@@ -167,27 +181,31 @@ function EmployeeEditForm() {
           <Headertop />
           <hr />
           <h2 className="mb-2">Edit Employee</h2>
-          <hr className="mb-4" />
+        
           <form onSubmit={handleSubmit} className="space-y-6 form_cls">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 p-4">
-              {renderInput("Employee ID", "ee_id")}
-              {renderInput("Social Security Number", "social_security_number")}
-              {renderRadio("Is Blind", "is_blind")}
-              {renderInput("Age", "age")}
-              {renderSelect("Gender", "gender", GenderList)}
-              {renderSelect("Home State", "home_state", StateList)}
-              {renderSelect("Work State", "work_state", StateList)}
-              {renderSelect("Pay Period", "pay_period" , PeriodList)}
-              {renderRadio("Support Family", "support_second_family")}
-              {renderInput("Exemptions", "number_of_exemptions")}
-              {renderSelect("Filing Status", "filing_status",FillingStatusList)}
-              {renderInput("Marital Status", "marital_status")}
-              {renderInput("Student Default Loan", "number_of_student_default_loan")}
-              {renderInput("Spouse Age", "spouse_age")}
-              {renderRadio("Garnishment Fees Status", "garnishment_fees_status")}
-              {renderInput("Garnishment Fees Suspended Till", "garnishment_fees_suspended_till", "date")}
-              {renderRadio("Spouse Blind", "is_spouse_blind")}
-            </div>
+                  {renderInput("Employee ID", "ee_id")}
+                  {renderInput("Case ID", "case_id")}
+                  {renderInput("Social Security Number", "social_security_number")}
+                  {renderInput("Age", "age")}
+                  {renderSelect("Gender", "gender", GenderList)}
+                  {renderSelect("Home State", "home_state", StateList)}
+                  {renderSelect("Work State", "work_state", StateList)}
+                  {renderSelect("Pay Period", "pay_period" , PeriodList)}
+                  {renderInput("Exemptions", "number_of_exemptions")}
+                  {renderSelect("Filing Status", "filing_status",FillingStatusList)}
+                  {renderInput("Marital Status", "marital_status")}
+                  {renderInput("Student Default Loan", "number_of_student_default_loan")}
+                  {renderInput("Spouse Age", "spouse_age")}
+                  {renderInput("Garnishment Fees Suspended Till", "garnishment_fees_suspended_till", "date")}
+              </div>
+              <hr className="" />
+              <div className="grid grid-cols-1 m-0 gap-6 sm:grid-cols-2 p-4">
+                  {renderRadio("Garnishment Fees Status", "garnishment_fees_status", true)}
+                  {renderRadio("Support Family", "support_second_family")}
+                  {renderRadio("Is Blind", "is_blind")}
+                  {renderRadio("Spouse Blind", "is_spouse_blind")}
+              </div>
             <div className="flex justify-end mt-6">
               <button
                 type="submit"
@@ -196,7 +214,7 @@ function EmployeeEditForm() {
                 Save Changes
               </button>
             </div>
-          </form>
+          </form> 
         </div>
       </div>
     </div>

@@ -46,7 +46,12 @@ const Sidebar = () => {
     {
       text: 'Orders',
       icon: <LiaFirstOrderAlt />,
-      path: '/orders',
+      path: '/orders',  
+      // isExpandable: true,
+      // submenu: [
+      //   { text: 'Orders', icon: <FcProcess />, path: '/orders' },
+      //   { text: 'Case', icon: <LuLoader />, path: '/Case' },
+      // ],
     },
     {
       text: 'Fees',
@@ -130,7 +135,6 @@ const Sidebar = () => {
                 fontWeight: '200', // Remove bold font weight when collapsed
               };
             }
-
             return activeStyle;
           }}
         >

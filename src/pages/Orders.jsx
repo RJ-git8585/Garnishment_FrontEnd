@@ -25,7 +25,7 @@ function Orders({ onDeleteSuccess }) {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/User/GetOrderDetails/${cid}/`);
+        const response = await fetch(`${BASE_URL}/User/GetOrderDetails/`);
         const jsonData = await response.json();
         setData(jsonData.data);
       } catch (error) {
@@ -55,7 +55,7 @@ function Orders({ onDeleteSuccess }) {
               <DataGrid
                 getRowId={(row) => row.id}
                 columns={[
-                  { field: 'cid', headerName: 'CID', width: 120 },
+       
                   {
                     field: 'eeid', headerName: 'Employee Id', width: 120},
                   //   renderCell: (params) => (
@@ -67,6 +67,7 @@ function Orders({ onDeleteSuccess }) {
                   //     </Link>
                   //   )
                   // },
+                  { field: 'fein', headerName: 'FEIN', width: 120 },
                   { field: 'case_id', headerName: 'CaseID', width: 120 },
                   { field: 'state', headerName: 'State', width: 140 },
                   { field: 'type', headerName: 'GarrnishmentType', width: 150 },

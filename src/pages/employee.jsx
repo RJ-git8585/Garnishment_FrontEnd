@@ -17,6 +17,7 @@ function Employee({ onDeleteSuccess }) {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [totalRows, setTotalRows] = useState(0);
+  const [employeeRules, setEmployeeRules] = useState({});
 
   const exportLink = `${BASE_URL}/User/ExportEmployees/${cid}/`;
 
@@ -25,8 +26,16 @@ function Employee({ onDeleteSuccess }) {
     try {
       const response = await fetch(`${BASE_URL}/User/EmployeeRules/?page=${page + 1}&limit=${pageSize}`);
       const jsonData = await response.json();
+      
       setData(jsonData.data || []);
       setTotalRows(jsonData.total || 0);
+
+      // Map ee_id to case_id
+      const caseIdMap = {};
+      jsonData.data.forEach(rule => {
+        caseIdMap[rule.ee_id] = rule.case_id; // Ensure API response has these fields
+      });
+      setEmployeeRules(caseIdMap);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -35,20 +44,26 @@ function Employee({ onDeleteSuccess }) {
   }, [page, pageSize]);
 
   useEffect(() => {
+    
     fetchData();
   }, [fetchData]);
 
   const columns = [
-    { field: "cid", headerName: "Company ID", width: 120 },
-    { 
+    // { field: "cid", headerName: "Company ID", width: 120 }, a
+     { 
       field: "ee_id", 
       headerName: "Employee ID", 
       width: 150,
-      renderCell: (params) => (
-        <Link to={`/employee/edit/${cid}/${params.value}`} className="text-blue-500 hover:underline">
-          {params.value}
-        </Link>
-      ),
+      renderCell: (params) => {
+        const caseId = employeeRules[params.value] || "default_case_id"; 
+        console.log(caseId)
+        // alert(caseId)// Fallback if missing
+        return (
+          <Link to={`/employee/edit/${caseId}/${params.value}`} className="text-blue-500 hover:underline">
+            {params.value}
+          </Link>
+        );
+      }
     },
     { field: "social_security_number", headerName: "SSN", width: 150 },
     { field: "age", headerName: "Age", width: 100 },
