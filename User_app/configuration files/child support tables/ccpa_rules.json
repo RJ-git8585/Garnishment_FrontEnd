@@ -1,11 +1,12 @@
 {
     "CCPA_Rules": {
-        "Mandatory_deductions": ["federal_income_tax" ,"social_security_tax" ,"medicare_tax", "state_tax" , "local_tax"]
+        "Mandatory_deductions": ["FIT" ,"SST" ,"MT", "ST" , "LT"]
       },
+
       "States": [
         {
           "State": "California",
-          "Mandatory_deductions": "(FIT + SST + MT + California SDI)"
+          "Mandatory_deductions": ["FIT" , "SST" , "MT" , "CaliforniaSDI"]
         },
         {
           "State": "Colorado",

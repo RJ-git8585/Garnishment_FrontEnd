@@ -72,11 +72,11 @@ class StateTaxView(APIView):
                     'status_code': status.HTTP_200_OK
                 }
             )
-        except Employee_Details.DoesNotExist:
-            return Response(
-                {"error": "Employee details not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
+        # except Employee_Details.DoesNotExist:
+        #     return Response(
+        #         {"error": "Employee details not found"},
+        #         status=status.HTTP_404_NOT_FOUND
+        #     )
         except Employer_Profile.DoesNotExist:
             return Response(
                 {
