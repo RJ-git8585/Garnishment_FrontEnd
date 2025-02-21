@@ -11,7 +11,7 @@ from django.utils.decorators import method_decorator
 from auth_project.garnishment_library import garnishment_fees as garnishment_fees 
 from auth_project.garnishment_library.federal_case import federal_tax
 from concurrent.futures import ProcessPoolExecutor
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CalculationDataView(APIView):
@@ -123,6 +123,7 @@ class CalculationDataView(APIView):
             return {"error": result["error"]}
 
         return record
+
     def post(self, request, *args, **kwargs):
         try:
             data = request.data
@@ -136,19 +137,16 @@ class CalculationDataView(APIView):
                 return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
 
             output = []
-            futures = []
 
-            # Use ThreadPoolExecutor instead of ProcessPoolExecutor
-            with ThreadPoolExecutor(max_workers=50) as executor:
-                future_to_case = {executor.submit(self.calculate_garnishment_wrapper, case_info): case_info for case_info in Cases_data}
+            for case_info in Cases_data:
+                cid_summary = {"cases": []}
 
-                for future in as_completed(future_to_case):
-                    try:
-                        result = future.result()
-                        if result:
-                            output.append({"cases": [result]})  # Append processed case data
-                    except Exception as e:
-                        output.append({"error": str(e), "case": future_to_case[future]})  # Capture errors per case
+                results = self.calculate_garnishment_wrapper(case_info)
+
+                if results:  
+                    cid_summary["cases"].append(results)  # Append the full record instead of just keys
+
+                output.append(cid_summary)
 
             return Response({
                 "message": "Result Generated Successfully",
@@ -161,3 +159,4 @@ class CalculationDataView(APIView):
             return Response({"error": "Employee details not found", "status": status.HTTP_404_NOT_FOUND})
         except Exception as e:
             return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
+
