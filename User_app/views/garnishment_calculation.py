@@ -10,9 +10,7 @@ from auth_project.garnishment_library.student_loan import student_loan_calculate
 from django.utils.decorators import method_decorator
 from auth_project.garnishment_library import garnishment_fees as garnishment_fees 
 from auth_project.garnishment_library.federal_case import federal_tax
-from concurrent.futures import ProcessPoolExecutor
-from concurrent.futures import ThreadPoolExecutor
-
+from concurrent.futures import ProcessPoolExecutor, as_completed
 @method_decorator(csrf_exempt, name='dispatch')
 class CalculationDataView(APIView):
     """
@@ -138,15 +136,22 @@ class CalculationDataView(APIView):
 
             output = []
 
-            for case_info in Cases_data:
-                cid_summary = {"cases": []}
-
-                results = self.calculate_garnishment_wrapper(case_info)
-
-                if results:  
-                    cid_summary["cases"].append(results)  # Append the full record instead of just keys
-
-                output.append(cid_summary)
+            # Use ProcessPoolExecutor for parallel processing
+            with ProcessPoolExecutor() as executor:
+                # Submit each case processing task to the pool
+                future_to_case = {executor.submit(self.calculate_garnishment_wrapper, case_info): case_info for case_info in Cases_data}
+                
+                # Wait for each task to complete and process the results
+                for future in as_completed(future_to_case):
+                    case_info = future_to_case[future]
+                    try:
+                        results = future.result()
+                        if results:  
+                            cid_summary = {"cases": [{"case_info": case_info, "results": results}]}
+                            output.append(cid_summary)
+                    except Exception as e:
+                        # Handle errors during case processing
+                        output.append({"error": f"Error processing case: {str(e)}", "case_info": case_info})
 
             return Response({
                 "message": "Result Generated Successfully",
