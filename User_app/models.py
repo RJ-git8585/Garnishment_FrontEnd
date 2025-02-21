@@ -129,6 +129,7 @@ class payroll(models.Model):
 class garnishment_order(models.Model):
     cid = models.CharField(max_length=254)
     eeid= models.CharField(max_length=254)
+    fein= models.CharField(max_length=254)
     case_id= models.CharField(max_length=255, null=True, blank=True)
     state= models.CharField(max_length=255)
     type= models.CharField(max_length=255)
