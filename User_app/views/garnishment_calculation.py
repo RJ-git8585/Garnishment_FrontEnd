@@ -139,7 +139,7 @@ class CalculationDataView(APIView):
             futures = []
 
             # Use ThreadPoolExecutor instead of ProcessPoolExecutor
-            with ThreadPoolExecutor(max_workers=150) as executor:
+            with ThreadPoolExecutor(max_workers=100) as executor:
                 future_to_case = {executor.submit(self.calculate_garnishment_wrapper, case_info): case_info for case_info in Cases_data}
 
                 for future in as_completed(future_to_case):
