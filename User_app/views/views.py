@@ -1643,12 +1643,11 @@ class convert_excel_to_json(APIView):
             # Read the Excel sheets
             garnishment_order_details = pd.read_excel(file, sheet_name='Garnishment Order')
             payroll_batch_details = pd.read_excel(file, sheet_name='Payroll Batch', header=[0, 1])
-
+            
             # Convert multi-index columns to single-level
             payroll_batch_details.columns = payroll_batch_details.columns.map(
-                lambda x: '_'.join(str(i) for i in x) if isinstance(x, tuple) else x
-            )
-
+                            lambda x: '_'.join(str(i) for i in x) if isinstance(x, tuple) else x
+                        )
             # Strip spaces from column names
             payroll_batch_details.columns = payroll_batch_details.columns.str.strip()
             # Rename columns properly
@@ -1670,7 +1669,7 @@ class convert_excel_to_json(APIView):
             }
             payroll_batch_details.rename(columns=column_mapping, inplace=True)
             # Rename columns in garnishment_order_details
-           
+            
             column_mapping_garnishment = {
                 'EEID': 'ee_id',
                 'CaseID': 'case_id',
@@ -1696,10 +1695,9 @@ class convert_excel_to_json(APIView):
                 "Past-DueSpousalSupport": "past_due_spousal_support"
             }
             garnishment_order_details.rename(columns=column_mapping_garnishment, inplace=True)
-
+            
             concatenated_df = pd.merge(garnishment_order_details, payroll_batch_details, on='ee_id')
             concatenated_df = concatenated_df.loc[:, ~concatenated_df.columns.duplicated(keep='first')]
-
             # Data transformations
             concatenated_df['filing_status'] = concatenated_df['filing_status'].str.lower().str.replace(' ', '_')
             concatenated_df['batch_id'] = "B001A"
@@ -1719,10 +1717,8 @@ class convert_excel_to_json(APIView):
                 {'Student Loan': "student default loan"}
             )
             concatenated_df['filing_status'] = concatenated_df['filing_status'].apply(
-                lambda x: 'married_filing_separate' if x == 'married_filing_separate_return' else x
-            )
+                lambda x: 'married_filing_separate' if x == 'married_filing_separate_return' else x)
             concatenated_df = concatenated_df.dropna()
-
             # Create JSON structure
             output_json = {"batch_id": "B001A", "cases": []}
             for case_id, group in concatenated_df.groupby("case_id_y"):
@@ -1743,7 +1739,13 @@ class convert_excel_to_json(APIView):
                             "social_security_tax": row.get("social_security_tax", 0),
                             "medicare_tax": row.get("medicare_tax", 0),
                             "state_tax": row.get("state_tax", 0),
-                            "local_tax": row.get("local_tax", 0)
+                            "local_tax": row.get("local_tax", 0),
+                            "union_dues":row.get("Deductions_UnionDues"),
+                            "wilmington_tax":row.get("Taxes_WilmingtonTax"),
+                            "medical_insurance_pretax":row.get("Deductions_MedicalInsurancePretax"),
+                            "industrial_insurance":row.get("Deductions_Industrial Insurance"),
+                            "life_insurance":row.get("Deductions_Life Insurance"),
+                            "CaliforniaSDI":row.get("Deductions_CaliforniaSDI")
                         },
                         "payroll_deductions": {
                             "medical_insurance": row.get("medical_insurance", 0)
@@ -1770,9 +1772,9 @@ class convert_excel_to_json(APIView):
                             }
                         ]
                     }
-
-
+            
                     output_json["cases"].append(employee)
+
 
             return Response(output_json, status=status.HTTP_200_OK)
         except Exception as e:

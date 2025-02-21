@@ -10,7 +10,9 @@ from auth_project.garnishment_library.student_loan import student_loan_calculate
 from django.utils.decorators import method_decorator
 from auth_project.garnishment_library import garnishment_fees as garnishment_fees 
 from auth_project.garnishment_library.federal_case import federal_tax
-from concurrent.futures import ProcessPoolExecutor, as_completed
+from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 @method_decorator(csrf_exempt, name='dispatch')
 class CalculationDataView(APIView):
     """
@@ -121,7 +123,6 @@ class CalculationDataView(APIView):
             return {"error": result["error"]}
 
         return record
-
     def post(self, request, *args, **kwargs):
         try:
             data = request.data
@@ -135,23 +136,19 @@ class CalculationDataView(APIView):
                 return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
 
             output = []
+            futures = []
 
-            # Use ProcessPoolExecutor for parallel processing
-            with ProcessPoolExecutor() as executor:
-                # Submit each case processing task to the pool
+            # Use ThreadPoolExecutor instead of ProcessPoolExecutor
+            with ThreadPoolExecutor(max_workers=150) as executor:
                 future_to_case = {executor.submit(self.calculate_garnishment_wrapper, case_info): case_info for case_info in Cases_data}
-                
-                # Wait for each task to complete and process the results
+
                 for future in as_completed(future_to_case):
-                    case_info = future_to_case[future]
                     try:
-                        results = future.result()
-                        if results:  
-                            cid_summary = {"cases": [{"case_info": case_info, "results": results}]}
-                            output.append(cid_summary)
+                        result = future.result()
+                        if result:
+                            output.append({"cases": [result]})  # Append processed case data
                     except Exception as e:
-                        # Handle errors during case processing
-                        output.append({"error": f"Error processing case: {str(e)}", "case_info": case_info})
+                        output.append({"error": str(e), "case": future_to_case[future]})  # Capture errors per case
 
             return Response({
                 "message": "Result Generated Successfully",
@@ -164,4 +161,3 @@ class CalculationDataView(APIView):
             return Response({"error": "Employee details not found", "status": status.HTTP_404_NOT_FOUND})
         except Exception as e:
             return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
-
