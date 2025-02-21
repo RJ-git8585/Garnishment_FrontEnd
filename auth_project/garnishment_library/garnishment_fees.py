@@ -13,7 +13,7 @@ class gar_fees_rules_engine():
         return serializer.data
     
     def calculate_rule(self,withhold_amt, percentage, min_value=0):
-        return max(min_value, 0 if withhold_amt == 0 else withhold_amt * percentage)
+        return round(max(min_value, 0 if withhold_amt == 0 else withhold_amt * percentage),1)
 
     def find_rule(self,record):
         work_state=record.get("work_state").lower()
@@ -106,10 +106,10 @@ class gar_fees_rules_engine():
         return "$2 for each deduction taken after the levy has expired or is released"
     
     def Rule_13(self, record, withhold_amt):
-        return f'{withhold_amt*0.02}, Payable by {self.get_payable_name("Rule_13")}'
+        return f'{round((withhold_amt*0.02),1)}, Payable by {self.get_payable_name("Rule_13")}'
     
     def Rule_14(self, record, withhold_amt):
-        return f'{withhold_amt*0.02}, Payable by {self.get_payable_name("Rule_14")}'
+        return f'{round((withhold_amt*0.02),1)}, Payable by {self.get_payable_name("Rule_14")}'
     
     def Rule_15(self, record, withhold_amt):
         return f'$5 from landlord amount'
