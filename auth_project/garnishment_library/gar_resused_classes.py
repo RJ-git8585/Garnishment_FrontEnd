@@ -2,6 +2,7 @@ import json
 import os
 from django.contrib.staticfiles import finders
 from django.conf import settings 
+from User_app.constants import *
 
 class DisposableIncomeCalculator:
     def __init__(self, x=0.25):
@@ -13,6 +14,8 @@ class DisposableIncomeCalculator:
         return monthly_garnishment_amount
 
 class AllocationMethodIdentifiers:
+
+
     def __init__(self, work_state):
         self.work_state = work_state.lower()  
 
@@ -38,6 +41,8 @@ class AllocationMethodIdentifiers:
 
 
 class CalculateAmountToWithhold:
+
+
     def __init__(self, allowed_amount_for_garnishment, amount_to_withhold,allocation_method_for_garnishment,number_of_child_support_order):
         self.allowed_amount_for_garnishment = allowed_amount_for_garnishment
         self.amount_to_withhold = amount_to_withhold
@@ -47,7 +52,7 @@ class CalculateAmountToWithhold:
     def calculate(self, amount_to_withhold_child):
         if (self.allowed_amount_for_garnishment - self.amount_to_withhold) >= 0:
             return amount_to_withhold_child
-        elif self.allocation_method_for_garnishment == "Prorate":
+        elif self.allocation_method_for_garnishment == ChildSupportFields.PRORATE:
             ratio = amount_to_withhold_child / self.amount_to_withhold
             return self.allowed_amount_for_garnishment * ratio
         elif amount_to_withhold_child > 0:
@@ -66,7 +71,7 @@ class CalculateArrearAmountForChild:
     def calculate(self, arrears_amt_Child):
         if (self.amount_left_for_arrears - self.allowed_child_support_arrear) >= 0:
             return arrears_amt_Child
-        elif self.allocation_method_for_arrears == "Prorate":
+        elif self.allocation_method_for_arrears == ChildSupportFields.PRORATE:
             ratio = arrears_amt_Child / self.allowed_child_support_arrear
             return self.amount_left_for_arrears * ratio
         elif self.amount_left_for_arrears > 0:
@@ -119,11 +124,11 @@ class WLIdentifier:
 class GarnishmentFeesIdentifier:
     @staticmethod
     def calculate(record):
-        work_state = record.get("work_state").lower()
-        pay_period = record.get("pay_period")
+        work_state = record.get(EmployeeFields.WORK_STATE).lower()
+        pay_period = record.get(EmployeeFields.PAY_PERIOD).lower()
 
         gar_type = record.get("garnishment_data")[0]
-        garnishment_type = gar_type.get('type', '').replace('_', ' ').title() 
+        garnishment_type = gar_type.get(EmployeeFields.GARNISHMENT_TYPE).replace('_', ' ').title() 
 
         file_path = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/garnishment_fees.json')
 

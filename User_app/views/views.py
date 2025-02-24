@@ -1730,7 +1730,7 @@ class convert_excel_to_json(APIView):
                         "case_id": case_id,
                         "ee_id": row["ee_id"],
                         "work_state": row.get("state"),
-                        "no_of_exemption_for_self": row["no_of_exemption_including_self"],
+                        "no_of_exemption_including_self": row["no_of_exemption_including_self"],
                         "pay_period": row["pay_period"],
                         "filing_status": row["filing_status"],
                         "wages": row.get("wages", 0),

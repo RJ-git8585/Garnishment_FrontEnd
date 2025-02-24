@@ -1,5 +1,7 @@
 from User_app.models import *
 from User_app.serializers import *
+from User_app.constants import *
+
 
 class gar_fees_rules_engine():
     def __init__(self):
@@ -16,10 +18,10 @@ class gar_fees_rules_engine():
         return round(max(min_value, 0 if withhold_amt == 0 else withhold_amt * percentage),1)
 
     def find_rule(self,record):
-        work_state=record.get("work_state").lower()
+        work_state=record.get(EmployeeFields.WORK_STATE).lower()
         gar_type = record.get("garnishment_data")[0]
-        type=gar_type.get('type').lower()
-        pay_period=record.get('pay_period').lower()
+        type=gar_type.get(EmployeeFields.GARNISHMENT_TYPE).lower()
+        pay_period=record.get(EmployeeFields.PAY_PERIOD).lower()
         data = garnishment_fees.objects.all()
         serializer = garnishment_fees_serializer(data, many=True)
 
@@ -36,10 +38,10 @@ class gar_fees_rules_engine():
                 return (item["payable_by"])
 
     def Rule_1(self,record,withhold_amt):
-        work_state=record.get("work_state").lower()
+        work_state=record.get(EmployeeFields.WORK_STATE).lower()
         gar_type = record.get("garnishment_data")[0]
-        type=gar_type.get('type').lower()
-        pay_period=record.get('pay_period').lower()
+        type=gar_type.get(EmployeeFields.GARNISHMENT_TYPE).lower()
+        pay_period=record.get(EmployeeFields.PAY_PERIOD).lower()
         rules_data=self.get_serialized_data()
 
         for item in rules_data:
@@ -52,10 +54,10 @@ class gar_fees_rules_engine():
         return ("No Provision")
     
     def Rule_3(self,record,withhold_amt):
-        work_state=record.get("work_state").strip().lower()
+        work_state=record.get(EmployeeFields.WORK_STATE).lower()
         gar_type = record.get("garnishment_data")[0]
-        type=gar_type.get('type').strip().lower()
-        pay_period=record.get('pay_period').strip().lower()
+        type=gar_type.get(EmployeeFields.GARNISHMENT_TYPE).lower()
+        pay_period=record.get(EmployeeFields.PAY_PERIOD).lower()
         rules_data=self.get_serialized_data()
         for item in rules_data:
             if (item["state"].strip().lower() == work_state and
@@ -64,11 +66,11 @@ class gar_fees_rules_engine():
 
                 gar_fees = 0  # Default value
 
-                if type == "State Tax Levy":
+                if type == GarnishmentTypeFields.STATE_TAX_LEVY:
                     withhold_amt *= 0.10
                     gar_fees = withhold_amt if withhold_amt < 50 else 0
 
-                elif type == "Creditor Debt":
+                elif type == GarnishmentTypeFields.CREDITOR_DEBT:
                     withhold_amt *= 0.10
                     max_gar_fees = max(50, withhold_amt)
                     gar_fees = max_gar_fees if max_gar_fees < 100 else 0

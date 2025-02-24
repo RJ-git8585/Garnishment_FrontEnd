@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from auth_project.garnishment_library import gar_resused_classes as gc
 from django.utils.decorators import method_decorator
+from User_app.constants import *
 import os
 import json 
 from django.conf import settings
@@ -39,7 +40,7 @@ class ChildSupport:
         """
         Calculate the Disposable Earnings (DE) rule based on the state.
         """
-        work_state = record.get("work_state")
+        work_state = record.get(EmployeeFields.WORK_STATE)
         if not work_state:
             raise ValueError("State information is missing in the record.")
 
@@ -70,9 +71,9 @@ class ChildSupport:
         """
         Calculate mandatory deductions based on state and tax rules.
         """
-        gross_pay = record.get("gross_pay")
-        work_state = record.get("work_state")
-        payroll_taxes = record.get("payroll_taxes")
+        gross_pay = record.get(CalculationFields.GROSS_PAY)
+        work_state = record.get(EmployeeFields.WORK_STATE)
+        payroll_taxes = record.get(PayrollTaxesFields.PAYROLL_TAXES)
 
 
         if gross_pay is None or work_state is None or payroll_taxes is None:
@@ -89,9 +90,9 @@ class ChildSupport:
         """
         Calculate the gross pay based on the record.
         """
-        Wages=record.get("wages")
-        commission_and_bonus=record.get("commission_and_bonus")
-        non_accountable_allowances=record.get("non_accountable_allowances")
+        Wages=record.get(CalculationFields.WAGES)
+        commission_and_bonus=record.get(CalculationFields.COMMISSION_AND_BONUS)
+        non_accountable_allowances=record.get(CalculationFields.NON_ACCOUNTABLE_ALLOWANCES)
         return Wages+commission_and_bonus+non_accountable_allowances
 
 
@@ -108,7 +109,7 @@ class ChildSupport:
             value 
             for Amt_dict in child_support_data
             for key, value in Amt_dict.items() 
-            if key.lower().startswith('ordered_amount')
+            if key.lower().startswith(CalculationFields.ORDERED_AMOUNT)
         ]
 
     def get_list_support_arrearAmt(self, record):
@@ -117,17 +118,17 @@ class ChildSupport:
             value
             for Amt_dict in child_support_data
             for key, value in Amt_dict.items() 
-            if key.lower().startswith('arrear_amount')
+            if key.lower().startswith(CalculationFields.ARREAR_AMOUNT)
         ]
 
 
     def calculate_wl(self, record):
 
         # Extract necessary values from the record
-        work_state = record.get("work_state")
-        employee_id = record.get("employee_id")
-        supports_2nd_family = record.get("support_second_family")
-        arrears_of_more_than_12_weeks = record.get("arrears_of_more_than_12_weeks")
+        work_state = record.get(EmployeeFields.WORK_STATE)
+        employee_id = record.get(EmployeeFields.EMPLOYEE_ID)
+        supports_2nd_family = record.get(EmployeeFields.SUPPORT_SECOND_FAMILY)
+        arrears_of_more_than_12_weeks = record.get(EmployeeFields.ARREARS_GREATER_THAN_12_WEEKS)
 
         # Determine the state rules
         state_rules = gc.WLIdentifier().get_state_rules(work_state)
@@ -219,7 +220,7 @@ class MultipleChild(ChildSupport):
         taa = self.get_list_support_arrearAmt(record)
         twa = self.calculate_twa(record)
         wa = self.calculate_wa(record)
-        work_state = record.get("work_state")
+        work_state = record.get(EmployeeFields.WORK_STATE)
 
         # Determine the allocation method for garnishment based on the state
         allocation_method_for_garnishment = gc.AllocationMethodIdentifiers(work_state).get_allocation_method()
@@ -230,7 +231,7 @@ class MultipleChild(ChildSupport):
             arrear_amount = self.calculate_each_arrears_amt(record)
         else:
             # Apply the allocation method for garnishment
-            if allocation_method_for_garnishment == "prorate":
+            if allocation_method_for_garnishment == self.PRORATE:
                 child_support_amount = {
                     f"child support amount{i+1}": round((amount / twa) * ade,2) for i, amount in enumerate(tcsa)
                 }
@@ -245,7 +246,7 @@ class MultipleChild(ChildSupport):
                     else:
                         arrear_amount=self.calculate_each_arrears_amt(record)
             
-            elif allocation_method_for_garnishment == "divide equally":
+            elif allocation_method_for_garnishment == self.DEVIDEEQUALLY:
                 child_support_amount = {
                     f"child support amount{i+1}": ade / len(tcsa) for i, _ in enumerate(tcsa)
                 }

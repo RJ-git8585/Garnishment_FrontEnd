@@ -41,6 +41,7 @@ class PayrollTaxesFields:
     MEDICAL_INSURANCE_PRETAX = 'medical_insurance_pretax'
     LIFE_INSURANCE = 'life_insurance'
     INDUSTRIAL_INSURANCE = 'industrial_insurance'
+    PAYROLL_TAXES = 'payroll_taxes'
 
 class EmployeeFields:
     EMPLOYEE_ID = 'ee_id'
@@ -57,5 +58,11 @@ class EmployeeFields:
     IS_SPOUSE_BLIND = 'is_spouse_blind'
     SUPPORT_SECOND_FAMILY = 'support_second_family'
     NO_OF_STUDENT_DEFAULT_LOAN = 'no_of_student_default_loan'
+    NO_OF_EXEMPTION_INCLUDING_SELF = 'no_of_exemption_including_self'
     ARREARS_GREATER_THAN_12_WEEKS = 'arrears_greater_than_12_weeks'
     GARNISHMENT_TYPE="type"
+
+
+class ChildSupportFields:
+    PRORATE = "prorate"
+    DEVIDEEQUALLY = "divide equally"

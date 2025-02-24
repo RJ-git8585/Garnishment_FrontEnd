@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from auth_project.garnishment_library import garnishment_fees as garnishment_fees 
 from auth_project.garnishment_library.federal_case import federal_tax
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from User_app.constants import *
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CalculationDataView(APIView):
@@ -33,17 +34,17 @@ class CalculationDataView(APIView):
         garnishment_rules = {
             "child support": {
                 "fields": [
-                    "arrears_greater_than_12_weeks", "support_second_family",
-                    "gross_pay", "payroll_taxes"
+                    EmployeeFields.ARREARS_GREATER_THAN_12_WEEKS, EmployeeFields.SUPPORT_SECOND_FAMILY,
+                    CalculationFields.GROSS_PAY, PayrollTaxesFields.PAYROLL_TAXES
                 ],
                 "calculate": self.calculate_child_support
             },
             "federal tax levy": {
-                "fields": ["filing_status", "pay_period", "net_pay", "age", "is_blind"],
+                "fields": [EmployeeFields.FILING_STATUS,EmployeeFields.PAY_PERIOD, CalculationFields.NET_PAY, EmployeeFields.AGE, EmployeeFields.IS_BLIND],
                 "calculate": self.calculate_federal_tax
             },
             "student default loan": {
-                "fields": ["gross_pay", "pay_period", "no_of_student_default_loan", "payroll_taxes"],
+                "fields": [CalculationFields.GROSS_PAY, EmployeeFields.PAY_PERIOD, EmployeeFields.NO_OF_STUDENT_DEFAULT_LOAN,PayrollTaxesFields.PAYROLL_TAXES],
                 "calculate": self.calculate_student_loan
             }
         }
@@ -57,7 +58,7 @@ class CalculationDataView(APIView):
 
             return garnishment_rules[garnishment_type]["calculate"](record)
 
-        elif garnishment_type in {"State Tax Levy", "creditor debt", "creditor"}:
+        elif garnishment_type in {GarnishmentTypeFields.STATE_TAX_LEVY, GarnishmentTypeFields.CREDITOR_DEBT}:
             return {"ER_deduction": {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record,2000)}}
 
         return {"error": f"Unsupported garnishment_type: {garnishment_type}"}
@@ -115,7 +116,7 @@ class CalculationDataView(APIView):
         if not garnishment_data:
             return None  # Skip if no garnishment data is present
 
-        garnishment_type = garnishment_data[0].get('type', '').strip().lower()
+        garnishment_type = garnishment_data[0].get(EmployeeFields.GARNISHMENT_TYPE).strip().lower()
         result = self.calculate_garnishment(garnishment_type, record)
 
         if "error" in result:

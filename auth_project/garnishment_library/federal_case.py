@@ -4,7 +4,7 @@ import json
 import os
 from auth_project import settings
 import re
-
+from User_app.constants import *
 
 
 class federal_tax_calculation():
@@ -16,9 +16,9 @@ class federal_tax_calculation():
         return data
 
     def get_total_exemption_self(self, request):
-      age = request.get('age')
+      age = request.get(EmployeeFields.AGE)
         
-      is_blind = request.get('is_blind')
+      is_blind = request.get(EmployeeFields.IS_BLIND)
       number_of_exemption = 0
 
       if (age>=65 and is_blind==True) :
@@ -31,8 +31,8 @@ class federal_tax_calculation():
 
     def get_total_exemption_dependent(self, request):  
 
-      is_spouse_blind= request.get('is_spouse_blind')
-      spouse_age = request.get('spouse_age')
+      is_spouse_blind= request.get(EmployeeFields.IS_SPOUSE_BLIND)
+      spouse_age = request.get(EmployeeFields.SPOUSE_AGE)
       number_of_exemption = 0
       if (spouse_age>=65 and is_spouse_blind==True) :
           number_of_exemption=2
@@ -46,8 +46,8 @@ class federal_tax_calculation():
 
 
     def get_additional_exempt_for_self(self, record):
-        pay_period=record.get('pay_period').lower()
-        filing_status=record.get('filing_status')
+        pay_period=record.get(EmployeeFields.PAY_PERIOD).lower()
+        filing_status=record.get(EmployeeFields.FILING_STATUS)
 
         no_of_exemption=self.get_total_exemption_self(record)
         
@@ -59,22 +59,22 @@ class federal_tax_calculation():
         data = data["additional_exempt_amt"]
         no_of_exemption_list=[]
         for item in data:
-          if item.get("no_of_exemption") == no_of_exemption:
+          if item.get(EmployeeFields.NO_OF_EXEMPTION_INCLUDING_SELF) == no_of_exemption:
             no_of_exemption_list.append(item)
         single_filing_status_list=[]
         head_of_household_list=[]
         any_other_filing_status=[]
         for item in no_of_exemption_list:
-          if "single" == item.get("filing_status"):
+          if FilingStatusFields.SINGLE == item.get(EmployeeFields.FILING_STATUS):
             single_filing_status_list.append(item)
-          elif "head_of_household" == item.get("filing_status"):
+          elif FilingStatusFields.HEAD_OF_HOUSEHOLD == item.get(EmployeeFields.FILING_STATUS):
              head_of_household_list.append(item)
           else:
               any_other_filing_status.append(item)
-        if filing_status == "single":
+        if filing_status == FilingStatusFields.SINGLE:
           result = single_filing_status_list[0].get(pay_period)
 
-        elif filing_status == "head_of_household":
+        elif filing_status == FilingStatusFields.HEAD_OF_HOUSEHOLD:
           result = head_of_household_list[0].get(pay_period)
 
         else:
@@ -84,8 +84,8 @@ class federal_tax_calculation():
 
 
     def get_additional_exempt_for_dependent(self, record):
-        pay_period=record.get('pay_period').lower()
-        filing_status=record.get('filing_status')
+        pay_period=record.get(EmployeeFields.PAY_PERIOD).lower()
+        filing_status=record.get(EmployeeFields.FILING_STATUS)
         no_of_exemption=self.get_total_exemption_dependent(record)
         
         file_path=os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/federal tables/additional_exempt_amount.json')
@@ -96,7 +96,7 @@ class federal_tax_calculation():
         data = data["additional_exempt_amt"]
         no_of_exemption_list=[]
         for item in data:
-          if item.get("no_of_exemption") ==no_of_exemption:
+          if item.get(EmployeeFields.NO_OF_EXEMPTION_INCLUDING_SELF) ==no_of_exemption:
             no_of_exemption_list.append(item)
 
         single_filing_status_list=[]
@@ -104,17 +104,17 @@ class federal_tax_calculation():
         any_other_filing_status=[]
 
         for item in no_of_exemption_list:
-          if "single" == item.get("filing_status"):
+          if FilingStatusFields.SINGLE == item.get("filing_status"):
             single_filing_status_list.append(item)
-          elif "head_of_household" == item.get("filing_status"):
+          elif FilingStatusFields.HEAD_OF_HOUSEHOLD == item.get("filing_status"):
              head_of_household_list.append(item)
           else:
               any_other_filing_status.append(item)
 
-        if filing_status == "single":
+        if filing_status == FilingStatusFields.SINGLE:
           result = single_filing_status_list[0].get(pay_period)
 
-        elif filing_status == "head_of_household":
+        elif filing_status == FilingStatusFields.HEAD_OF_HOUSEHOLD:
           result = head_of_household_list[0].get(pay_period)
 
         else:
@@ -124,15 +124,15 @@ class federal_tax_calculation():
 
     def get_standard_exempt_amt(self, record):
 
-        filing_status=record.get('filing_status')
-        no_of_exemption_for_self=record.get('no_of_exemption_for_self')
-        pay_period=record.get('pay_period')
+        filing_status=record.get(EmployeeFields.FILING_STATUS)
+        no_of_exemption_for_self=record.get(EmployeeFields.NO_OF_EXEMPTION_INCLUDING_SELF)
+        pay_period=record.get(EmployeeFields.PAY_PERIOD)
 
 
         # Check if the number of exceptions is greater than 5
         exempt= 6 if no_of_exemption_for_self >5 else no_of_exemption_for_self
 
-        if filing_status == "qualifying_widowers" or filing_status == "married_filing_joint_return":
+        if filing_status == FilingStatusFields.QUALIFYING_WIDOWERS or filing_status == FilingStatusFields.MARRIED_FILING_JOINT_RETURN:
             file_path=os.path.join(settings.BASE_DIR, 'User_app', f'configuration files/federal tables/married_filing_joint_return.json')
             data = self.get_file_data(file_path)
             status_data = data.get("married_filing_joint_return", [])
@@ -163,11 +163,11 @@ class federal_tax(federal_tax_calculation):
 
     def calculate(self, record):
 
-        net_pay = record.get('net_pay')
-        is_blind=record.get('is_blind')
-        is_spouse_blind=record.get('is_spouse_blind')
-        age=record.get('age')
-        spouse_age=record.get('spouse_age')
+        net_pay = record.get(CalculationFields.NET_PAY)
+        is_blind=record.get(EmployeeFields.IS_BLIND)
+        is_spouse_blind=record.get(EmployeeFields.IS_SPOUSE_BLIND)
+        age=record.get(EmployeeFields.AGE)
+        spouse_age=record.get(EmployeeFields.SPOUSE_AGE)
 
         #Calculate Standard exempt
         standard_exempt_amt=self.get_standard_exempt_amt(record)

@@ -7,6 +7,7 @@ import json
 from django.conf import settings
 import json
 from rest_framework import status
+from User_app.constants import *
 class StudentLoan():
     """ Calculate Student Loan garnishment amount based on the provided data."""
 
@@ -32,7 +33,7 @@ class StudentLoan():
         """
         Calculate the Disposable Earnings (DE) rule based on the state.
         """
-        work_state = record.get("work_state")
+        work_state = record.get(EmployeeFields.WORK_STATE)
         if not work_state:
             raise ValueError("State information is missing in the record.")
 
@@ -63,9 +64,9 @@ class StudentLoan():
         """
         Calculate mandatory deductions based on state and tax rules.
         """
-        gross_pay = record.get("gross_pay")
-        work_state = record.get("work_state")
-        payroll_taxes = record.get("payroll_taxes")
+        gross_pay = record.get(CalculationFields.GROSS_PAY)
+        work_state = record.get(EmployeeFields.WORK_STATE)
+        payroll_taxes = record.get(PayrollTaxesFields.PAYROLL_TAXES)
 
 
         if gross_pay is None or work_state is None or payroll_taxes is None:
@@ -82,9 +83,9 @@ class StudentLoan():
         """
         Calculate the gross pay based on the record.
         """
-        Wages=record.get("wages")
-        commission_and_bonus=record.get("commission_and_bonus")
-        non_accountable_allowances=record.get("non_accountable_allowances")
+        Wages=record.get(CalculationFields.WAGES)
+        commission_and_bonus=record.get(CalculationFields.COMMISSION_AND_BONUS)
+        non_accountable_allowances=record.get(CalculationFields.NON_ACCOUNTABLE_ALLOWANCES)
         return Wages+commission_and_bonus+non_accountable_allowances
 
 
@@ -95,14 +96,14 @@ class StudentLoan():
         return gross_pay - mandatory_deductions
 
     def get_fmw(self,record):
-      pay_period=record.get("pay_period")
-      if pay_period.lower()=="weekly":
+      pay_period=record.get(EmployeeFields.PAY_PERIOD)
+      if pay_period.lower()==PayPeriodFields.WEEKLY:
         return 7.25*30
-      elif pay_period.lower()=="biweekly" or pay_period.lower()=="bi-weekly":
+      elif pay_period.lower()==PayPeriodFields.BI_WEEKLY:
         return 7.25*60
-      elif pay_period.lower()=="semimonthly" or pay_period.lower()=="semi-monthly":
+      elif pay_period.lower()==PayPeriodFields.SEMI_MONTHLY:
         return 7.25*65
-      elif pay_period.lower()=="monthly":
+      elif pay_period.lower()==PayPeriodFields.MONTHLY:
         return 7.25*130
 
     def get_single_student_amount(self, record):
@@ -156,7 +157,7 @@ class student_loan_calculate():
         
     def calculate(self, record):
         try:
-            no_of_student_default_loan=record.get("no_of_student_default_loan")
+            no_of_student_default_loan=record.get(EmployeeFields.NO_OF_STUDENT_DEFAULT_LOAN)
             if no_of_student_default_loan==1:
                 student_loan_amt=StudentLoan().get_single_student_amount(record)
             elif no_of_student_default_loan>1:
