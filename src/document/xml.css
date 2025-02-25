@@ -85,6 +85,9 @@
   cursor: pointer;
 margin-right:5px ;
 }
+.header{
+  color:#000 !important;
+}
 
 .resultContainer {
   margin-bottom: 30px;

@@ -32,6 +32,8 @@ const XmlProcessor = () => {
     setLoading(false);
     setFile(null);
     setShowTable(false);
+    setFileUploadTime(null);
+    setGarnishmentCalcTime(null);
   };
 
   const handleFileUpload = async (e) => {
@@ -238,9 +240,18 @@ const XmlProcessor = () => {
 
             {/* Display time response outside API response box */}
             <div className="timeContainer">
-              {fileUploadTime && <p className="text-black">File Upload Time: <b>{fileUploadTime}</b> ms</p>}
-              {garnishmentCalcTime && <p className="text-black">Garnishment Calculation Time:<b> {garnishmentCalcTime}</b> ms</p>}
-            </div>
+            <div className="timeContainer">
+                {fileUploadTime !== null && (
+                  <p className="text-black">
+                    File Upload Time: <b>{fileUploadTime}</b> ms
+                  </p>
+                )}
+                {garnishmentCalcTime !== null && (
+                  <p className="text-black">
+                    Garnishment Calculation Time: <b>{garnishmentCalcTime}</b> ms
+                  </p>
+                )}
+              </div></div>
 
             <div className="columnContainer">
               <div className="inputSection">
