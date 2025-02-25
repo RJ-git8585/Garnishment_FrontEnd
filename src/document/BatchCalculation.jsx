@@ -108,8 +108,8 @@ const BatchCalculation = () => {
         caseItem.garnishment_data.forEach((garnishment) => {
           garnishment.data.forEach((garnData) => {
             // Extract Agency details
-            const arrearAmount =
-              caseItem.Agency?.find((agency) => agency.Arrear)?.Arrear[0]?.arrear_amount || "0";
+            // const arrearAmount =
+            //   caseItem.Agency?.find((agency) => agency.Arrear)?.Arrear[0]?.arrear_amount || "0";
             const withholdingAmount =
               caseItem.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]
                 ?.child_support || "0";
@@ -117,10 +117,10 @@ const BatchCalculation = () => {
   
             allCases.push({
               ee_id: caseItem.ee_id,
-              case_id: caseItem.case_id,
+              case_id: garnData.case_id, // ✅ Correctly extract case_id from garnishment data
               garnishment_type: garnishment.type,
               ordered_amount: garnData.ordered_amount,
-              arrear_amount: arrearAmount,
+              arrear_amount: garnData.arrear_amount, // ✅ Use garnishment arrear amount instead of unrelated Agency data
               withholding_amount: withholdingAmount,
               garnishment_fees: garnishmentFees,
             });
@@ -227,7 +227,7 @@ const BatchCalculation = () => {
 
 const styles = {
   container: { maxWidth: '100%',  padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#fff' },
-  header: { textAlign: 'center', marginBottom: '10px' },
+  header: { textAlign: 'left', marginBottom: '10px' },
   columnContainer: { display: 'flex', flexDirection: 'column', gap: '20px' },
   inputSection: { flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' },
   responseSection: { flex: 1.5, padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff' },
