@@ -4,7 +4,7 @@ import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
 import { FaTableCells } from "react-icons/fa6";
-
+import './batch.css'
 import { BsFiletypeJson  } from "react-icons/bs";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 const BatchCalculation = () => {
@@ -170,49 +170,51 @@ const BatchCalculation = () => {
         <div className='contant content ml-auto customBatchProcessing'>
           <Headertop />
           <hr />
-          <div style={styles.container} ref={containerRef}>
-            <h2 style={styles.header}>Garnishment Processor</h2>
+          <div className="container" ref={containerRef}>
+            <h2 className="header" >Garnishment Processor</h2>
 
-            <div style={styles.columnContainer}>
-              <div style={styles.inputSection}>
+            <div className="columnContainer" >
+              <div  className="inputSection">
                 <input 
                   type="file" 
                   accept=".json" 
                   onChange={handleFileUpload} 
-                  style={styles.fileInput}
+               
+                  className="fileInput"
                 />
                 <textarea
-                  style={styles.textArea}
+                className="textArea"
+                  
                   placeholder="Paste your JSON here..."
                   value={jsonInput}
                   onChange={(e) => setJsonInput(e.target.value)}
                 />
                 <div className="text-center">
-                  <button style={styles.button} onClick={handleConvert} disabled={loading}>
+                  <button  className="button" onClick={handleConvert} disabled={loading}>
                     {loading ? 'Processing...' : 'Request'}
                   </button>
-                  {error && <p style={styles.error}>{error}</p>}
-                  <button onClick={reloadComponent} style={styles.resetButton}>Reset</button>
+                  {error && <p  className="error">{error}</p>}
+                  <button onClick={reloadComponent} className="resetButton">Reset</button>
                 </div>
               </div>
 
               {response && (
-                <div style={styles.responseSection}>
-                  <div style={styles.responseHeader}>
+                <div className="responseSection">
+                  <div className="responseHeader">
                     <h3>API Response</h3>
                     <div>
-                      <button style={styles.copyButton} onClick={handleCopy}> <FaCopy /></button>
-                      <button style={styles.toggleButton} onClick={() => setShowTable(!showTable)}>
+                      <button className="copyButton"  onClick={handleCopy}> <FaCopy /></button>
+                      <button className="toggleButton"  onClick={() => setShowTable(!showTable)}>
                          {showTable ? <BsFiletypeJson /> : <FaTableCells />}
                       </button>
-                      <button style={styles.toggleButton} onClick={toggleFullscreen}>
+                      <button className="toggleButton" onClick={toggleFullscreen}>
                         {isFullscreen ? <FaCompress /> : <FaExpand />}
                       </button>
                     </div>
                   </div>
-                  <div style={styles.responseContainer}>
+                  <div className="responseContainer">
                     {showTable ? renderTable(response) : (
-                      <pre style={styles.response}>{JSON.stringify(response, null, 2)}</pre>
+                      <pre className="response">{JSON.stringify(response, null, 2)}</pre>
                     )}
                   </div>
                 </div>
@@ -225,27 +227,5 @@ const BatchCalculation = () => {
   );
 };
 
-const styles = {
-  container: { maxWidth: '100%',  padding: '20px', fontFamily: 'Arial, sans-serif', backgroundColor: '#fff' },
-  header: { textAlign: 'left', marginBottom: '10px' },
-  columnContainer: { display: 'flex', flexDirection: 'column', gap: '20px' },
-  inputSection: { flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' },
-  responseSection: { flex: 1.5, padding: '10px', border: '1px solid #ccc', borderRadius: '4px', backgroundColor: '#fff' },
-  textArea: { width: '100%', height: '200px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', fontSize: '14px', backgroundColor: '#000', color: '#fff' },
-  button: { padding: '10px', fontSize: '14px', backgroundColor: 'rgb(163 163 163)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', width: '40%', marginLeft: '10px' },
-  resetButton: { padding: '10px', fontSize: '14px', backgroundColor: 'rgb(163 163 163)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginTop: '10px', width: '40%', marginLeft: '10px' },
-  error: { color: 'red', marginTop: '10px' },
-  responseHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' },
-  responseContainer: { maxHeight: '400px', overflowY: 'auto' },
-  response: { fontFamily: 'monospace', color: '#000', whiteSpace: 'pre-wrap', fontSize: '12px' },
-  toggleButton: { padding: '5px 10px', fontSize: '12px', backgroundColor: 'rgb(62 72 76)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '5px' },
-  copyButton: { padding: '5px 10px', fontSize: '12px', backgroundColor: 'rgb(62 72 76)', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '10px' },
-  resultContainer: { marginBottom: '30px' },
-  subTableHeader: { fontSize: '18px', fontWeight: 'bold', margin: '10px 0' },
-  employeeSection: { marginBottom: '20px', padding: '10px', backgroundColor: '#f9f9f9' },
-  employeeHeader: { fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' },
-  table: { width: '100%', borderCollapse: 'collapse', marginBottom: '20px' },
-  fileInput: { marginBottom: '10px' }
-};
 
 export default BatchCalculation;
