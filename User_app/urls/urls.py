@@ -3,15 +3,10 @@ from ..views import *
 from ..views.views import *
 from django.urls import include, path
 from ..views.view_state_tax import *
-from ..views.view_multiple_garnishment import *
+
 
 urlpatterns = [
-    path('', include('User_app.urls.url_federal_tax')),
-    path('', include('User_app.urls.url_child_support')),
-    path('', include('User_app.urls.url_multiple_student_loan')),
-    path('', include('User_app.urls.url_single_student_loan')),
     path('', include('User_app.urls.url_state_tax')),
-    path('', include('User_app.urls.url_multiple_garnishment')),
     path("register", register, name="register"),
     path("login",login, name="login"),    
     path('employer-profile/', EmployerProfile, name='employer_profile'),
@@ -41,8 +36,6 @@ urlpatterns = [
     path('POSTsetting/',SettingPostAPI, name='POST Setting'),
     path('call-count/', APICallCountView.as_view(), name='api-call-count'),
     path('state_tax_case/',StateTaxView.as_view(), name='state_tax_case'),
-    path('multiple_garnishment_case/',multiple_case_calculation, name='state_tax_case'),
-    path('multiple_garnishment_result/<str:employer_id>/<str:employee_id>/',get_multiple_garnishment_case_result.as_view(), name='state_tax_case'),
     #path('ChildSupportBatchResult/<str:batch_id>', ChildSupportGarnishmentBatchResult.as_view(), name='Calculation Data'),
     path('upsert-employees-details/', upsert_employees_data, name='import_employees_api'),
     path('upsert-company-details/', upsert_company_details, name='upsert_company_details'),
@@ -53,7 +46,8 @@ urlpatterns = [
     path('GarnishmentFeesRules/<str:rule>/', GETGarnishmentFeesRules, name='GETGarnishmentFeesRules'),
     path('GarnishmentFeesRulesUpdate/<str:rule>/', GarFeesRulesUpdateAPIView.as_view(), name='GETGarnishmentFeesRules'),
     path('GarnishmentFeesRulesBasedOnState/<str:state>/', garnishment_fees_rules_based_on_state, name='GarnishmentFeesRulesBasedOnState'),
-    path('EmployeeRules/', Employeegarnishment_orderMatch_details.as_view(), name='employee-garnishment-match')
+    path('EmployeeRules/', Employeegarnishment_orderMatch_details.as_view(), name='employee-garnishment-match'),
+    path('garnishment_calculate/', CalculationDataView.as_view(), name='Calculation Data'),
 
 ]
 
