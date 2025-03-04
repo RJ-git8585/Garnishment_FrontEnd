@@ -1,29 +1,42 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { TextField, Button, Box, Grid, Input, Typography, CircularProgress } from '@mui/material';
+import { Viewer, Worker } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
 
 function Iwo() {
   const [empID, setEmpID] = useState('');
-  const [upload, setuploadfile] = useState('');
+  const [upload, setUploadFile] = useState(null);
+  const [pdfUrl, setPdfUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleReset = () => {
     setEmpID('');
-    setuploadfile('');
+    setUploadFile(null);
+    setPdfUrl(null);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setUploadFile(file);
+      if (file.type === 'application/pdf') {
+        const url = URL.createObjectURL(file);
+        setPdfUrl(url);
+      } else {
+        setPdfUrl(null);
+      }
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', {
-      empID,
-      upload
-    });
-    setLoading(true); // Set loading state while submitting
+    console.log('Form submitted:', { empID, upload });
+    setLoading(true);
     setTimeout(() => {
-      setLoading(false); // Simulate loading
-    }, 2000); // Simulate a 2-second loading process
+      setLoading(false);
+    }, 2000);
   };
 
   return (
@@ -41,19 +54,16 @@ function Iwo() {
 
             <form onSubmit={handleSubmit}>
               <Grid container spacing={2}>
-                {/* File Upload Section */}
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Typography variant="subtitle1" gutterBottom>
                     Upload IWO Here:
                   </Typography>
                   <Box display="flex" alignItems="center">
                     <Input
                       type="file"
-                      inputProps={{ accept: '.csv,.pdf,.doc,.docx' }}
-                      onChange={(e) => setuploadfile(e.target.files[0])}
-                      sx={{
-                        display: 'none'
-                      }}
+                      inputProps={{ accept: '.pdf' }}
+                      onChange={handleFileChange}
+                      sx={{ display: 'none' }}
                       id="upload-file"
                     />
                     <label htmlFor="upload-file">
@@ -69,7 +79,6 @@ function Iwo() {
                   </Box>
                 </Grid>
 
-                {/* Hidden Employer ID Field (keep it for later use if needed) */}
                 <Grid item xs={12}>
                   <TextField
                     id="employer_id"
@@ -82,7 +91,25 @@ function Iwo() {
                   />
                 </Grid>
 
-                {/* Submit and Reset Buttons */}
+                <Grid item xs={6} sx={{ display: pdfUrl ? 'block' : 'none' }}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    PDF Preview:
+                  </Typography>
+                  {pdfUrl && (
+                    <Box
+                      sx={{
+                        border: '1px solid #ccc',
+                        height: '500px',
+                        overflow: 'auto',
+                      }}
+                    >
+                      <Worker workerUrl={`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.worker.min.js`}>
+                        <Viewer fileUrl={pdfUrl} />
+                      </Worker>
+                    </Box>
+                  )}
+                </Grid>
+
                 <Grid item xs={12}>
                   <Box display="flex" justifyContent="center" gap={2}>
                     <Button
