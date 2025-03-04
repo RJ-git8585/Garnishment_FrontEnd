@@ -125,67 +125,67 @@ class StateTaxView():
             )
 
    
-record={
-            "ee_id": "EE005138",
-            "work_state": "indiana",
-            "no_of_exemption_including_self": 1.0,
-            "pay_period": "Weekly",
-            "filing_status": "single",
-            "wages": 500,
-            "commission_and_bonus": 50,
-            "non_accountable_allowances": 100,
-            "gross_pay": 600,
-            "debt":450,
-            "exemption_amount": 156,
-            "payroll_taxes": {
-                "federal_income_tax": 67,
-                "social_security_tax": 51,
-                "medicare_tax": 35,
-                "state_tax": 221,
-                "local_tax": 0,
-                "union_dues": 0,
-                "wilmington_tax": 0,
-                "medical_insurance_pretax": 17,
-                "industrial_insurance": 0,
-                "life_insurance": 0,
-                "CaliforniaSDI": 0
-            },
-            "payroll_deductions": {
-                "medical_insurance": 0
-            },
-            "net_pay": 1025,
-            "age": 50.0,
-            "is_blind": False,
-            "is_spouse_blind": False,
-            "spouse_age": 43.0,
-            "support_second_family": "Yes",
-            "no_of_student_default_loan": 1.0,
-            "arrears_greater_than_12_weeks": "Yes",
-            "garnishment_data": [
-                {
-                    "type": "state tax leavy",
-                    "data": [
-                        {
-                            "case_id": "C24373",
-                            "ordered_amount": 80,
-                            "arrear_amount": 10,
-                            "current_medical_support": 0.0,
-                            "past_due_medical_support": 0.0,
-                            "current_spousal_support": 0.0,
-                            "past_due_spousal_support": 0.0
-                        },
-                        {
-                            "case_id": "C24374",
-                            "ordered_amount": 55,
-                            "arrear_amount": 0,
-                            "current_medical_support": 0.0,
-                            "past_due_medical_support": 0.0,
-                            "current_spousal_support": 0.0,
-                            "past_due_spousal_support": 0.0
-                        }
-                    ]
-                }
-            ]
-        }
-print("Disposible Earning",cs.ChildSupport().calculate_de(record))
-print("WithHoulding Amount",StateTaxView().calculate(record))
+# record={
+#             "ee_id": "EE005138",
+#             "work_state": "indiana",
+#             "no_of_exemption_including_self": 1.0,
+#             "pay_period": "Weekly",
+#             "filing_status": "single",
+#             "wages": 500,
+#             "commission_and_bonus": 50,
+#             "non_accountable_allowances": 100,
+#             "gross_pay": 600,
+#             "debt":450,
+#             "exemption_amount": 156,
+#             "payroll_taxes": {
+#                 "federal_income_tax": 67,
+#                 "social_security_tax": 51,
+#                 "medicare_tax": 35,
+#                 "state_tax": 221,
+#                 "local_tax": 0,
+#                 "union_dues": 0,
+#                 "wilmington_tax": 0,
+#                 "medical_insurance_pretax": 17,
+#                 "industrial_insurance": 0,
+#                 "life_insurance": 0,
+#                 "CaliforniaSDI": 0
+#             },
+#             "payroll_deductions": {
+#                 "medical_insurance": 0
+#             },
+#             "net_pay": 1025,
+#             "age": 50.0,
+#             "is_blind": False,
+#             "is_spouse_blind": False,
+#             "spouse_age": 43.0,
+#             "support_second_family": "Yes",
+#             "no_of_student_default_loan": 1.0,
+#             "arrears_greater_than_12_weeks": "Yes",
+#             "garnishment_data": [
+#                 {
+#                     "type": "state tax levy",
+#                     "data": [
+#                         {
+#                             "case_id": "C24373",
+#                             "ordered_amount": 80,
+#                             "arrear_amount": 10,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         },
+#                         {
+#                             "case_id": "C24374",
+#                             "ordered_amount": 55,
+#                             "arrear_amount": 0,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         }
+#                     ]
+#                 }
+#             ]
+#         }
+# print("Disposible Earning",cs.ChildSupport().calculate_de(record))
+# print("WithHoulding Amount",StateTaxView().calculate(record))
