@@ -118,7 +118,7 @@ class CalculationDataView(APIView):
         """Calculate state tax levy garnishment."""
 
         result= StateTaxView().calculate(record)
-        record["Agency"] = [{"withholding_amt": [{"duration_of_levy":result}]}]
+        record["Agency"] = [{"withholding_amt": [{"garnishment amount":result}]}]
         record["ER_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, result)}
         return record
     
