@@ -1,10 +1,6 @@
 from User_app.models import *
-from rest_framework.response import Response
 from User_app.serializers import *
-from rest_framework.decorators import api_view
-from rest_framework.views import APIView
 from auth_project.garnishment_library import gar_resused_classes as gc
-from django.utils.decorators import method_decorator
 from User_app.constants import *
 import os
 import json 
@@ -72,7 +68,7 @@ class ChildSupport:
         Calculate mandatory deductions based on state and tax rules.
         """
         gross_pay = record.get(CalculationFields.GROSS_PAY)
-        work_state = record.get(EmployeeFields.WORK_STATE)
+        work_state = record.get(EmployeeFields.WORK_STATE).lower()
         payroll_taxes = record.get(PayrollTaxesFields.PAYROLL_TAXES)
 
 
@@ -90,9 +86,9 @@ class ChildSupport:
         """
         Calculate the gross pay based on the record.
         """
-        Wages=record.get(CalculationFields.WAGES)
-        commission_and_bonus=record.get(CalculationFields.COMMISSION_AND_BONUS)
-        non_accountable_allowances=record.get(CalculationFields.NON_ACCOUNTABLE_ALLOWANCES)
+        Wages=record.get("wages")
+        commission_and_bonus=record.get("commission_and_bonus")
+        non_accountable_allowances=record.get("non_accountable_allowances")
         return Wages+commission_and_bonus+non_accountable_allowances
 
 
@@ -104,7 +100,6 @@ class ChildSupport:
     
     def get_list_supportAmt(self, record):
         child_support_data = record["garnishment_data"][0]["data"]
-
         return [
             value 
             for Amt_dict in child_support_data
@@ -265,50 +260,71 @@ class MultipleChild(ChildSupport):
 
         return child_support_amount, arrear_amount
     
-    
-# record=  {   "case_id": "C10851",
-#                 "ee_id": "EE005114",
-#                 "work_state": "Alabama",
-#                 "no_of_exemption_for_self": 1,
-#                 "pay_period": "Weekly",
-#                 "filing_status": "single",
-#                 "wages": 3132,
-#                 "commission_and_bonus": 0,
-#                 "non_accountable_allowances":0,
-#                 "gross_pay": 2000,
-#                 "payroll_taxes": {
-#                     "federal_income_tax": 185,
-#                     "social_security_tax": 0,
-#                     "medicare_tax": 0,
-#                     "state_tax": 89.32,
-#                     "local_tax": 20.5
-#                 },
-#                 "payroll_deductions": {
-#                     "medical_insurance": 0
-#                 },
-#                 "net_pay": 1673.08,
-#                 "age": 50,
-#                 "is_blind": True,
-#                 "is_spouse_blind": True,
-#                 "spouse_age": 43,
-#                 "support_second_family": "Yes",
-#                 "no_of_student_default_loan": 1,
-#                 "arrears_greater_than_12_weeks": "No",
-#                 "garnishment_data": [
-#                             {
-#                               "type": "child support",
-#                               "data": [
-#                                 {
-#                                   "case_id": "C10851",
-#                                   "orderedamount": 200,
-#                                   "arrearamount": 10
-#                                 }
-#                               ]
-#                             }
-#                 ]
+# record={
+#             "ee_id": "EE005138",
+#             "work_state": "Arkansas",
+#             "no_of_exemption_including_self": 1.0,
+#             "pay_period": "Weekly",
+#             "filing_status": "single",
+#             "wages": 500,
+#             "commission_and_bonus": 60,
+#             "non_accountable_allowances": 100,
+#             "gross_pay": 600,
+#             "debt":450,
+#             "exemption_amount": 156,
+#             "payroll_taxes": {
+#                 "federal_income_tax": 62,
+#                 "social_security_tax": 52,
+#                 "medicare_tax": 24,
+#                 "state_tax": 22,
+#                 "local_tax": 0,
+#                 "union_dues": 0,
+#                 "wilmington_tax": 0,
+#                 "medical_insurance_pretax": 17,
+#                 "industrial_insurance": 0,
+#                 "life_insurance": 0,
+#                 "CaliforniaSDI": 0
+#             },
+#             "payroll_deductions": {
+#                 "medical_insurance": 0
+#             },
+#             "net_pay": 1025,
+#             "age": 50.0,
+#             "is_blind": False,
+#             "is_spouse_blind": False,
+#             "spouse_age": 43.0,
+#             "support_second_family": "Yes",
+#             "no_of_student_default_loan": 1.0,
+#             "arrears_greater_than_12_weeks": "Yes",
+#             "garnishment_data": [
+#                 {
+#                     "type": "state tax leavy",
+#                     "data": [
+#                         {
+#                             "case_id": "C24373",
+#                             "ordered_amount": 80,
+#                             "arrear_amount": 10,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         },
+#                         {
+#                             "case_id": "C24374",
+#                             "ordered_amount": 55,
+#                             "arrear_amount": 0,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         }
+#                     ]
 #                 }
-
+#             ]
+#         }
+# print("11111ddd",ChildSupport().calculate_de(record))
 # tcsa = ChildSupport().get_list_supportAmt(record)
+# print("tcsa",tcsa)
 # print("result",MultipleChild().calculate(record) if len(tcsa) > 1 else SingleChild().calculate(record))
 
-# print("11111ddd",ChildSupport().calculate_de(record))
+# # print("11111ddd",ChildSupport().calculate_de(record))

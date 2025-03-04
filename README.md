@@ -1,1 +1,1 @@
-# django-auth-project
+# This is Garnishment Calculation Engine

@@ -5,7 +5,7 @@ class CalculationFields:
     COMMISSION_AND_BONUS = 'commission_and_bonus'
     NON_ACCOUNTABLE_ALLOWANCES = 'non_accountable_allowances'
     GARNISHMENT_DATA = 'garnishment_data'
-    MEDICAL_INSURANCE = 'medical_insurance'
+    MEDICAL_INSURANCE = 'medical_insurance_pretax'
     ORDERED_AMOUNT = 'ordered_amount'
     ARREAR_AMOUNT = 'arrear_amount'
     
@@ -61,6 +61,9 @@ class EmployeeFields:
     NO_OF_EXEMPTION_INCLUDING_SELF = 'no_of_exemption_including_self'
     ARREARS_GREATER_THAN_12_WEEKS = 'arrears_greater_than_12_weeks'
     GARNISHMENT_TYPE="type"
+    DEBT="debt"
+    EXEMPTION_AMOUNT="exemption_amount"
+
 
 
 class ChildSupportFields:

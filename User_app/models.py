@@ -83,14 +83,12 @@ class Calculation_data_results(models.Model):
 
 class Employee_Detail(models.Model):
     ee_id = models.CharField(max_length=255)
-    cid=models.CharField(max_length=255)
     age = models.CharField(max_length=255)
     social_security_number = models.CharField(max_length=255)
     is_blind = models.BooleanField(null=True, blank=True)
     home_state=models.CharField(max_length=255)
     work_state=models.CharField(max_length=255)
     gender=models.CharField(max_length=255,null=True, blank=True)
-    pay_period = models.CharField(max_length=255)
     number_of_exemptions = models.IntegerField()
     filing_status = models.CharField(max_length=255)
     marital_status = models.CharField(max_length=255)

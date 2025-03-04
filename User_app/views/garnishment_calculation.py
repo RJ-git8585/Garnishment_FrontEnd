@@ -4,14 +4,14 @@ from User_app.models import *
 from rest_framework.response import Response
 from User_app.serializers import *
 from rest_framework.views import APIView
-from auth_project.garnishment_library import gar_resused_classes as gc
 from auth_project.garnishment_library.child_support import ChildSupport,MultipleChild,SingleChild 
 from auth_project.garnishment_library.student_loan import student_loan_calculate
 from django.utils.decorators import method_decorator
-from auth_project.garnishment_library import garnishment_fees as garnishment_fees 
+from auth_project.garnishment_library.garnishment_fees import  *
 from auth_project.garnishment_library.federal_case import federal_tax
+from auth_project.garnishment_library.state_tax import *
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from User_app.constants import *
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CalculationDataView(APIView):
@@ -46,7 +46,13 @@ class CalculationDataView(APIView):
             "student default loan": {
                 "fields": [CalculationFields.GROSS_PAY, EmployeeFields.PAY_PERIOD, EmployeeFields.NO_OF_STUDENT_DEFAULT_LOAN,PayrollTaxesFields.PAYROLL_TAXES],
                 "calculate": self.calculate_student_loan
-            }
+            },
+            "state tax levy": {
+                "fields": [
+                    EmployeeFields.GROSS_PAY, EmployeeFields.WORK_STATE,EmployeeFields.DEBT,
+                ],
+                "calculate": self.calculate_state_tax_levy
+            },
         }
 
         if garnishment_type in garnishment_rules:
@@ -59,7 +65,7 @@ class CalculationDataView(APIView):
             return garnishment_rules[garnishment_type]["calculate"](record)
 
         elif garnishment_type in {GarnishmentTypeFields.STATE_TAX_LEVY, GarnishmentTypeFields.CREDITOR_DEBT}:
-            return {"ER_deduction": {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record,2000)}}
+            return {"ER_deduction": {"Garnishment_fees": gar_fees_rules_engine().apply_rule(record,2000)}}
 
         return {"error": f"Unsupported garnishment_type: {garnishment_type}"}
 
@@ -81,14 +87,14 @@ class CalculationDataView(APIView):
         total_withhold_amt = sum(cs["child_support"] for cs in record["Agency"][0]["withholding_amt"]) + \
                              sum(arr["arrear_amount"] for arr in record["Agency"][1]["Arrear"])
 
-        record["ER_deduction"] = {"garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
+        record["ER_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
         return record
 
     def calculate_federal_tax(self, record):
         """Calculate federal tax garnishment."""
         result = federal_tax().calculate(record)
         record["Agency"] = [{"withholding_amt": [{"federal tax":result}]}]
-        record["ER_deduction"] = {"garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, result)}
+        record["ER_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, result)}
         return record
 
     def calculate_student_loan(self, record):
@@ -105,8 +111,18 @@ class CalculationDataView(APIView):
 
             total_loan_amt = sum(item["student_loan"] for item in record["Agency"][0]["withholding_amt"])
 
-        record["ER_deduction"] = {"Garnishment_fees": garnishment_fees.gar_fees_rules_engine().apply_rule(record, total_loan_amt)}
+        record["ER_deduction"] = {"Garnishment_fees": gar_fees_rules_engine().apply_rule(record, total_loan_amt)}
         return record
+    
+    def calculate_state_tax_levy(self, record):
+        """Calculate state tax levy garnishment."""
+
+        result= StateTaxView().calculate(record)
+        record["Agency"] = [{"withholding_amt": [{"duration_of_levy":result}]}]
+        record["ER_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, result)}
+        return record
+    
+
     
     def calculate_garnishment_wrapper(self, record):
         """

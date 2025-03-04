@@ -162,47 +162,65 @@ class gar_fees_rules_engine():
         
 
 # record={
-#             "case_id": "C5635",
-#                 "ee_id": "EE005120",
-#                 "gross_pay": 1205.0,
-#                 "state": "alabama",
-#                 "no_of_exemption_for_self": 0,
-#                 "pay_period": "weekly",
-#                 "filing_status": "single",
-#                 "net_pay": 966.15,
-#                 "payroll_taxes": {
-#                     "federal_income_tax": 90.0,
-#                     "social_security_tax": 55.8,
-#                     "medicare_tax": 13.05,
-#                     "state_tax": 25.0,
-#                     "local_tax": 5.0
-#                 },
-#                 "payroll_deductions": {
-#                     "medical_insurance": 50.0
-#                 },
-#                 "age": 32,
-#                 "is_blind": False,
-#                 "is_spouse_blind": False,
-#                 "spouse_age": 14,
-#                 "support_second_family": "Yes",
-#                 "no_of_student_default_loan": 2,
-#                 "arrears_greater_than_12_weeks": "No",
-#                 "wages": 1205.0,
-#                 "commission_and_bonus": 22,
-#                 "non_accountable_allowances":44,
-#                 "garnishment_data": [
-#                     {
-#                         "type": "Child Support",
-#                         "data": [
-#                             {
-#                                 "amount": 135.0,
-#                                 "arrear": 0
-#                             }
-#                         ]
-#                     }
-#                 ]
-#             }
-
+#             "ee_id": "EE005138",
+#             "work_state": "Florida",
+#             "no_of_exemption_including_self": 1.0,
+#             "pay_period": "Weekly",
+#             "filing_status": "single",
+#             "wages": 500,
+#             "commission_and_bonus": 60,
+#             "non_accountable_allowances": 100,
+#             "gross_pay": 660,
+#             "payroll_taxes": {
+#                 "federal_income_tax": 25,
+#                 "social_security_tax": 15,
+#                 "medicare_tax": 10,
+#                 "state_tax": 0,
+#                 "local_tax": 0,
+#                 "union_dues": 0,
+#                 "wilmington_tax": 0,
+#                 "medical_insurance_pretax": 0,
+#                 "industrial_insurance": 0,
+#                 "life_insurance": 0,
+#                 "CaliforniaSDI": 0
+#             },
+#             "payroll_deductions": {
+#                 "medical_insurance": 0
+#             },
+#             "net_pay": 625,
+#             "age": 50.0,
+#             "is_blind": False,
+#             "is_spouse_blind": False,
+#             "spouse_age": 43.0,
+#             "support_second_family": "Yes",
+#             "no_of_student_default_loan": 1.0,
+#             "arrears_greater_than_12_weeks": "Yes",
+#             "garnishment_data": [
+#                 {
+#                     "type": "Child Support",
+#                     "data": [
+#                         {
+#                             "case_id": "C24373",
+#                             "ordered_amount": 80,
+#                             "arrear_amount": 10,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         },
+#                         {
+#                             "case_id": "C24374",
+#                             "ordered_amount": 55,
+#                             "arrear_amount": 0,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         }
+#                     ]
+#                 }
+#             ]
+#         }
 
 
 # print("gar_fees",gar_fees_rules_engine().apply_rule(record,0))
