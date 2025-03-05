@@ -63,6 +63,10 @@ class EmployeeFields:
     GARNISHMENT_TYPE="type"
     DEBT="debt"
     EXEMPTION_AMOUNT="exemption_amount"
+    DIST_CODE ="dist_code"
+    NO_OF_DEPENDENT_EXEMPTION="no_of_dependent_exemption"
+    IS_CASE_OF_NON_TAX_LEVY="is_case_of_non_tax_levy"
+    IS_CASE_OF_INCOME_TAX_LEVY="is_case_of_income_tax_levy"
 
 
 

@@ -11,6 +11,9 @@ from auth_project.garnishment_library.garnishment_fees import  *
 from auth_project.garnishment_library.federal_case import federal_tax
 from auth_project.garnishment_library.state_tax import *
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import json
+import logging
+logger = logging.getLogger(__name__)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -166,6 +169,11 @@ class CalculationDataView(APIView):
                             output.append({"cases": [result]})  # Append processed case data
                     except Exception as e:
                         output.append({"error": str(e), "case": future_to_case[future]})  # Capture errors per case
+
+                    # Log output before returning
+            logger.info("Final response: %s", json.dumps(output, default=str))
+
+            print(json.dumps(output, default=str))   
 
             return Response({
                 "message": "Result Generated Successfully",
