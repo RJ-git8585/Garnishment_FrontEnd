@@ -68,55 +68,12 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
 #         model = CalculationResult
 #         fields = '__all__'
 
-class single_student_loan_data_and_result_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = single_student_loan_data_and_result
-        fields = '__all__'
-        
-class multiple_student_loan_data_and_result_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = multiple_student_loan_data_and_result
-        fields = '__all__'
-
-
-class federal_case_result_and_data_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = federal_tax_data_and_result
-        fields = '__all__'
-
-
-class Calculation_data_results_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Calculation_data_results
-        fields = '__all__'
-
 
 class setting_Serializer(serializers.ModelSerializer):
     class Meta:
         model = setting
         fields = '__all__'
 
-
-class federal_loan_data_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = federal_loan_case_data
-        fields = '__all__'
-
-class single_student_loan_data_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = single_student_loan_data
-        fields = '__all__'
-
-class multiple_student_loan_data_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = multiple_student_loan_data
-        fields = '__all__'
-
-
-class multiple_garnishment_data_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = multiple_garnishment_case_result
-        fields = '__all__'
 
 class APICallCountSerializer(serializers.Serializer):
     date = serializers.DateField()

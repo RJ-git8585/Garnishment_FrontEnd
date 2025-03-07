@@ -86,14 +86,6 @@ class StateTaxView():
         exempt_amt=75+(no_of_dependent_exemption*25)
         return net_pay-exempt_amt
     
-
-    """In case of non-tax levy
-
-WA = DE*25%
-
-In the case of income tax
-
-WA = DE*100%"""
     
     def cal_washington(self,is_case_of_non_tax_levy,is_case_of_income_tax_levy,disposable_income):
         if is_case_of_income_tax_levy==True:
@@ -155,7 +147,7 @@ WA = DE*100%"""
                     result = self.cal_x_disposible_income(disposable_income)
                 elif state in ['alabama','iowa']:
                     result = self.cal_x_disposible_income(gross_pay)
-            # duration_of_levies = round((debt / monthly_garnishment_amount),2)
+
             return result
         
         except Exception as e:
@@ -168,68 +160,68 @@ WA = DE*100%"""
 
 
    
-record={
-            "ee_id": "EE005138",
-            "work_state": "maine",
-            "no_of_exemption_including_self": 1.0,
-            "pay_period": "Weekly",
-            "filing_status": "single",
-            "wages": 500,
-            "commission_and_bonus": 50,
-            "non_accountable_allowances": 100,
-            "gross_pay": 600,
-            "debt":450,
-            "exemption_amount": 156,
-            "payroll_taxes": {
-                "federal_income_tax": 67,
-                "social_security_tax": 51,
-                "medicare_tax": 35,
-                "state_tax": 221,
-                "local_tax": 0,
-                "union_dues": 0,
-                "wilmington_tax": 0,
-                "medical_insurance_pretax": 17,
-                "industrial_insurance": 0,
-                "life_insurance": 0,
-                "CaliforniaSDI": 0
-            },
-            "payroll_deductions": {
-                "medical_insurance": 0
-            },
-            "net_pay": 1025,
-            "age": 50.0,
-            "is_blind": False,
-            "is_spouse_blind": False,
-            "spouse_age": 43.0,
-            "support_second_family": "Yes",
-            "no_of_student_default_loan": 1.0,
-            "arrears_greater_than_12_weeks": "Yes",
-            "no_of_dependent_exemption":1,
-            "garnishment_data": [
-                {
-                    "type": "state tax levy",
-                    "data": [
-                        {
-                            "case_id": "C24373",
-                            "ordered_amount": 80,
-                            "arrear_amount": 10,
-                            "current_medical_support": 0.0,
-                            "past_due_medical_support": 0.0,
-                            "current_spousal_support": 0.0,
-                            "past_due_spousal_support": 0.0
-                        },
-                        {
-                            "case_id": "C24374",
-                            "ordered_amount": 55,
-                            "arrear_amount": 0,
-                            "current_medical_support": 0.0,
-                            "past_due_medical_support": 0.0,
-                            "current_spousal_support": 0.0,
-                            "past_due_spousal_support": 0.0
-                        }
-                    ]
-                }
-            ]
-        }
-print("Disposible Earning",cs.ChildSupport().calculate_de(record))
-print("WithHoulding Amount",StateTaxView().calculate(record))
+# record={
+#             "ee_id": "EE005138",
+#             "work_state": "Louisiana",
+#             "no_of_exemption_including_self": 1.0,
+#             "pay_period": "Weekly",
+#             "filing_status": "single",
+#             "wages": 600,
+#             "commission_and_bonus": 0,
+#             "non_accountable_allowances": 0,
+#             "gross_pay": 600,
+#             "debt":500,
+#             "exemption_amount": 0,
+#             "payroll_taxes": {
+#                 "federal_income_tax": 100,
+#                 "social_security_tax": 25,
+#                 "medicare_tax": 12,
+#                 "state_tax": 47,
+#                 "local_tax": 0,
+#                 "union_dues": 0,
+#                 "wilmington_tax": 0,
+#                 "medical_insurance_pretax": 0,
+#                 "industrial_insurance": 0,
+#                 "life_insurance": 0,
+#                 "CaliforniaSDI": 0
+#             },
+#             "payroll_deductions": {
+#                 "medical_insurance": 17
+#             },
+#             "net_pay": 399,
+#             "age": 50.0,
+#             "is_blind": False,
+#             "is_spouse_blind": False,
+#             "spouse_age": 43.0,
+#             "support_second_family": "Yes",
+#             "no_of_student_default_loan": 1.0,
+#             "arrears_greater_than_12_weeks": "Yes",
+#             "no_of_dependent_exemption":1,
+#             "garnishment_data": [
+#                 {
+#                     "type": "state tax levy",
+#                     "data": [
+#                         {
+#                             "case_id": "C24373",
+#                             "ordered_amount": 0,
+#                             "arrear_amount": 0,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         },
+#                         {
+#                             "case_id": "C24374",
+#                             "ordered_amount": 0,
+#                             "arrear_amount": 0,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         }
+#                     ]
+#                 }
+#             ]
+#         }
+# print("Disposible Earning",cs.ChildSupport().calculate_de(record))
+# print("WithHoulding Amount",StateTaxView().calculate(record))
