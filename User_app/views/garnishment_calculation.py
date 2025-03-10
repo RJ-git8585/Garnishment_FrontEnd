@@ -179,68 +179,67 @@ class CalculationDataView(APIView):
         """
         try:
             with transaction.atomic():
-                ee_id = case_info.get("ee_id")
+                ee_id = case_info.get(EmployeeFields.EMPLOYEE_ID)
                 employee_data, created = EmployeeData.objects.update_or_create(
                     ee_id=ee_id,
                     defaults={
-                        "case_id": case_info.get("garnishment_data", [{}])[0].get("data", [{}])[0].get("case_id", ""),
-                        "work_state": case_info.get("work_state"),
-                        "no_of_exemption_including_self": case_info.get("no_of_exemption_including_self"),
-                        "pay_period": case_info.get("pay_period"),
-                        "filing_status": case_info.get("filing_status"),
-                        "age": case_info.get("age"),
-                        "is_blind": case_info.get("is_blind"),
-                        "is_spouse_blind": case_info.get("is_spouse_blind"),
-                        "spouse_age": case_info.get("spouse_age"),
-                        "support_second_family": case_info.get("support_second_family"),
-                        "no_of_student_default_loan": case_info.get("no_of_student_default_loan"),
-                        "arrears_greater_than_12_weeks": case_info.get("arrears_greater_than_12_weeks"),
-                        "no_of_dependent_exemption": case_info.get("no_of_dependent_exemption"),
+                        EmployeeFields.CASE_ID: case_info.get(EmployeeFields.GARNISHMENT_TYPE, [{}])[0].get(CalculationFields.GARNISHMENT_DATA, [{}])[0].get(EmployeeFields.CASE_ID, ""),
+                        EmployeeFields.WORK_STATE: case_info.get(EmployeeFields.WORK_STATE),
+                        EmployeeFields.NO_OF_EXEMPTION_INCLUDING_SELF: case_info.get(EmployeeFields.NO_OF_EXEMPTION_INCLUDING_SELF),
+                        EmployeeFields.PAY_PERIOD: case_info.get(EmployeeFields.PAY_PERIOD),
+                        EmployeeFields.FILING_STATUS: case_info.get(EmployeeFields.FILING_STATUS),
+                        EmployeeFields.AGE: case_info.get(EmployeeFields.AGE),
+                        EmployeeFields.IS_BLIND: case_info.get(EmployeeFields.IS_BLIND),
+                        EmployeeFields.IS_SPOUSE_BLIND: case_info.get(EmployeeFields.IS_SPOUSE_BLIND),
+                        EmployeeFields.SPOUSE_AGE: case_info.get(EmployeeFields.SPOUSE_AGE),
+                        EmployeeFields.SUPPORT_SECOND_FAMILY: case_info.get(EmployeeFields.SUPPORT_SECOND_FAMILY),
+                        EmployeeFields.NO_OF_STUDENT_DEFAULT_LOAN: case_info.get(EmployeeFields.NO_OF_STUDENT_DEFAULT_LOAN),
+                        EmployeeFields.ARREARS_GREATER_THAN_12_WEEKS: case_info.get(EmployeeFields.ARREARS_GREATER_THAN_12_WEEKS),
+                        EmployeeFields.NO_OF_DEPENDENT_EXEMPTION: case_info.get(EmployeeFields.NO_OF_DEPENDENT_EXEMPTION),
                     }
                 )
-                # Extract and save payroll taxes
-                payroll_data = case_info.get("payroll_taxes", {})
+                
+                payroll_data = case_info.get(PayrollTaxesFields.PAYROLL_TAXES, {})
                 PayrollTaxes.objects.update_or_create(
                     ee_id=ee_id,
                     defaults={
-                        "wages": case_info.get("wages"),
-                        "commission_and_bonus": case_info.get("commission_and_bonus"),
-                        "non_accountable_allowances": case_info.get("non_accountable_allowances"),
-                        "gross_pay": case_info.get("gross_pay"),
-                        "debt": case_info.get("debt"),
-                        "exemption_amount": case_info.get("exemption_amount"),
-                        "net_pay": case_info.get("net_pay"),
-                        "federal_income_tax": payroll_data.get("federal_income_tax"),
-                        "social_security_tax": payroll_data.get("social_security_tax"),
-                        "medicare_tax": payroll_data.get("medicare_tax"),
-                        "state_tax": payroll_data.get("state_tax"),
-                        "local_tax": payroll_data.get("local_tax"),
-                        "union_dues": payroll_data.get("union_dues"),
-                        "wilmington_tax": payroll_data.get("wilmington_tax"),
-                        "medical_insurance_pretax": payroll_data.get("medical_insurance_pretax"),
-                        "industrial_insurance": payroll_data.get("industrial_insurance"),
-                        "life_insurance": payroll_data.get("life_insurance"),
-                        "california_sdi": payroll_data.get("CaliforniaSDI", 0),
+                        CalculationFields.WAGES: case_info.get(CalculationFields.WAGES),
+                        CalculationFields.COMMISSION_AND_BONUS: case_info.get(CalculationFields.COMMISSION_AND_BONUS),
+                        CalculationFields.NON_ACCOUNTABLE_ALLOWANCES: case_info.get(CalculationFields.NON_ACCOUNTABLE_ALLOWANCES),
+                        CalculationFields.GROSS_PAY: case_info.get(CalculationFields.GROSS_PAY),
+                        EmployeeFields.DEBT: case_info.get(EmployeeFields.DEBT),
+                        EmployeeFields.EXEMPTION_AMOUNT: case_info.get(EmployeeFields.EXEMPTION_AMOUNT),
+                        CalculationFields.NET_PAY: case_info.get(CalculationFields.NET_PAY),
+                        PayrollTaxesFields.FEDERAL_INCOME_TAX: payroll_data.get(PayrollTaxesFields.FEDERAL_INCOME_TAX),
+                        PayrollTaxesFields.SOCIAL_SECURITY_TAX: payroll_data.get(PayrollTaxesFields.SOCIAL_SECURITY_TAX),
+                        PayrollTaxesFields.MEDICARE_TAX: payroll_data.get(PayrollTaxesFields.MEDICARE_TAX),
+                        PayrollTaxesFields.STATE_TAX: payroll_data.get(PayrollTaxesFields.STATE_TAX),
+                        PayrollTaxesFields.LOCAL_TAX: payroll_data.get(PayrollTaxesFields.LOCAL_TAX),
+                        PayrollTaxesFields.UNION_DUES: payroll_data.get(PayrollTaxesFields.UNION_DUES),
+                        PayrollTaxesFields.MEDICAL_INSURANCE_PRETAX: payroll_data.get(PayrollTaxesFields.MEDICAL_INSURANCE_PRETAX),
+                        PayrollTaxesFields.INDUSTRIAL_INSURANCE: payroll_data.get(PayrollTaxesFields.INDUSTRIAL_INSURANCE),
+                        PayrollTaxesFields.LIFE_INSURANCE: payroll_data.get(PayrollTaxesFields.LIFE_INSURANCE),
+                        PayrollTaxesFields.CALIFORNIA_SDI: payroll_data.get(PayrollTaxesFields.CALIFORNIA_SDI, 0)
                     }
                 )
-                # Extract and save garnishment data
-                for garnishment_group in case_info.get("garnishment_data", []):
-                    garnishment_type = garnishment_group.get("type", "")
+                
+                for garnishment_group in case_info.get(CalculationFields.GARNISHMENT_DATA, []):
+                    garnishment_type = garnishment_group.get(EmployeeFields.GARNISHMENT_TYPE, "")
                     for garnishment in garnishment_group.get("data", []):
                         GarnishmentData.objects.update_or_create(
-                            case_id=garnishment.get("case_id"),
+                            case_id=garnishment.get(EmployeeFields.CASE_ID),
                             defaults={
-                                "garnishment_type": garnishment_type,
-                                "ordered_amount": garnishment.get("ordered_amount"),
-                                "arrear_amount": garnishment.get("arrear_amount"),
-                                "current_medical_support": garnishment.get("current_medical_support"),
-                                "past_due_medical_support": garnishment.get("past_due_medical_support"),
-                                "current_spousal_support": garnishment.get("current_spousal_support"),
-                                "past_due_spousal_support": garnishment.get("past_due_spousal_support"),
+                                EmployeeFields.GARNISHMENT_TYPE: garnishment_type,
+                                CalculationFields.ORDERED_AMOUNT: garnishment.get(CalculationFields.ORDERED_AMOUNT),
+                                CalculationFields.ARREAR_AMOUNT: garnishment.get(CalculationFields.ARREAR_AMOUNT),
+                                CalculationFields.CURRENT_MEDICAL_SUPPORT: garnishment.get(CalculationFields.CURRENT_MEDICAL_SUPPORT),
+                                CalculationFields.PAST_DUE_MEDICAL_SUPPORT: garnishment.get(CalculationFields.PAST_DUE_MEDICAL_SUPPORT),
+                                CalculationFields.CURRENT_SPOUSAL_SUPPORT: garnishment.get(CalculationFields.CURRENT_SPOUSAL_SUPPORT),
+                                CalculationFields.PAST_DUE_SPOUSAL_SUPPORT: garnishment.get(CalculationFields.PAST_DUE_SPOUSAL_SUPPORT),
                             }
                         )
                 # **After storing, run the calculation**
                 calculated_result = self.calculate_garnishment_wrapper(case_info)
                 return calculated_result
         except Exception as e:
-            return {"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR, "case_id": case_info.get("ee_id")}
+            return {"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR, "ee_id": case_info.get("ee_id")}

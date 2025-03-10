@@ -8,7 +8,12 @@ class CalculationFields:
     MEDICAL_INSURANCE = 'medical_insurance_pretax'
     ORDERED_AMOUNT = 'ordered_amount'
     ARREAR_AMOUNT = 'arrear_amount'
-    
+    CURRENT_MEDICAL_SUPPORT='current_medical_support'
+    PAST_DUE_MEDICAL_SUPPORT='past_due_medical_support'
+    CURRENT_SPOUSAL_SUPPORT='current_spousal_support'
+    PAST_DUE_SPOUSAL_SUPPORT='past_due_spousal_support'
+
+
 
 class GarnishmentTypeFields:
     CHILD_SUPPORT = 'child support'
@@ -41,6 +46,7 @@ class PayrollTaxesFields:
     MEDICAL_INSURANCE_PRETAX = 'medical_insurance_pretax'
     LIFE_INSURANCE = 'life_insurance'
     INDUSTRIAL_INSURANCE = 'industrial_insurance'
+    CALIFORNIA_SDI='california_sdi'
     PAYROLL_TAXES = 'payroll_taxes'
 
 class EmployeeFields:
