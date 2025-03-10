@@ -156,12 +156,12 @@ class CalculationDataView(APIView):
                     for case_info in cases_data
                 }
                 for future in as_completed(future_to_case):
-                    # try:
-                    result = future.result()
-                    if result:
-                        output.append(result)
-                    # except Exception as e:
-                    #     output.append({"error": str(e),"status": status.HTTP_500_INTERNAL_SERVER_ERROR, "case": future_to_case[future]})
+                    try:
+                        result = future.result()
+                        if result:
+                            output.append(result)
+                    except Exception as e:
+                        output.append({"error": str(e),"status": status.HTTP_500_INTERNAL_SERVER_ERROR, "case": future_to_case[future]})
             return Response({
                 "message": "Result Generated Successfully",
                 "status_code": status.HTTP_200_OK,
@@ -258,109 +258,3 @@ class CalculationDataView(APIView):
         except Exception as e:
             return {"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR, "ee_id": case_info.get("ee_id")}
 
-
-
-records={
-            "ee_id": "EE005168",
-            "work_state": "Alabama",
-            "no_of_exemption_including_self": 0.0,
-            "pay_period": "Weekly",
-            "filing_status": "single",
-            "wages": 767,
-            "commission_and_bonus": 0,
-            "non_accountable_allowances": 289,
-            "gross_pay": 1056,
-            "payroll_taxes": {
-                "federal_income_tax": 165.0,
-                "social_security_tax": 126.22,
-                "medicare_tax": 20.0,
-                "state_tax": 82.5,
-                "local_tax": 33.0,
-                "union_dues": 0,
-                "wilmington_tax": 0,
-                "medical_insurance_pretax": 0,
-                "industrial_insurance": 0,
-                "life_insurance": 0,
-                "CaliforniaSDI": 0
-            },
-            "payroll_deductions": {
-                "medical_insurance": 0
-            },
-            "net_pay": 0,
-            "age": 30.0,
-            "is_blind": True,
-            "is_spouse_blind": False,
-            "spouse_age": 60.0,
-            "support_second_family": "No",
-            "no_of_student_default_loan": 3.0,
-            "arrears_greater_than_12_weeks": "No",
-            "garnishment_data": [
-                {
-                    "type": "Child Support",
-                    "data": [
-                        {
-                            "ordered_amount": 249.0,
-                            "case_id": "C44520",
-                            "arrear_amount": 0.0,
-                            "current_medical_support": 0.0,
-                            "past_due_medical_support": 0.0,
-                            "current_spousal_support": 0.0,
-                            "past_due_spousal_support": 0.0
-                        }
-                    ]
-                }
-            ]
-        }
-
-r={
-            "ee_id": "EE005114",
-            "work_state": "Alabama",
-            "no_of_exemption_including_self": 1.0,
-            "pay_period": "Weekly",
-            "filing_status": "single",
-            "wages": 2005,
-            "commission_and_bonus": 639,
-            "non_accountable_allowances": 488,
-            "gross_pay": 3132,
-            "payroll_taxes": {
-                "federal_income_tax": 80.0,
-                "social_security_tax": 49.6,
-                "medicare_tax": 11.6,
-                "state_tax": 0.0,
-                "local_tax": 0.0,
-                "union_dues": 0,
-                "wilmington_tax": 0,
-                "medical_insurance_pretax": 0,
-                "industrial_insurance": 0,
-                "life_insurance": 0,
-                "CaliforniaSDI": 0
-            },
-            "payroll_deductions": {
-                "medical_insurance": 0
-            },
-            "net_pay": 0,
-            "age": 50.0,
-            "is_blind": False,
-            "is_spouse_blind": False,
-            "spouse_age": 43.0,
-            "support_second_family": "Yes",
-            "no_of_student_default_loan": 1.0,
-            "arrears_greater_than_12_weeks": "No",
-            "garnishment_data": [
-                {
-                    "type": "Child Support",
-                    "data": [
-                        {
-                            "ordered_amount": 100.0,
-                            "case_id": "C10851",
-                            "arrear_amount": 0.0,
-                            "current_medical_support": 0.0,
-                            "past_due_medical_support": 0.0,
-                            "current_spousal_support": 0.0,
-                            "past_due_spousal_support": 0.0
-                        }
-                    ]
-                }
-            ]
-        }
-print("result",CalculationDataView().process_and_store_case(records))
