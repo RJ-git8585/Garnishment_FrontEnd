@@ -1783,12 +1783,7 @@ class convert_excel_to_json(APIView):
                         "garnishment_data": [garnishment_data]
                 })
 
-            # Convert to JSON string
-            json_output = json.dumps(output_json, default=lambda x: int(x) if isinstance(x, np.integer) else float(x) if isinstance(x, np.floating) else x)
 
-            print(json_output)
-
-
-            return Response(json_output, status=status.HTTP_200_OK)
+            return Response(output_json, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
