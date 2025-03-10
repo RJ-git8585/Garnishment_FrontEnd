@@ -28,8 +28,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from User_app.models import Employee_Detail
 import pandas as pd
-import os
-from auth_project import settings
+import numpy as np
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from User_app.models import garnishment_order, Employee_Detail, company_details
@@ -1723,12 +1722,32 @@ class convert_excel_to_json(APIView):
             concatenated_df = concatenated_df.dropna()
             # Create JSON structure
             output_json = {"batch_id": "B001A", "cases": []}
-            
-            for case_id, group in concatenated_df.groupby("case_id_y"):
+
+            # Group by employee ID
+            for ee_id, group in concatenated_df.groupby("ee_id"):
+                first_row = group.iloc[0]  # Take the first row for general employee details
+
+                # Create garnishment data list
+                garnishment_data = {
+                    "type": first_row["garnishment_type"],
+                    "data": []
+                }
+
+                # Iterate over cases for the same employee
                 for _, row in group.iterrows():
-                    employee = {
-                        "case_id": case_id,
-                        "ee_id": row["ee_id"],
+                    garnishment_data["data"].append({
+                        "case_id": row["case_id_x"],
+                        "ordered_amount": row["ordered_amount"],
+                        "arrear_amount": row["arrear_amount"],
+                        "current_medical_support": row["current_medical_support"],
+                        "past_due_medical_support": row["past_due_medical_support"],
+                        "current_spousal_support": row["current_spousal_support"],
+                        "past_due_spousal_support": row["past_due_spousal_support"]
+                    })
+
+                # Append the consolidated employee data
+                output_json["cases"].append({
+                              "ee_id": row["ee_id"],
                         "work_state": row.get("state"),
                         "no_of_exemption_including_self": row["no_of_exemption_including_self"],
                         "pay_period": row["pay_period"],
@@ -1761,24 +1780,15 @@ class convert_excel_to_json(APIView):
                         "support_second_family": row["support_second_family"],
                         "no_of_student_default_loan": row["no_of_student_default_loan"],
                         "arrears_greater_than_12_weeks": row["arrears_greater_than_12_weeks"],
-                        "garnishment_data": [
-                            {
-                                "type": row["garnishment_type"],
-                                "data": [{
-                                    "ordered_amount": row["ordered_amount"],
-                                    "arrear_amount": row["arrear_amount"],
-                                    "current_medical_support": row["current_medical_support"],
-                                    "past_due_medical_support": row["past_due_medical_support"],
-                                    "current_spousal_support": row["current_spousal_support"],
-                                    "past_due_spousal_support": row["past_due_spousal_support"]
-                                }]
-                            }
-                        ]
-                    }
+                        "garnishment_data": [garnishment_data]
+                })
 
-                    output_json["cases"].append(employee)
+            # Convert to JSON string
+            json_output = json.dumps(output_json, default=lambda x: int(x) if isinstance(x, np.integer) else float(x) if isinstance(x, np.floating) else x)
+
+            print(json_output)
 
 
-            return Response(output_json, status=status.HTTP_200_OK)
+            return Response(json_output, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

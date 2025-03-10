@@ -260,27 +260,25 @@ class MultipleChild(ChildSupport):
 
         return child_support_amount, arrear_amount
     
-# record={
-#             "ee_id": "EE005138",
-#             "work_state": "Arkansas",
+# record=        {
+#             "ee_id": "EE005135",
+#             "work_state": "New York",
 #             "no_of_exemption_including_self": 1.0,
-#             "pay_period": "Weekly",
-#             "filing_status": "single",
-#             "wages": 500,
-#             "commission_and_bonus": 60,
-#             "non_accountable_allowances": 100,
-#             "gross_pay": 600,
-#             "debt":450,
-#             "exemption_amount": 156,
+#             "pay_period": "BiWeekly",
+#             "filing_status": "married_filling_joint",
+#             "wages": 571,
+#             "commission_and_bonus": 0,
+#             "non_accountable_allowances": 0,
+#             "gross_pay": 571,
 #             "payroll_taxes": {
-#                 "federal_income_tax": 62,
-#                 "social_security_tax": 52,
-#                 "medicare_tax": 24,
-#                 "state_tax": 22,
-#                 "local_tax": 0,
+#                 "federal_income_tax": 80.0,
+#                 "social_security_tax": 49.6,
+#                 "medicare_tax": 11.6,
+#                 "state_tax": 0.0,
+#                 "local_tax": 0.0,
 #                 "union_dues": 0,
 #                 "wilmington_tax": 0,
-#                 "medical_insurance_pretax": 17,
+#                 "medical_insurance_pretax": 0,
 #                 "industrial_insurance": 0,
 #                 "life_insurance": 0,
 #                 "CaliforniaSDI": 0
@@ -288,31 +286,22 @@ class MultipleChild(ChildSupport):
 #             "payroll_deductions": {
 #                 "medical_insurance": 0
 #             },
-#             "net_pay": 1025,
-#             "age": 50.0,
+#             "net_pay": 0,
+#             "age": 53.0,
 #             "is_blind": False,
-#             "is_spouse_blind": False,
-#             "spouse_age": 43.0,
-#             "support_second_family": "Yes",
-#             "no_of_student_default_loan": 1.0,
-#             "arrears_greater_than_12_weeks": "Yes",
+#             "is_spouse_blind": True,
+#             "spouse_age": 50.0,
+#             "support_second_family": "No",
+#             "no_of_student_default_loan": 2.0,
+#             "arrears_greater_than_12_weeks": "No",
 #             "garnishment_data": [
 #                 {
-#                     "type": "state tax leavy",
+#                     "type": "Child Support",
 #                     "data": [
 #                         {
-#                             "case_id": "C24373",
-#                             "ordered_amount": 80,
-#                             "arrear_amount": 10,
-#                             "current_medical_support": 0.0,
-#                             "past_due_medical_support": 0.0,
-#                             "current_spousal_support": 0.0,
-#                             "past_due_spousal_support": 0.0
-#                         },
-#                         {
-#                             "case_id": "C24374",
-#                             "ordered_amount": 55,
-#                             "arrear_amount": 0,
+#                             "ordered_amount": 95.0,
+#                             "case_id": "C18903",
+#                             "arrear_amount": 0.0,
 #                             "current_medical_support": 0.0,
 #                             "past_due_medical_support": 0.0,
 #                             "current_spousal_support": 0.0,

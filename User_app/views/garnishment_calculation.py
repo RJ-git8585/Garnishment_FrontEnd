@@ -156,12 +156,12 @@ class CalculationDataView(APIView):
                     for case_info in cases_data
                 }
                 for future in as_completed(future_to_case):
-                    try:
-                        result = future.result()
-                        if result:
-                            output.append(result)
-                    except Exception as e:
-                        output.append({"error": str(e),"status": status.HTTP_500_INTERNAL_SERVER_ERROR, "case": future_to_case[future]})
+                    # try:
+                    result = future.result()
+                    if result:
+                        output.append(result)
+                    # except Exception as e:
+                    #     output.append({"error": str(e),"status": status.HTTP_500_INTERNAL_SERVER_ERROR, "case": future_to_case[future]})
             return Response({
                 "message": "Result Generated Successfully",
                 "status_code": status.HTTP_200_OK,
@@ -198,7 +198,7 @@ class CalculationDataView(APIView):
                         EmployeeFields.NO_OF_DEPENDENT_EXEMPTION: case_info.get(EmployeeFields.NO_OF_DEPENDENT_EXEMPTION),
                     }
                 )
-                
+
                 payroll_data = case_info.get(PayrollTaxesFields.PAYROLL_TAXES, {})
                 PayrollTaxes.objects.update_or_create(
                     ee_id=ee_id,
@@ -222,24 +222,145 @@ class CalculationDataView(APIView):
                         PayrollTaxesFields.CALIFORNIA_SDI: payroll_data.get(PayrollTaxesFields.CALIFORNIA_SDI, 0)
                     }
                 )
-                
+
                 for garnishment_group in case_info.get(CalculationFields.GARNISHMENT_DATA, []):
                     garnishment_type = garnishment_group.get(EmployeeFields.GARNISHMENT_TYPE, "")
-                    for garnishment in garnishment_group.get("data", []):
-                        GarnishmentData.objects.update_or_create(
+                    garnishment_list = garnishment_group.get("data", [])
+                
+                    garnishment_objects = [
+                        GarnishmentData(
                             case_id=garnishment.get(EmployeeFields.CASE_ID),
-                            defaults={
-                                EmployeeFields.GARNISHMENT_TYPE: garnishment_type,
-                                CalculationFields.ORDERED_AMOUNT: garnishment.get(CalculationFields.ORDERED_AMOUNT),
-                                CalculationFields.ARREAR_AMOUNT: garnishment.get(CalculationFields.ARREAR_AMOUNT),
-                                CalculationFields.CURRENT_MEDICAL_SUPPORT: garnishment.get(CalculationFields.CURRENT_MEDICAL_SUPPORT),
-                                CalculationFields.PAST_DUE_MEDICAL_SUPPORT: garnishment.get(CalculationFields.PAST_DUE_MEDICAL_SUPPORT),
-                                CalculationFields.CURRENT_SPOUSAL_SUPPORT: garnishment.get(CalculationFields.CURRENT_SPOUSAL_SUPPORT),
-                                CalculationFields.PAST_DUE_SPOUSAL_SUPPORT: garnishment.get(CalculationFields.PAST_DUE_SPOUSAL_SUPPORT),
-                            }
+                            garnishment_type=garnishment_type,
+                            ordered_amount=garnishment.get(CalculationFields.ORDERED_AMOUNT),
+                            arrear_amount=garnishment.get(CalculationFields.ARREAR_AMOUNT),
+                            current_medical_support=garnishment.get(CalculationFields.CURRENT_MEDICAL_SUPPORT),
+                            past_due_medical_support=garnishment.get(CalculationFields.PAST_DUE_MEDICAL_SUPPORT),
+                            current_spousal_support=garnishment.get(CalculationFields.CURRENT_SPOUSAL_SUPPORT),
+                            past_due_spousal_support=garnishment.get(CalculationFields.PAST_DUE_SPOUSAL_SUPPORT),
                         )
-                # **After storing, run the calculation**
+                        for garnishment in garnishment_list
+                    ]
+                
+                    GarnishmentData.objects.bulk_create(
+                        garnishment_objects, 
+                        update_conflicts=True, 
+                        update_fields=[
+                            "garnishment_type", "ordered_amount", "arrear_amount",
+                            "current_medical_support", "past_due_medical_support",
+                            "current_spousal_support", "past_due_spousal_support"
+                        ],
+                        unique_fields=["case_id"]
+                    )
+                
+                                # **After storing, run the calculation**
                 calculated_result = self.calculate_garnishment_wrapper(case_info)
                 return calculated_result
         except Exception as e:
             return {"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR, "ee_id": case_info.get("ee_id")}
+
+
+
+records={
+            "ee_id": "EE005168",
+            "work_state": "Alabama",
+            "no_of_exemption_including_self": 0.0,
+            "pay_period": "Weekly",
+            "filing_status": "single",
+            "wages": 767,
+            "commission_and_bonus": 0,
+            "non_accountable_allowances": 289,
+            "gross_pay": 1056,
+            "payroll_taxes": {
+                "federal_income_tax": 165.0,
+                "social_security_tax": 126.22,
+                "medicare_tax": 20.0,
+                "state_tax": 82.5,
+                "local_tax": 33.0,
+                "union_dues": 0,
+                "wilmington_tax": 0,
+                "medical_insurance_pretax": 0,
+                "industrial_insurance": 0,
+                "life_insurance": 0,
+                "CaliforniaSDI": 0
+            },
+            "payroll_deductions": {
+                "medical_insurance": 0
+            },
+            "net_pay": 0,
+            "age": 30.0,
+            "is_blind": True,
+            "is_spouse_blind": False,
+            "spouse_age": 60.0,
+            "support_second_family": "No",
+            "no_of_student_default_loan": 3.0,
+            "arrears_greater_than_12_weeks": "No",
+            "garnishment_data": [
+                {
+                    "type": "Child Support",
+                    "data": [
+                        {
+                            "ordered_amount": 249.0,
+                            "case_id": "C44520",
+                            "arrear_amount": 0.0,
+                            "current_medical_support": 0.0,
+                            "past_due_medical_support": 0.0,
+                            "current_spousal_support": 0.0,
+                            "past_due_spousal_support": 0.0
+                        }
+                    ]
+                }
+            ]
+        }
+
+r={
+            "ee_id": "EE005114",
+            "work_state": "Alabama",
+            "no_of_exemption_including_self": 1.0,
+            "pay_period": "Weekly",
+            "filing_status": "single",
+            "wages": 2005,
+            "commission_and_bonus": 639,
+            "non_accountable_allowances": 488,
+            "gross_pay": 3132,
+            "payroll_taxes": {
+                "federal_income_tax": 80.0,
+                "social_security_tax": 49.6,
+                "medicare_tax": 11.6,
+                "state_tax": 0.0,
+                "local_tax": 0.0,
+                "union_dues": 0,
+                "wilmington_tax": 0,
+                "medical_insurance_pretax": 0,
+                "industrial_insurance": 0,
+                "life_insurance": 0,
+                "CaliforniaSDI": 0
+            },
+            "payroll_deductions": {
+                "medical_insurance": 0
+            },
+            "net_pay": 0,
+            "age": 50.0,
+            "is_blind": False,
+            "is_spouse_blind": False,
+            "spouse_age": 43.0,
+            "support_second_family": "Yes",
+            "no_of_student_default_loan": 1.0,
+            "arrears_greater_than_12_weeks": "No",
+            "garnishment_data": [
+                {
+                    "type": "Child Support",
+                    "data": [
+                        {
+                            "ordered_amount": 100.0,
+                            "case_id": "C10851",
+                            "arrear_amount": 0.0,
+                            "current_medical_support": 0.0,
+                            "past_due_medical_support": 0.0,
+                            "current_spousal_support": 0.0,
+                            "past_due_spousal_support": 0.0
+                        }
+                    ]
+                }
+            ]
+        }
+print("result",CalculationDataView().process_and_store_case(records))
