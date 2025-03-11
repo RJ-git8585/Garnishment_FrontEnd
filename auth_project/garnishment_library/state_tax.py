@@ -162,7 +162,7 @@ class StateTaxView():
    
 # record={
 #             "ee_id": "EE005138",
-#             "work_state": "Louisiana",
+#             "work_state": "montana",
 #             "no_of_exemption_including_self": 1.0,
 #             "pay_period": "Weekly",
 #             "filing_status": "single",
@@ -172,7 +172,7 @@ class StateTaxView():
 #             "gross_pay": 600,
 #             "debt":500,
 #             "exemption_amount": 0,
-#             "payroll_taxes": {
+#             "payroll_taxes": {    
 #                 "federal_income_tax": 100,
 #                 "social_security_tax": 25,
 #                 "medicare_tax": 12,

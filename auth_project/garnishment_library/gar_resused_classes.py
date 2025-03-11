@@ -148,4 +148,9 @@ class GarnishmentFeesIdentifier:
                 
 
     
-
+def change_record_case(record):
+    new_record = {}
+    for key, value in record.items():
+        new_key = key.replace(' ', '_').lower()
+        new_record[new_key] = value
+    return new_record
