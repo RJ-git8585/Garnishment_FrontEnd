@@ -1695,14 +1695,14 @@ class convert_excel_to_json(APIView):
             }
             garnishment_order_details.rename(columns=column_mapping_garnishment, inplace=True)
             pd.set_option('future.no_silent_downcasting', True)
-            concatenated_df = pd.merge(garnishment_order_details, payroll_batch_details, on='ee_id')
+            concatenated_df = pd.merge(garnishment_order_details, payroll_batch_details, on='case_id')
             concatenated_df = concatenated_df.loc[:, ~concatenated_df.columns.duplicated(keep='first')]
             # Data transformations
             concatenated_df['filing_status'] = concatenated_df['filing_status'].str.lower().str.replace(' ', '_')
             concatenated_df['batch_id'] = "B001A"
             concatenated_df['arrears_greater_than_12_weeks']=concatenated_df['arrears_greater_than_12_weeks'].astype(bool).apply(
                                         lambda x: "Yes" if x == True or x==1 else "No" if x == False or x==0 else x)
-            
+
             concatenated_df['support_second_family'] = concatenated_df['support_second_family'].astype(bool).apply(
                             lambda x: "Yes" if x == True or x==1 else "No" if x == False or x==0 else x)
 
