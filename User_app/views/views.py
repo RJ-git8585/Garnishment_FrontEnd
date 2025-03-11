@@ -1700,12 +1700,13 @@ class convert_excel_to_json(APIView):
             # Data transformations
             concatenated_df['filing_status'] = concatenated_df['filing_status'].str.lower().str.replace(' ', '_')
             concatenated_df['batch_id'] = "B001A"
-            concatenated_df['arrears_greater_than_12_weeks'] = concatenated_df['arrears_greater_than_12_weeks'].replace(
-                {1: "Yes", 0: "No"}
-            )
-            concatenated_df['support_second_family'] = concatenated_df['support_second_family'].replace(
-                {1: "Yes", 0: "No"}
-            )
+            concatenated_df['arrears_greater_than_12_weeks']=concatenated_df['arrears_greater_than_12_weeks'].astype(bool).apply(
+                                        lambda x: "Yes" if x == True or x==1 else "No" if x == False or x==0 else x)
+            
+            concatenated_df['support_second_family'] = concatenated_df['support_second_family'].astype(bool).apply(
+                            lambda x: "Yes" if x == True or x==1 else "No" if x == False or x==0 else x)
+
+
             concatenated_df['is_blind'] = concatenated_df['is_blind'].replace(
                 {1: True, 0: False}
             )
