@@ -1725,7 +1725,7 @@ class convert_excel_to_json(APIView):
             output_json = {"batch_id": "B001A", "cases": []}
 
             # Group by employee ID
-            for ee_id, group in concatenated_df.groupby("ee_id"):
+            for ee_id, group in concatenated_df.groupby("ee_id_x"):
                 first_row = group.iloc[0]  # Take the first row for general employee details
 
                 # Create garnishment data list
@@ -1737,7 +1737,7 @@ class convert_excel_to_json(APIView):
                 # Iterate over cases for the same employee
                 for _, row in group.iterrows():
                     garnishment_data["data"].append({
-                        "case_id": row["case_id_x"],
+                        "case_id": row["case_id"],
                         "ordered_amount": row["ordered_amount"],
                         "arrear_amount": row["arrear_amount"],
                         "current_medical_support": row["current_medical_support"],
@@ -1748,7 +1748,7 @@ class convert_excel_to_json(APIView):
 
                 # Append the consolidated employee data
                 output_json["cases"].append({
-                              "ee_id": row["ee_id"],
+                              "ee_id": row["ee_id_x"],
                         "work_state": row.get("state"),
                         "no_of_exemption_including_self": row["no_of_exemption_including_self"],
                         "pay_period": row["pay_period"],
@@ -1787,4 +1787,4 @@ class convert_excel_to_json(APIView):
 
             return Response(output_json, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e),"status":status.HTTP_500_INTERNAL_SERVER_ERROR})
