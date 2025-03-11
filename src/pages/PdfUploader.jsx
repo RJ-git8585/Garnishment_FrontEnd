@@ -39,7 +39,7 @@ const PdfUploader = () => {
     }
 
     setExtractedText(fullText);
-  };
+  }; 
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
