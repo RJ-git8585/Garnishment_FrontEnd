@@ -3,7 +3,7 @@ import Headertop from '../component/Headertop';
 import { FaTableCells } from "react-icons/fa6";
 import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import { BsFiletypeJson,BsFiletypeXml  } from "react-icons/bs";
-import Tooltip from '@mui/material/Tooltip';
+// import Tooltip from '@mui/material/Tooltip';
 import Sidebar from '../component/sidebar';
 import { useState, useRef } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
@@ -70,44 +70,42 @@ const XmlProcessor = () => {
 
 
   const exportToExcel = () => {
-  if (!response || !response.results) {
-    alert("No data available to export.");
-    return;
-  }
-
-  const formattedData = response.results.reduce((acc, result) => {
-    result.cases.forEach((caseItem) => {
-      caseItem.garnishment_data.forEach((garnishment) => {
+    if (!response || !response.results) {
+      alert("No data available to export.");
+      return;
+    }
+  
+    const formattedData = response.results.reduce((acc, result) => {
+      result.garnishment_data.forEach((garnishment) => {
         garnishment.data.forEach((garnData) => {
           acc.push({
-            "Employee ID": caseItem.ee_id,
-            "Case ID": caseItem.case_id,
+            "Employee ID": result.ee_id, // Fixed reference
+            "Case ID": garnData.case_id, // Corrected case ID extraction
             "Garnishment Type": garnishment.type,
             "Ordered Amount": garnData.ordered_amount ?? "N/A",
             "Arrear Amount":
-              caseItem.Agency?.[1]?.Arrear?.[0]?.arrear_amount ?? "N/A",
+              result.Agency?.find((agency) => agency.Arrear)?.Arrear[0]?.arrear_amount ?? "N/A",
             "Withholding Amount":
-              caseItem.Agency?.[0]?.withholding_amt?.[0]?.child_support ?? "N/A",
-            "ER Deduction": caseItem.ER_deduction?.garnishment_fees || "N/A",
+              result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]?.child_support ?? "N/A",
+            "ER Deduction": result.ER_deduction?.garnishment_fees || "N/A",
           });
         });
       });
-    });
-    return acc;
-  }, []);
-
-  if (formattedData.length === 0) {
-    alert("No valid data found for export.");
-    return;
-  }
-
-  const worksheet = XLSX.utils.json_to_sheet(formattedData);
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Garnishment Data");
-
-  XLSX.writeFile(workbook, "Garnishment_Data.xlsx");
-};
-
+      return acc;
+    }, []);
+  
+    if (formattedData.length === 0) {
+      alert("No valid data found for export.");
+      return;
+    }
+  
+    const worksheet = XLSX.utils.json_to_sheet(formattedData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Garnishment Data");
+  
+    XLSX.writeFile(workbook, "Garnishment_Data.xlsx");
+  };
+  
   
   const handleGarnishmentCalculation = async (data) => {
     try {
@@ -168,26 +166,26 @@ const XmlProcessor = () => {
   
     // Extract relevant data from results
     data.results.forEach((result) => {
-      result.cases.forEach((caseItem) => {
-        caseItem.garnishment_data.forEach((garnishment) => {
-          garnishment.data.forEach((garnData) => {
-            // Extract Agency details
-            const arrearAmount =
-              caseItem.Agency?.find((agency) => agency.Arrear)?.Arrear[0]?.arrear_amount || "0";
-            const withholdingAmount =
-              caseItem.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]
-                ?.child_support || "0";
-            const garnishmentFees = caseItem.ER_deduction?.garnishment_fees || "N/A";
+      result.garnishment_data.forEach((garnishment) => {
+        garnishment.data.forEach((garnData) => {
+          // Extract Agency details
+          const arrearAmount =
+            result.Agency?.find((agency) => agency.Arrear)?.Arrear[0]?.arrear_amount || "0";
+          const withholdingAmount =
+            result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]
+              ?.child_support || "0";
+          const garnishmentFees = result.ER_deduction?.garnishment_fees || "N/A";
   
-            allCases.push({
-              ee_id: caseItem.ee_id,
-              case_id: caseItem.case_id,
-              garnishment_type: garnishment.type,
-              ordered_amount: garnData.ordered_amount,
-              arrear_amount: arrearAmount,
-              withholding_amount: withholdingAmount,
-              garnishment_fees: garnishmentFees,
-            });
+          allCases.push({
+            ee_id: result.ee_id,
+            no_of_exemption_including_self: result.no_of_exemption_including_self,
+            Work_State: result.work_state, // Fixed to correctly reference the employee ID
+            case_id: garnData.case_id, // Correctly extracting case ID from garnishment data
+            garnishment_type: garnishment.type,
+            ordered_amount: garnData.ordered_amount,
+            arrear_amount: arrearAmount,
+            withholding_amount: withholdingAmount,
+            garnishment_fees: garnishmentFees,
           });
         });
       });
@@ -201,10 +199,11 @@ const XmlProcessor = () => {
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Employee ID</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Case ID</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
-              {/* <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Ordered Amount</TableCell> */}
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>work_state </TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>no_of_exemption_including_self</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -213,10 +212,12 @@ const XmlProcessor = () => {
                 <TableCell style={{ textAlign: "center" }}>{caseItem.ee_id}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.case_id}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.garnishment_type}</TableCell>
-                {/* <TableCell style={{ textAlign: "center" }}>{caseItem.ordered_amount}</TableCell> */}
                 <TableCell style={{ textAlign: "center" }}>{caseItem.arrear_amount}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.withholding_amount}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.garnishment_fees}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.Work_State}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.no_of_exemption_including_self}</TableCell>
+               
               </TableRow>
             ))}
           </TableBody>
@@ -224,6 +225,7 @@ const XmlProcessor = () => {
       </TableContainer>
     );
   };
+  
   
   
 
@@ -284,29 +286,21 @@ const XmlProcessor = () => {
                   <div className="responseHeader">
                     <h3>API Response</h3>
                     <div>
-              <Tooltip title="Copy JSON Response">
-                <button className="copyButton" onClick={handleCopy}>
-                  <FaCopy />
-                </button>
-              </Tooltip>
+                    <button className="copyButton" onClick={handleCopy}>
+                    <FaCopy />
+                  </button>
+                  <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
+                    {showTable ? <BsFiletypeJson /> : <FaTableCells />}
+                  </button>
+                  <button className="toggleButton" onClick={toggleFullscreen}>
+                    {isFullscreen ? <FaCompress /> : <FaExpand />}
+                  </button>
 
-              <Tooltip title={showTable ? "Show JSON" : "Show Table"}>
-                <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
-                  {showTable ? <BsFiletypeJson /> : <FaTableCells />}
-                </button>
-              </Tooltip>
-
-              <Tooltip title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}>
-                <button className="toggleButton" onClick={toggleFullscreen}>
-                  {isFullscreen ? <FaCompress /> : <FaExpand />}
-                </button>
-              </Tooltip>
-
-              <Tooltip title="Export to Excel">
+              
                 <button className="toggleButton" onClick={exportToExcel}>
                   <BsFiletypeXml />
                 </button>
-              </Tooltip>
+              
           </div>
 
 
