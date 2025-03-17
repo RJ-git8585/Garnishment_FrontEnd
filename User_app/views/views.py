@@ -1567,8 +1567,8 @@ class Employeegarnishment_orderMatch_details(APIView):
         garnishments = garnishment_order.objects.all()
         fees = garnishment_fees.objects.all()
 
-        if not employees.exists() or not garnishments.exists() or not fees.exists():
-            return Response({"message": "No data available"}, status=status.HTTP_204_NO_CONTENT)
+        # if not employees.exists() or not garnishments.exists() or not fees.exists():
+        #     return Response({"message": "No data available"}, status=status.HTTP_204_NO_CONTENT)
 
         
         df_employees = pd.DataFrame(list(employees.values()))
