@@ -161,8 +161,11 @@ class StateTaxView():
 
    
 # record={
+#     "batch_id": "B001A",
+#     "cases": [
+#         {
 #             "ee_id": "EE005138",
-#             "work_state": "montana",
+#             "work_state": "Washington",
 #             "no_of_exemption_including_self": 1.0,
 #             "pay_period": "Weekly",
 #             "filing_status": "single",
@@ -170,13 +173,15 @@ class StateTaxView():
 #             "commission_and_bonus": 0,
 #             "non_accountable_allowances": 0,
 #             "gross_pay": 600,
-#             "debt":500,
+#             "debt":230,
 #             "exemption_amount": 0,
-#             "payroll_taxes": {    
-#                 "federal_income_tax": 100,
-#                 "social_security_tax": 25,
-#                 "medicare_tax": 12,
-#                 "state_tax": 47,
+#             "is_case_of_non_tax_levy":True,
+#             "is_case_of_income_tax_levy":False,
+#             "payroll_taxes": {
+#                 "federal_income_tax": 50,
+#                 "social_security_tax": 14,
+#                 "medicare_tax": 0,
+#                 "state_tax": 20,
 #                 "local_tax": 0,
 #                 "union_dues": 0,
 #                 "wilmington_tax": 0,
@@ -186,9 +191,9 @@ class StateTaxView():
 #                 "CaliforniaSDI": 0
 #             },
 #             "payroll_deductions": {
-#                 "medical_insurance": 17
+#                 "medical_insurance": 0
 #             },
-#             "net_pay": 399,
+#             "net_pay": 516,
 #             "age": 50.0,
 #             "is_blind": False,
 #             "is_spouse_blind": False,
@@ -223,5 +228,7 @@ class StateTaxView():
 #                 }
 #             ]
 #         }
+#     ]
+# }
 # print("Disposible Earning",cs.ChildSupport().calculate_de(record))
 # print("WithHoulding Amount",StateTaxView().calculate(record))

@@ -1367,7 +1367,7 @@ def upsert_garnishment_order(request):
             for _, row in df.iterrows():
                 try:
                     # Skip rows with missing 'cid' or 'eeid'
-                    if pd.isna(row['cid']) or pd.isna(row['eeid']):
+                    if pd.isna(row['eeid']):
                         continue
 
                     # Retrieve existing order
@@ -1399,13 +1399,12 @@ def upsert_garnishment_order(request):
                             order.arrear_greater_than_12_weeks = row['arrear_greater_than_12_weeks']
                             order.arrear_amount = row['arrear_amount']
                             order.save()
-                            updated_orders.append({'cid': order.cid, 'eeid': order.eeid})
+                            updated_orders.append({ 'eeid': order.eeid})
                         else:
-                            no_change.append({'cid': order.cid, 'eeid': order.eeid})
+                            no_change.append({ 'eeid': order.eeid})
                     else:
                         # Create new order
                         garnishment_order.objects.create(
-                            cid=row['cid'],
                             eeid=row['eeid'],
                             case_id=row.get('case_id', None),
                             state=row['state'],
@@ -1417,11 +1416,12 @@ def upsert_garnishment_order(request):
                             arrear_greater_than_12_weeks=row['arrear_greater_than_12_weeks'],
                             arrear_amount=row['arrear_amount']
                         )
-                        added_orders.append({'cid': row['cid'], 'eeid': row['eeid']})
+                        added_orders.append({ 'eeid': row['eeid']})
 
-                except Exception as row_error:
-                    # Error is no longer printed in terminal, only logged in exception handling
-                    continue
+                except Exception as e:
+                    return JsonResponse({'error': str(e)}, status=400)
+
+            
 
             # Prepare response data
             if added_orders or updated_orders:

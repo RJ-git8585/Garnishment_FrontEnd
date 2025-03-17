@@ -109,7 +109,6 @@ class garnishment_order(models.Model):
     amount= models.DecimalField(max_digits=250,decimal_places=2)
     arrear_greater_than_12_weeks= models.BooleanField(default=False, blank=False)
     arrear_amount= models.DecimalField(max_digits=250,decimal_places=2)
-    record_import = models.DateTimeField(auto_now_add=True)
     record_updated = models.DateTimeField(auto_now_add=True)
 
 
