@@ -114,25 +114,6 @@ REST_FRAMEWORK = {
 
 
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-# DATABASES ={
-#     'default' :{
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME' : 'granishmentdb',
-#         'HOST' : 'database-1.ctcyyq8ooo4x.eu-north-1.rds.amazonaws.com',
-#         'USER' : 'admin',
-#         'PASSWORD': 'Orang*#_0107-',
-#         'PORT': '3306',
-#                 'OPTIONS': {
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'",
-#         },
-#     }
-# }
-
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
