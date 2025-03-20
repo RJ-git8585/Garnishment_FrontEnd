@@ -56,7 +56,6 @@ const BatchCalculation = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(parsedData),
       });
-
       if (!apiResponse.ok) {
         throw new Error(`API Error: ${apiResponse.statusText}`);
       }
@@ -147,7 +146,7 @@ const BatchCalculation = () => {
                     ) : (
                         <TableRow>
                             <TableCell colSpan={7} style={{ textAlign: "center", color: "red" }}>
-                                No garnishment data available
+                                 No garnishment data available
                             </TableCell>
                         </TableRow>
                     )}
@@ -168,7 +167,6 @@ const BatchCalculation = () => {
           <hr />
           <div className="container" ref={containerRef}>
             <h2 className="header">Garnishment Processor</h2>
-
             <div className="inputSection">
               <input type="file" accept=".json" onChange={handleFileUpload} className="fileInput" />
               <textarea
@@ -192,6 +190,7 @@ const BatchCalculation = () => {
               <div className="responseSection">
                 <div className="responseHeader">
                   <h3>API Response</h3>
+                  <div>
                   <button className="copyButton" onClick={handleCopy}>
                     <FaCopy />
                   </button>
@@ -201,8 +200,9 @@ const BatchCalculation = () => {
                   <button className="toggleButton" onClick={toggleFullscreen}>
                     {isFullscreen ? <FaCompress /> : <FaExpand />}
                   </button>
+                  </div>
                 </div>
-                <div className="responseContainer">
+                <div className="responseContainer text-sm">
                   {showTable ? renderTable(response) : <pre>{JSON.stringify(response, null, 2)}</pre>}
                 </div>
               </div>
