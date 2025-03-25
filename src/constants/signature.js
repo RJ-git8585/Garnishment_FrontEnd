@@ -30,7 +30,6 @@ export const Signature_crls = {
     DoctitleSubtext: `The Garnishment Engine API provides programmatic access to manage and process garnishment orders, including employee wage deductions and reporting. It is designed for payroll systems and financial institutions to handle garnishment workflows efficiently and accurately.`,
 
 
-
     GettingStartTitle: `Get Started`,
     GettingStartsubtest:`Garnishment API provides programmatic access to read data. Retrieve Users, filter them, etc.`,
 

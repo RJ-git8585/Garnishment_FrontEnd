@@ -1,17 +1,43 @@
-// eslint-disable-next-line no-unused-vars
+/**
+ * Tax Component
+ * 
+ * This component fetches and displays tax details for a user. It includes functionality
+ * to add new tax records, edit existing ones, and delete records using the DeleteItemComponent.
+ * 
+ * @component
+ * 
+ * @param {Function} onDeleteSuccess - Callback function triggered upon successful deletion of a tax record.
+ * 
+ * @returns {JSX.Element} The rendered Tax component.
+ * 
+ * @example
+ * // Usage
+ * <Tax onDeleteSuccess={handleDeleteSuccess} />
+ * 
+ * @remarks
+ * - Fetches tax details from the API using the user's ID stored in sessionStorage.
+ * - Displays tax details in a table format with options to edit or delete records.
+ * - Includes a button to navigate to the "Add Tax" page.
+ * 
+ * @dependencies
+ * - React (useState, useEffect)
+ * - Headertop, Sidebar, DeleteItemComponent (custom components)
+ * - react-icons (FaPlus)
+ * - BASE_URL (API base URL)
+ * 
+ * @todo
+ * - Add loading and error handling states for better user experience.
+ * - Implement the edit functionality for tax records.
+ */
 import {React ,useState,useEffect} from 'react'
 import Headertop from '../component/Headertop'
 import Sidebar from '../component/sidebar'
-// import ProfileHeader from '../component/ProfileHeader';
-// import {  toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 import DeleteItemComponent from '../component/DeleteItemComponent';
 import { BASE_URL } from '../Config';
 import { FaPlus } from "react-icons/fa";
 
 function Tax(onDeleteSuccess) {
 
-  // eslint-disable-next-line no-unused-vars
   const [data, setData] = useState([]);
   // const [isLoading, setIsLoading] = useState(true);
   useEffect(()=>{
@@ -27,11 +53,9 @@ function Tax(onDeleteSuccess) {
       }
     };
     fetchData(); // Call the function
-    // toast.success('All Employee Data !!');
-  },[])
-    // eslint-disable-next-line no-unused-vars
-   
 
+  },[])
+   
   return (
     <>
     <div className="min-h-full">
@@ -67,7 +91,6 @@ function Tax(onDeleteSuccess) {
                   <th className=" pb-4 border-slate-300 uppercase text-xs">Action</th>
                 </tr>
               </thead>
-              {/* {isLoading && <p>Loading data...</p>} */}
            {data && (
              
                 <tbody> 
@@ -76,7 +99,6 @@ function Tax(onDeleteSuccess) {
                
               
                   <tr key={item.employer_id}>
-                  {/* <td className=" border-slate-300 text-xs">{index + 1}</td> */}
                  <td className=" border-slate-300 text-xs">{item.tax_id}</td><td className=" border-slate-300 text-xs">{item.employer_id}</td><td className=" border-slate-300 pr-20 text-right text-xs">{item.fedral_income_tax}</td><td className=" border-slate-300 text-right pr-20 text-xs">{item.social_and_security}</td><td className="text-right pr-20 border-slate-300 text-xs">{item.medicare_tax} </td><td className=" border-slate-300 text-xs pr-20 text-right">{item.state_taxes} </td><button className="py-2 button-cls text-sm  text-blue font-semibold" id={item.employee_id}>Edit</button><td>
                  <DeleteItemComponent
            id={item.employee_id} // Pass the record ID

@@ -51,11 +51,6 @@ const menuData = {
     },
     { title: "Garnishment Calculation", link: "#GarnishmentCalculation", method: "Post" },
   ],
-  // Calculation: [
-  //   { title: SignatureMenus.EmployeeOnboarding, link: "#EmployeeOnboarding" },
-  //   { title: SignatureMenus.Employer_Portal, link: "#EmployerPortal" },
-  //   { title: SignatureMenus.Garnishment, link: "#Garnishment" },
-  // ],
 };
 
 const Signature = () => {

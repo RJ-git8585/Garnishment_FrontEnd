@@ -69,7 +69,7 @@ const StateTax = () => {
                   />
                   </div> */}
                   {/* s{errors.employee_name && <span className="cutom_error" style={{ color: 'red' }}>{errors.employee_name}</span>}   */}
-                  <div className="flex items-center space-x-2 grid grid-cols-subgrid gap-2 col-span-3">
+                  <div className="flex items-center space-x-2 grid-cols-subgrid gap-2 col-span-3">
                   <label className="text-gray-700 font-medium">Email:</label>
               <input
                 type="email"
@@ -82,7 +82,7 @@ const StateTax = () => {
               />
             </div>
 
-            <div className="flex items-center space-x-2 grid grid-cols-subgrid gap-2 col-span-3">
+            <div className="flex items-center space-x-2 grid-cols-subgrid gap-2 col-span-3">
     <label className="text-gray-700 font-medium">Name:</label>
     <input type="text" id="name" className="col-start-2 appearance-none border bg-gray-100 text-sm rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your name" />
        

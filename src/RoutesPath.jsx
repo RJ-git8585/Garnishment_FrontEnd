@@ -1,89 +1,106 @@
-
-import Products from './pages/Tax'
-import Signup from './pages/signup'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Form from './component/form'  
+import PublicRoute from './component/PublicRoute';
+import PrivateRoute from './component/PrivateRoute';
+import Notfound from './pages/Notfound';
+
+// Pages
+import Form from './component/form';
+import Signup from './pages/signup';
+import Forgot from './pages/forgot';
+import PasswordResetConfirm from './pages/PasswordResetConfirm';
 import Dashboard from './pages/dashboard';
 import Logout from './pages/Logout';
 import Profile from './pages/profile';
-import Forgot from './pages/forgot';
 import Setting from './pages/setting';
 import Help from './pages/Help';
 import Tax from './pages/Tax';
 import Garnishment from './pages/Garnishment';
-import PrivateRoute from './component/PrivateRoute';
 import Employee from './pages/employee';
-import Notfound from './pages/Notfound';
+import EmployeeEditForm from './pages/EmployeeEditForm';
+import EmployeeProfile from './pages/EmployeeProfile';
+import CaseRegister from './pages/CaseRegister';
+import Department from './pages/department';
+import Location from './pages/location';
+import Iwo from './pages/iwo';
+import Results from './pages/results';
+import GarnishFee from './pages/GarnishFee';
+import Orders from './pages/Orders';
+import EmpImport from './pages/EmpImport';
+import ComImport from './pages/ComImport';
+import OrdImport from './pages/OrdImport';
+
+// Components
 import AddEmployee from './component/AddEmployee';
 import AddDepartment from './component/AddDepartment';
 import AddTax from './component/AddTax';
 import AddLocation from './component/AddLocation';
-import Department from './pages/department';
-import Location from './pages/location';
-import Iwo from './pages/iwo';
-import PasswordResetConfirm from './pages/PasswordResetConfirm';
-import Results from './pages/results';
-import PublicRoute from './component/PublicRoute';
+
+// Documents
 import Siganture from './document/Siganture';
-import EmployeeProfile from './pages/EmployeeProfile';
-import EmpImport from './pages/EmpImport';
-import GarnishFee from './pages/GarnishFee';
 import BatchCalculation from './document/BatchCalculation';
-import Orders from './pages/Orders';
-import EmployeeEditForm from './pages/EmployeeEditForm';
-import ComImport from './pages/ComImport';
-import OrdImport from './pages/OrdImport';
 import XmlProcessor from './document/xmlProcessor';
-import CaseRegister from './pages/CaseRegister';
+
+const publicRoutes = [
+  { path: "/", element: <Form />, restricted: true },
+  { path: "/signup", element: <Signup />, restricted: true },
+  { path: "/forgot", element: <Forgot />, restricted: true },
+  { path: "/reset-password/:token", element: <PasswordResetConfirm />, restricted: true },
+];
+
+const privateRoutes = [
+  { path: "/dashboard", element: <Dashboard /> },
+  { path: "/logout", element: <Logout /> },
+  { path: "/profile", element: <Profile /> },
+  { path: "/case", element: <CaseRegister /> },
+  { path: "/setting", element: <Setting /> },
+  { path: "/help", element: <Help /> },
+  { path: "/tax", element: <Tax /> },
+  { path: "/garnishment", element: <Garnishment /> },
+  { path: "/employee", element: <Employee /> },
+  { path: "/employee/edit/:case_id/:ee_id", element: <EmployeeEditForm /> },
+  { path: "/employee/:id/:employeeId", element: <EmployeeProfile /> },
+  { path: "/addemployee", element: <AddEmployee /> },
+  { path: "/adddepartment", element: <AddDepartment /> },
+  { path: "/addlocation", element: <AddLocation /> },
+  { path: "/department", element: <Department /> },
+  { path: "/location", element: <Location /> },
+  { path: "/iwo", element: <Iwo /> },
+  { path: "/results", element: <Results /> },
+  { path: "/addtax", element: <AddTax /> },
+  { path: "/GarnishFee", element: <GarnishFee /> },
+  { path: "/Orders", element: <Orders /> },
+  { path: "/EmpImport", element: <EmpImport /> },
+  { path: "/ComImport", element: <ComImport /> },
+  { path: "/OrdImport", element: <OrdImport /> },
+  { path: "/BatchCalculation", element: <BatchCalculation /> },
+  { path: "/xmlProcessor", element: <XmlProcessor /> },
+];
 
 function RoutesPath() {
   return (
     <div>
-         
       <BrowserRouter>
-      <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<PublicRoute restricted={true}><Form /></PublicRoute>} />
-        <Route path="/signup" element={<PublicRoute restricted={true}><Signup /></PublicRoute>} />
-        
-        <Route path="/forgot" element={<PublicRoute restricted={true}><Forgot /></PublicRoute>} />
-        <Route path="/reset-password/:token" element={<PublicRoute restricted={true}><PasswordResetConfirm /></PublicRoute>} />
-        {/* PRIVATE PAGE */}
-        <Route path="/employee/edit/:case_id/:ee_id" element={<EmployeeEditForm />} /> {/* New route for editing */}
-        <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>} />
-        <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
-        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
-        <Route path="/case" element={<PrivateRoute><CaseRegister /></PrivateRoute>} />
-        <Route path="/setting" element={<PrivateRoute><Setting /></PrivateRoute>} />
-        <Route path="/help" element={<PrivateRoute><Help /></PrivateRoute>} />
-        <Route path="/tax" element={<PrivateRoute><Tax /></PrivateRoute>} />
-        <Route path="/garnishment" element={<PrivateRoute><Garnishment /></PrivateRoute>} />
-        {/* <Route path="/privacy" element={<Privacy />} /> */}
-        <Route path="/employee" element={<PrivateRoute><Employee /></PrivateRoute>} />
-        {/* <Route path="/order" element={<PrivateRoute><Order /></PrivateRoute>} /> */}
-        <Route path="/addemployee" element={<PrivateRoute><AddEmployee /></PrivateRoute>} />
-        <Route path="/adddepartment" element={<PrivateRoute><AddDepartment /></PrivateRoute>} />
-        <Route path="/addlocation" element={<PrivateRoute><AddLocation /></PrivateRoute>} />
-        <Route path="/department" element={<PrivateRoute><Department /></PrivateRoute>} />
-        <Route path="/location" element={<PrivateRoute><Location /></PrivateRoute>} />
-        <Route path="/iwo" element={<PrivateRoute><Iwo /></PrivateRoute>} />
-        <Route path="/results" element={<PrivateRoute><Results /></PrivateRoute>} />
-        <Route path="/addtax" element={<PrivateRoute><AddTax /></PrivateRoute>} />
-        <Route path="/employee/:id/:employeeId" element={<PrivateRoute><EmployeeProfile /></PrivateRoute>} />
-        <Route path="/GarnishFee" element={<PrivateRoute><GarnishFee /></PrivateRoute>} />
-        <Route path="*" element={<Notfound />} />
-        <Route path="/docs" element={<Siganture />} />
-        <Route path="/EmpImport" element={<PrivateRoute><EmpImport /></PrivateRoute> } />
-        <Route path="/ComImport" element={<PrivateRoute><ComImport /></PrivateRoute> } />
-        <Route path="/OrdImport" element={<PrivateRoute><OrdImport /></PrivateRoute> } />
-        <Route path="/BatchCalculation" element={<PrivateRoute><BatchCalculation /></PrivateRoute> } />
-        <Route path="/xmlProcessor" element={<PrivateRoute><XmlProcessor /></PrivateRoute>} />
-        <Route path="/Orders" element={<PrivateRoute><Orders /></PrivateRoute> } />
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+          {publicRoutes.map(({ path, element, restricted }) => (
+            <Route
+              key={path}
+              path={path}
+              element={<PublicRoute restricted={restricted}>{element}</PublicRoute>}
+            />
+          ))}
+          {privateRoutes.map(({ path, element }) => (
+            <Route
+              key={path}
+              path={path}
+              element={<PrivateRoute>{element}</PrivateRoute>}
+            />
+          ))}
+          <Route path="*" element={<Notfound />} />
+          <Route path="/docs" element={<Siganture />} />
+        </Routes>
+      </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default RoutesPath
+export default RoutesPath;

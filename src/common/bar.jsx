@@ -1,9 +1,19 @@
 
-
+/**
+ * Renders a component containing a bar chart, a button, and a pie chart.
+ *
+ * The bar chart displays data with a band scale on the x-axis and multiple series.
+ * The pie chart visualizes data with labeled series.
+ *
+ * @component
+ * @returns {JSX.Element} A React component containing a bar chart, a button, and a pie chart.
+ */
 
 // import { 'React' } from 'react'
 import { BarChart } from '@mui/x-charts/BarChart';
 import { PieChart } from '@mui/x-charts/PieChart';
+import Button from '../component/Button/Button';
+
 function bar() {
   return (
     <div> 
@@ -13,7 +23,7 @@ function bar() {
     width={500}
     height={300}
   />
-
+<Button/>
 <PieChart
       series={[
         {

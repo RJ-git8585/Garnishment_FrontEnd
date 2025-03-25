@@ -1,9 +1,52 @@
+/**
+ * XmlProcessor Component
+ * 
+ * This component provides functionality for processing XML and Excel files, converting them to JSON,
+ * and performing garnishment calculations. It also allows users to view and export the processed data.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The XmlProcessor component.
+ * 
+ * @description
+ * - Allows users to upload an Excel file, which is converted to JSON via an API call.
+ * - Performs garnishment calculations on the uploaded data using another API call.
+ * - Displays the API response in either JSON format or a table format.
+ * - Provides options to copy the response, toggle fullscreen mode, and export the data to an Excel file.
+ * - Displays the time taken for file upload and garnishment calculation.
+ * 
+ * @state {number} reloadKey - Key to force component re-render.
+ * @state {string} jsonInput - JSON input string.
+ * @state {Object|null} response - API response data.
+ * @state {string} error - Error message, if any.
+ * @state {boolean} loading - Loading state for API calls.
+ * @state {boolean} showTable - Flag to toggle between JSON and table view.
+ * @state {boolean} isFullscreen - Flag to toggle fullscreen mode.
+ * @state {File|null} file - Uploaded file (not directly used in the component).
+ * @state {number|null} fileUploadTime - Time taken for file upload in milliseconds.
+ * @state {number|null} garnishmentCalcTime - Time taken for garnishment calculation in milliseconds.
+ * 
+ * @function reloadComponent - Resets the component state to its initial values.
+ * @function handleFileUpload - Handles file upload, converts it to JSON, and triggers garnishment calculation.
+ * @function exportToExcel - Exports the processed data to an Excel file.
+ * @function handleGarnishmentCalculation - Sends the JSON data to the API for garnishment calculation.
+ * @function handleCopy - Copies the API response to the clipboard.
+ * @function toggleFullscreen - Toggles the fullscreen mode for the component.
+ * @function renderTable - Renders the API response data in a table format.
+ * 
+ * @dependencies
+ * - React hooks: useState, useRef
+ * - Material-UI components: Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer
+ * - External libraries: XLSX for Excel file handling, react-icons for icons
+ * 
+ * @example
+ * <XmlProcessor />
+ */
 import { BASE_URL } from '../Config';
 import Headertop from '../component/Headertop';
 import { FaTableCells } from "react-icons/fa6";
 import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import { BsFiletypeJson,BsFiletypeXml  } from "react-icons/bs";
-// import Tooltip from '@mui/material/Tooltip';
 import Sidebar from '../component/sidebar';
 import { useState, useRef } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
