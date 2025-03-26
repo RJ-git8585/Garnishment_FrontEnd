@@ -1665,7 +1665,7 @@ class convert_excel_to_json(APIView):
                 'Taxes_MedicareTax': 'medicare_tax',
                 'Taxes_SocialSecurityTax': 'social_security_tax',
                 'Deductions_MedicalInsurance': 'medical_insurance',
-                'NetPay_Unnamed: 20_level_1': 'net_pay'
+                'Deductions_NetPay': 'net_pay'
             }
             payroll_batch_details.rename(columns=column_mapping, inplace=True)
             # Rename columns in garnishment_order_details
@@ -1774,7 +1774,7 @@ class convert_excel_to_json(APIView):
                         "payroll_deductions": {
                             "medical_insurance": row.get("medical_insurance")
                         },
-                        "net_pay": row.get("Deductions_NetPay"),
+                        "net_pay": row.get("net_pay"),
                         "age": row["age"],
                         "is_blind": row["is_blind"],
                         "is_spouse_blind": row["is_spouse_blind"],
