@@ -479,7 +479,6 @@ def get_order_details(request):
             return JsonResponse({'message': 'Data not found', 'status code':status.HTTP_404_NOT_FOUND})
         except Exception as e:
             return JsonResponse({'error': str(e), status:status.HTTP_500_INTERNAL_SERVER_ERROR})  
-
     else:
         return JsonResponse({'message': 'Company ID not found', 'status code':status.HTTP_404_NOT_FOUND})
 
@@ -1560,6 +1559,8 @@ def upsert_company_details(request):
             return JsonResponse({'error': str(e)}, status=400)
 
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
 class Employeegarnishment_orderMatch_details(APIView):
 
     def get(self, request):
@@ -1753,16 +1754,16 @@ class convert_excel_to_json(APIView):
                         "no_of_exemption_including_self": row["no_of_exemption_including_self"],
                         "pay_period": row["pay_period"],
                         "filing_status": row["filing_status"],
-                        "wages": row.get("wages", 0),
-                        "commission_and_bonus": row.get("commission_and_bonus", 0),
-                        "non_accountable_allowances": row.get("non_accountable_allowances", 0),
-                        "gross_pay": row.get("gross_pay", 0),
+                        "wages": row.get("wages"),
+                        "commission_and_bonus": row.get("commission_and_bonus"),
+                        "non_accountable_allowances": row.get("non_accountable_allowances"),
+                        "gross_pay": row.get("gross_pay"),
                         "payroll_taxes": {
-                            "federal_income_tax": row.get("federal_income_tax", 0),
-                            "social_security_tax": row.get("social_security_tax", 0),
-                            "medicare_tax": row.get("medicare_tax", 0),
-                            "state_tax": row.get("state_tax", 0),
-                            "local_tax": row.get("local_tax", 0),
+                            "federal_income_tax": row.get("federal_income_tax"),
+                            "social_security_tax": row.get("social_security_tax"),
+                            "medicare_tax": row.get("medicare_tax"),
+                            "state_tax": row.get("state_tax"),
+                            "local_tax": row.get("local_tax"),
                             "union_dues":row.get("Deductions_UnionDues"),
                             "wilmington_tax":row.get("Taxes_WilmingtonTax"),
                             "medical_insurance_pretax":row.get("Deductions_MedicalInsurancePretax"),
@@ -1771,9 +1772,9 @@ class convert_excel_to_json(APIView):
                             "CaliforniaSDI":row.get("Deductions_CaliforniaSDI")
                         },
                         "payroll_deductions": {
-                            "medical_insurance": row.get("medical_insurance", 0)
+                            "medical_insurance": row.get("medical_insurance")
                         },
-                        "net_pay": row.get("net_pay", 0),
+                        "net_pay": row.get("Deductions_NetPay"),
                         "age": row["age"],
                         "is_blind": row["is_blind"],
                         "is_spouse_blind": row["is_spouse_blind"],

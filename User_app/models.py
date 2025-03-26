@@ -60,7 +60,7 @@ class Employee_Detail(models.Model):
     social_security_number = models.CharField(max_length=255)
     is_blind = models.BooleanField(null=True, blank=True)
     home_state=models.CharField(max_length=255)
-    state=models.CharField(max_length=255)
+    work_state=models.CharField(max_length=255)
     gender=models.CharField(max_length=255,null=True, blank=True)
     number_of_exemptions = models.IntegerField()
     filing_status = models.CharField(max_length=255)
@@ -74,6 +74,7 @@ class Employee_Detail(models.Model):
     garnishment_fees_status=models.BooleanField()
     garnishment_fees_suspended_till=models.DateField()
     case_id=models.CharField(max_length=255)
+    pay_period = models.CharField(max_length=255)
 
 
 class payroll(models.Model):
@@ -266,3 +267,16 @@ class EmployeeData(models.Model):
     no_of_student_default_loan = models.FloatField(null=True, blank=True)
     arrears_greater_than_12_weeks = models.CharField(max_length=255)
     no_of_dependent_exemption = models.IntegerField(null=True, blank=True)
+
+
+
+class APILog(models.Model):
+    level = models.CharField(max_length=10)  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    module = models.CharField(max_length=255, blank=True, null=True)
+    exception = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.timestamp} - {self.level}: {self.message[:50]}"
+
