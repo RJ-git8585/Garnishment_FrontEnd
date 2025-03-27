@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState, useEffect, useCallback } from "react";
 import Headertop from "../component/Headertop";
 import Sidebar from "../component/sidebar";
@@ -9,6 +8,8 @@ import { BASE_URL } from "../Config";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
+import { API_URLS } from "../constants/apis";
+
 
 function Employee({ onDeleteSuccess }) {
   const cid = sessionStorage.getItem("cid");
@@ -18,8 +19,7 @@ function Employee({ onDeleteSuccess }) {
   const [pageSize, setPageSize] = useState(10);
   const [totalRows, setTotalRows] = useState(0);
   const [employeeRules, setEmployeeRules] = useState({});
-
-  const exportLink = `${BASE_URL}/User/ExportEmployees/${cid}/`;
+  const exportLink = (API_URLS.EXPORT_EMPLOYEES + `?cid=${cid}`);
 
   const fetchData = useCallback(async () => {
     setLoading(true);

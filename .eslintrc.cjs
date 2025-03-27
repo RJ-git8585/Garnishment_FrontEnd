@@ -14,7 +14,8 @@ module.exports = {
   rules: {
     'react/jsx-no-target-blank': 'off',
     'no-unused-vars': 'off',
-    'react-hooks/rules-of-hooks': 'off', // Disables the rule globally
+    'react-hooks/rules-of-hooks': 'off',
+    "react/prop-types": "off", // Disables the rule globally
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: false },

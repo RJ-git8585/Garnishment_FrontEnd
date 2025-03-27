@@ -5,6 +5,7 @@ import ProfileHeader from '../component/ProfileHeader';
 import load from '../bouncing-circles.svg';
 import { DiJqueryLogo } from 'react-icons/di';
 import { BASE_URL } from '../Config';
+import { API_URLS } from '../constants/apis';
 
 function Dashboard() {
   const [dashboardData, setDashboardData] = useState({});
@@ -23,8 +24,8 @@ function Dashboard() {
 
         // Fetch dashboard and logs data in parallel
         const [dashboardRes, logsRes] = await Promise.all([
-          fetch(`${BASE_URL}/User/DashboardData`),
-          fetch(`${BASE_URL}/User/logdata`),
+          fetch(API_URLS.DASHBOARD_USERS_DATA),
+          fetch(API_URLS.DASHBOARD_LOGDATA),
         ]);
 
         const [dashboardJson, logsJson] = await Promise.all([
