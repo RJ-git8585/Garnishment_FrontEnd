@@ -1,43 +1,13 @@
-import React from 'react';
+import React from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
+import { formatGarnishmentData } from "../utils/dataFormatter";
 
-const TableRenderer = ({ response }) => {
-  if (!response || !response.results) {
+export const renderTable = (data) => {
+  const allCases = formatGarnishmentData(data);
+
+  if (allCases.length === 0) {
     return <p style={{ color: "red" }}>No valid results found.</p>;
   }
-
-  const allCases = response.results.flatMap((result) =>
-    result.garnishment_data.flatMap((garnishment) =>
-      garnishment.data.map((garnData) => ({
-        ee_id: result.ee_id,
-        case_id: garnData.case_id,
-        garnishment_type: garnishment.type,
-        arrear_amount: result.Agency?.find((agency) => agency.Arrear)?.Arrear[0]?.arrear_amount || "0",
-        withholding_amount: result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]?.child_support || "0",
-        garnishment_fees: result.ER_deduction?.garnishment_fees || "N/A",
-        Work_State: result.work_state,
-        no_of_exemption_including_self: result.no_of_exemption_including_self,
-        pay_period: result.pay_period,
-        filing_status: result.filing_status,
-        wages: result.wages,
-        commission_and_bonus: result.commission_and_bonus,
-        non_accountable_allowances: result.non_accountable_allowances,
-        gross_pay: result.gross_pay,
-        federal_income_tax: result.payroll_taxes.federal_income_tax,
-        social_security_tax: result.payroll_taxes.social_security_tax,
-        medicare_tax: result.payroll_taxes.medicare_tax,
-        state_income_tax: result.payroll_taxes.state_tax,
-        local_tax: result.payroll_taxes.local_tax,
-        union_dues: result.payroll_taxes.union_dues,
-        wilmington_tax: result.payroll_taxes.wilmington_tax,
-        medical_insurance_pretax: result.payroll_taxes.medical_insurance_pretax,
-        industrial_insurance: result.payroll_taxes.industrial_insurance,
-        life_insurance: result.payroll_taxes.life_insurance,
-        CaliforniaSDI: result.payroll_taxes.CaliforniaSDI,
-        medical_insurance: result.payroll_deductions.medical_insurance,
-      }))
-    )
-  );
 
   return (
     <TableContainer component={Paper} style={{ marginTop: "20px", overflowX: "auto" }}>
@@ -108,5 +78,3 @@ const TableRenderer = ({ response }) => {
     </TableContainer>
   );
 };
-
-export default TableRenderer;

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSpring, animated, useTransition } from '@react-spring/web';
 import Sidebar from '../component/sidebar';
 import Headertop from '../component/Headertop';
 import ProfileHeader from '../component/ProfileHeader';
@@ -54,9 +55,24 @@ function Dashboard() {
     { label: 'Active Employees', value: Active_employees },
   ];
 
+  const animatedStats = stats.map((stat) => {
+    const springProps = useSpring({
+      from: { number: 0 },
+      to: { number: stat.value || 0 },
+      config: { duration: 1000 },
+    });
+    return { ...stat, springProps };
+  });
+
+  const logTransitions = useTransition(activityLogs, {
+    from: { opacity: 0, transform: 'translateY(-10px)' },
+    enter: { opacity: 1, transform: 'translateY(0)' },
+    leave: { opacity: 0, transform: 'translateY(-10px)' },
+    keys: (log) => log.id,
+  });
+
   return (
     <div className="min-h-full">
-      
       <div className="container">
         <div className="sidebar hidden lg:block">
           <Sidebar />
@@ -65,11 +81,13 @@ function Dashboard() {
           <Headertop />
           <ProfileHeader />
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-8 custom_tab">
-            {stats.map((stat, idx) => (
+            {animatedStats.map((stat, idx) => (
               <div key={idx} className="mx-auto flex max-w-xs flex-col shadow-lg px-4 py-4 gap-y-4">
                 <dt className="text-xs leading-3 text-black-600">{stat.label}</dt>
                 <dd className="text-3xl font-semibold text-center tracking-tight text-black-900 sm:text-5xl">
-                  {stat.value || 0}
+                  <animated.span>
+                    {stat.springProps.number.to((n) => Math.floor(n))}
+                  </animated.span>
                 </dd>
               </div>
             ))}
@@ -87,11 +105,11 @@ function Dashboard() {
                   </div>
                 ) : activityLogs.length > 0 ? (
                   <ul>
-                    {activityLogs.map((log) => (
-                      <li key={log.id} className="text-sm mb-2 mt-2 flex logs_cls p-2">
+                    {logTransitions((style, log) => (
+                      <animated.li style={style} key={log.id} className="text-sm mb-2 mt-2 flex logs_cls p-2">
                         <DiJqueryLogo />
                         {log.details}
-                      </li>
+                      </animated.li>
                     ))}
                   </ul>
                 ) : (

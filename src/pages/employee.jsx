@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Box from "@mui/material/Box";
 import { API_URLS } from "../constants/apis";
-
+import { useSpring, animated } from '@react-spring/web';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Employee({ onDeleteSuccess }) {
   const cid = sessionStorage.getItem("cid");
@@ -114,6 +115,12 @@ function Employee({ onDeleteSuccess }) {
     },
   ];
 
+  const contentAnimation = useSpring({
+    opacity: loading ? 0 : 1,
+    transform: loading ? 'translateY(10px)' : 'translateY(0)',
+    config: { duration: 500 },
+  });
+
   return (
     <div className="min-h-full">
         <div className="container main ml-auto">
@@ -138,30 +145,38 @@ function Employee({ onDeleteSuccess }) {
           {/* Table Section */}
           <h4 className="text-lg font-semibold text-black mb-4">Employees</h4>
           <Box sx={{ flexGrow: 1, width: "100%", overflow: "auto" }}>
-              <DataGrid
-                getRowId={(row) => row.ee_id}
-                columns={columns}
-                rows={data}
-                rowCount={totalRows} // Ensure correct pagination count
-                pagination
-                pageSizeOptions={[10, 25, 50, 100]}
-                pageSize={pageSize}
-                paginationMode="server"
-                onPageChange={(newPage) => setPage(newPage)}
-                onPageSizeChange={(newSize) => setPageSize(newSize)}
-                loading={loading}
-                sx={{
-                  "& .MuiDataGrid-columnHeaders": {
-                    backgroundColor: "black", // Entire header row background
-                    color: "white", // All headers text color
-                  },
-                  "& .MuiDataGrid-columnHeader[data-field='actions']": {
-                    backgroundColor: "#313131", // "Actions" column header only
-                    color: "white", // "Actions" text white
-                  },
-                }}
-              />
-            </Box>
+            {loading ? (
+              <div className="flex justify-center items-center h-40">
+                <CircularProgress />
+              </div>
+            ) : (
+              <animated.div style={contentAnimation}>
+                <DataGrid
+                  getRowId={(row) => row.ee_id}
+                  columns={columns}
+                  rows={data}
+                  rowCount={totalRows} // Ensure correct pagination count
+                  pagination
+                  pageSizeOptions={[10, 25, 50, 100]}
+                  pageSize={pageSize}
+                  paginationMode="server"
+                  onPageChange={(newPage) => setPage(newPage)}
+                  onPageSizeChange={(newSize) => setPageSize(newSize)}
+                  loading={loading}
+                  sx={{
+                    "& .MuiDataGrid-columnHeaders": {
+                      backgroundColor: "black", // Entire header row background
+                      color: "white", // All headers text color
+                    },
+                    "& .MuiDataGrid-columnHeader[data-field='actions']": {
+                      backgroundColor: "#313131", // "Actions" column header only
+                      color: "white", // "Actions" text white
+                    },
+                  }}
+                />
+              </animated.div>
+            )}
+          </Box>
         </div>
       </div>
     </div>

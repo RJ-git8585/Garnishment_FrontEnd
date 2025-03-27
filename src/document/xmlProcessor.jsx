@@ -1,11 +1,13 @@
-import React, { useState, useRef } from 'react';
 import { BASE_URL } from '../Config';
 import Headertop from '../component/Headertop';
+import { FaTableCells } from "react-icons/fa6";
+import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
+import { BsFiletypeJson, BsFiletypeXml } from "react-icons/bs";
 import Sidebar from '../component/sidebar';
-import FileUpload from './components/FileUpload';
-import ApiResponse from './components/ApiResponse';
-import TableRenderer from './components/TableRenderer';
+import { useState, useRef } from 'react';
 import './xml.css';
+import { renderTable } from '../component/TableRenderer';
+import { exportToExcel } from '../component/ExcelExporter';
 
 const XmlProcessor = () => {
   const [reloadKey, setReloadKey] = useState(0);
@@ -15,22 +17,25 @@ const XmlProcessor = () => {
   const [loading, setLoading] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [, setFile] = useState(null);
   const [fileUploadTime, setFileUploadTime] = useState(null);
   const [garnishmentCalcTime, setGarnishmentCalcTime] = useState(null);
   const containerRef = useRef(null);
 
   const reloadComponent = () => {
-    setReloadKey((prevKey) => prevKey + 1);
+    setReloadKey(prevKey => prevKey + 1);
     setJsonInput('');
     setResponse(null);
     setError('');
     setLoading(false);
+    setFile(null);
     setShowTable(false);
     setFileUploadTime(null);
     setGarnishmentCalcTime(null);
   };
 
-  const handleFileUpload = async (uploadedFile) => {
+  const handleFileUpload = async (e) => {
+    const uploadedFile = e.target.files[0];
     if (uploadedFile) {
       const formData = new FormData();
       formData.append('file', uploadedFile);
@@ -52,6 +57,7 @@ const XmlProcessor = () => {
 
         const data = await apiResponse.json();
         setJsonInput(JSON.stringify(data, null, 2));
+
         await handleGarnishmentCalculation(data);
       } catch (err) {
         setError(err.message || 'An error occurred while uploading the file.');
@@ -89,17 +95,39 @@ const XmlProcessor = () => {
     }
   };
 
+  const handleCopy = () => {
+    if (response) {
+      navigator.clipboard.writeText(JSON.stringify(response, null, 2)).then(
+        () => alert('Response copied to clipboard!'),
+        () => alert('Failed to copy response.')
+      );
+    }
+  };
+
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      if (containerRef.current.requestFullscreen) {
+        containerRef.current.requestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+    setIsFullscreen(!isFullscreen);
+  };
+
   return (
     <div className="min-h-full" key={reloadKey}>
       <div className="container main ml-auto">
-        <div className="sidebar hidden lg:block">
-          <Sidebar />
-        </div>
-        <div className="contant content ml-auto customBatchProcessing">
+        <div className='sidebar hidden lg:block'><Sidebar /></div>
+        <div className='contant content ml-auto customBatchProcessing'>
           <Headertop />
           <hr />
           <div className="bg_cls container" ref={containerRef}>
             <h2 className="header">Batch Processor</h2>
+
+            {/* Display time response outside API response box */}
             <div className="timeContainer">
               {fileUploadTime !== null && (
                 <p className="text-black">
@@ -112,26 +140,58 @@ const XmlProcessor = () => {
                 </p>
               )}
             </div>
+
             <div className="columnContainer">
-              <FileUpload
-                onFileUpload={handleFileUpload}
-                onReset={reloadComponent}
-                loading={loading}
-                jsonInput={jsonInput}
-                setJsonInput={setJsonInput}
-                error={error}
-              />
+              <div className="inputSection">
+                <div className="fileInputContainer">
+                  <input
+                    type="file"
+                    accept=".xlsx"
+                    onChange={handleFileUpload}
+                    className="fileInput"
+                  />
+                  <button
+                    className="resetButton"
+                    onClick={reloadComponent}
+                    disabled={loading}
+                  >
+                    {loading ? 'Loading Responses...' : 'Reset'}
+                  </button>
+                </div>
+
+                <textarea
+                  className="textArea"
+                  placeholder="Paste your JSON here..."
+                  value={jsonInput}
+                  onChange={(e) => setJsonInput(e.target.value)}
+                />
+                {error && <p className="error">{error}</p>}
+              </div>
               {response && (
-                <ApiResponse
-                  response={response}
-                  showTable={showTable}
-                  setShowTable={setShowTable}
-                  containerRef={containerRef}
-                  isFullscreen={isFullscreen}
-                  setIsFullscreen={setIsFullscreen}
-                >
-                  <TableRenderer response={response} />
-                </ApiResponse>
+                <div className="responseSection">
+                  <div className="responseHeader">
+                    <h3>API Response</h3>
+                    <div>
+                      <button className="copyButton" onClick={handleCopy}>
+                        <FaCopy />
+                      </button>
+                      <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
+                        {showTable ? <BsFiletypeJson /> : <FaTableCells />}
+                      </button>
+                      <button className="toggleButton" onClick={toggleFullscreen}>
+                        {isFullscreen ? <FaCompress /> : <FaExpand />}
+                      </button>
+                      <button className="toggleButton" onClick={() => exportToExcel(response)}>
+                        <BsFiletypeXml />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="responseContainer">
+                    {showTable ? renderTable(response) : (
+                      <pre className="responsejson">{JSON.stringify(response, null, 2)}</pre>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
           </div>
