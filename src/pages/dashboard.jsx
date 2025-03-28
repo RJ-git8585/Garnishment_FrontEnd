@@ -72,13 +72,7 @@ function Dashboard() {
   });
 
   return (
-    <div className="min-h-full">
-      <div className="container">
-        <div className="sidebar hidden lg:block">
-          <Sidebar />
-        </div>
-        <div className="content ml-auto remove-btns">
-          <Headertop />
+ <>
           <ProfileHeader />
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-8 custom_tab">
             {animatedStats.map((stat, idx) => (
@@ -118,9 +112,8 @@ function Dashboard() {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-    </div>
+       
+      </>
   );
 }
 

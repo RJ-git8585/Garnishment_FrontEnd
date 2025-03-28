@@ -157,14 +157,7 @@ const BatchCalculation = () => {
 };
 
   return (
-    <div className="min-h-full" key={reloadKey}>
-      <div className="container main ml-auto">  
-        <div className="sidebar hidden lg:block">
-          <Sidebar />
-        </div>
-        <div className="contant content ml-auto customBatchProcessing">
-          <Headertop />
-          <hr />
+    <>
           <div className="container" ref={containerRef}>
             <h2 className="header">Garnishment Processor</h2>
             <div className="inputSection">
@@ -208,9 +201,7 @@ const BatchCalculation = () => {
               </div>
             )}
           </div>
-        </div>
-      </div>
-    </div>
+          </>
   );
 };
 

@@ -38,12 +38,6 @@ function Orders({ onDeleteSuccess }) {
 
   return (
 <div>
-      <div className="min-h-full">
-        <div className="container main ml-auto">
-          <div className="sidebar hidden lg:block"><Sidebar /></div>
-          <div className="content ml-auto flex flex-col">
-            <Headertop />
-            <hr />
             <div className="items-right text-right mt-4 mb-4 customexport">
               <a href={Link1} className="border inline-flex items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><TiExport /> Export</a>
               <a href="/OrdImport" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"><CgImport /> Import</a>
@@ -97,9 +91,7 @@ function Orders({ onDeleteSuccess }) {
               />
             </Box>
           </div>
-        </div>
-      </div>
-    </div>
+       
   
   );
 }

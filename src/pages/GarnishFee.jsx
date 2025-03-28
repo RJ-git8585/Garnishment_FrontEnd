@@ -40,12 +40,7 @@ function GarnishFee() {
   };
 
   return (
-    <div className="min-h-full">
-      <div className="container main ml-auto">
-        <div className="sidebar hidden lg:block"><Sidebar /></div>
-        <div className="content ml-auto flex flex-col">
-          <Headertop />
-          <hr />
+         <>
           <h4 className="text-l text-black-800 mb-4">Garnishment Fee</h4>
           <Box sx={{ height: 600, width: "100%" }}>
             <DataGrid
@@ -73,10 +68,9 @@ function GarnishFee() {
               loading={loading}
             />
           </Box>
-        </div>
-      </div>
+        
       {selectedRuleId && <EditGarnishmentRule rule={selectedRuleId} open={editOpen} handleClose={handleEditClose} />}
-    </div>
+      </>
   );
 }
 

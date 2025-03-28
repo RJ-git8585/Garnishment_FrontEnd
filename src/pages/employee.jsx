@@ -122,15 +122,7 @@ function Employee({ onDeleteSuccess }) {
   });
 
   return (
-    <div className="min-h-full">
-        <div className="container main ml-auto">
-        <div className="sidebar hidden lg:block ">
-          <Sidebar />
-        </div>
-
-        <div className="content ml-auto flex flex-col">
-          <Headertop />
-          <hr />
+   <>
 
           {/* Action Buttons */}
           <div className="text-right mt-4 mb-4">
@@ -177,9 +169,7 @@ function Employee({ onDeleteSuccess }) {
               </animated.div>
             )}
           </Box>
-        </div>
-      </div>
-    </div>
+      </>
   );
 }
 

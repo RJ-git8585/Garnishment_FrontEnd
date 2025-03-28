@@ -141,13 +141,7 @@ function Garnishment() {
 
   return (
     <>
-      <div className="min-h-full">
-        <div className="container main ml-auto">
-          <div className="sidebar hidden lg:block">
-            <Sidebar />
-          </div>
-          <div className="contant content ml-auto">
-            <Headertop />
+      
             <div className="p-0">
               {/* <h1 className="uppercase font-bold mb-4 inline-block"><FaBalanceScaleRight/>Garnishment Calcultor</h1> */}
               <h1 className="edit-profile mt-6 mb-4 inline-block">
@@ -248,9 +242,7 @@ function Garnishment() {
                   </div>
               </form>
             </div>
-          </div>
-        </div>
-      </div>
+         
     </>
   );
 }

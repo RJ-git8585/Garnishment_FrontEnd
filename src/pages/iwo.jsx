@@ -29,13 +29,7 @@ function Iwo() {
   };
 
   return (
-    <div className="min-h-full">
-      <div className="container main ml-auto">
-        <div className="sidebar hidden lg:block">
-          <Sidebar />
-        </div>
-        <div className="content ml-auto">
-          <Headertop />
+    <>
           <Box sx={{ p: 4 }}>
             <Typography variant="h5" gutterBottom>
               IWO Upload Form
@@ -83,9 +77,7 @@ function Iwo() {
               </Grid>
             </form>
           </Box>
-        </div>
-      </div>
-    </div>
+       </>
   );
 }
 

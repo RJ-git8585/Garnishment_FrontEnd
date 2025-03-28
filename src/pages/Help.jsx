@@ -9,13 +9,7 @@ function Help() {
 
   return (
     <>
-    <div className="min-h-full">
-       
-       <div className="container main ml-auto ">
-       <div className='sidebar hidden lg:block'><Sidebar/></div>
-       <div className="contant content ml-auto ">
-       <Headertop />
-      
+
   <h1 className='text-xl mb-4 mt-4 font-semibold'>Garnishment Support Center</h1>
   <h2 className='text-xl mb-4 font-semibold' >Frequently Asked Questions (FAQs)</h2>
   
@@ -48,9 +42,7 @@ function Help() {
   <p className='text-sm mb-4'>
     Yes, you can edit submitted forms by navigating to the History section, selecting the form, and clicking the Edit button. Make sure to save changes after editing.
   </p>
-    </div>
-    </div>
-    </div>
+   
     </>
   )
 }

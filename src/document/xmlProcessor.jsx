@@ -118,11 +118,7 @@ const XmlProcessor = () => {
   };
 
   return (
-    <div className="min-h-full" key={reloadKey}>
-      <div className="container main ml-auto">
-        <div className='sidebar hidden lg:block'><Sidebar /></div>
-        <div className='contant content ml-auto customBatchProcessing'>
-          <Headertop />
+  <>
           <hr />
           <div className="bg_cls container" ref={containerRef}>
             <h2 className="header">Batch Processor</h2>
@@ -195,9 +191,7 @@ const XmlProcessor = () => {
               )}
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+          </>
   );
 };
 

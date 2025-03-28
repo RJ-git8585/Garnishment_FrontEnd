@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-no-undef */
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicRoute from './component/PublicRoute';
 import PrivateRoute from './component/PrivateRoute';
 import Notfound from './pages/Notfound';
-
+import Sidebar from './component/sidebar';
+import Headertop from './component/Headertop';
 // Pages
 import Form from './component/form';
 import Signup from './pages/signup';
@@ -92,7 +94,19 @@ function RoutesPath() {
             <Route
               key={path}
               path={path}
-              element={<PrivateRoute>{element}</PrivateRoute>}
+              element={
+                <div className="min-h-full">
+                  <div className="container main ml-auto">
+                    <div className="sidebar hidden lg:block">
+                      <Sidebar />
+                    </div>
+                    <div className="content ml-auto">
+                      <Headertop />
+                      <PrivateRoute>{element}</PrivateRoute>
+                    </div>
+                  </div>
+                </div>
+              }
             />
           ))}
           <Route path="*" element={<Notfound />} />
