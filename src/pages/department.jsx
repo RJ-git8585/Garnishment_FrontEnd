@@ -50,13 +50,7 @@ function Department() {
   return (
     <>
 
-<div className="min-h-full">
-        
-        <div className="container main ml-auto">
-        <div className='sidebar hidden lg:block'><Sidebar/></div>
-        
-        <div className=' contant content ml-auto'>
-            <Headertop />
+
             <ProfileHeader/>
             
             <hr />
@@ -105,10 +99,7 @@ function Department() {
       )}
   
   </table>
-        </div>  
-       
-      </div>
-      </div>
+        
     
       {/* <ToastContainer /> */}
    

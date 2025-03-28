@@ -98,12 +98,6 @@ const EmployeeProfile = () => {
 
   return (
     <>
-      <div className="min-h-full">
-        <div className="container main ml-auto">
-          <div className='sidebar hidden lg:block'><Sidebar /></div>
-          <div className='content ml-auto flex flex-col'>
-            <Headertop />
-
             <div className="container mx-auto mt-4">
   <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
     {loading ? (
@@ -243,9 +237,7 @@ const EmployeeProfile = () => {
     )}
   </Paper>
 </div>
-          </div>
-        </div>
-      </div>
+          
     </>
   );
 };

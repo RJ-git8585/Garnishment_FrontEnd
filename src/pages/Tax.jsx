@@ -58,11 +58,7 @@ function Tax(onDeleteSuccess) {
    
   return (
     <>
-    <div className="min-h-full">
-       
-       <div className="container main">
-       <div className='sidebar hidden lg:block'><Sidebar/></div>
-       <div className="contant content ml-auto ">
+    
        <Headertop />
        {/* <ProfileHeader/> */}
        <hr />
@@ -119,9 +115,7 @@ function Tax(onDeleteSuccess) {
     </div>
     </div>
     </div>
-    </div>
-    </div>
-    </div>
+   
     </>
   )
 }

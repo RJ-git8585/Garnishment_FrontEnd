@@ -138,11 +138,7 @@ function AddEmployee() {
   };
 
   return (
-    <div className="min-h-full">
-      <div className="container main ml-auto">
-        <div className="sidebar hidden lg:block"><Sidebar /></div>
-        <div className="contant content ml-auto mb-4">
-          <Headertop />
+    <>
           <h1 className="edit-profile mt-6 mb-4 inline-block"><FaUserTie />ADD EMPLOYEE</h1>
           <h6 className="mt-4 mb-4 font-bold text-sm">EMPLOYEE DETAILS:</h6>
           <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-8 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50" action="#" method="POST">
@@ -244,9 +240,7 @@ function AddEmployee() {
             <button type="submit" onClick={handleSubmit} className="w-full rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold text-white shadow-sm">ADD</button>
             <button type="reset" onClick={handleReset} className="w-full rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold text-white shadow-sm">CANCEL</button>
           </div>
-        </div>
-      </div>
-    </div>
+        </>
   );
 }
 

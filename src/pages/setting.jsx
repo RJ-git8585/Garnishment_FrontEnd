@@ -54,13 +54,7 @@ function Setting() {
   };
 
   return (
-    <div className="min-h-full">
-      <div className={isChecked ? 'dark-mode container main' : 'light-mode container main'}>
-        <div className="sidebar hidden lg:block">
-          <Sidebar />
-        </div>
-        <div className="content ml-auto">
-          <Headertop />
+    <>
           <h1 className="edit-profile mt-6 inline-block">
             <FaTools />
             Settings
@@ -110,9 +104,7 @@ function Setting() {
           >
             Save Settings
           </button>
-        </div>
-      </div>
-    </div>
+          </>
   );
 }
 

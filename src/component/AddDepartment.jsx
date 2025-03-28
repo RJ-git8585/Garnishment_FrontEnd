@@ -39,12 +39,7 @@ function AddDepartment() {
   };
 
   return (
-    <div className="min-h-full container main ml-auto mt-6">
-      <div className="sidebar hidden lg:block">
-        <Sidebar />
-      </div>
-      <div className="content ml-auto">
-        <Headertop />
+    <>
         <h2 className="font-bold text-base mb-6 mt-3">Add Department</h2>
         <hr />
         <form className="grid grid-cols-2 gap-4 p-6 shadow-lg shadow-blue-500/50">
@@ -80,8 +75,7 @@ function AddDepartment() {
             CANCEL
           </button>
         </div>
-      </div>
-    </div>
+     </>
   );
 }
 

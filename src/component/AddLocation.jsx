@@ -70,13 +70,8 @@ function AddLocation() {
   return (
     <div>
 
-<div className="min-h-full">
-       
-        <div className="container main">
-        <div className='sidebar hidden lg:block'><Sidebar/></div>
-        
-        <div className=' contant content ml-auto'>
-        <Headertop />
+
+    
             <h2 className='font-bold Ctext-base mb-6 mt-3'>Add Location</h2>
             
             <hr />
@@ -154,14 +149,8 @@ function AddLocation() {
                   >
                     Reset
                   </button>
-                </div>  
-
-
-    </div>
-    </div>  
-       
-       </div>
-       {/* <ToastContainer /> */}
+</div>
+ 
        </div>
      
  

@@ -174,12 +174,8 @@ function EmployeeEditForm() {
     </FormControl>
   );
   return (
-    <div className="min-h-full">
-      <div className="container main ml-auto">
-        <Sidebar className="sidebar hidden lg:block" />
-        <div className="content ml-auto flex flex-col">
-          <Headertop />
-          <hr />
+    <>
+        
           <h2 className="mb-2">Edit Employee</h2>
         
           <form onSubmit={handleSubmit} className="space-y-6 form_cls">
@@ -215,9 +211,7 @@ function EmployeeEditForm() {
               </button>
             </div>
           </form> 
-        </div>
-      </div>
-    </div>
+          </>
   );
 }
 

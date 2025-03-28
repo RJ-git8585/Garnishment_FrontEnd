@@ -130,11 +130,7 @@ function Profile() {
 
   return (
     <div>
-      <header className="bg-gray-800 shadow"></header>
-      <div className="container main">
-        <div className='sidebar'><Sidebar /></div>
-        <div className="content ml-auto">
-          <Headertop />
+      
           <h1 className='edit-profile mt-6 inline-block'><FaUserCheck /> Profile</h1>
 
           <div className="isolate bg-white px-6 sm:py-2 lg:px-8">
@@ -361,8 +357,7 @@ function Profile() {
             )}
           </div>
         </div>
-      </div>
-    </div>
+    
   );
 }
 
