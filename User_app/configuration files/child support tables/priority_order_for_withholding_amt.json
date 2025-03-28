@@ -1,0 +1,340 @@
+{"data":[
+    {
+    "State": "alabama",
+    "Priority of Withholding": [
+    "ordered_amount",
+    "medical_support_premium",
+    "arrear_amount"
+    
+    ],
+    "Rules": "Rule 1"
+    },
+    {
+    "State": "alaska",
+    "Priority of Withholding": [
+    "current_support",
+    "Spousal Support",
+    "Medical Premiums",
+    "arrear"
+    ],
+    "Rules": "Rule 2"
+    },
+    {
+    "State": "arizona",
+    "Priority of Withholding": [
+    "current_support",
+    "Insurance premiums",
+    "Court fee",
+    "arrear"
+    ],
+    "Rules": "Rule 2"
+    },
+    {
+    "State": "arkansas",
+    "Priority of Withholding": [
+    "current_support",
+    "medical_support_premium",
+    "arrear"
+    ],
+    "Rules": "Rule 1"
+    },
+    {
+    "State": "california",
+    "Priority of Withholding": [
+    "current_support",
+    "arrear",
+    "medical_support_premium"
+    ],
+    "Rules": "Rule 2"
+    },
+    {
+    "State": "colorado",
+    "Priority of Withholding": [
+    "health_insurance_premium",
+    "current_support",
+    "arrear",
+    "Interest"
+    ],
+    "Rules": "Rule 1"
+    },
+    {
+    "State": "connecticut",
+    "Priority of Withholding": [
+    "current_support",
+    "health_insurance_premium",
+    "arrear"
+    ],
+    "Rules": "Rule 3"
+    },
+    {
+    "State": "delaware",
+    "Priority of Withholding": [
+    "current_support",
+    "arrear",
+    "health_insurance_premium"
+    ],
+    "Rules": "Rule 3"
+    },
+    {
+    "State": "florida",
+    "Priority of Withholding": [
+    "current_support",
+    "Health Care Premiums",
+    "arrear",
+    "Medical support coverage as required"
+    ],
+    "Rules": "Rule 3"
+    },
+    {
+    "State": "georgia",
+    "Priority of Withholding": [
+    "current_support",
+    "medical_support_premium (when a stated amount)",
+    "arrear"
+    ],
+    "Rules": "Rule 3"
+    },
+    {
+    "State": "hawaii",
+    "Priority of Withholding": [],
+    "Rules": "Rule Not Provided"
+    },
+    {
+    "State": "idaho",
+    "Priority of Withholding": [
+    "current_support",
+    "Court ordered health_insurance_premium",
+    "Current Spousal Support",
+    "arrear for child support",
+    "arrear for spousal support"
+    ],
+    "Rules": "Rule 5"
+    },
+    {
+    "State": "illinois",
+    "Priority of Withholding": [
+    "Current Child Support",
+    "medical_support_premium",
+    "arrearage",
+    "deliquency"
+    ],
+    "Rules": "Rule 8"
+    },
+    {
+    "State": "indiana",
+    "Priority of Withholding": [
+    "current_support",
+    "arrear",
+    "medical_support_premium"
+    ],
+    "Rules": "Rule 1"
+    },
+    {
+    "State": "iowa",
+    "Priority of Withholding": [],
+    "Rules": "Rule 2"
+    },
+    {
+    "State": "kansas",
+    "Priority of Withholding": [
+    "current_support",
+    "Child Support arrear",
+    "Medical Support",
+    "Spousal Support",
+    "Other Support"
+    ],
+    "Rules": "Rule 1"
+    },
+    {
+    "State": "kentucky",
+    "Priority of Withholding": [
+    "current_support",
+    "medical_support_premium",
+    "arrear"
+    ],
+    "Rules": "Rule 3"
+    },
+    {
+    "State": "louisiana",
+    "Priority of Withholding": [
+    "Medical Support premiums",
+    "current_support",
+    "arrear"
+    ],
+    "Rules": "Rule 2"
+    },
+    {
+    "State": "maine",
+    "Priority of Withholding": [
+    "current_support",
+    "arrear",
+    "medical_support_premium"
+    ],
+    "Rules": "Rule 1"
+    },  
+    {
+    "State": "maryland",
+    "Priority of Withholding": [
+    "current_support",
+    "medical_support_premium",
+    "Cash Medical Support"
+    ],
+    "Rules": "Rule 1"
+    },
+    {
+        "State": "massachusetts",
+        "Priority of Withholding": [
+        "current_support",
+        "medical_support_premium",
+        "arrear"
+        ],
+        "Rules": "Rule 1"
+        },
+        {
+        "State": "michigan",
+        "Priority of Withholding": [
+        "current_support",
+        "arrear",
+        "medical_support_premium"
+        ],
+        "Rules": "Rule 2"
+        },
+        {
+        "State": "minnesota",
+        "Priority of Withholding": [
+        "current_support",
+        "arrear",
+        "medical_support_premium"
+        ],
+        "Rules": "Rule 2"
+        },
+        {
+        "State": "mississippi",
+        "Priority of Withholding": [],
+        "Rules": "Rule Not Provided"
+        },
+        {
+        "State": "missouri",
+        "Priority of Withholding": [
+        "current_support",
+        "medical_support_premium",
+        "Current Spousal Support",
+        "arrear"
+        ],
+        "Rules": "Rule 1"
+        },
+        {
+        "State": "montana",
+        "Priority of Withholding": [
+        "Current Child Support",
+        "Full Cost of the Premium",
+        "The remaining amount (if any) goes to arrears"
+        ],
+        "Rules": "Rule 9"
+        },
+        {
+        "State": "nebraska",
+        "Priority of Withholding": [
+        "current_support",
+        "Current Spousal Support",
+        "medical_support_premium",
+        "arrear"
+        ],
+        "Rules": "Rule 1"
+        },
+        {
+        "State": "nevada",
+        "Priority of Withholding": [
+        "Current Child & Spousal Support",
+        "medical_support_premium or Current Cash Medical Support",
+        "arrear",
+        "Other Child Support Obligations"
+        ],
+        "Rules": "Rule 3"
+        },
+        {
+        "State": "new hampshire",
+        "Priority of Withholding": [
+        "current_support (child & spousal)",
+        "medical_support_premium",
+        "arrear"
+        ],
+        "Rules": "Rule 1"
+        },
+        {
+        "State": "new jersey",
+        "Priority of Withholding": [
+        "current_support",
+        "medical_support_premium",
+        "arrear"
+        ],
+        "Rules": "Rule 1"
+        },
+        {
+        "State": "new mexico",
+        "Priority of Withholding": [
+        "current_support",
+        "medical_support_premium",
+        "arrear"
+        ],
+        "Rules": "Rule 2"
+        },
+        {
+        "State": "new york",
+        "Priority of Withholding": [
+        "current_support",
+        "medical_support_premium",
+        "arrear"
+        ],
+        "Rules": "Rule 1"
+        },
+        {
+        "State": "north carolina",
+        "Priority of Withholding": [
+        "current_support",
+        "medical_support_premium",
+        "arrear"
+        ],
+        "Rules": "Rule 7"
+        },
+        {
+        "State": "north dakota",
+        "Priority of Withholding": [
+        "current_support",
+        "arrear",
+        "Medical Insurance Premiums"
+        ],
+        "Rules": "Rule 2"
+        },
+        {
+        "State": "ohio",
+        "Priority of Withholding": [
+        "current_support",
+        "arrear",
+        "Fees",
+        "Reimbursements",
+        "Medical Support"
+        ],
+        "Rules": "Rule 1"
+        },
+        {
+        "State": "oklahoma",
+        "Priority of Withholding": [
+        "Current Child Support and Spousal Support",
+        "health_insurance_premium (as much as possible)",
+        "arrear",
+        "Other Child Support Obligations"
+        ],
+        "Rules": "Rule 1"
+        },
+        {
+        "State": "oregon",
+        "Priority of Withholding": [
+        "Current Child/Spousal & Cash Medical Support",
+        "Child/Spousal & Cash Medical arrearages",
+        "medical_support_premium"
+        ],
+        "Rules": "Rule 2"
+    }        
+    ]
+}

@@ -29,7 +29,6 @@ DEBUG = True
 STATIC_URL = '/static/'
 ALLOWED_HOSTS = ['*']
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -46,7 +45,7 @@ INSTALLED_APPS = [
     # 'celery',
     'pytest',
     # 'django-celery-results',
-    'User_app',]
+    'User_app']
 
 AUTHENTICATION_BACKENDS=[
     'django.contrib.auth.backends.ModelBackend'
@@ -67,7 +66,7 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
-ROOT_URLCONF = 'auth_project.urls'
+ROOT_URLCONF = 'GarnishEdge_Project.urls'
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
@@ -109,14 +108,15 @@ CELERY_RESULT_BACKEND = 'django-db'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+     'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
     )
 }
 
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -180,7 +180,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-WSGI_APPLICATION = 'auth_project.wsgi.app'
+WSGI_APPLICATION = 'GarnishEdge_Project.wsgi.app'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -189,3 +189,4 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'rohan989800@gmail.com'
 EMAIL_HOST_PASSWORD = 'vugp wsuc jert ubiu'
+

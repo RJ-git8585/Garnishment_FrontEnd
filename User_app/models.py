@@ -1,7 +1,7 @@
 # models.py
 from django.contrib.auth.models import AbstractUser ,AbstractBaseUser ,BaseUserManager
 from django.db import models
-
+from django.utils import timezone
 
 
 # # Employer_Profile details
@@ -269,14 +269,17 @@ class EmployeeData(models.Model):
     no_of_dependent_exemption = models.IntegerField(null=True, blank=True)
 
 
-
-class APILog(models.Model):
-    level = models.CharField(max_length=10)  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+# Model to store log details in the database
+class LogEntry(models.Model):
+    level = models.CharField(max_length=20)
     message = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    module = models.CharField(max_length=255, blank=True, null=True)
-    exception = models.TextField(blank=True, null=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+    logger_name = models.CharField(max_length=255, blank=True, null=True)
+    file_name = models.CharField(max_length=255, blank=True, null=True)
+    line_number = models.IntegerField(blank=True, null=True)
+    function_name = models.CharField(max_length=255, blank=True, null=True)
+    traceback = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.timestamp} - {self.level}: {self.message[:50]}"
+        return f"{self.timestamp} - {self.level} - {self.message}"
 

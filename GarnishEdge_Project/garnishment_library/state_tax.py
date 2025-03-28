@@ -1,7 +1,7 @@
 from User_app.models import *
 from rest_framework.response import Response
 from rest_framework import status
-from auth_project.garnishment_library import child_support as cs
+from GarnishEdge_Project.garnishment_library import child_support as cs
 from User_app.constants import *
 
 class StateTaxView():

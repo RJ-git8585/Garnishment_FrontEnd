@@ -2,7 +2,7 @@ from User_app.models import *
 from User_app.serializers import *
 import json
 import os
-from auth_project import settings
+from GarnishEdge_Project import settings
 import re
 from User_app.constants import *
 

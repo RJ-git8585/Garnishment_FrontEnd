@@ -1,7 +1,7 @@
 from requests import Response
 from User_app.models import *
 from User_app.serializers import *
-from auth_project.garnishment_library.child_support import ChildSupport
+from GarnishEdge_Project.garnishment_library.child_support import ChildSupport
 import os
 import json 
 from django.conf import settings

@@ -98,7 +98,7 @@ class WLIdentifier:
         # If no matching record is found
         return f"No allocation method found for the state: {work_state.capitalize()}." 
 
-    def find_wl_value(self, de,work_state, employee_id, supports_2nd_family, arrears_of_more_than_12_weeks, de_gt_145, order_gt_one):
+    def find_wl_value(self,work_state, employee_id, supports_2nd_family, arrears_of_more_than_12_weeks, de_gt_145, order_gt_one):
         file_path = os.path.join(settings.BASE_DIR, 'User_app', 'configuration files/child support tables/withholding_limits.json')
         state_rule = self.get_state_rules(work_state)
 

@@ -79,3 +79,58 @@ class EmployeeFields:
 class ChildSupportFields:
     PRORATE = "prorate"
     DEVIDEEQUALLY = "divide equally"
+
+
+class PriorityOrderFields:
+    CURRENT_SUPPORT = "current_support"
+    ARREARS = "arrears"
+    SPOUSAL_SUPPORT = "spousal_support"
+    MEDICAL_PREMIUMS = "medical_premiums"
+    INSURANCE_PREMIUMS = "insurance_premiums"
+    COURT_FEE = "court_fee"
+    HEALTH_INSURANCE_PREMIUMS = "health_insurance_premiums"
+    HEALTH_CARE_PREMIUMS = "health_care_premiums"
+    MEDICAL_SUPPORT_COVERAGE = "medical_support_coverage"
+    COURT_ORDERED_HEALTH_INSURANCE_PREMIUMS = "court_ordered_health_insurance_premiums"
+    CURRENT_SPOUSAL_SUPPORT = "current_spousal_support"
+    ARREARS_FOR_CHILD_SUPPORT = "arrears_for_child_support"
+    ARREARS_FOR_SPOUSAL_SUPPORT = "arrears_for_spousal_support"
+    CURRENT_CHILD_SUPPORT = "current_child_support"
+    MEDICAL_SUPPORT_PREMIUM = "medical_support_premium"
+    ARREARAGE = "arrearage"
+    DELINQUENCY = "deliquency"
+    CHILD_SUPPORT_ARREARS = "child_support_arrears"
+    MEDICAL_SUPPORT = "medical_support"
+    OTHER_SUPPORT = "other_support"
+    CASH_MEDICAL_SUPPORT = "cash_medical_support"
+    FULL_COST_OF_THE_PREMIUM = "full_cost_of_the_premium"
+    CURRENT_CHILD_AND_SPOUSAL_SUPPORT = "current_child_&_spousal_support"
+    MEDICAL_SUPPORT_PREMIUMS = "medical_support_premiums"
+    OTHER_CHILD_SUPPORT_OBLIGATIONS = "other_child_support_obligations"
+    MEDICAL_INSURANCE_PREMIUMS = "medical_insurance_premiums"
+    FEES = "fees"
+    REIMBURSEMENTS = "reimbursements"
+    MEDICAL_SUPPORT_ARREARS = "medical_support_arrears"
+    CASH_CHILD_SUPPORT = "cash_child_support"
+    HEALTH_PREMIUMS = "health_premiums"
+    CHILD_ARREARS = "child_arrears"
+    SPOUSAL_ARREARS = "spousal_arrears"
+    SURCHARGE = "surcharge"
+    INTEREST = "interest"
+
+    # List of all fields
+    ALL_FIELDS = [
+        CURRENT_SUPPORT, ARREARS, SPOUSAL_SUPPORT, MEDICAL_PREMIUMS, INSURANCE_PREMIUMS,
+        COURT_FEE, HEALTH_INSURANCE_PREMIUMS, HEALTH_CARE_PREMIUMS, MEDICAL_SUPPORT_COVERAGE,
+        COURT_ORDERED_HEALTH_INSURANCE_PREMIUMS, CURRENT_SPOUSAL_SUPPORT, ARREARS_FOR_CHILD_SUPPORT,
+        ARREARS_FOR_SPOUSAL_SUPPORT, CURRENT_CHILD_SUPPORT, MEDICAL_SUPPORT_PREMIUM, ARREARAGE,
+        DELINQUENCY, CHILD_SUPPORT_ARREARS, MEDICAL_SUPPORT, OTHER_SUPPORT, CASH_MEDICAL_SUPPORT,
+        FULL_COST_OF_THE_PREMIUM, CURRENT_CHILD_AND_SPOUSAL_SUPPORT, MEDICAL_SUPPORT_PREMIUMS,
+        OTHER_CHILD_SUPPORT_OBLIGATIONS, MEDICAL_INSURANCE_PREMIUMS, FEES, REIMBURSEMENTS,
+        MEDICAL_SUPPORT_ARREARS, CASH_CHILD_SUPPORT, HEALTH_PREMIUMS, CHILD_ARREARS,
+        SPOUSAL_ARREARS, SURCHARGE, INTEREST
+    ]
+
+
+class OtherFields:
+    PAYROLL_DEDUCTIONS="payroll_deductions"

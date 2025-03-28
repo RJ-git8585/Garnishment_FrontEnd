@@ -1,0 +1,73 @@
+
+    {
+                
+                "ee_id": "EE005114",
+                "work_state": "alabama",
+                "no_of_exemption_including_self": 1.0,
+                "pay_period": "Weekly",
+                "filing_status": "single",
+                "wages": 2005,
+                "commission_and_bonus": 639,
+                "non_accountable_allowances": 488,
+                "gross_pay": 1000,
+                "payroll_taxes": {
+                    "federal_income_tax": 120,
+                    "social_security_tax": 30,
+                    "medicare_tax": 7.5,
+                    "state_tax": 0,
+                    "local_tax": 0,
+                    "union_dues": 0,
+                    "wilmington_tax": 0,
+                    "medical_insurance_pretax": 0,
+                    "industrial_insurance": 0,
+                    "life_insurance": 0,
+                    "CaliforniaSDI": 0
+                },
+                "payroll_deductions": {
+                    "medical_insurance": 0
+                },
+                "net_pay": 0,
+                "age": 50.0,
+                "is_blind": false,
+                "is_spouse_blind": false,
+                "spouse_age": 43.0,
+                "support_second_family": "Yes",
+                "no_of_student_default_loan": 1.0,
+                "arrears_greater_than_12_weeks": "Yes",
+                
+                "garnishment_data": [
+                    {
+                        "type": "Child Support",
+                        "data": [
+                            {   
+                                "case_id": "C10851",
+                                "ordered_amount": 200,
+                                "arrear_amount": 20,
+                                "current_medical_support": 0.0,
+                                "past_due_medical_support": 0.0,
+                                "current_spousal_support": 0.0,
+                                "past_due_spousal_support": 0.0
+                            },
+                            {
+                                "case_id": "C10853",
+                                "ordered_amount": 150.0,
+                                "arrear_amount": 10.0,
+                                "current_medical_support": 0.0,
+                                "past_due_medical_support": 0.0,
+                                "current_spousal_support": 0.0,
+                                "past_due_spousal_support": 0.0
+                            },{
+                                "case_id": "C10854",
+                                "ordered_amount": 120.0,
+                                "arrear_amount": 0.0,
+                                "current_medical_support": 0.0,
+                                "past_due_medical_support": 0.0,
+                                "current_spousal_support": 0.0,
+                                "past_due_spousal_support": 0.0
+                            }
+                        ]
+                    }
+                
+                ],
+                "result": [{"child support amount1": 200, "child support amount2": 150.0, "child support amount3": 120.0}, {"arrear amount1": 20, "arrear amount2": 10.0, "arrear amount3": 0.0}]
+    }

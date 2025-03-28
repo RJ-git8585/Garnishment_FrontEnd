@@ -4,15 +4,18 @@ from User_app.models import *
 from rest_framework.response import Response
 from User_app.serializers import *
 from rest_framework.views import APIView
-from auth_project.garnishment_library.child_support import ChildSupport,MultipleChild,SingleChild 
-from auth_project.garnishment_library.student_loan import student_loan_calculate
+from GarnishEdge_Project.garnishment_library.gar_resused_classes import *
+from GarnishEdge_Project.garnishment_library.child_support import *
+from GarnishEdge_Project.garnishment_library.student_loan import *
+from GarnishEdge_Project.garnishment_library import *
 from django.utils.decorators import method_decorator
-from auth_project.garnishment_library.garnishment_fees import  *
-from auth_project.garnishment_library.federal_case import federal_tax
-from auth_project.garnishment_library.state_tax import *
+from GarnishEdge_Project.garnishment_library.garnishment_fees import  *
+from GarnishEdge_Project.garnishment_library.federal_case import federal_tax
+from GarnishEdge_Project.garnishment_library.state_tax import *
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 from django.db import transaction
+
 
 
 
@@ -66,7 +69,7 @@ class CalculationDataView(APIView):
             return garnishment_rules[garnishment_type]["calculate"](record)
 
         elif garnishment_type in {GarnishmentTypeFields.STATE_TAX_LEVY, GarnishmentTypeFields.CREDITOR_DEBT}:
-            return {"ER_deduction": {"Garnishment_fees": gar_fees_rules_engine().apply_rule(record,2000)}}
+            return {"er_deduction": {"Garnishment_fees": gar_fees_rules_engine().apply_rule(record,2000)}}
 
         return {"error": f"Unsupported garnishment_type: {garnishment_type}"}
 
@@ -77,24 +80,27 @@ class CalculationDataView(APIView):
 
         child_support_data, arrear_amount_data = result[0], result[1]
 
-        record["Agency"] = [{"withholding_amt": [
+        record["agency"] = [{"withholding_amt": [
             {"child_support": child_support_data[f'child support amount{i}']}
             for i in range(1, len(child_support_data) + 1)
-        ]},{"Arrear" : [{"arrear_amount": arrear_amount_data[f'arrear amount{i}']}
-                            for i in range(1, len(arrear_amount_data) + 1)]}]
+        ]}
+        ,{"Arrear" : [{"arrear_amount": arrear_amount_data[f'arrear amount{i}']}
+                            for i in range(1, len(arrear_amount_data) + 1)]}
+                            ]
 
-        
+        total_withhold_amt = sum(cs["child_support"] for cs in record["agency"][0]["withholding_amt"]) + \
+                             sum(arr["arrear_amount"] for arr in record["agency"][1]["Arrear"])
 
-        total_withhold_amt = sum(cs["child_support"] for cs in record["Agency"][0]["withholding_amt"]) + \
-                             sum(arr["arrear_amount"] for arr in record["Agency"][1]["Arrear"])
+        record["er_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
 
-        record["ER_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
+        # Identify withholding limit using state rules
+        record["withholding_limit_rules"] = WLIdentifier().get_state_rules(record[EmployeeFields.WORK_STATE].capitalize())
         return record
 
     def calculate_federal_tax(self, record):
         """Calculate federal tax garnishment."""
         result = federal_tax().calculate(record)
-        record["Agency"] = [{"withholding_amt": [{"federal tax":result}]}]
+        record["agency"] = [{"withholding_amt": [{"federal tax":result}]}]
         record["ER_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, result)}
         return record
 
@@ -103,14 +109,14 @@ class CalculationDataView(APIView):
         result = student_loan_calculate().calculate(record)
 
         if len(result) == 1:
-            record["Agency"] = [{"withholding_amt":[{"student_loan": result['student_loan_amt']}]}]
+            record["agency"] = [{"withholding_amt":[{"student_loan": result['student_loan_amt']}]}]
             total_loan_amt = result['student_loan_amt']
         else:
-            record["Agency"] = [
+            record["agency"] = [
                 {"withholding_amt": [{"student_loan":result[f'student_loan_amt{i}']} for i in range(1, len(result) + 1)]}
             ]
 
-            total_loan_amt = sum(item["student_loan"] for item in record["Agency"][0]["withholding_amt"])
+            total_loan_amt = sum(item["student_loan"] for item in record["agency"][0]["withholding_amt"])
 
         record["ER_deduction"] = {"Garnishment_fees": gar_fees_rules_engine().apply_rule(record, total_loan_amt)}
         return record
@@ -119,7 +125,8 @@ class CalculationDataView(APIView):
         """Calculate state tax levy garnishment."""
 
         result= StateTaxView().calculate(record)
-        record["Agency"] = [{"withholding_amt": [{"garnishment amount":result}]}]
+        record["agency"] = [{"withholding_amt": [{"garnishment amount":result}]}]
+        
         record["ER_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, result)}
         return record
 
@@ -129,7 +136,7 @@ class CalculationDataView(APIView):
         """
         garnishment_data = record.get("garnishment_data", [])
         if not garnishment_data:
-            return None  # Skip if no garnishment data is present
+            return None  
     
         garnishment_type = garnishment_data[0].get(EmployeeFields.GARNISHMENT_TYPE, "").strip().lower()
         result = self.calculate_garnishment(garnishment_type, record)
@@ -137,22 +144,29 @@ class CalculationDataView(APIView):
         if "error" in result:
             return {"ee_id":record.get("ee_id"),"error": result["error"]}
     
-        return result  # Return calculated result instead of the input record
+        return result  
     
+
 
     def post(self, request, *args, **kwargs):
         try:
             data = request.data
             batch_id = data.get("batch_id")
             cases_data = data.get("cases", [])
+
+
             if not batch_id:
+
                 return Response({"error": "batch_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
             if not cases_data:
+
                 return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
+
             output = []
             with ThreadPoolExecutor(max_workers=80) as executor:
                 future_to_case = {
-                    executor.submit(self.process_and_store_case, case_info): case_info
+                    executor.submit(self.process_and_store_case, case_info,batch_id): case_info
                     for case_info in cases_data
                 }
                 for future in as_completed(future_to_case):
@@ -161,7 +175,13 @@ class CalculationDataView(APIView):
                         if result:
                             output.append(result)
                     except Exception as e:
-                        output.append({"error": str(e),"status": status.HTTP_500_INTERNAL_SERVER_ERROR, "case": future_to_case[future]})
+
+                        output.append({
+                            "error": str(e),
+                            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            "case": future_to_case[future]
+                        })
+
             return Response({
                 "message": "Result Generated Successfully",
                 "status_code": status.HTTP_200_OK,
@@ -173,9 +193,7 @@ class CalculationDataView(APIView):
             return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
 
 
-
-
-    def process_and_store_case(self, case_info):
+    def process_and_store_case(self, case_info,batch_id):
          """
          Processes a single case: stores it in the database and calculates garnishment.
          """
@@ -251,6 +269,9 @@ class CalculationDataView(APIView):
                  ) 
                  # **After storing, run the calculation**
                  calculated_result = self.calculate_garnishment_wrapper(case_info)
+
+                 calculated_result["ee_id"] = ee_id
                  return calculated_result 
+             
          except Exception as e:
              return {"error": str(e), "status": 500, "ee_id": case_info.get(EmployeeFields.EMPLOYEE_ID)} 
