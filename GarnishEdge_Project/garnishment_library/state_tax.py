@@ -8,6 +8,7 @@ class StateTaxView():
     #threshould Values
     VALUE1 = 30
     VALUE2 = 40
+    VALUE3 = 53.33
 
     def cal_x_disposible_income(self,gross_pay,x=0.25):
         disposable_earnings = round(gross_pay, 2)
@@ -17,6 +18,7 @@ class StateTaxView():
     def fmv_threshold(self):
         self.threshold_30= 7.25*self.VALUE1
         self.threshold_40= 7.25*self.VALUE2
+        self.threshold_53= 7.25*self.VALUE3
 
     def cal_arizona(self,net_pay,exemption_amount):
         return max(0, net_pay - exemption_amount)
@@ -95,8 +97,14 @@ class StateTaxView():
         else:
             WA=0
         return WA
-    
-
+    def cal_new_mexico(self,disposable_income):
+        if disposable_income <self.threshold_40:
+            return 0
+        elif disposable_income > self.threshold_40 and disposable_income < self.threshold_53 :
+            return disposable_income - self.threshold_40
+        elif disposable_income > self.threshold_40 and disposable_income > self.threshold_53:
+            return self.cal_x_disposible_income(disposable_income)
+        
     def calculate(self,record):
         try:
             self.fmv_threshold()
@@ -113,6 +121,7 @@ class StateTaxView():
             no_of_dependent_exemption=record.get(EmployeeFields.NO_OF_DEPENDENT_EXEMPTION)
             is_case_of_non_tax_levy=record.get(EmployeeFields.IS_CASE_OF_NON_TAX_LEVY)
             is_case_of_income_tax_levy=record.get(EmployeeFields.IS_CASE_OF_INCOME_TAX_LEVY)
+            
             #dict of formula based to state 
             state_formulas = {
             "arizona": self.cal_arizona(net_pay,exemption_amount),
@@ -138,6 +147,8 @@ class StateTaxView():
             "Washington": self.cal_washington(is_case_of_non_tax_levy,is_case_of_income_tax_levy,disposable_income),
             "south carolina":self.cal_south_carolina(dist_code,disposable_income,gross_pay),
             "rhode island" or "rhodeisland":self.cal_rhode_island(no_of_dependent_exemption,net_pay),
+            "missouri":self.cal_x_disposible_income(disposable_income),
+            "new mexico" or "newmexico":self.cal_new_mexico(disposable_income)
 
             }
             result= state_formulas.get(state, "state not found")
@@ -147,7 +158,7 @@ class StateTaxView():
                     result = self.cal_x_disposible_income(disposable_income)
                 elif state in ['alabama','iowa']:
                     result = self.cal_x_disposible_income(gross_pay)
-
+                    
             return result
         
         except Exception as e:
