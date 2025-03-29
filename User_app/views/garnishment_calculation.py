@@ -13,7 +13,7 @@ from GarnishEdge_Project.garnishment_library.garnishment_fees import  *
 from GarnishEdge_Project.garnishment_library.federal_case import federal_tax
 from GarnishEdge_Project.garnishment_library.state_tax import *
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import json
+
 from django.db import transaction
 
 
@@ -271,7 +271,23 @@ class CalculationDataView(APIView):
                  calculated_result = self.calculate_garnishment_wrapper(case_info)
 
                  calculated_result["ee_id"] = ee_id
+                #  log_api(
+                #      api_name="sample_api",
+                #      endpoint="/sample-api/",
+                #      status_code=200,
+                #      message="API executed successfully",
+                #      status="Success"
+                #  )
                  return calculated_result 
-             
+
+
          except Exception as e:
+             # Log Failure
+            #  log_api(
+            #      api_name="garnishment_calculate",
+            #      endpoint="/sample-api/",
+            #      status_code=500,
+            #      message=str(e),
+            #      status="Failed"
+            # )
              return {"error": str(e), "status": 500, "ee_id": case_info.get(EmployeeFields.EMPLOYEE_ID)} 

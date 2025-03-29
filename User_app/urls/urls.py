@@ -4,6 +4,7 @@ from ..views.views import *
 from django.urls import include, path
 from ..views.view_state_tax import *
 
+
 urlpatterns = [
     path('', include('User_app.urls.url_state_tax')),
     path("register", register, name="register"),

@@ -282,4 +282,19 @@ class LogEntry(models.Model):
 
     def __str__(self):
         return f"{self.timestamp} - {self.level} - {self.message}"
+    
+
+
+class Logdata(models.Model):
+    api_name = models.CharField(max_length=255)        
+    endpoint = models.CharField(max_length=255)         
+    status_code = models.IntegerField()                 
+    message = models.TextField()                       
+    status = models.CharField(max_length=20)            
+    timestamp = models.DateTimeField(auto_now_add=True) 
+
+    def __str__(self):
+        return f"{self.api_name} - {self.status} - {self.status_code}"
+
+
 
