@@ -4,7 +4,6 @@ from ..views.views import *
 from django.urls import include, path
 from ..views.view_state_tax import *
 
-
 urlpatterns = [
     path('', include('User_app.urls.url_state_tax')),
     path("register", register, name="register"),
@@ -48,8 +47,8 @@ urlpatterns = [
     path('GarnishmentFeesRulesBasedOnState/<str:state>/', garnishment_fees_rules_based_on_state, name='GarnishmentFeesRulesBasedOnState'),
     path('EmployeeRules/', Employeegarnishment_orderMatch_details.as_view(), name='employee-garnishment-match'),
     path('garnishment_calculate/', CalculationDataView.as_view(), name='Calculation Data'),
+    path('WithholdingLimitRuleData/<str:state>', GETWithholdingLimitRuleData.as_view(), name='Withholding Limit Rule Data'),
+    path('MandatoryDeductions/<str:state>', GETMandatoryDeductions.as_view(), name='Mandatory Deductions')
 
 ]
-
-
 

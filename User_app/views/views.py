@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from ..models import *
+from django.conf import settings 
+import os
 import pandas
 import math
 from User_app.models import *
@@ -28,11 +30,10 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from User_app.models import Employee_Detail
 import pandas as pd
-import numpy as np
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from User_app.models import garnishment_order, Employee_Detail, company_details
-
+from GarnishEdge_Project.garnishment_library.child_support import *
 
 @csrf_exempt
 def login(request):
@@ -788,6 +789,7 @@ class LastFiveLogsView(APIView):
             return Response({"error": str(e), "status code" :status.HTTP_500_INTERNAL_SERVER_ERROR})
 
 
+
 #Extracting the ALL Employer Detials  
 class EmployerProfileList(APIView):
     def get(self, request, format=None):
@@ -1016,6 +1018,10 @@ def SettingPostAPI(request):
             return JsonResponse({'error': str(e), "status code" :status.HTTP_500_INTERNAL_SERVER_ERROR}) 
     else:
         return JsonResponse({'message': 'Please use POST method','status code':status.HTTP_400_BAD_REQUEST})
+
+
+
+
 
 class GETSettingDetails(APIView):
     def get(self, request, employer_id):
@@ -1789,3 +1795,73 @@ class convert_excel_to_json(APIView):
             return Response(output_json, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e),"status":status.HTTP_500_INTERNAL_SERVER_ERROR})
+        
+
+class GETWithholdingLimitRuleData(APIView):
+    """Get the withholding limit rule data for a specific state."""
+    def get(self, request, state):
+        try:
+            file_path = os.path.join(
+                settings.BASE_DIR, 
+                'User_app', 
+                'configuration files/child support tables/withholding_rules.json'
+            )
+            # Reading the JSON file
+            with open(file_path, 'r') as file:
+                data = json.load(file)
+            
+            # Accessing child support data
+            ccpa_rules_data = data.get("WithholdingRules", [])
+
+            # Searching for the matching state
+            record = next((rec for rec in ccpa_rules_data if rec['State'].lower() == state.lower()), None)
+
+            if record:
+                response_data = {
+                    'success': True,
+                    'message': 'Data retrieved successfully',
+                    'status_code': status.HTTP_200_OK,
+                    'data': record
+                }
+                return Response(response_data, status=status.HTTP_200_OK)
+
+            return Response({
+                'success': False,
+                'message': 'State not found',
+                'status_code': status.HTTP_404_NOT_FOUND
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            return Response({
+                "error": str(e),
+                "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+class GETMandatoryDeductions(APIView):
+    """Get the mandatory deductions based on state."""
+    def get(self, request, state):
+        try:
+            record=ChildSupport().get_mapping_keys(state)
+            if record:
+                response_data = {
+                    'success': True,
+                    'message': 'Data retrieved successfully',
+                    'status_code': status.HTTP_200_OK,
+                    'mandatory_deductions': record
+                }
+                return Response(response_data, status=status.HTTP_200_OK)
+
+            return Response({
+                'success': False,
+                'message': 'State not found',
+                'status_code': status.HTTP_404_NOT_FOUND
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            return Response({
+                "error": str(e),
+                "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+

@@ -33,11 +33,10 @@ class ChildSupport:
         except json.JSONDecodeError:
             raise Exception(f"Invalid JSON format in file: {file_path}")
 
-    def calculate_deduction_rules(self, record):
+    def calculate_deduction_rules(self, work_state):
         """
         Calculate the Disposable Earnings (DE) rule based on the state.
         """
-        work_state = record.get(EmployeeFields.WORK_STATE)
         if not work_state:
             raise ValueError("State information is missing in the record.")
 
@@ -51,11 +50,11 @@ class ChildSupport:
 
         raise ValueError(f"No DE rule found for state: {work_state}")
     
-    def get_mapping_keys(self,record):
+    def get_mapping_keys(self,work_state):
         """
         Get the Mapping keys of tax.
         """
-        keys = self.calculate_deduction_rules(record)
+        keys = self.calculate_deduction_rules(work_state)
 
         data = self._load_json_file(self.de_rules_file)
         actual_keys = data.get("mapping", [])
@@ -76,7 +75,7 @@ class ChildSupport:
         if gross_pay is None or work_state is None or payroll_taxes is None:
             raise ValueError("Record must include 'gross_pay', 'work_state', and 'taxs' fields.")
 
-        de_rule = self.get_mapping_keys(record)
+        de_rule = self.get_mapping_keys(work_state)
 
         # Calculate mandatory deductions
         tax_amt = [payroll_taxes[key] for key in de_rule]
@@ -260,9 +259,6 @@ class ChildSupport:
 
         taa = self.get_list_support_arrearAmt(record)
         return {f"arrear amount{i+1}": amount for i, amount in enumerate(taa)}
-    
-    
-
 
 class SingleChild(ChildSupport):
     def calculate(self, record):
@@ -293,8 +289,6 @@ class SingleChild(ChildSupport):
         arrear_amt={"arrear amount1":0 if calculate_gross_pay==0 else round(arrear_amount,2)}
         return result_amt,arrear_amt
     
-
-        
 
 
 class MultipleChild(ChildSupport):
@@ -355,81 +349,83 @@ class MultipleChild(ChildSupport):
 
             return child_support_amount, arrear_amount
     
-record=        {
-            "ee_id": "EE005135",
-            "work_state": "alabama",
-            "no_of_exemption_including_self": 1.0,
-            "pay_period": "BiWeekly",
-            "filing_status": "married_filling_joint",
-            "wages": 671,
-            "commission_and_bonus": 0,
-            "non_accountable_allowances": 0,
-            "gross_pay": 571,
-            "payroll_taxes": {
-                "federal_income_tax": 80.0,
-                "social_security_tax": 49.6,
-                "medicare_tax": 11.6,
-                "state_tax": 0.0,
-                "local_tax": 0.0,
-                "union_dues": 0,
-                "wilmington_tax": 0,
-                "medical_insurance_pretax": 0,
-                "industrial_insurance": 0,
-                "life_insurance": 0,
-                "CaliforniaSDI": 0
-            },
-            "payroll_deductions": {
-                "medical_insurance": 100,
-                "medical_support_premium":70,
+# record=        {
+#             "ee_id": "EE005135",
+#             "work_state": "alabama",
+#             "no_of_exemption_including_self": 1.0,
+#             "pay_period": "BiWeekly",
+#             "filing_status": "married_filling_joint",
+#             "wages": 671,
+#             "commission_and_bonus": 0,
+#             "non_accountable_allowances": 0,
+#             "gross_pay": 571,
+#             "payroll_taxes": {
+#                 "federal_income_tax": 80.0,
+#                 "social_security_tax": 49.6,
+#                 "medicare_tax": 11.6,
+#                 "state_tax": 0.0,
+#                 "local_tax": 0.0,
+#                 "union_dues": 0,
+#                 "wilmington_tax": 0,
+#                 "medical_insurance_pretax": 0,
+#                 "industrial_insurance": 0,
+#                 "life_insurance": 0,
+#                 "CaliforniaSDI": 0
+#             },
+#             "payroll_deductions": {
+#                 "medical_insurance": 100,
+#                 "medical_support_premium":70,
 
-            },
-            "net_pay": 0,
-            "age": 53.0,
-            "is_blind": False,
-            "is_spouse_blind": True,
-            "spouse_age": 50.0,
-            "support_second_family": "No",
-            "no_of_student_default_loan": 2.0,
-            "arrears_greater_than_12_weeks": "No",
-            "garnishment_data": [
-                {
-                    "type": "Child Support",
-                    "data": [
-                        {
-                            "ordered_amount": 105.0,
-                            "case_id": "C18903",
-                            "arrear_amount": 120.0,
-                            "current_medical_support": 0.0,
-                            "past_due_medical_support": 0.0,
-                            "current_spousal_support": 0.0,
-                            "past_due_spousal_support": 0.0
-                        },{
-                            "ordered_amount": 105.0,
-                            "case_id": "C18903",
-                            "arrear_amount": 120.0,
-                            "current_medical_support": 0.0,
-                            "past_due_medical_support": 0.0,
-                            "current_spousal_support": 0.0,
-                            "past_due_spousal_support": 0.0
-                        }
-                    ]
-                }
-            ]
-        }
-print("DE",ChildSupport().calculate_de(record))
-tcsa = ChildSupport().get_list_supportAmt(record)
-print("tcsa",tcsa)
-print("result",list(MultipleChild().calculate(record) if len(tcsa) > 1 else SingleChild().calculate(record)))
+#             },
+#             "net_pay": 0,
+#             "age": 53.0,
+#             "is_blind": False,
+#             "is_spouse_blind": True,
+#             "spouse_age": 50.0,
+#             "support_second_family": "No",
+#             "no_of_student_default_loan": 2.0,
+#             "arrears_greater_than_12_weeks": "No",
+#             "garnishment_data": [
+#                 {
+#                     "type": "Child Support",
+#                     "data": [
+#                         {
+#                             "ordered_amount": 105.0,
+#                             "case_id": "C18903",
+#                             "arrear_amount": 120.0,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         },{
+#                             "ordered_amount": 105.0,
+#                             "case_id": "C18903",
+#                             "arrear_amount": 120.0,
+#                             "current_medical_support": 0.0,
+#                             "past_due_medical_support": 0.0,
+#                             "current_spousal_support": 0.0,
+#                             "past_due_spousal_support": 0.0
+#                         }
+#                     ]
+#                 }
+#             ]
+#         }
+# print("DE",ChildSupport().calculate_deduction_rules("alabama"))
+
+# print("tcsa",ChildSupport().get_mapping_keys("alabama"))
+# tcsa = ChildSupport().get_list_supportAmt(record)
+# print("tcsa",tcsa)
+# print("result",list(MultipleChild().calculate(record) if len(tcsa) > 1 else SingleChild().calculate(record)))
 
 
 # print("tcsqqa",ChildSupport().get_list_supportAmt(record))
 
-print("ade", ChildSupport().calculate_ade(record))
-print("calculate_amount_ordered_to_be_withheld",ChildSupport().calculate_amount_ordered_to_be_withheld(record))
+# print("ade", ChildSupport().calculate_ade(record))
+# print("calculate_amount_ordered_to_be_withheld",ChildSupport().calculate_amount_ordered_to_be_withheld(record))
 
-print("Priority Order",ChildSupport().get_priority_order_according_to_state(record))
+# print("Priority Order",ChildSupport().get_priority_order_according_to_state(record))
 
-print("Calculate Amount Left",ChildSupport().calculate_amount_left(record))
+# print("Calculate Amount Left",ChildSupport().calculate_amount_left(record))
 
 
 
