@@ -213,8 +213,8 @@ class SingleChild(ChildSupport):
             withholding_amount = ade
             arrear_amount = 0
         calculate_gross_pay=self.calculate_gross_pay(record)
-        result_amt={"child support amount1": 0 if calculate_gross_pay==0 else round(withholding_amount,2)}
-        arrear_amt={"arrear amount1":0 if calculate_gross_pay==0 else round(arrear_amount,2)}
+        result_amt={"child support amount1": 0 if calculate_gross_pay<=0 or withholding_amount<=0 else round(withholding_amount,2)}
+        arrear_amt={"arrear amount1":0 if calculate_gross_pay<=0 or withholding_amount<=0 else round(arrear_amount,2)}
         return result_amt,arrear_amt
     
 
@@ -233,6 +233,7 @@ class MultipleChild(ChildSupport):
         twa = self.calculate_twa(record)
         wa = self.calculate_wa(record)
         work_state = record.get(EmployeeFields.WORK_STATE)
+        calculate_gross_pay=self.calculate_gross_pay(record)
 
         # Determine the allocation method for garnishment based on the state
         allocation_method_for_garnishment = gc.AllocationMethodIdentifiers(work_state).get_allocation_method()
@@ -247,7 +248,7 @@ class MultipleChild(ChildSupport):
             # Apply the allocation method for garnishment
             if allocation_method_for_garnishment == self.PRORATE:
                 child_support_amount = {
-                    f"child support amount{i+1}": round((amount / twa) * ade,2) for i, amount in enumerate(tcsa)
+                    f"child support amount{i+1}": 0 if calculate_gross_pay==0 or round((amount / twa) * ade,2) <=0 else round((amount / twa) * ade,2) for i, amount in enumerate(tcsa)
                 }
                 
                 amount_left_for_arrears = wa - sum(tcsa)
@@ -255,16 +256,15 @@ class MultipleChild(ChildSupport):
                     arrear_amount = {f"arrear amount{i+1}": 0 for i, _ in enumerate(taa)}
                 else:
                     if amount_left_for_arrears >=taa:
-                        arrear_amount={f"arrear amount{i+1}": round((amount/taa)*amount_left_for_arrears,2) for i, amount in enumerate(taa)}
+                        arrear_amount={f"arrear amount{i+1}": 0 if calculate_gross_pay<=0 or round((amount/taa)*amount_left_for_arrears,2) <=0 else round((amount/taa)*amount_left_for_arrears,2) for i, amount in enumerate(taa)}
                     else:
                         arrear_amount=self.calculate_each_arrears_amt(record)
             
             elif allocation_method_for_garnishment == self.DEVIDEEQUALLY:
                 calculate_gross_pay=self.calculate_gross_pay(record)
                 child_support_amount = {
-                    f"child support amount{i+1}": 0 if calculate_gross_pay==0 else round(ade / len(tcsa),2) for i, _ in enumerate(tcsa)
+                    f"child support amount{i+1}": 0 if calculate_gross_pay<=0 or round(ade / len(tcsa),2) <=0 else round(ade / len(tcsa),2) for i, _ in enumerate(tcsa)
                 }
-                print("child_support_amount1111",child_support_amount)
                 
                 amount_left_for_arrears = ade - sum(tcsa)
                 if amount_left_for_arrears <= 0:
@@ -273,7 +273,7 @@ class MultipleChild(ChildSupport):
                     if amount_left_for_arrears >=taa:
                         arrear_amount=self.calculate_each_arrears_amt(record)                       
                     else:
-                        arrear_amount={f"arrear amount{i+1}": 0 if calculate_gross_pay==0 else round(amount/len(taa),2) for i, amount in enumerate(taa)}
+                        arrear_amount={f"arrear amount{i+1}": 0 if calculate_gross_pay<=0 or round(ade / len(tcsa),2) <=0 else round(amount/len(taa),2) for i, amount in enumerate(taa)}
             else:
                 raise ValueError("Invalid allocation method for garnishment.")
 

@@ -110,7 +110,6 @@ class StateTaxView():
             self.fmv_threshold()
             gross_pay = record.get(EmployeeFields.GROSS_PAY)
             disposable_income = cs.ChildSupport().calculate_de(record)
-            debt = record.get(EmployeeFields.DEBT)
             state = record.get(EmployeeFields.WORK_STATE).lower()
             net_pay = record.get(CalculationFields.NET_PAY)
             payroll_taxes=record.get(PayrollTaxesFields.PAYROLL_TAXES)
@@ -121,7 +120,7 @@ class StateTaxView():
             no_of_dependent_exemption=record.get(EmployeeFields.NO_OF_DEPENDENT_EXEMPTION)
             is_case_of_non_tax_levy=record.get(EmployeeFields.IS_CASE_OF_NON_TAX_LEVY)
             is_case_of_income_tax_levy=record.get(EmployeeFields.IS_CASE_OF_INCOME_TAX_LEVY)
-            
+
             #dict of formula based to state 
             state_formulas = {
             "arizona": self.cal_arizona(net_pay,exemption_amount),
@@ -159,7 +158,7 @@ class StateTaxView():
                 elif state in ['alabama','iowa']:
                     result = self.cal_x_disposible_income(gross_pay)
                     
-            return result
+            return int(result)
         
         except Exception as e:
             return Response(
@@ -171,75 +170,58 @@ class StateTaxView():
 
 
    
-# record={
-#     "batch_id": "B001A",
-#     "cases": [
-#         {
-#             "ee_id": "EE005138",
-#             "work_state": "Washington",
-#             "no_of_exemption_including_self": 1.0,
-#             "pay_period": "Weekly",
-#             "filing_status": "single",
-#             "wages": 600,
-#             "commission_and_bonus": 0,
-#             "non_accountable_allowances": 0,
-#             "gross_pay": 600,
-#             "debt":230,
-#             "exemption_amount": 0,
-#             "is_case_of_non_tax_levy":True,
-#             "is_case_of_income_tax_levy":False,
-#             "payroll_taxes": {
-#                 "federal_income_tax": 50,
-#                 "social_security_tax": 14,
-#                 "medicare_tax": 0,
-#                 "state_tax": 20,
-#                 "local_tax": 0,
-#                 "union_dues": 0,
-#                 "wilmington_tax": 0,
-#                 "medical_insurance_pretax": 0,
-#                 "industrial_insurance": 0,
-#                 "life_insurance": 0,
-#                 "CaliforniaSDI": 0
-#             },
-#             "payroll_deductions": {
-#                 "medical_insurance": 0
-#             },
-#             "net_pay": 516,
-#             "age": 50.0,
-#             "is_blind": False,
-#             "is_spouse_blind": False,
-#             "spouse_age": 43.0,
-#             "support_second_family": "Yes",
-#             "no_of_student_default_loan": 1.0,
-#             "arrears_greater_than_12_weeks": "Yes",
-#             "no_of_dependent_exemption":1,
-#             "garnishment_data": [
-#                 {
-#                     "type": "state tax levy",
-#                     "data": [
-#                         {
-#                             "case_id": "C24373",
-#                             "ordered_amount": 0,
-#                             "arrear_amount": 0,
-#                             "current_medical_support": 0.0,
-#                             "past_due_medical_support": 0.0,
-#                             "current_spousal_support": 0.0,
-#                             "past_due_spousal_support": 0.0
-#                         },
-#                         {
-#                             "case_id": "C24374",
-#                             "ordered_amount": 0,
-#                             "arrear_amount": 0,
-#                             "current_medical_support": 0.0,
-#                             "past_due_medical_support": 0.0,
-#                             "current_spousal_support": 0.0,
-#                             "past_due_spousal_support": 0.0
-#                         }
-#                     ]
-#                 }
-#             ]
-#         }
-#     ]
-# }
-# print("Disposible Earning",cs.ChildSupport().calculate_de(record))
-# print("WithHoulding Amount",StateTaxView().calculate(record))
+record={
+            "ee_id": "EE005157",
+            "work_state": "Louisiana",
+            "no_of_exemption_including_self": 1,
+            "pay_period": "Weekly",
+            "filing_status": "single",
+            "wages": 0,
+            "commission_and_bonus": 0,
+            "non_accountable_allowances": 0,
+            "gross_pay": 0,
+            "exemption_amount": 0,
+            "payroll_taxes": {
+                "federal_income_tax": 0.0,
+                "social_security_tax": 0.0,
+                "medicare_tax": 0.0,
+                "state_tax": 0.0,
+                "local_tax": 0.0,
+                "union_dues": 0,
+                "wilmington_tax": 0,
+                "medical_insurance_pretax": 0,
+                "industrial_insurance": 0,
+                "life_insurance": 0,
+                "CaliforniaSDI": 0
+            },
+            "payroll_deductions": {
+                "medical_insurance": 0
+            },
+            "net_pay": 0.0,
+            "age": 52,
+            "is_blind": False,
+            "is_spouse_blind": False,
+            "spouse_age": 60,
+            "support_second_family": "No",
+            "no_of_student_default_loan": 0,
+            "arrears_greater_than_12_weeks": "No",
+            "no_of_dependent_exemption":1,
+            "garnishment_data": [
+                {
+                    "type": "State tax levy",
+                    "data": [
+                        {
+                            "case_id": "C24400",
+                            "ordered_amount": 0,
+                            "arrear_amount": 0,
+                            "current_medical_support": 0,
+                            "past_due_medical_support": 0,
+                            "current_spousal_support": 0,
+                            "past_due_spousal_support": 0
+                        }
+                    ]
+                }
+            ]
+        }
+print("Disposible Earning",cs.ChildSupport().calculate_de(record))
+print("WithHoulding Amount",StateTaxView().calculate(record))
