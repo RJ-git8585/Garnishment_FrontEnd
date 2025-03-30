@@ -20,8 +20,8 @@ class StateTaxView():
         self.threshold_40= 7.25*self.VALUE2
         self.threshold_53= 7.25*self.VALUE3
 
-    def cal_arizona(self,net_pay,exemption_amount):
-        return max(0, net_pay - exemption_amount)
+    # def cal_arizona(self,net_pay,exemption_amount):
+    #     return max(0, net_pay - exemption_amount)
     
     def cal_massachusetts(self,disposable_income):
         if self.cal_x_disposible_income(disposable_income) >= 200:
@@ -67,36 +67,36 @@ class StateTaxView():
             return self.cal_x_disposible_income(disposable_income)
         
     def cal_newyork(self,disposable_income,gross_pay):
-        return(self.cal_x_disposible_income(gross_pay,.10),self.cal_x_disposible_income(disposable_income))
+        return min(self.cal_x_disposible_income(gross_pay,.10),self.cal_x_disposible_income(disposable_income))
     
 
-    def cal_south_carolina(self,dist_code,disposable_income,gross_pay):
-        if dist_code=="AGYC":
-            return(self.cal_x_disposible_income(disposable_income))
-        elif dist_code in ["IIT", "SAL" ,"EWG"]:
-            return(self.cal_x_disposible_income(gross_pay))
+    # def cal_south_carolina(self,dist_code,disposable_income,gross_pay):
+    #     if dist_code=="AGYC":
+    #         return(self.cal_x_disposible_income(disposable_income))
+    #     elif dist_code in ["IIT", "SAL" ,"EWG"]:
+    #         return(self.cal_x_disposible_income(gross_pay))
         
     
-    def cal_west_virginia(self,no_of_exemption_including_self,net_pay):
-        if no_of_exemption_including_self==1:
-            exempt_amt=self.threshold_30+0
-        elif no_of_exemption_including_self>1:
-            exempt_amt=self.threshold_30+25*(no_of_exemption_including_self-1)
-        return net_pay-exempt_amt
+    # def cal_west_virginia(self,no_of_exemption_including_self,net_pay):
+    #     if no_of_exemption_including_self==1:
+    #         exempt_amt=self.threshold_30+0
+    #     elif no_of_exemption_including_self>1:
+    #         exempt_amt=self.threshold_30+25*(no_of_exemption_including_self-1)
+    #     return net_pay-exempt_amt
     
-    def cal_rhode_island(self,no_of_dependent_exemption,net_pay):
-        exempt_amt=75+(no_of_dependent_exemption*25)
-        return net_pay-exempt_amt
+    # def cal_rhode_island(self,no_of_dependent_exemption,net_pay):
+    #     exempt_amt=75+(no_of_dependent_exemption*25)
+    #     return net_pay-exempt_amt
     
     
-    def cal_washington(self,is_case_of_non_tax_levy,is_case_of_income_tax_levy,disposable_income):
-        if is_case_of_income_tax_levy==True:
-            WA=self.cal_x_disposible_income(disposable_income)
-        elif is_case_of_non_tax_levy==True:
-            WA=self.cal_x_disposible_income(disposable_income,1)
-        else:
-            WA=0
-        return WA
+    # def cal_washington(self,is_case_of_non_tax_levy,is_case_of_income_tax_levy,disposable_income):
+    #     if is_case_of_income_tax_levy==True:
+    #         WA=self.cal_x_disposible_income(disposable_income)
+    #     elif is_case_of_non_tax_levy==True:
+    #         WA=self.cal_x_disposible_income(disposable_income,1)
+    #     else:
+    #         WA=0
+    #     return WA
     def cal_new_mexico(self,disposable_income):
         if disposable_income <self.threshold_40:
             return 0
@@ -114,16 +114,15 @@ class StateTaxView():
             net_pay = record.get(CalculationFields.NET_PAY)
             payroll_taxes=record.get(PayrollTaxesFields.PAYROLL_TAXES)
             medical_insurance = payroll_taxes.get(CalculationFields.MEDICAL_INSURANCE)
-            exemption_amount = record.get(EmployeeFields.EXEMPTION_AMOUNT) 
-            dist_code =record.get(EmployeeFields.DIST_CODE)
-            no_of_exemption_including_self=record.get(EmployeeFields.NO_OF_EXEMPTION_INCLUDING_SELF)
-            no_of_dependent_exemption=record.get(EmployeeFields.NO_OF_DEPENDENT_EXEMPTION)
-            is_case_of_non_tax_levy=record.get(EmployeeFields.IS_CASE_OF_NON_TAX_LEVY)
-            is_case_of_income_tax_levy=record.get(EmployeeFields.IS_CASE_OF_INCOME_TAX_LEVY)
+            # dist_code =record.get(EmployeeFields.DIST_CODE)
+            # no_of_exemption_including_self=record.get(EmployeeFields.NO_OF_EXEMPTION_INCLUDING_SELF)
+            # no_of_dependent_exemption=record.get(EmployeeFields.NO_OF_DEPENDENT_EXEMPTION)
+            # is_case_of_non_tax_levy=record.get(EmployeeFields.IS_CASE_OF_NON_TAX_LEVY)
+            # is_case_of_income_tax_levy=record.get(EmployeeFields.IS_CASE_OF_INCOME_TAX_LEVY)
 
             #dict of formula based to state 
             state_formulas = {
-            "arizona": self.cal_arizona(net_pay,exemption_amount),
+            # "arizona": self.cal_arizona(net_pay,exemption_amount),
             "idaho": net_pay  ,
             "illinois" :self.cal_x_disposible_income(gross_pay,.15),
             "maryland" : self.cal_x_disposible_income(disposable_income)-medical_insurance,
@@ -135,17 +134,17 @@ class StateTaxView():
             "maine" :self.cal_maine(disposable_income),
             "indiana":self.cal_indiana(disposable_income),
             "minnesota":self.cal_maine(disposable_income) ,
-            "new york" or "newyork": self.cal_newyork(disposable_income,gross_pay),
+            "new york": self.cal_newyork(disposable_income,gross_pay),
             "north carolina" or "northcarolina":self.cal_x_disposible_income(gross_pay,.10),
             "pennsylvania":self.cal_x_disposible_income(disposable_income,.10),
             "vermont": self.cal_vermont(disposable_income),
             "virginia": disposable_income,
-            "west virginia" or "westvirginia": self.cal_west_virginia(no_of_exemption_including_self,net_pay),
-            "nebraska":net_pay-exemption_amount,
+            # "west virginia" or "westvirginia": self.cal_west_virginia(no_of_exemption_including_self,net_pay),
+            # "nebraska":net_pay-exemption_amount,
             "wisconsin":self.cal_x_disposible_income(gross_pay),
-            "Washington": self.cal_washington(is_case_of_non_tax_levy,is_case_of_income_tax_levy,disposable_income),
-            "south carolina":self.cal_south_carolina(dist_code,disposable_income,gross_pay),
-            "rhode island" or "rhodeisland":self.cal_rhode_island(no_of_dependent_exemption,net_pay),
+            # "Washington": self.cal_washington(is_case_of_non_tax_levy,is_case_of_income_tax_levy,disposable_income),
+            # "south carolina":self.cal_south_carolina(dist_code,disposable_income,gross_pay),
+            # "rhode island" or "rhodeisland":self.cal_rhode_island(no_of_dependent_exemption,net_pay),
             "missouri":self.cal_x_disposible_income(disposable_income),
             "new mexico" or "newmexico":self.cal_new_mexico(disposable_income)
 
@@ -170,58 +169,3 @@ class StateTaxView():
 
 
    
-record={
-            "ee_id": "EE005157",
-            "work_state": "Louisiana",
-            "no_of_exemption_including_self": 1,
-            "pay_period": "Weekly",
-            "filing_status": "single",
-            "wages": 0,
-            "commission_and_bonus": 0,
-            "non_accountable_allowances": 0,
-            "gross_pay": 0,
-            "exemption_amount": 0,
-            "payroll_taxes": {
-                "federal_income_tax": 0.0,
-                "social_security_tax": 0.0,
-                "medicare_tax": 0.0,
-                "state_tax": 0.0,
-                "local_tax": 0.0,
-                "union_dues": 0,
-                "wilmington_tax": 0,
-                "medical_insurance_pretax": 0,
-                "industrial_insurance": 0,
-                "life_insurance": 0,
-                "CaliforniaSDI": 0
-            },
-            "payroll_deductions": {
-                "medical_insurance": 0
-            },
-            "net_pay": 0.0,
-            "age": 52,
-            "is_blind": False,
-            "is_spouse_blind": False,
-            "spouse_age": 60,
-            "support_second_family": "No",
-            "no_of_student_default_loan": 0,
-            "arrears_greater_than_12_weeks": "No",
-            "no_of_dependent_exemption":1,
-            "garnishment_data": [
-                {
-                    "type": "State tax levy",
-                    "data": [
-                        {
-                            "case_id": "C24400",
-                            "ordered_amount": 0,
-                            "arrear_amount": 0,
-                            "current_medical_support": 0,
-                            "past_due_medical_support": 0,
-                            "current_spousal_support": 0,
-                            "past_due_spousal_support": 0
-                        }
-                    ]
-                }
-            ]
-        }
-print("Disposible Earning",cs.ChildSupport().calculate_de(record))
-print("WithHoulding Amount",StateTaxView().calculate(record))

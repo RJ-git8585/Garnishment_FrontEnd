@@ -55,7 +55,7 @@ class CalculationDataView(APIView):
             },
             "state tax levy": {
                 "fields": [
-                    EmployeeFields.GROSS_PAY, EmployeeFields.WORK_STATE,EmployeeFields.DEBT,
+                    EmployeeFields.GROSS_PAY, EmployeeFields.WORK_STATE
                 ],
                 "calculate": self.calculate_state_tax_levy
             },
@@ -93,7 +93,7 @@ class CalculationDataView(APIView):
         total_withhold_amt = sum(cs["child_support"] for cs in record["agency"][0]["withholding_amt"]) + \
                              sum(arr["arrear_amount"] for arr in record["agency"][1]["Arrear"])
 
-        record["er_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
+        record["er_deduction"] = {"garnishment_fees":0 if total_withhold_amt<=0 else gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
 
         # Identify withholding limit using state rules
         record["withholding_limit_rules"] = WLIdentifier().get_state_rules(record[EmployeeFields.WORK_STATE].capitalize())
@@ -129,7 +129,7 @@ class CalculationDataView(APIView):
         result= StateTaxView().calculate(record)
         record["agency"] = [{"withholding_amt": [{"garnishment amount":result}]}]
         
-        record["ER_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, result)}
+        record["ER_deduction"] = {"garnishment_fees": 0 if result<=0 else gar_fees_rules_engine().apply_rule(record, result)}
         return record
 
     def calculate_garnishment_wrapper(self, record):
