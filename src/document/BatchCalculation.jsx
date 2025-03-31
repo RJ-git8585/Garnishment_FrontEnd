@@ -168,12 +168,12 @@ const BatchCalculation = () => {
                 value={jsonInput}
                 onChange={(e) => setJsonInput(e.target.value)}
               />
-              <div className="btn-inline mb-10">
-              <button className="button" onClick={handleConvert} disabled={loading}>
+              <div className="btn-inline mb-10 text-center">
+              <button className="button comal_b" onClick={handleConvert} disabled={loading}>
                 {loading ? "Processing..." : "Request"}
               </button>
               {error && <p className="error">{error}</p>}
-              <button onClick={reloadComponent} className="resetButton">
+              <button onClick={reloadComponent} className="resetButton ">
                 Reset
               </button>
               </div>  

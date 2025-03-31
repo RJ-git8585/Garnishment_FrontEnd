@@ -5,20 +5,23 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        'fade-in': 'fadeIn 1s ease-in-out',
+        'slide-in': 'slideIn 1s ease-in-out',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        slideIn: {
+          '0%': { transform: 'translateX(-20px)', opacity: 0 },
+          '100%': { transform: 'translateX(0)', opacity: 1 },
+        },
+      },
+    },
   },
-  // theme: {
-  //   screens: {
-  //     'tablet': '640px',
-  //     // => @media (min-width: 640px) { ... }
-
-  //     'laptop': '1024px',
-  //     // => @media (min-width: 1024px) { ... }
-
-  //     'desktop': '1280px',
-  //     // => @media (min-width: 1280px) { ... }
-  //   },
-  // },
   plugins: [],
 }
 
