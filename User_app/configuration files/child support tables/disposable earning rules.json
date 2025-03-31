@@ -1,9 +1,10 @@
   {"de":[
       {"State": "Alabama", "taxes_deduction":["FIT" ,"SST" ,"MT", "ST" , "LT"]},
+      {"State": "Colarado", "taxes_deduction":["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Alaska", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Arizona", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
       {"State": "Arkansas", "taxes_deduction": ["FIT" ,"SST" ,"MT", "ST" , "LT"]},
-      {"State": "California", "taxes_deduction": ["FIT" , "SST" , "MT" , "CaliforniaSDI"]},
+      {"State": "California", "taxes_deduction": ["FIT" , "SST" , "MT" , "CaliforniaSDI","UD"]},
       {"State": "Colorado", "taxes_deduction": ["FIT" , "SST" , "MT" ,"FAMLI"]},
       {"State": "Connecticut", "taxes_deduction":  ["FIT","SST","MT","MIP","UD"]},
       {"State": "Delaware", "taxes_deduction": ["FIT","SST","MT","ST","wilmington_tax","UD"]},

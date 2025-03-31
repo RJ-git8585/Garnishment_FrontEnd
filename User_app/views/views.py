@@ -1843,12 +1843,17 @@ class GETMandatoryDeductions(APIView):
     def get(self, request, state):
         try:
             record=ChildSupport().get_mapping_keys(state)
+            result = {}
+
+            for item in record:
+                key = item.split("_")[0] 
+                result[key] = item 
             if record:
                 response_data = {
                     'success': True,
                     'message': 'Data retrieved successfully',
                     'status_code': status.HTTP_200_OK,
-                    'mandatory_deductions': record
+                    'mandatory_deductions': result
                 }
                 return Response(response_data, status=status.HTTP_200_OK)
 
