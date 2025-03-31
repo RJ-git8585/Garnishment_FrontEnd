@@ -96,7 +96,7 @@ class CalculationDataView(APIView):
         record["er_deduction"] = {"garnishment_fees":0 if total_withhold_amt<=0 else gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
 
         # Identify withholding limit using state rules
-        record["withholding_limit_rules"] = WLIdentifier().get_state_rules(record[EmployeeFields.WORK_STATE].capitalize())
+        record["withholding_limit_rule"] = WLIdentifier().get_state_rules(record[EmployeeFields.WORK_STATE].capitalize())
         return record
 
     def calculate_federal_tax(self, record):
@@ -143,7 +143,7 @@ class CalculationDataView(APIView):
         garnishment_type = garnishment_data[0].get(EmployeeFields.GARNISHMENT_TYPE, "").strip().lower()
         result = self.calculate_garnishment(garnishment_type, record)
     
-        if "error" in result:
+        if "error" in result:          
             return {"ee_id":record.get("ee_id"),"error": result["error"]}
     
         return result  
@@ -176,7 +176,22 @@ class CalculationDataView(APIView):
                         result = future.result()
                         if result:
                             output.append(result)
+                            log_api(
+                            api_name="garnishment_calculate",
+                            endpoint="/garnishment_calculate/",
+                            status_code=200,
+                            message="API executed successfully",
+                            status="Success"
+                        )
                     except Exception as e:
+
+                        log_api(
+                        api_name="garnishment_calculate",
+                        endpoint="/garnishment_calculate/",
+                        status_code=500,
+                        message=str(e),
+                        status="Failed"
+            )
 
                         output.append({
                             "error": str(e),
@@ -192,6 +207,13 @@ class CalculationDataView(APIView):
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
+            log_api(
+                        api_name="garnishment_calculate",
+                        endpoint="/garnishment_calculate/",
+                        status_code=500,
+                        message=str(e),
+                        status="Failed"
+            )
             return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
 
 
@@ -273,23 +295,17 @@ class CalculationDataView(APIView):
                  calculated_result = self.calculate_garnishment_wrapper(case_info)
 
                  calculated_result["ee_id"] = ee_id
-                 log_api(
-                     api_name="sample_api",
-                     endpoint="/sample-api/",
-                     status_code=200,
-                     message="API executed successfully",
-                     status="Success"
-                 )
+                #  log_api(
+                #      api_name="garnishment_calculate",
+                #      endpoint="/garnishment_calculate/",
+                #      status_code=200,
+                #      message="API executed successfully",
+                #      status="Success"
+                #  )
                  return calculated_result 
 
 
          except Exception as e:
 
-             log_api(
-                 api_name="garnishment_calculate",
-                 endpoint="/sample-api/",
-                 status_code=500,
-                 message=str(e),
-                 status="Failed"
-            )
+
              return {"error": str(e), "status": 500, "ee_id": case_info.get(EmployeeFields.EMPLOYEE_ID)} 
