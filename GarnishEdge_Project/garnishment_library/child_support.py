@@ -248,7 +248,7 @@ class MultipleChild(ChildSupport):
             # Apply the allocation method for garnishment
             if allocation_method_for_garnishment == self.PRORATE:
                 child_support_amount = {
-                    f"child support amount{i+1}": 0 if calculate_gross_pay==0 or round((amount / twa) * ade,2) <=0 else round((amount / twa) * ade,2) for i, amount in enumerate(tcsa)
+                    f"child support amount{i+1}": 0 if calculate_gross_pay<=0 or round((amount / twa) * ade,2) <=0 else round((amount / twa) * ade,2) for i, amount in enumerate(tcsa)
                 }
                 
                 amount_left_for_arrears = wa - sum(tcsa)
@@ -281,66 +281,55 @@ class MultipleChild(ChildSupport):
         return child_support_amount, arrear_amount
     
 # record=       {
-#       "ee_id": "EE005143",
-#       "work_state": "Alabama",
-#       "no_of_exemption_including_self": 1,
-#       "pay_period": "Weekly",
-#       "filing_status": "married_filling_joint",
-#       "wages": 2549,
-#       "commission_and_bonus": 0,
-#       "non_accountable_allowances": 0,
-#       "gross_pay": 2549,
-#       "payroll_taxes": {
-#         "federal_income_tax": 140,
-#         "social_security_tax": 73,
-#         "medicare_tax": 15.32,
-#         "state_tax": 33,
-#         "local_tax": 5,
-#         "union_dues": 0,
-#         "wilmington_tax": 0,
-#         "medical_insurance_pretax": 0,
-#         "industrial_insurance": 0,
-#         "life_insurance": 0,
-#         "CaliforniaSDI": 0
-#       },
-#       "payroll_deductions": {
-#         "medical_insurance": 0
-#       },
-#       "net_pay": 2282.68,
-#       "age": 48,
-#       "is_blind": False,
-#       "is_spouse_blind": False,
-#       "spouse_age": 45,
-#       "support_second_family": "Yes",
-#       "no_of_student_default_loan": 0,
-#       "arrears_greater_than_12_weeks": "No",
-#       "garnishment_data": [
-#         {
-#           "type": "Child Support",
-#           "data": [
-#             {
-#               "case_id": "C24383",
-#               "ordered_amount": 85,
-#               "arrear_amount": 0,
-#               "current_medical_support": 0,
-#               "past_due_medical_support": 0,
-#               "current_spousal_support": 0,
-#               "past_due_spousal_support": 0
+#             "ee_id": "EE005126",
+#             "work_state": "Alabama",
+#             "no_of_exemption_including_self": 2,
+#             "pay_period": "Weekly",
+#             "filing_status": "married_filling_separate",
+#             "wages": 100,
+#             "commission_and_bonus": 0,
+#             "non_accountable_allowances": 0,
+#             "gross_pay": 100,
+#             "payroll_taxes": {
+#                 "federal_income_tax": 180.0,
+#                 "social_security_tax": 45.0,
+#                 "medicare_tax": 12.0,
+#                 "state_tax": 30.0,
+#                 "local_tax": 0.0,
+#                 "union_dues": 0,
+#                 "wilmington_tax": 0,
+#                 "medical_insurance_pretax": 0,
+#                 "industrial_insurance": 0,
+#                 "life_insurance": 0,
+#                 "CaliforniaSDI": 0
 #             },
-#             {
-#               "case_id": "C24384",
-#               "ordered_amount": 70,
-#               "arrear_amount": 0,
-#               "current_medical_support": 0,
-#               "past_due_medical_support": 0,
-#               "current_spousal_support": 0,
-#               "past_due_spousal_support": 0
-#             }
-#           ]
-#         }
-#       ]
-#     }
-# # print("DE",ChildSupport().calculate_deduction_rules("alabama"))
+#             "payroll_deductions": {
+#                 "medical_insurance": None
+#             },
+#             "net_pay": -167.0,
+#             "age": 50,
+#             "is_blind": False,
+#             "is_spouse_blind": False,
+#             "spouse_age": 48,
+#             "support_second_family": "Yes",
+#             "no_of_student_default_loan": 0,
+#             "arrears_greater_than_12_weeks": "No",
+#             "garnishment_data": [
+#                 {
+#                     "type": "Child Support",
+#                     "data": [
+#                         {
+#                             "case_id": "C17685",
+#                             "ordered_amount": 280,
+#                             "arrear_amount": 0,
+#                             "current_medical_support": 0,
+#                             "past_due_medical_support": 0,
+#                             "current_spousal_support": 0,
+#                             "past_due_spousal_support": 0
+#                         }
+#                     ]
+#                 }]}
+# # # print("DE",ChildSupport().calculate_deduction_rules("alabama"))
 
 
 # tcsa = ChildSupport().get_list_supportAmt(record)
@@ -351,11 +340,12 @@ class MultipleChild(ChildSupport):
 # print("tcsqqa",ChildSupport().get_list_supportAmt(record))
 
 # print("ade", ChildSupport().calculate_ade(record))
-# print("calculate_amount_ordered_to_be_withheld",ChildSupport().calculate_amount_ordered_to_be_withheld(record))
+# print("de",ChildSupport().calculate_de(record))
+# # print("calculate_amount_ordered_to_be_withheld",ChildSupport().calculate_amount_ordered_to_be_withheld(record))
 
-# print("Priority Order",ChildSupport().get_priority_order_according_to_state(record))
+# # print("Priority Order",ChildSupport().get_priority_order_according_to_state(record))
 
-# print("Calculate Amount Left",ChildSupport().calculate_amount_left(record))
+# # print("Calculate Amount Left",ChildSupport().calculate_amount_left(record))
 
 
 

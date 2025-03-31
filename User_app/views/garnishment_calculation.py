@@ -81,22 +81,43 @@ class CalculationDataView(APIView):
         result = MultipleChild().calculate(record) if len(tcsa) > 1 else SingleChild().calculate(record)
 
         child_support_data, arrear_amount_data = result[0], result[1]
+        #Garnishment cannot be deducted due to insufficient pay
 
-        record["agency"] = [{"withholding_amt": [
-            {"child_support": child_support_data[f'child support amount{i}']}
-            for i in range(1, len(child_support_data) + 1)
-        ]}
-        ,{"Arrear" : [{"arrear_amount": arrear_amount_data[f'arrear amount{i}']}
-                            for i in range(1, len(arrear_amount_data) + 1)]}
-                            ]
+        total_withhold_amt = sum(child_support_data.values())+sum(arrear_amount_data.values())
+        
+        if total_withhold_amt <= 0:
+            record["agency"] = [
+                                    {
+                                        "withholding_amt": [
+                                            {
+                                                "child_support": "Garnishment cannot be deducted due to insufficient pay"
+                                                for i in range(1, len(child_support_data) + 1)
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Arrear": [
+                                            {
+                                                "arrear_amount": "Garnishment cannot be deducted due to insufficient pay"
+                                                for i in range(1, len(arrear_amount_data) + 1)
+                                            }
+                                            
+                                        ]
+                                    }
+                                ]
+            record["er_deduction"] = {"garnishment_fees":"Garnishment fees cannot be deducted due to insufficient pay"}
 
-        total_withhold_amt = sum(cs["child_support"] for cs in record["agency"][0]["withholding_amt"]) + \
-                             sum(arr["arrear_amount"] for arr in record["agency"][1]["Arrear"])
+        else:
+            record["agency"] = [{"withholding_amt": [
+                {"child_support": child_support_data[f'child support amount{i}']} for i in range(1, len(child_support_data) + 1)
+            ]}
+            ,{"Arrear" : [{"arrear_amount": arrear_amount_data[f'arrear amount{i}']}
+                                for i in range(1, len(arrear_amount_data) + 1)]}]
+            
+            record["er_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
 
-        record["er_deduction"] = {"garnishment_fees":0 if total_withhold_amt<=0 else gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
-
-        # Identify withholding limit using state rules
-        record["withholding_limit_rule"] = WLIdentifier().get_state_rules(record[EmployeeFields.WORK_STATE].capitalize())
+            # Identify withholding limit using state rules
+            record["withholding_limit_rule"] = WLIdentifier().get_state_rules(record[EmployeeFields.WORK_STATE].capitalize())
         return record
 
     def calculate_federal_tax(self, record):
@@ -109,7 +130,7 @@ class CalculationDataView(APIView):
     def calculate_student_loan(self, record):
         """Calculate student loan garnishment."""
         result = student_loan_calculate().calculate(record)
-
+        #EE005126
         if len(result) == 1:
             record["agency"] = [{"withholding_amt":[{"student_loan": result['student_loan_amt']}]}]
             total_loan_amt = result['student_loan_amt']
@@ -127,9 +148,15 @@ class CalculationDataView(APIView):
         """Calculate state tax levy garnishment."""
 
         result= StateTaxView().calculate(record)
-        record["agency"] = [{"withholding_amt": [{"garnishment amount":result}]}]
-        
-        record["ER_deduction"] = {"garnishment_fees": 0 if result<=0 else gar_fees_rules_engine().apply_rule(record, result)}
+
+        if result<=0:
+            record["agency"] = [{"withholding_amt": [{"garnishment amount":"Garnishment cannot be deducted due to insufficient pay"}]}]
+            record["ER_deduction"] = {"garnishment_fees":"Garnishment fees cannot be deducted due to insufficient pay"}
+        else:
+            record["agency"] = [{"withholding_amt": [{"garnishment amount":result}]}]
+            
+            # Calculate garnishment fees using the rules engine
+            record["ER_deduction"] = {"garnishment_fees":  gar_fees_rules_engine().apply_rule(record, result)}
         return record
 
     def calculate_garnishment_wrapper(self, record):
@@ -295,13 +322,13 @@ class CalculationDataView(APIView):
                  calculated_result = self.calculate_garnishment_wrapper(case_info)
 
                  calculated_result["ee_id"] = ee_id
-                #  log_api(
-                #      api_name="garnishment_calculate",
-                #      endpoint="/garnishment_calculate/",
-                #      status_code=200,
-                #      message="API executed successfully",
-                #      status="Success"
-                #  )
+                 log_api(
+                     api_name="garnishment_calculate",
+                     endpoint="/garnishment_calculate/",
+                     status_code=200,
+                     message="API executed successfully",
+                     status="Success"
+                 )
                  return calculated_result 
 
 
@@ -309,3 +336,4 @@ class CalculationDataView(APIView):
 
 
              return {"error": str(e), "status": 500, "ee_id": case_info.get(EmployeeFields.EMPLOYEE_ID)} 
+         
