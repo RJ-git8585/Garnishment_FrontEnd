@@ -4,56 +4,56 @@
         "SNo": 1,
         "State": "Alabama",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 2,
         "State": "Alaska",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "40%",
+        "WithholdingLimit": "40%",
         "Rule": "Rule_2"
       },
       {
         "SNo": 3,
         "State": "Arizona",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 4,
         "State": "Arkansas",
         "AllocationMethod": "Divide Equally",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 5,
         "State": "California",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 6,
         "State": "Colorado",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 7,
         "State": "Connecticut",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_6"
       },
       {
         "SNo": 8,
         "State": "Delaware",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
@@ -66,287 +66,287 @@
         "SNo": 10,
         "State": "Georgia",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 11,
         "State": "Hawaii",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 12,
         "State": "Idaho",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 13,
         "State": "Illinois",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 14,
         "State": "Indiana",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 15,
         "State": "Iowa",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50% by policy; 50% to 65% by statute",
+        "WithholdingLimit": "50% by policy; 50% to 65% by statute",
         "Rule": "Rule_1"
       },
       {
         "SNo": 16,
         "State": "Kansas",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 17,
         "State": "Kentucky",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 18,
         "State": "Louisiana",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 19,
         "State": "Maine",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 20,
         "State": "Maryland",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 21,
         "State": "Massachusetts",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 22,
         "State": "Michigan",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 23,
         "State": "Minnesota",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 24,
         "State": "Mississippi",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 25,
         "State": "Missouri",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50% by policy; 50% to 65% by statute",
+        "WithholdingLimit": "50% by policy; 50% to 65% by statute",
         "Rule": "Rule_3"
       },
       {
         "SNo": 26,
         "State": "Montana",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 27,
         "State": "Nebraska",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 28,
         "State": "Nevada",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50% by policy; 50% to 65% by statute",
+        "WithholdingLimit": "50% by policy; 50% to 65% by statute",
         "Rule": "Rule_1"
       },
       {
         "SNo": 29,
         "State": "New Hampshire",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 30,
         "State": "New Jersey",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 31,
         "State": "New Mexico",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 32,
         "State": "New York",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 33,
         "State": "North Carolina",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "40-50%",
+        "WithholdingLimit": "40-50%",
         "Rule": "Rule_4"
       },
       {
         "SNo": 34,
         "State": "North Dakota",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 35,
         "State": "Ohio",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 36,
         "State": "Oklahoma",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 37,
         "State": "Oregon",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 38,
         "State": "Pennsylvania",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 39,
         "State": "Rhode Island",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 40,
         "State": "South Carolina",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 41,
         "State": "South Dakota",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 42,
         "State": "Tennessee",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 43,
         "State": "Texas",
         "AllocationMethod": "Divide Equally",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 44,
         "State": "Utah",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 45,
         "State": "Vermont",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 46,
         "State": "Virginia",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 47,
         "State": "Washington",
         "AllocationMethod": "Divide Equally",
-        "Withholding Limit": "50%",
+        "WithholdingLimit": "50%",
         "Rule": "Rule_3"
       },
       {
         "SNo": 48,
         "State": "West Virginia",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "40-55%",
+        "WithholdingLimit": "40-55%",
         "Rule": "Rule_5"
       },
       {
         "SNo": 49,
         "State": "Wisconsin",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       },
       {
         "SNo": 50,
         "State": "Wyoming",
         "AllocationMethod": "Prorate",
-        "Withholding Limit": "50%-65%",
+        "WithholdingLimit": "50%-65%",
         "Rule": "Rule_1"
       }
     ]
