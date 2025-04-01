@@ -24,7 +24,7 @@ from django.utils import timezone
 #         return self.username
 
 class Employer_Profile(AbstractBaseUser):
-    id = models.CharField(max_length=100,primary_key=True)
+    employer_id = models.CharField(max_length=100,primary_key=True)
     cid=models.CharField(max_length=100,default="ABS")
     employer_name = models.CharField(max_length=100,default="ABS")
     email = models.EmailField(unique=True,default="rtt@gmail.com")

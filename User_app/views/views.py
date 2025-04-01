@@ -38,6 +38,7 @@ from django.views.decorators.csrf import csrf_exempt
 from User_app.models import garnishment_order, Employee_Detail, company_details
 from GarnishEdge_Project.garnishment_library.child_support import *
 
+
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
@@ -68,12 +69,11 @@ def login(request):
                 'message': 'Invalid credentials',
                 'status code': status.HTTP_400_BAD_REQUEST
             })
-        employee = get_object_or_404(Employer_Profile, employer_name=user.employer_name, employer_id=user.employer_id,cid=user.cid)
+
         if check_password(password, user.password):
             auth_login(request, user)
             user_data = {
-                "employer_id":employee.employer_id,
-                "cid":employee.cid,
+                "cid": user.cid,
                 'username': user.username,
                 'name': user.employer_name,
                 'email': user.email,
@@ -81,19 +81,18 @@ def login(request):
             try:
                 refresh = RefreshToken.for_user(user)
 
-
                 application_activity.objects.create(
-                action='Employer Login',
-                details=f'Employer {employee.employer_name} Login successfully with ID {employee.employer_id}. '
-            )
+                    action='Employer Login',
+                    details=f'Employer {user.employer_name} Login successfully.'
+                )
+
                 response_data = {
                     'success': True,
                     'message': 'Login successfully',
-                   
                     'user_data': user_data,
                     'refresh': str(refresh),
                     'access': str(refresh.access_token),
-                    'expire_time' : refresh.access_token.payload['exp'],
+                    'expire_time': refresh.access_token.payload['exp'],
                     'status code': status.HTTP_200_OK,
                 }
                 return JsonResponse(response_data)
@@ -114,7 +113,6 @@ def login(request):
             'message': 'Please use POST method for login',
             'status code': status.HTTP_400_BAD_REQUEST
         })
-
 
 @csrf_exempt
 def register(request):
