@@ -18,8 +18,8 @@ export const renderTable = (data) => {
     result.garnishment_data?.forEach((garnishment) => {
       garnishment.data?.forEach((garnData, index) => {
         // Merge agency data with garnishment_data based on case_id
-        const agencyWithholding = result.agency?.[0]?.withholding_amt?.[index]?.child_support || "N/A";
-        const agencyArrear = result.agency?.[1]?.Arrear?.[index]?.arrear_amount || "N/A";
+        const agencyWithholding = result.agency?.[0]?.withholding_amt?.[index]?.child_support || "0";
+        const agencyArrear = result.agency?.[1]?.Arrear?.[index]?.arrear_amount || "0";
 
         allResults.push({
           ee_id: result.ee_id,
