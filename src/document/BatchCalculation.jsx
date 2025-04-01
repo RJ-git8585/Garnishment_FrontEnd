@@ -109,21 +109,10 @@ const BatchCalculation = () => {
             ee_id: result.ee_id,
             case_id: garnData.case_id,
             garnishment_type: garnishment.type,
-            arrear_amount: garnData.arrear_amount !== undefined && garnData.arrear_amount !== null
-              ? garnData.arrear_amount < 0
-                ? "N/A"
-                : garnData.arrear_amount
-              : "N/A",
-            withholding_amount: garnData.ordered_amount !== undefined && garnData.ordered_amount !== null
-              ? garnData.ordered_amount < 0
-                ? "N/A"
-                : garnData.ordered_amount
-              : "N/A",
-            garnishment_fees: result.er_deduction?.garnishment_fees !== undefined && result.er_deduction?.garnishment_fees !== null
-              ? result.er_deduction.garnishment_fees < 0
-                ? "N/A"
-                : result.er_deduction.garnishment_fees
-              : "N/A",
+            arrear_amount: garnData.arrear_amount || "N/A",
+            withholding_amount: garnData.ordered_amount || "N/A",
+            garnishment_fees: result.er_deduction?.garnishment_fees || "N/A", 
+            garnishmentAmount:result.agency?.[0]?.withholding_amt?.[index]?.garnishment_amount || "N/A",
           });
         });
       });
@@ -145,12 +134,13 @@ const BatchCalculation = () => {
           <TableBody>
             {allResults.length > 0 ? (
               allResults.map((item, index) => (
+                console.log(item), // Debugging log
                 <TableRow key={index}>
                   <TableCell style={{ textAlign: "center" }}>{item.ee_id}</TableCell>
                   <TableCell style={{ textAlign: "center" }}>{item.case_id}</TableCell>
                   <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
                   <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
-                  <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
+                  <TableCell style={{ textAlign: "center" }}>{item.garnishmentAmount}</TableCell>
                   <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
                 </TableRow>
               ))

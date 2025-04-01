@@ -14,62 +14,56 @@ export const renderTable = (data) => {
 
   const allResults = [];
 
-    data.results.forEach((result) => {
-      result.garnishment_data?.forEach((garnishment) => {
-        garnishment.data?.forEach((garnData, index) => {
-          allResults.push({
-            ee_id: result.ee_id,
-            case_id: garnData.case_id,
-            garnishment_type: garnishment.type,
-            Work_State: result.work_state,
-            no_of_exemption_including_self: result.no_of_exemption_including_self,
-            pay_period: result.pay_period,
-            filing_status: result.filing_status,
-            wages: result.wages,
-            commission_and_bonus: result.commission_and_bonus,
-            non_accountable_allowances: result.non_accountable_allowances,
-            gross_pay: result.gross_pay,
-            federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
-            social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
-            state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
-            medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
-            local_tax: result.payroll_taxes?.local_tax ?? "N/A",
-            
-            
-            garnishment_amount: garnData.garnishment_amount,  
-            garnishment_date: garnData.garnishment_date,
-            medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
-            industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
-            life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
-            
-            net_pay: result.net_pay,
-            age: result.age,
-            is_blind: result.is_blind,
-            is_spouse_blind: result.is_spouse_blind,
-            // eslint-disable-next-line no-dupe-keys
-            union_dues: result.payroll_taxes?.union_dues  || "0",
-            // eslint-disable-next-line no-dupe-keys
-            wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
-            medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
-            
-            spouse_age: result.spouse_age,
-            support_second_family: result.support_second_family,    
-            no_of_student_default_loan: result.no_of_student_default_loan,
-            arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
-            arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
-            withholding_limit_rule: result.withholding_limit_rule || "N/A",
-            child_support: result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]?.child_support || "N/A",
-            // child_support: result.agency?.find((item) => item.withholding_amt)?.withholding_amt[0]?.child_support || "N/A";
-            // eslint-disable-next-line no-dupe-keys
-            medical_insurance: result.payroll_deductions?.medical_insurance || "N/A",
-            arrear_amount: garnData.arrear_amount || "N/A",
-            CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
-            withholding_amount: garnData.ordered_amount || "N/A",
-            garnishment_fees: result.er_deduction?.garnishment_fees || "N/A", // Updated to use er_deduction.garnishment_fees
-          });
+  data.results.forEach((result) => {
+    result.garnishment_data?.forEach((garnishment) => {
+      garnishment.data?.forEach((garnData, index) => {
+        // Merge agency data with garnishment_data based on case_id
+        const agencyWithholding = result.agency?.[0]?.withholding_amt?.[index]?.child_support || "N/A";
+        const agencyArrear = result.agency?.[1]?.Arrear?.[index]?.arrear_amount || "N/A";
+
+        allResults.push({
+          ee_id: result.ee_id,
+          case_id: garnData.case_id,
+          garnishment_type: garnishment.type,
+          arrear_amount: garnData.arrear_amount || "N/A",
+          withholding_amount: garnData.ordered_amount || "N/A",
+          child_support: agencyWithholding, // Merged child support from agency
+          arrear_from_agency: agencyArrear, // Merged arrear amount from agency
+          garnishment_fees: result.er_deduction?.garnishment_fees || "N/A",
+          Work_State: result.work_state,
+          no_of_exemption_including_self: result.no_of_exemption_including_self,
+          pay_period: result.pay_period,
+          filing_status: result.filing_status,
+          wages: result.wages,
+          commission_and_bonus: result.commission_and_bonus,
+          non_accountable_allowances: result.non_accountable_allowances,
+          gross_pay: result.gross_pay,
+          federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
+          social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
+          state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
+          medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
+          local_tax: result.payroll_taxes?.local_tax ?? "N/A",
+          medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
+          industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
+          life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
+          net_pay: result.net_pay,
+          age: result.age,
+          is_blind: result.is_blind,
+          is_spouse_blind: result.is_spouse_blind,
+          union_dues: result.payroll_taxes?.union_dues || "0",
+          wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
+          medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
+          spouse_age: result.spouse_age,
+          support_second_family: result.support_second_family,
+          no_of_student_default_loan: result.no_of_student_default_loan,
+          arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
+          arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
+          withholding_limit_rule: result.withholding_limit_rule || "N/A",
+          CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
         });
       });
     });
+  });
 
   return (
     <TableContainer component={Paper} style={{ marginTop: "20px", overflowX: "auto" }}>
@@ -81,6 +75,8 @@ export const renderTable = (data) => {
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
+            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Child Support</TableCell>
+            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear From Agency</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Work State</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No of Exemption</TableCell>
@@ -104,79 +100,50 @@ export const renderTable = (data) => {
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>CaliforniaSDI</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rules</TableCell>
-           
           </TableRow>
         </TableHead>
         <TableBody>
-          {allResults.map((caseItem, index) => {
-            const childSupport = caseItem.agency?.find((item) => item.withholding_amt)?.withholding_amt[0]?.child_support || "N/A";
-            console.log(allResults, "childSupport");
-            return (
-              <TableRow key={index}>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.ee_id || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.case_id || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.garnishment_type || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.arrear_amount !== null && caseItem.arrear_amount !== undefined
-                    ? caseItem.arrear_amount
-                    : "0"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.withholding_amount !== null && caseItem.withholding_amount !== undefined
-                    ? caseItem.withholding_amount
-                    : "0"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.garnishment_fees !== null && caseItem.garnishment_fees !== undefined
-                    ? caseItem.garnishment_fees
-                    : "0"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.Work_State || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.no_of_exemption_including_self !== null &&
-                  caseItem.no_of_exemption_including_self !== undefined
-                    ? caseItem.no_of_exemption_including_self
-                    : "0"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.pay_period || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.filing_status || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.wages || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.commission_and_bonus || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.non_accountable_allowances || "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.gross_pay || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.net_pay || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.federal_income_tax || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.social_security_tax || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.medicare_tax || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.state_income_tax || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.local_tax || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.union_dues || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.wilmington_tax || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.medical_insurance_pretax !== undefined && caseItem.medical_insurance_pretax !== null
-                    ? caseItem.medical_insurance_pretax < 0
-                      ? "N/A"
-                      : caseItem.medical_insurance_pretax
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.industrial_insurance || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.life_insurance || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.CaliforniaSDI || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{caseItem.medical_insurance || "N/A"}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  <Link
-                    to={`/rules?rule=${encodeURIComponent(caseItem.Work_State || "No Rule")}`}
-                    style={{ textDecoration: "none", color: "blue" }}
-                  >
-                    {caseItem.withholding_limit_rule || "No Rule"}
-                  </Link>
-                </TableCell>
-               
-              </TableRow>
-            );
-          })}
+          {allResults.map((item, index) => (
+            <TableRow key={index}>
+              <TableCell style={{ textAlign: "center" }}>{item.ee_id}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.case_id}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.child_support}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.arrear_from_agency}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.Work_State}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.no_of_exemption_including_self}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.pay_period}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.filing_status}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.wages}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.commission_and_bonus}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.non_accountable_allowances}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.gross_pay}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.net_pay}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.federal_income_tax}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.social_security_tax}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.medicare_tax}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.state_income_tax}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.local_tax}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.union_dues}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.wilmington_tax}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.medical_insurance_pretax}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.industrial_insurance}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.life_insurance}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.CaliforniaSDI}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.medical_insurance}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>
+                <Link
+                  to={`/rules?rule=${encodeURIComponent(item.Work_State || "No Rule")}`}
+                  style={{ textDecoration: "none", color: "blue" }}
+                >
+                  {item.withholding_limit_rule || "No Rule"}
+                </Link>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
