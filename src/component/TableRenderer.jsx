@@ -25,8 +25,8 @@ export const renderTable = (data) => {
           ee_id: result.ee_id,
           case_id: garnData.case_id,
           garnishment_type: garnishment.type,
-          arrear_amount: garnData.arrear_amount || "N/A",
-          withholding_amount: garnData.ordered_amount || "N/A",
+          arrear_amount: garnData.arrear_amount || "0",
+          withholding_amount: garnData.ordered_amount || "0",
           child_support: agencyWithholding, // Merged child support from agency
           arrear_from_agency: agencyArrear, // Merged arrear amount from agency
           garnishment_fees: result.er_deduction?.garnishment_fees || "N/A",
