@@ -72,6 +72,7 @@ function Employee({ onDeleteSuccess }) {
     { field: "home_state", headerName: "Home State", width: 120 },
     { field: "work_state", headerName: "Work State", width: 120 },
     { field: "pay_period", headerName: "Pay Period", width: 150 },
+    { field: "case_id", headerName: "Case Id", width: 150 },
     { 
       field: "is_blind", 
       headerName: "Blind", 
@@ -110,7 +111,7 @@ function Employee({ onDeleteSuccess }) {
       width: 120,
       sortable: false,
       renderCell: (params) => (
-        <DeleteItemComponent id={params.row.ee_id} cid={params.row.cid} type="emp" onDeleteSuccess={onDeleteSuccess} />
+        <DeleteItemComponent id={params.row.ee_id} cid={params.row.case_id} type="emp" onDeleteSuccess={onDeleteSuccess} />
       ),
     },
   ];
