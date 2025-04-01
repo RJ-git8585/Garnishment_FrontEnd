@@ -30,6 +30,7 @@ import Orders from './pages/Orders';
 import EmpImport from './pages/EmpImport';
 import ComImport from './pages/ComImport';
 import OrdImport from './pages/OrdImport';
+import Rules from './pages/Rules';
 
 // Components
 import AddEmployee from './component/AddEmployee';
@@ -41,6 +42,7 @@ import AddLocation from './component/AddLocation';
 import Siganture from './document/Siganture';
 import BatchCalculation from './document/BatchCalculation';
 import XmlProcessor from './document/xmlProcessor';
+
 
 const publicRoutes = [
   { path: "/", element: <Form />, restricted: true },
@@ -76,6 +78,7 @@ const privateRoutes = [
   { path: "/OrdImport", element: <OrdImport /> },
   { path: "/BatchCalculation", element: <BatchCalculation /> },
   { path: "/xmlProcessor", element: <XmlProcessor /> },
+  { path: "/rules", element: <Rules /> },
 ];
 
 function RoutesPath() {

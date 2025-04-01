@@ -94,114 +94,125 @@ const BatchCalculation = () => {
   };
 
   const renderTable = (data) => {
+    console.log("Render Table Data:", data); // Debugging log
+
     if (!data || !data.results || data.results.length === 0) {
-        return <p style={{ color: "red" }}>No valid results found.</p>;
+      return <p style={{ color: "red" }}>No valid results found.</p>;
     }
 
     const allResults = [];
 
     data.results.forEach((result) => {
-        result.garnishment_data?.forEach((garnishment) => {
-            garnishment.data?.forEach((garnData, index) => {
-                allResults.push({
-                    ee_id: result.ee_id,
-                    case_id: garnData.case_id,
-                    garnishment_type: garnishment.type,
-                    ordered_amount: garnData.ordered_amount,
-                    arrear_amount: garnData.arrear_amount,
-                    withholding_amount: result.Agency?.[0]?.withholding_amt?.[index]?.child_support || "0",
-                    garnishment_fees: result.ER_deduction?.garnishment_fees || "N/A",
-                });
-            });
+      result.garnishment_data?.forEach((garnishment) => {
+        garnishment.data?.forEach((garnData, index) => {
+          allResults.push({
+            ee_id: result.ee_id,
+            case_id: garnData.case_id,
+            garnishment_type: garnishment.type,
+            arrear_amount: garnData.arrear_amount !== undefined && garnData.arrear_amount !== null
+              ? garnData.arrear_amount < 0
+                ? "N/A"
+                : garnData.arrear_amount
+              : "N/A",
+            withholding_amount: garnData.ordered_amount !== undefined && garnData.ordered_amount !== null
+              ? garnData.ordered_amount < 0
+                ? "N/A"
+                : garnData.ordered_amount
+              : "N/A",
+            garnishment_fees: result.er_deduction?.garnishment_fees !== undefined && result.er_deduction?.garnishment_fees !== null
+              ? result.er_deduction.garnishment_fees < 0
+                ? "N/A"
+                : result.er_deduction.garnishment_fees
+              : "N/A",
+          });
         });
+      });
     });
 
     return (
-        <TableContainer component={Paper} style={{ marginTop: "20px", overflowX: "auto" }}>
-            <Table>
-                <TableHead>
-                    <TableRow style={{ backgroundColor: "#f5f5f5" }}>
-                        <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Employee ID</TableCell>
-                        <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Case ID</TableCell>
-                        <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
-                        <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Ordered Amount</TableCell>
-                        <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
-                        <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
-                        <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {allResults.length > 0 ? (
-                        allResults.map((item, index) => (
-                            <TableRow key={index}>
-                                <TableCell style={{ textAlign: "center" }}>{item.ee_id}</TableCell>
-                                <TableCell style={{ textAlign: "center" }}>{item.case_id}</TableCell>
-                                <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
-                                <TableCell style={{ textAlign: "center" }}>{item.ordered_amount}</TableCell>
-                                <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
-                                <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
-                                <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
-                            </TableRow>
-                        ))
-                    ) : (
-                        <TableRow>
-                            <TableCell colSpan={7} style={{ textAlign: "center", color: "red" }}>
-                                 No garnishment data available
-                            </TableCell>
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
-        </TableContainer>
+      <TableContainer component={Paper} style={{ marginTop: "20px", overflowX: "auto" }}>
+        <Table>
+          <TableHead>
+            <TableRow style={{ backgroundColor: "#f5f5f5" }}>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Employee ID</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Case ID</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {allResults.length > 0 ? (
+              allResults.map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell style={{ textAlign: "center" }}>{item.ee_id}</TableCell>
+                  <TableCell style={{ textAlign: "center" }}>{item.case_id}</TableCell>
+                  <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
+                  <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
+                  <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
+                  <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} style={{ textAlign: "center", color: "red" }}>
+                  No garnishment data available
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     );
-};
+  };
 
   return (
     <>
-          <div className="container" ref={containerRef}>
-            <h2 className="header">Garnishment Processor</h2>
-            <div className="inputSection">
-              <input type="file" accept=".json" onChange={handleFileUpload} className="fileInput" />
-              <textarea
-                className="textArea"
-                placeholder="Paste your JSON here..."
-                value={jsonInput}
-                onChange={(e) => setJsonInput(e.target.value)}
-              />
-              <div className="btn-inline mb-10 text-center">
-              <button className="button comal_b" onClick={handleConvert} disabled={loading}>
-                {loading ? "Processing..." : "Request"}
-              </button>
-              {error && <p className="error">{error}</p>}
-              <button onClick={reloadComponent} className="resetButton ">
-                Reset
-              </button>
-              </div>  
-            </div>
-
-            {response && (
-              <div className="responseSection">
-                <div className="responseHeader">
-                  <h3>API Response</h3>
-                  <div>
-                  <button className="copyButton" onClick={handleCopy}>
-                    <FaCopy />
-                  </button>
-                  <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
-                    {showTable ? <BsFiletypeJson /> : <FaTableCells />}
-                  </button>
-                  <button className="toggleButton" onClick={toggleFullscreen}>
-                    {isFullscreen ? <FaCompress /> : <FaExpand />}
-                  </button>
-                  </div>
-                </div>
-                <div className="responseContainer text-sm">
-                  {showTable ? renderTable(response) : <pre>{JSON.stringify(response, null, 2)}</pre>}
-                </div>
-              </div>
-            )}
+      <div className="container" ref={containerRef}></div>
+        <h2 className="header">Garnishment Processor</h2>
+        <div className="inputSection">
+          <input type="file" accept=".json" onChange={handleFileUpload} className="fileInput" />
+          <textarea
+            className="textArea"
+            placeholder="Paste your JSON here..."
+            value={jsonInput}
+            onChange={(e) => setJsonInput(e.target.value)}
+          />
+          <div className="btn-inline mb-10 text-center">
+            <button className="button comal_b" onClick={handleConvert} disabled={loading}>
+              {loading ? "Processing..." : "Request"}
+            </button>
+            {error && <p className="error">{error}</p>}
+            <button onClick={reloadComponent} className="resetButton ">
+              Reset
+            </button>
           </div>
-          </>
+        </div>
+
+        {response && (
+          <div className="responseSection">
+            <div className="responseHeader">
+              <h3>API Response</h3>
+              <div>
+                <button className="copyButton" onClick={handleCopy}>
+                  <FaCopy />
+                </button>
+                <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
+                  {showTable ? <BsFiletypeJson /> : <FaTableCells />}
+                </button>
+                <button className="toggleButton" onClick={toggleFullscreen}>
+                  {isFullscreen ? <FaCompress /> : <FaExpand />}
+                </button>
+              </div>
+            </div>
+            <div className="responseContainer text-sm">
+              {showTable ? renderTable(response) : <pre>{JSON.stringify(response, null, 2)}</pre>}
+            </div>
+          </div>
+        )}
+      
+    </>
   );
 };
 
