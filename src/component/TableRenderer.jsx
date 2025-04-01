@@ -14,54 +14,62 @@ export const renderTable = (data) => {
 
   const allResults = [];
 
-  data.results.forEach((result) => {
-    result.garnishment_data?.forEach((garnishment) => {
-      garnishment.data?.forEach((garnData, index) => {
-        allResults.push({
-          ee_id: result.ee_id,
-          case_id: garnData.case_id,
-          garnishment_type: garnishment.type,
-          Work_State: result.work_state,
-          no_of_exemption_including_self: result.no_of_exemption_including_self,
-          pay_period: result.pay_period,
-          filing_status: result.filing_status,
-          wages: result.wages,
-          commission_and_bonus: result.commission_and_bonus,
-          non_accountable_allowances: result.non_accountable_allowances,
-          gross_pay: result.gross_pay,
-          federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
-          social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
-          state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
-          medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
-          local_tax: result.payroll_taxes?.local_tax ?? "N/A",
-          garnishment_amount: garnData.garnishment_amount,
-          garnishment_date: garnData.garnishment_date,
-          medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
-          industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
-          life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
-          net_pay: result.net_pay,
-          age: result.age,
-          is_blind: result.is_blind,
-          is_spouse_blind: result.is_spouse_blind,
-          union_dues: result.payroll_taxes?.union_dues || "0",
-          wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
-          medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
-          spouse_age: result.spouse_age,
-          support_second_family: result.support_second_family,
-          no_of_student_default_loan: result.no_of_student_default_loan,
-          arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
-          arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
-          withholding_limit_rule: result.withholding_limit_rule || "N/A",
-          child_support: result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]?.child_support || "N/A",
-          medical_insurance: result.payroll_deductions?.medical_insurance || "N/A",
-          arrear_amount: garnData.arrear_amount || "N/A",
-          CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
-          withholding_amount: garnData.ordered_amount || "N/A",
-          garnishment_fees: result.er_deduction?.garnishment_fees || "N/A",
+    data.results.forEach((result) => {
+      result.garnishment_data?.forEach((garnishment) => {
+        garnishment.data?.forEach((garnData, index) => {
+          allResults.push({
+            ee_id: result.ee_id,
+            case_id: garnData.case_id,
+            garnishment_type: garnishment.type,
+            Work_State: result.work_state,
+            no_of_exemption_including_self: result.no_of_exemption_including_self,
+            pay_period: result.pay_period,
+            filing_status: result.filing_status,
+            wages: result.wages,
+            commission_and_bonus: result.commission_and_bonus,
+            non_accountable_allowances: result.non_accountable_allowances,
+            gross_pay: result.gross_pay,
+            federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
+            social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
+            state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
+            medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
+            local_tax: result.payroll_taxes?.local_tax ?? "N/A",
+            
+            
+            garnishment_amount: garnData.garnishment_amount,  
+            garnishment_date: garnData.garnishment_date,
+            medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
+            industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
+            life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
+            
+            net_pay: result.net_pay,
+            age: result.age,
+            is_blind: result.is_blind,
+            is_spouse_blind: result.is_spouse_blind,
+            // eslint-disable-next-line no-dupe-keys
+            union_dues: result.payroll_taxes?.union_dues  || "0",
+            // eslint-disable-next-line no-dupe-keys
+            wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
+            medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
+            
+            spouse_age: result.spouse_age,
+            support_second_family: result.support_second_family,    
+            no_of_student_default_loan: result.no_of_student_default_loan,
+            arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
+            arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
+            withholding_limit_rule: result.withholding_limit_rule || "N/A",
+            child_support: result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]?.child_support || "N/A",
+            // child_support: result.agency?.find((item) => item.withholding_amt)?.withholding_amt[0]?.child_support || "N/A";
+            // eslint-disable-next-line no-dupe-keys
+            medical_insurance: result.payroll_deductions?.medical_insurance || "N/A",
+            arrear_amount: garnData.arrear_amount || "N/A",
+            CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
+            withholding_amount: garnData.ordered_amount || "N/A",
+            garnishment_fees: result.er_deduction?.garnishment_fees || "N/A", // Updated to use er_deduction.garnishment_fees
+          });
         });
       });
     });
-  });
 
   return (
     <TableContainer component={Paper} style={{ marginTop: "20px", overflowX: "auto" }}>
@@ -96,6 +104,7 @@ export const renderTable = (data) => {
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>CaliforniaSDI</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rules</TableCell>
+           
           </TableRow>
         </TableHead>
         <TableBody>
@@ -108,196 +117,54 @@ export const renderTable = (data) => {
                 <TableCell style={{ textAlign: "center" }}>{caseItem.case_id || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.garnishment_type || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.arrear_amount !== undefined && caseItem.arrear_amount !== null
-                    ? caseItem.arrear_amount < 0
-                      ? "N/A"
-                      : caseItem.arrear_amount
-                    : caseItem.arrear_amount === 0
-                    ? 0
+                  {caseItem.arrear_amount !== null && caseItem.arrear_amount !== undefined
+                    ? caseItem.arrear_amount
                     : "N/A"}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.withholding_amount !== undefined && caseItem.withholding_amount !== null
-                    ? caseItem.withholding_amount < 0
-                      ? "N/A"
-                      : caseItem.withholding_amount
-                    : caseItem.withholding_amount === 0
-                    ? 0
+                  {caseItem.withholding_amount !== null && caseItem.withholding_amount !== undefined
+                    ? caseItem.withholding_amount
                     : "N/A"}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.garnishment_fees !== undefined && caseItem.garnishment_fees !== null
-                    ? caseItem.garnishment_fees < 0
-                      ? "N/A"
-                      : caseItem.garnishment_fees
-                    : caseItem.garnishment_fees === 0
-                    ? 0
+                  {caseItem.garnishment_fees !== null && caseItem.garnishment_fees !== undefined
+                    ? caseItem.garnishment_fees
                     : "N/A"}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.Work_State || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   {caseItem.no_of_exemption_including_self !== null &&
                   caseItem.no_of_exemption_including_self !== undefined
-                    ? caseItem.no_of_exemption_including_self < 0
-                      ? "N/A"
-                      : caseItem.no_of_exemption_including_self
+                    ? caseItem.no_of_exemption_including_self
                     : "N/A"}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.pay_period || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.filing_status || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.wages || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.commission_and_bonus || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.wages !== undefined && caseItem.wages !== null
-                    ? caseItem.wages < 0
-                      ? "N/A"
-                      : caseItem.wages
-                    : caseItem.wages === 0
-                    ? 0
-                    : "N/A"}
+                  {caseItem.non_accountable_allowances || "N/A"}
                 </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.commission_and_bonus !== undefined && caseItem.commission_and_bonus !== null
-                    ? caseItem.commission_and_bonus < 0
-                      ? "N/A"
-                      : caseItem.commission_and_bonus
-                    : caseItem.commission_and_bonus === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.non_accountable_allowances !== undefined && caseItem.non_accountable_allowances !== null
-                    ? caseItem.non_accountable_allowances < 0
-                      ? "N/A"
-                      : caseItem.non_accountable_allowances
-                    : caseItem.non_accountable_allowances === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.gross_pay !== undefined && caseItem.gross_pay !== null
-                    ? caseItem.gross_pay < 0
-                      ? "N/A"
-                      : caseItem.gross_pay
-                    : caseItem.gross_pay === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.net_pay !== undefined && caseItem.net_pay !== null
-                    ? caseItem.net_pay < 0
-                      ? "N/A"
-                      : caseItem.net_pay
-                    : caseItem.net_pay === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.federal_income_tax !== undefined && caseItem.federal_income_tax !== null
-                    ? caseItem.federal_income_tax < 0
-                      ? "N/A"
-                      : caseItem.federal_income_tax
-                    : caseItem.federal_income_tax === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.social_security_tax !== undefined && caseItem.social_security_tax !== null
-                    ? caseItem.social_security_tax < 0
-                      ? "N/A"
-                      : caseItem.social_security_tax
-                    : caseItem.social_security_tax === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                {caseItem.medicare_tax !== undefined && caseItem.medicare_tax !== null
-                ? caseItem.medicare_tax < 0
-                    ? "N/A"
-                    : caseItem.medicare_tax
-                : caseItem.medicare_tax === 0
-                ? 0
-                : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.state_income_tax !== undefined && caseItem.state_income_tax !== null
-                    ? caseItem.state_income_tax < 0
-                      ? "N/A"
-                      : caseItem.state_income_tax
-                    : caseItem.state_income_tax === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.local_tax !== undefined && caseItem.local_tax !== null
-                    ? caseItem.local_tax < 0
-                      ? "N/A"
-                      : caseItem.local_tax
-                    : caseItem.local_tax === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.union_dues !== undefined && caseItem.union_dues !== null
-                    ? caseItem.union_dues < 0
-                      ? "N/A"
-                      : caseItem.union_dues
-                    : caseItem.union_dues === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.wilmington_tax !== undefined && caseItem.wilmington_tax !== null
-                    ? caseItem.wilmington_tax < 0
-                      ? "N/A"
-                      : caseItem.wilmington_tax
-                    : caseItem.wilmington_tax === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.gross_pay || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.net_pay || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.federal_income_tax || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.social_security_tax || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.medicare_tax || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.state_income_tax || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.local_tax || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.union_dues || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.wilmington_tax || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   {caseItem.medical_insurance_pretax !== undefined && caseItem.medical_insurance_pretax !== null
                     ? caseItem.medical_insurance_pretax < 0
                       ? "N/A"
                       : caseItem.medical_insurance_pretax
-                    : caseItem.medical_insurance_pretax === 0
-                    ? 0
                     : "N/A"}
                 </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.industrial_insurance !== undefined && caseItem.industrial_insurance !== null
-                    ? caseItem.industrial_insurance < 0
-                      ? "N/A"
-                      : caseItem.industrial_insurance
-                    : caseItem.industrial_insurance === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.life_insurance !== undefined && caseItem.life_insurance !== null
-                    ? caseItem.life_insurance < 0
-                      ? "N/A"
-                      : caseItem.life_insurance
-                    : caseItem.life_insurance === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.CaliforniaSDI !== undefined && caseItem.CaliforniaSDI !== null
-                    ? caseItem.CaliforniaSDI < 0
-                      ? "N/A"
-                      : caseItem.CaliforniaSDI
-                    : caseItem.CaliforniaSDI === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {caseItem.medical_insurance !== undefined && caseItem.medical_insurance !== null
-                    ? caseItem.medical_insurance < 0
-                      ? "N/A"
-                      : caseItem.medical_insurance
-                    : caseItem.medical_insurance === 0
-                    ? 0
-                    : "N/A"}
-                </TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.industrial_insurance || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.life_insurance || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.CaliforniaSDI || "N/A"}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{caseItem.medical_insurance || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   <Link
                     to={`/rules?rule=${encodeURIComponent(caseItem.Work_State || "No Rule")}`}
@@ -306,6 +173,7 @@ export const renderTable = (data) => {
                     {caseItem.withholding_limit_rule || "No Rule"}
                   </Link>
                 </TableCell>
+               
               </TableRow>
             );
           })}
