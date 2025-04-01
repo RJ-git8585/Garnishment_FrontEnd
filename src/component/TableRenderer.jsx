@@ -124,19 +124,19 @@ export const renderTable = (data) => {
                 <TableCell style={{ textAlign: "center" }}>
                   {caseItem.withholding_amount !== null && caseItem.withholding_amount !== undefined
                     ? caseItem.withholding_amount
-                    : "N/A"}
+                    : "0"}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   {caseItem.garnishment_fees !== null && caseItem.garnishment_fees !== undefined
                     ? caseItem.garnishment_fees
-                    : "N/A"}
+                    : "0"}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.Work_State || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   {caseItem.no_of_exemption_including_self !== null &&
                   caseItem.no_of_exemption_including_self !== undefined
                     ? caseItem.no_of_exemption_including_self
-                    : "N/A"}
+                    : "0"}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.pay_period || "N/A"}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{caseItem.filing_status || "N/A"}</TableCell>
