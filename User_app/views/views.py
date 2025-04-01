@@ -141,11 +141,6 @@ def register(request):
             department=department, 
             location=location
             )
-            print("Before Save: ", user.__dict__)  
-            user.save()
-            print("After Save: ", user.__dict__)  
-
-
 
             # employee = get_object_or_404(Employer_Profile, employer_id=user.employer_id)
             # application_activity.objects.create(

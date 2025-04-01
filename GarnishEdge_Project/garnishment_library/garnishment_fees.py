@@ -108,10 +108,10 @@ class gar_fees_rules_engine():
         return "$2 for each deduction taken after the levy has expired or is released"
     
     def Rule_13(self, record, withhold_amt):
-        return f'{round((withhold_amt*0.02),1)}, Payable by {self.get_payable_name("Rule_13")}'
+        return f'${round((withhold_amt*0.02),1)}, Payable by {self.get_payable_name("Rule_13")}'
     
     def Rule_14(self, record, withhold_amt):
-        return f'{round((withhold_amt*0.02),1)}, Payable by {self.get_payable_name("Rule_14")}'
+        return f'${round((withhold_amt*0.02),1)}, Payable by {self.get_payable_name("Rule_14")}'
     
     def Rule_15(self, record, withhold_amt):
         return f'$5 from landlord amount'
@@ -148,7 +148,7 @@ class gar_fees_rules_engine():
         return "$15 is paid by creditor at the time of Writ is served" 
     
     def Rule_26(self, record, withhold_amt):
-        return f"{self.calculate_rule(withhold_amt, 0.030, 12)} and Payable by {self.get_payable_name('Rule_26')}"
+        return f"${self.calculate_rule(withhold_amt, 0.030, 12)} and Payable by {self.get_payable_name('Rule_26')}"
 
     def apply_rule(self, record,withhold_amt):
         """Dynamically applies the rule based on the rule name"""
