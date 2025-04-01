@@ -150,10 +150,10 @@ class CalculationDataView():
         result= StateTaxView().calculate(record)
 
         if result<=0:
-            record["agency"] = [{"withholding_amt": [{"garnishment amount":"Garnishment cannot be deducted due to insufficient pay"}]}]
+            record["agency"] = [{"withholding_amt": [{"garnishment_amount":"Garnishment cannot be deducted due to insufficient pay"}]}]
             record["ER_deduction"] = {"garnishment_fees":"Garnishment fees cannot be deducted due to insufficient pay"}
         else:
-            record["agency"] = [{"withholding_amt": [{"garnishment amount":result}]}]
+            record["agency"] = [{"withholding_amt": [{"garnishment_amount":result}]}]
             
             # Calculate garnishment fees using the rules engine
             record["ER_deduction"] = {"garnishment_fees":  gar_fees_rules_engine().apply_rule(record, result)}
