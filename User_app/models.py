@@ -290,6 +290,8 @@ class EmployeeData(models.Model):
 class LogEntry(models.Model):
     level = models.CharField(max_length=20)
     message = models.TextField()
+    action = models.CharField(max_length=255, blank=True, null=True)
+    details =models.CharField(max_length=255, blank=True, null=True)
     timestamp = models.DateTimeField(default=timezone.now)
     logger_name = models.CharField(max_length=255, blank=True, null=True)
     file_name = models.CharField(max_length=255, blank=True, null=True)

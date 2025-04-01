@@ -476,8 +476,8 @@ def get_single_employee_details(request, case_id,ee_id):
 
 #Get Employer Details from employer ID
 @api_view(['GET'])
-def get_employer_details(request, employer_id):
-    employees=Employer_Profile.objects.filter(employer_id=employer_id)
+def get_employer_details(request, id):
+    employees=Employer_Profile.objects.filter(id=id)
     if employees.exists():
         try:
             serializer = GetEmployerDetailsSerializer(employees, many=True)
@@ -557,29 +557,35 @@ def get_dashboard_data(request):
 @method_decorator(csrf_exempt, name='dispatch')
 class EmployeeDeleteAPIView(DestroyAPIView):
 
-        queryset = Employee_Detail.objects.all()
-        lookup_field = 'ee_id'
+    queryset = Employee_Detail.objects.all()
 
-        def get_object(self):
-            ee_id = self.kwargs.get('ee_id')
-            cid = self.kwargs.get('cid')
-            return Employee_Detail.objects.get(ee_id=ee_id, cid=cid)
+    def get_object(self):
+        ee_id = self.kwargs.get('ee_id')
+        case_id = self.kwargs.get('case_id')
 
-        @csrf_exempt
-        def delete(self, request, *args, **kwargs):
-            instance = self.get_object()
-            self.perform_destroy(instance)
-            LogEntry.objects.create(
-                action='Employee details Deleted',
-                details=f'Employee details Deleted successfully with Employee ID {instance.ee_id} and Employer ID {instance.cid}'
+        try:
+            return Employee_Detail.objects.get(ee_id=ee_id, case_id=case_id)
+        except Employee_Detail.DoesNotExist:
+            return None  # Return None instead of raising an exception
+
+    @csrf_exempt
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance is None:
+            return JsonResponse(
+                {'success': False, 'message': 'Employee record not found', 'status_code': status.HTTP_404_NOT_FOUND},
+                status=status.HTTP_404_NOT_FOUND
             )
-            response_data = {
-                'success': True,
-                'message': 'Employee Data Deleted successfully',
-                'status code': status.HTTP_200_OK
-            }
-            return JsonResponse(response_data)
-        
+
+        self.perform_destroy(instance)
+        LogEntry.objects.create(
+            action='Employee details Deleted',
+            details=f'Employee details Deleted successfully with Employee ID {kwargs.get("ee_id")} and Case ID {kwargs.get("case_id")}'
+        )
+        return JsonResponse(
+            {'success': True, 'message': 'Employee Data Deleted successfully', 'status_code': status.HTTP_200_OK},
+            status=status.HTTP_200_OK
+        )
 
            
 # For Deleting the Tax Details
@@ -1726,7 +1732,7 @@ class convert_excel_to_json(APIView):
                 # Iterate over cases for the same employee
                 for _, row in group.iterrows():
                     garnishment_data["data"].append({
-                        "case_id": row["case_id"],
+                        "case_id": row.get("case_id",None),
                         "ordered_amount": row["ordered_amount"],
                         "arrear_amount": row["arrear_amount"],
                         "current_medical_support": row.get("current_medical_support",0),
