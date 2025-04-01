@@ -9,12 +9,14 @@ load_dotenv()
 
 
 SIMPLE_JWT = {
-    'USER_ID_FIELD': 'employer_id',
+    'USER_ID_FIELD': 'id',
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
 }
 # BASE_DIR = Path(__file__).resolve().parent.parent
+SESSION_ENGINE = "django.contrib.sessions.backends.db"  # or 'cached_db'
 
+AUTH_USER_MODEL = 'User_app.Employer_Profile'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-4j-q2^gpu9&%imydt@@vq*h0i#9#(yv0)&q5ewvaftj(eocs2='

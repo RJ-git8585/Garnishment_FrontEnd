@@ -38,81 +38,54 @@ from django.views.decorators.csrf import csrf_exempt
 from User_app.models import garnishment_order, Employee_Detail, company_details
 from GarnishEdge_Project.garnishment_library.child_support import *
 
-
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
         except json.JSONDecodeError:
-            return JsonResponse({
-                'success': False,
-                'message': 'Invalid JSON',
-                'status code': status.HTTP_400_BAD_REQUEST
-            })
+            return JsonResponse({'success': False, 'message': 'Invalid JSON', 'status code': 400})
 
         email = data.get('email')
         password = data.get('password')
 
         if not email or not password:
-            return JsonResponse({
-                'success': False,
-                'message': 'Email and password are required',
-                'status code': status.HTTP_400_BAD_REQUEST
-            })
+            return JsonResponse({'success': False, 'message': 'Email and password are required', 'status code': 400})
 
         try:
             user = Employer_Profile.objects.get(email=email)
         except Employer_Profile.DoesNotExist:
-            return JsonResponse({
-                'success': False,
-                'message': 'Invalid credentials',
-                'status code': status.HTTP_400_BAD_REQUEST
-            })
+            return JsonResponse({'success': False, 'message': 'Invalid credentials', 'status code': 400})
 
         if check_password(password, user.password):
+            # Ensure user has a valid primary key
+            if not user.pk:
+                return JsonResponse({'success': False, 'message': 'User has no valid primary key', 'status code': 500})
+
+            # Authenticate user manually if not using Django's built-in authentication
+            user.backend = 'django.contrib.auth.backends.ModelBackend'  # Force authentication backend
             auth_login(request, user)
-            user_data = {
-                "cid": user.cid,
-                'username': user.username,
-                'name': user.employer_name,
-                'email': user.email,
+
+            refresh = RefreshToken.for_user(user)
+            response_data = {
+                'success': True,
+                'message': 'Login successful',
+                'user_data': {
+                    "cid": user.id,
+                    'username': user.username,
+                    'name': user.employer_name,
+                    'email': user.email,
+                },
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'expire_time': refresh.access_token.payload['exp'],
+                'status code': 200,
             }
-            try:
-                refresh = RefreshToken.for_user(user)
-
-                application_activity.objects.create(
-                    action='Employer Login',
-                    details=f'Employer {user.employer_name} Login successfully.'
-                )
-
-                response_data = {
-                    'success': True,
-                    'message': 'Login successfully',
-                    'user_data': user_data,
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
-                    'expire_time': refresh.access_token.payload['exp'],
-                    'status code': status.HTTP_200_OK,
-                }
-                return JsonResponse(response_data)
-            except AttributeError as e:
-                return JsonResponse({
-                    'success': False,
-                    'message': f'Error generating tokens: {str(e)}',
-                    'status code': status.HTTP_500_INTERNAL_SERVER_ERROR
-                })
+            return JsonResponse(response_data)
         else:
-            return JsonResponse({
-                'success': False,
-                'message': 'Invalid credentials',
-                'status code': status.HTTP_400_BAD_REQUEST
-            })
-    else:
-        return JsonResponse({
-            'message': 'Please use POST method for login',
-            'status code': status.HTTP_400_BAD_REQUEST
-        })
+            return JsonResponse({'success': False, 'message': 'Invalid credentials', 'status code': 400})
+    
+    return JsonResponse({'message': 'Please use POST method for login', 'status code': 400})
 
 @csrf_exempt
 def register(request):
