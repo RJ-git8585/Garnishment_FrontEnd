@@ -119,7 +119,7 @@ export const renderTable = (data) => {
                 <TableCell style={{ textAlign: "center" }}>
                   {caseItem.arrear_amount !== null && caseItem.arrear_amount !== undefined
                     ? caseItem.arrear_amount
-                    : "N/A"}
+                    : "0"}
                 </TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   {caseItem.withholding_amount !== null && caseItem.withholding_amount !== undefined
