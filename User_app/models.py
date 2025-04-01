@@ -24,7 +24,7 @@ from django.utils import timezone
 #         return self.username
 
 class Employer_Profile(AbstractBaseUser):
-    employer_id = models.AutoField(primary_key=True)
+    id = models.CharField(max_length=100,primary_key=True)
     cid=models.CharField(max_length=100,default="ABS")
     employer_name = models.CharField(max_length=100,default="ABS")
     email = models.EmailField(unique=True,default="rtt@gmail.com")
@@ -256,11 +256,11 @@ class EmployeeData(models.Model):
     ee_id = models.CharField(max_length=200, unique=True)
     case_id=models.CharField(max_length=200)
     work_state = models.CharField(max_length=50)
-    no_of_exemption_including_self = models.FloatField()
-    pay_period = models.CharField(max_length=255)
-    filing_status = models.CharField(max_length=255)
-    age = models.FloatField()
-    is_blind = models.BooleanField()
+    no_of_exemption_including_self = models.FloatField(null=True, blank=True)
+    pay_period = models.CharField(max_length=255,null=True, blank=True)
+    filing_status = models.CharField(max_length=255,null=True, blank=True)
+    age = models.FloatField(null=True, blank=True)
+    is_blind = models.BooleanField(null=True, blank=True)
     is_spouse_blind = models.BooleanField(null=True, blank=True)
     spouse_age = models.FloatField(null=True, blank=True)
     support_second_family = models.CharField(max_length=255)

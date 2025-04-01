@@ -22,8 +22,7 @@ from django.db import transaction
 
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class CalculationDataView(APIView):
+class CalculationDataView():
     """
     API View to handle Garnishment calculations and save data to the database.
     """
@@ -177,141 +176,6 @@ class CalculationDataView(APIView):
         return result  
     
 
-
-    def post(self, request, *args, **kwargs):
-        try:
-            data = request.data
-            batch_id = data.get("batch_id")
-            cases_data = data.get("cases", [])
-
-
-            if not batch_id:
-
-                return Response({"error": "batch_id is required"}, status=status.HTTP_400_BAD_REQUEST)
-
-            if not cases_data:
-
-                return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
-
-            output = []
-            with ThreadPoolExecutor(max_workers=80) as executor:
-                future_to_case = {
-                    executor.submit(self.process_and_store_case, case_info,batch_id): case_info
-                    for case_info in cases_data
-                }
-                for future in as_completed(future_to_case):
-                    try:
-                        result = future.result()
-                        if result:
-                            output.append(result)
-                            log_api(
-                            api_name="garnishment_calculate",
-                            endpoint="/garnishment_calculate/",
-                            status_code=200,
-                            message="API executed successfully",
-                            status="Success"
-                        )
-                    except Exception as e:
-
-                        log_api(
-                        api_name="garnishment_calculate",
-                        endpoint="/garnishment_calculate/",
-                        status_code=500,
-                        message=str(e),
-                        status="Failed"
-            )
-
-                        output.append({
-                            "error": str(e),
-                            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-                            "case": future_to_case[future]
-                        })
-
-            return Response({
-                "message": "Result Generated Successfully",
-                "status_code": status.HTTP_200_OK,
-                "batch_id": batch_id,
-                "results": output
-            }, status=status.HTTP_200_OK)
-
-        except Exception as e:
-            log_api(
-                        api_name="garnishment_calculate",
-                        endpoint="/garnishment_calculate/",
-                        status_code=500,
-                        message=str(e),
-                        status="Failed"
-            )
-            return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
-
-
-
-
-
-
-    # def post(self, request, *args, **kwargs):
-    #     try:
-    #         data = request.data
-    #         batch_id = data.get("batch_id")
-    #         cases_data = data.get("cases", [])
-
-    #         if not batch_id:
-    #             return Response({"error": "batch_id is required"}, status=status.HTTP_400_BAD_REQUEST)
-
-    #         if not cases_data:
-    #             return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
-
-    #         output = []
-    #         with ProcessPoolExecutor(max_workers=50) as executor:  # Adjust max_workers as needed
-    #             future_to_case = {
-    #                 executor.submit(self.process_and_store_case, case_info, batch_id): case_info
-    #                 for case_info in cases_data
-    #             }
-    #             for future in as_completed(future_to_case):
-    #                 try:
-    #                     result = future.result()
-    #                     if result:
-    #                         output.append(result)
-    #                         log_api(
-    #                             api_name="garnishment_calculate",
-    #                             endpoint="/garnishment_calculate/",
-    #                             status_code=200,
-    #                             message="API executed successfully",
-    #                             status="Success"
-    #                         )
-    #                 except Exception as e:
-    #                     log_api(
-    #                         api_name="garnishment_calculate",
-    #                         endpoint="/garnishment_calculate/",
-    #                         status_code=500,
-    #                         message=str(e),
-    #                         status="Failed"
-    #                     )
-    #                     output.append({
-    #                         "error": str(e),
-    #                         "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-    #                         "case": future_to_case[future]
-    #                     })
-
-    #         return Response({
-    #             "message": "Result Generated Successfully",
-    #             "status_code": status.HTTP_200_OK,
-    #             "batch_id": batch_id,
-    #             "results": output
-    #         }, status=status.HTTP_200_OK)
-
-    #     except Exception as e:
-    #         log_api(
-    #             api_name="garnishment_calculate",
-    #             endpoint="/garnishment_calculate/",
-    #             status_code=500,
-    #             message=str(e),
-    #             status="Failed"
-    #         )
-    #         return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
-
-
-
     def process_and_store_case(self, case_info,batch_id):
          """
          Processes a single case: stores it in the database and calculates garnishment.
@@ -405,3 +269,74 @@ class CalculationDataView(APIView):
 
              return {"error": str(e), "status": 500, "ee_id": case_info.get(EmployeeFields.EMPLOYEE_ID)} 
          
+
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PostCalculationView(APIView):
+    """Handles Garnishment Calculation API Requests"""
+
+    def post(self, request, *args, **kwargs):
+        try:
+            data = request.data
+            batch_id = data.get("batch_id")
+            cases_data = data.get("cases", [])
+
+            if not batch_id:
+                return Response({"error": "batch_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+            if not cases_data:
+                return Response({"error": "No rows provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+            output = []
+            calculation_service = CalculationDataView()
+
+            with ThreadPoolExecutor(max_workers=90) as executor:
+                future_to_case = {
+                    executor.submit(calculation_service.process_and_store_case, case_info, batch_id): case_info
+                    for case_info in cases_data
+                }
+                for future in as_completed(future_to_case):
+                    try:
+                        result = future.result()
+                        if result:
+                            output.append(result)
+                            log_api(
+                                api_name="garnishment_calculate",
+                                endpoint="/garnishment_calculate/",
+                                status_code=200,
+                                message="API executed successfully",
+                                status="Success"
+                            )
+                    except Exception as e:
+                        log_api(
+                            api_name="garnishment_calculate",
+                            endpoint="/garnishment_calculate/",
+                            status_code=500,
+                            message=str(e),
+                            status="Failed"
+                        )
+                        output.append({
+                            "error": str(e),
+                            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                            "case": future_to_case[future]
+                        })
+
+            return Response({
+                "message": "Result Generated Successfully",
+                "status_code": status.HTTP_200_OK,
+                "batch_id": batch_id,
+                "results": output
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            log_api(
+                api_name="garnishment_calculate",
+                endpoint="/garnishment_calculate/",
+                status_code=500,
+                message=str(e),
+                status="Failed"
+            )
+            return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
+
+

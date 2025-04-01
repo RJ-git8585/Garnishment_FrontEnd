@@ -5,6 +5,9 @@ from django.views.decorators.csrf import csrf_exempt
 from ..models import *
 from django.conf import settings 
 import os
+import time
+import random
+import string
 import pandas
 import math
 from User_app.models import *
@@ -152,28 +155,32 @@ def register(request):
             return JsonResponse({'error': 'Email taken', 'status code': status.HTTP_400_BAD_REQUEST})
 
         try:
-            user = Employer_Profile.objects.create(
-                employer_name=employer_name, 
-                email=email, 
-                username=username, 
-                password=make_password(password1),  # Hash the password
-                federal_employer_identification_number=federal_employer_identification_number,
-                street_name=street_name, 
-                city=city, 
-                state=state, 
-                country=country, 
-                zipcode=zipcode, 
-                number_of_employees=number_of_employees, 
-                department=department, 
-                location=location
+            user = Employer_Profile(
+            employer_name=employer_name, 
+            email=email, 
+            username=username, 
+            password=make_password(password1),
+            federal_employer_identification_number=federal_employer_identification_number,
+            street_name=street_name, 
+            city=city, 
+            state=state, 
+            country=country, 
+            zipcode=zipcode, 
+            number_of_employees=number_of_employees, 
+            department=department, 
+            location=location
             )
+            print("Before Save: ", user.__dict__)  
             user.save()
+            print("After Save: ", user.__dict__)  
 
-            employee = get_object_or_404(Employer_Profile, employer_id=user.employer_id)
-            application_activity.objects.create(
-                action='Employer Register',
-                details=f'Employer {employee.employer_name} registered successfully with ID {employee.employer_id}.'
-            )
+
+
+            # employee = get_object_or_404(Employer_Profile, employer_id=user.employer_id)
+            # application_activity.objects.create(
+            #     action='Employer Register',
+            #     details=f'Employer {employee.employer_name} registered successfully with ID {employee.employer_id}.'
+            # )
             return JsonResponse({'message': 'Successfully registered', 'status code': status.HTTP_201_CREATED})
         except Exception as e:
             return JsonResponse({'error': str(e), 'status code': status.HTTP_500_INTERNAL_SERVER_ERROR})
@@ -1648,14 +1655,15 @@ class convert_excel_to_json(APIView):
 
             # Read the Excel sheets
             garnishment_order_details = pd.read_excel(file, sheet_name='Garnishment Order')
-            payroll_batch_details = pd.read_excel(file, sheet_name='Payroll Batch', header=[0, 1])
-
+            payroll_batch_details = pd.read_excel(file, sheet_name='Payroll Batch', header=[0,1])
             # Convert multi-index columns to single-level
             payroll_batch_details.columns = payroll_batch_details.columns.map(
                             lambda x: '_'.join(str(i) for i in x) if isinstance(x, tuple) else x
                         )
+
             # Strip spaces from column names
             payroll_batch_details.columns = payroll_batch_details.columns.str.strip()
+
             # Rename columns properly
             column_mapping = {
                 'Unnamed: 1_level_0_EEID': 'ee_id',
@@ -1671,11 +1679,15 @@ class convert_excel_to_json(APIView):
                 'Taxes_MedicareTax': 'medicare_tax',
                 'Taxes_SocialSecurityTax': 'social_security_tax',
                 'Deductions_MedicalInsurance': 'medical_insurance',
+                "Deductions_FamliTax" : "famli_tax",
                 'Deductions_NetPay': 'net_pay'
             }
-            payroll_batch_details.rename(columns=column_mapping, inplace=True)
-            # Rename columns in garnishment_order_details
 
+
+            payroll_batch_details.rename(columns=column_mapping, inplace=True)
+
+
+            # Rename columns in garnishment_order_de
             column_mapping_garnishment = {
                 'EEID': 'ee_id',
                 'CaseID': 'case_id',
@@ -1700,46 +1712,50 @@ class convert_excel_to_json(APIView):
                 "CurrentSpousalSupport": "current_spousal_support",
                 "Past-DueSpousalSupport": "past_due_spousal_support"
             }
+
+            garnishment_order_details = garnishment_order_details.dropna(axis=1, how='all')
+            payroll_batch_details = payroll_batch_details.dropna(axis=1, how='all')
             garnishment_order_details.rename(columns=column_mapping_garnishment, inplace=True)
-            pd.set_option('future.no_silent_downcasting', True)
+
+            # pd.set_option('future.no_silent_downcasting', True)
+
+            garnishment_order_details['case_id'] = garnishment_order_details['case_id'].str.strip()
+            payroll_batch_details['case_id'] = payroll_batch_details['case_id'].str.strip()
+
             concatenated_df = pd.merge(garnishment_order_details, payroll_batch_details, on='case_id')
             concatenated_df = concatenated_df.loc[:, ~concatenated_df.columns.duplicated(keep='first')]
+
+
             # Data transformations
-            concatenated_df['filing_status'] = concatenated_df['filing_status'].str.lower().str.replace(' ', '_')
+            if 'filing_status' in concatenated_df.columns and concatenated_df['filing_status'].notna().any():
+                concatenated_df['filing_status'] = concatenated_df['filing_status'].str.lower().str.replace(' ', '_')
+            else:
+                concatenated_df['filing_status'] = None  
+
             concatenated_df['batch_id'] = "B001A"
             concatenated_df['arrears_greater_than_12_weeks']=concatenated_df['arrears_greater_than_12_weeks'].astype(bool).apply(
                                         lambda x: "Yes" if x == True or x==1 else "No" if x == False or x==0 else x)
-
             concatenated_df['support_second_family'] = concatenated_df['support_second_family'].astype(bool).apply(
-                            lambda x: "Yes" if x == True or x==1 else "No" if x == False or x==0 else x)
-
-
-            concatenated_df['is_blind'] = concatenated_df['is_blind'].replace(
-                {1: True, 0: False}
-            )
-
-            concatenated_df['is_spouse_blind'] = concatenated_df['is_spouse_blind'].replace(
-                {1: True, 0: False}
-            )
+                            lambda x: "Yes" if x == True or x==1 or str(x).lower()=="true" or x=="TRUE" else "No" if x == False or x==0  or str(x).lower()=="false" or x== "FALSE" else x)
 
             concatenated_df['garnishment_type'] = concatenated_df['garnishment_type'].replace(
                 {'Student Loan': "student default loan"}
             )
-            concatenated_df['filing_status'] = concatenated_df['filing_status'].apply(
-                lambda x: 'married_filing_separate' if x == 'married_filing_separate_return' else x)
-            concatenated_df = concatenated_df.dropna()
-            # Create JSON structure
-            output_json = {"batch_id": "B001A", "cases": []}
 
+
+            # Generate batch ID
+            number = int(time.time() % 1000)  # Using last 3 digits of timestamp to ensure uniqueness
+            letter = random.choice(string.ascii_uppercase)
+            batch_id = f"B{number:03d}{letter}"
+
+            output_json = {"batch_id": batch_id, "cases":[]}
             # Group by employee ID
             for ee_id, group in concatenated_df.groupby("ee_id_x"):
-                first_row = group.iloc[0]  # Take the first row for general employee details
-
+                first_row = group.iloc[0]  # Take the first row for general employee de
                 # Create garnishment data list
                 garnishment_data = {
                     "type": first_row["garnishment_type"],
-                    "data": []
-                }
+                    "data": []}
 
                 # Iterate over cases for the same employee
                 for _, row in group.iterrows():
@@ -1747,17 +1763,16 @@ class convert_excel_to_json(APIView):
                         "case_id": row["case_id"],
                         "ordered_amount": row["ordered_amount"],
                         "arrear_amount": row["arrear_amount"],
-                        "current_medical_support": row["current_medical_support"],
-                        "past_due_medical_support": row["past_due_medical_support"],
-                        "current_spousal_support": row["current_spousal_support"],
-                        "past_due_spousal_support": row["past_due_spousal_support"]
-                    })
+                        "current_medical_support": row.get("current_medical_support",0),
+                        "past_due_medical_support": row.get("past_due_medical_support",0),
+                        "current_spousal_support": row.get("current_spousal_support",0),
+                        "past_due_spousal_support": row.get("past_due_spousal_support",0)})
 
                 # Append the consolidated employee data
                 output_json["cases"].append({
-                              "ee_id": row["ee_id_x"],
+                            "ee_id": row["ee_id_x"],
                         "work_state": row.get("state"),
-                        "no_of_exemption_including_self": row["no_of_exemption_including_self"],
+                        "no_of_exemption_including_self": row.get("no_of_exemption_including_self",None),
                         "pay_period": row["pay_period"],
                         "filing_status": row["filing_status"],
                         "wages": row.get("wages"),
@@ -1775,22 +1790,22 @@ class convert_excel_to_json(APIView):
                             "medical_insurance_pretax":row.get("Deductions_MedicalInsurancePretax"),
                             "industrial_insurance":row.get("Deductions_Industrial Insurance"),
                             "life_insurance":row.get("Deductions_Life Insurance"),
-                            "CaliforniaSDI":row.get("Deductions_CaliforniaSDI")
+                            "CaliforniaSDI":row.get("Deductions_CaliforniaSDI"),
+                            "famli_tax":row.get("famli_tax")
                         },
                         "payroll_deductions": {
                             "medical_insurance": row.get("medical_insurance")
                         },
                         "net_pay": row.get("net_pay"),
-                        "age": row["age"],
-                        "is_blind": row["is_blind"],
-                        "is_spouse_blind": row["is_spouse_blind"],
-                        "spouse_age": row["spouse_age"],
+                        "age": row.get("age",None),
+                        "is_blind": row.get("is_blind",None),
+                        "is_spouse_blind": row.get("is_spouse_blind",None),
+                        "spouse_age": row.get("spouse_age",None),
                         "support_second_family": row["support_second_family"],
-                        "no_of_student_default_loan": row["no_of_student_default_loan"],
+                        "no_of_student_default_loan": row.get("no_of_student_default_loan",0),
                         "arrears_greater_than_12_weeks": row["arrears_greater_than_12_weeks"],
                         "garnishment_data": [garnishment_data]
                 })
-
 
             return Response(output_json, status=status.HTTP_200_OK)
         except Exception as e:

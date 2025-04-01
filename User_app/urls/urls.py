@@ -47,7 +47,7 @@ urlpatterns = [
     path('GarnishmentFeesRulesUpdate/<str:rule>/', GarFeesRulesUpdateAPIView.as_view(), name='GETGarnishmentFeesRules'),
     path('GarnishmentFeesRulesBasedOnState/<str:state>/', garnishment_fees_rules_based_on_state, name='GarnishmentFeesRulesBasedOnState'),
     path('EmployeeRules/', Employeegarnishment_orderMatch_details.as_view(), name='employee-garnishment-match'),
-    path('garnishment_calculate/', CalculationDataView.as_view(), name='Calculation Data'),
+    path('garnishment_calculate/', PostCalculationView.as_view(), name='Calculation Data'),
     path('WithholdingLimitRuleData/<str:state>', GETWithholdingLimitRuleData.as_view(), name='Withholding Limit Rule Data'),
     path('MandatoryDeductions/<str:state>', GETMandatoryDeductions.as_view(), name='Mandatory Deductions')
 

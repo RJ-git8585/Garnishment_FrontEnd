@@ -60,6 +60,7 @@
         "SNo": 9,
         "State": "Florida",
         "AllocationMethod": "Prorate",
+        "WithholdingLimit" : "50%-65%" ,
         "Rule": "Rule_1"
       },
       {
