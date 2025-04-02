@@ -13,53 +13,60 @@ export const renderTable = (data) => {
   }
 
   const allResults = [];
+  const uniqueEntries = new Set(); // Track unique entries
 
   data.results.forEach((result) => {
-    result.garnishment_data?.forEach((garnishment) => {
-      garnishment.data?.forEach((garnData, index) => {
-        // Merge agency data with garnishment_data based on case_id
-        const agencyWithholding = result.agency?.[0]?.withholding_amt?.[index]?.child_support || "0";
-        const agencyArrear = result.agency?.[1]?.Arrear?.[index]?.arrear_amount || "0";
-
-        allResults.push({
-          ee_id: result.ee_id,
-          case_id: garnData.case_id,
-          garnishment_type: garnishment.type,
-          arrear_amount: garnData.arrear_amount || "0",
-          withholding_amount: garnData.ordered_amount || "0",
-          child_support: agencyWithholding, // Merged child support from agency
-          arrear_from_agency: agencyArrear, // Merged arrear amount from agency
-          garnishment_fees: result.er_deduction?.garnishment_fees || "N/A",
-          Work_State: result.work_state,
-          no_of_exemption_including_self: result.no_of_exemption_including_self,
-          pay_period: result.pay_period,
-          filing_status: result.filing_status,
-          wages: result.wages,
-          commission_and_bonus: result.commission_and_bonus,
-          non_accountable_allowances: result.non_accountable_allowances,
-          gross_pay: result.gross_pay,
-          federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
-          social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
-          state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
-          medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
-          local_tax: result.payroll_taxes?.local_tax ?? "N/A",
-          medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
-          industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
-          life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
-          net_pay: result.net_pay,
-          age: result.age,
-          is_blind: result.is_blind,
-          is_spouse_blind: result.is_spouse_blind,
-          union_dues: result.payroll_taxes?.union_dues || "0",
-          wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
-          medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
-          spouse_age: result.spouse_age,
-          support_second_family: result.support_second_family,
-          no_of_student_default_loan: result.no_of_student_default_loan,
-          arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
-          arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
-          withholding_limit_rule: result.withholding_limit_rule || "N/A",
-          CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
+    result.agency?.forEach((agency) => {
+      agency.withholding_amt?.forEach((withholdingData, index) => {
+        const garnishmentAmount = withholdingData.garnishment_amount || withholdingData.child_support || "0";
+        const arrearAmount = agency.Arrear?.[index]?.arrear_amount || "0";
+        result.garnishment_data?.forEach((garnishment) => {
+          garnishment.data?.forEach((garnData) => {
+            // Create a unique key based on multiple fields to avoid duplicates
+            const uniqueKey = `${result.ee_id}-${garnData.case_id}-${arrearAmount}-${garnishmentAmount}-${index}`;
+            if (!uniqueEntries.has(uniqueKey)) {
+              uniqueEntries.add(uniqueKey); // Add the key to the set to prevent duplicates
+              allResults.push({
+                ee_id: result.ee_id,
+                case_id: garnData.case_id,
+                garnishment_type: garnishment.type,
+                arrear_amount: arrearAmount,
+                withholding_amount: garnishmentAmount,
+                arrear_from_agency: agency.Arrear?.[index]?.arrear_amount || "0",
+                garnishment_fees: result.er_deduction?.garnishment_fees || "N/A",
+                Work_State: result.work_state,
+                no_of_exemption_including_self: result.no_of_exemption_including_self,
+                pay_period: result.pay_period,
+                filing_status: result.filing_status,
+                wages: result.wages,
+                commission_and_bonus: result.commission_and_bonus,
+                non_accountable_allowances: result.non_accountable_allowances,
+                gross_pay: result.gross_pay,
+                federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
+                social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
+                state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
+                medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
+                local_tax: result.payroll_taxes?.local_tax ?? "N/A",
+                medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
+                industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
+                life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
+                net_pay: result.net_pay,
+                age: result.age,
+                is_blind: result.is_blind,
+                is_spouse_blind: result.is_spouse_blind,
+                union_dues: result.payroll_taxes?.union_dues || "0",
+                wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
+                medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
+                spouse_age: result.spouse_age,
+                support_second_family: result.support_second_family,
+                no_of_student_default_loan: result.no_of_student_default_loan,
+                arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
+                arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
+                withholding_limit_rule: result.withholding_limit_rule || "N/A",
+                CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
+              });
+            }
+          });
         });
       });
     });
@@ -75,7 +82,6 @@ export const renderTable = (data) => {
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Child Support</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear From Agency</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Work State</TableCell>
@@ -110,7 +116,6 @@ export const renderTable = (data) => {
               <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.child_support}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.arrear_from_agency}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.Work_State}</TableCell>

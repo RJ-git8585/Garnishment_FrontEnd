@@ -5,6 +5,7 @@ export const formatGarnishmentData = (response) => {
 
   return response.results.reduce((acc, result) => {
     if (result.garnishment_data) {
+     
       result.garnishment_data.forEach((garnishment) => {
         garnishment.data.forEach((garnData) => {
           acc.push({
@@ -41,10 +42,9 @@ export const formatGarnishmentData = (response) => {
             garnishment_type: garnishment.type,
             ordered_amount: garnData.ordered_amount,
             arrear_amount:
-              result.Agency?.find((agency) => agency.Arrear)?.Arrear[0]?.arrear_amount || "0",
+              result.Agency?.find((agency) => agency.Arrear)?.Arrear?.[0]?.arrear_amount || garnData.arrear_amount || "0",
             withholding_amount:
-              result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt[0]
-                ?.child_support || "0",
+              result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt?.[0]?.child_support || garnData.withholding_amount || "0",
             garnishment_fees: result.ER_deduction?.garnishment_fees || "N/A",
             withholding_limit_rule: result.withholding_limit_rule || "N/A",
           });
