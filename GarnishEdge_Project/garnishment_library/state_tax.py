@@ -157,7 +157,7 @@ class StateTaxView():
                 elif state in ['alabama','iowa']:
                     result = self.cal_x_disposible_income(gross_pay)
                     
-            return result
+            return round(result,2)
         
         except Exception as e:
             return Response(

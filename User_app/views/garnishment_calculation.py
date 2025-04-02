@@ -35,45 +35,56 @@ class CalculationDataView():
 
     def calculate_garnishment(self, garnishment_type, record):
         """Handles garnishment calculations based on type."""
-        garnishment_type = garnishment_type.lower()
 
-        garnishment_rules = {
-            "child support": {
-                "fields": [
-                    EmployeeFields.ARREARS_GREATER_THAN_12_WEEKS, EmployeeFields.SUPPORT_SECOND_FAMILY,
-                    CalculationFields.GROSS_PAY, PayrollTaxesFields.PAYROLL_TAXES
-                ],
-                "calculate": self.calculate_child_support
-            },
-            "federal tax levy": {
-                "fields": [EmployeeFields.FILING_STATUS,EmployeeFields.PAY_PERIOD, CalculationFields.NET_PAY, EmployeeFields.AGE, EmployeeFields.IS_BLIND],
-                "calculate": self.calculate_federal_tax
-            },
-            "student default loan": {
-                "fields": [CalculationFields.GROSS_PAY, EmployeeFields.PAY_PERIOD, EmployeeFields.NO_OF_STUDENT_DEFAULT_LOAN,PayrollTaxesFields.PAYROLL_TAXES],
-                "calculate": self.calculate_student_loan
-            },
-            "state tax levy": {
-                "fields": [
-                    EmployeeFields.GROSS_PAY, EmployeeFields.WORK_STATE
-                ],
-                "calculate": self.calculate_state_tax_levy
-            },
-        }
 
-        if garnishment_type in garnishment_rules:
-            required_fields = garnishment_rules[garnishment_type]["fields"]
-            missing_fields = self.validate_fields(record, required_fields)
+        try:
+            garnishment_type = garnishment_type.lower()
 
-            if missing_fields:
-                return {"error": f"Missing fields in record: {', '.join(missing_fields)}"}
+            garnishment_rules = {
+                "child support": {
+                    "fields": [
+                        EmployeeFields.ARREARS_GREATER_THAN_12_WEEKS, EmployeeFields.SUPPORT_SECOND_FAMILY,
+                        CalculationFields.GROSS_PAY, PayrollTaxesFields.PAYROLL_TAXES
+                    ],
+                    "calculate": self.calculate_child_support
+                },
+                "federal tax levy": {
+                    "fields": [EmployeeFields.FILING_STATUS,EmployeeFields.PAY_PERIOD, CalculationFields.NET_PAY, EmployeeFields.AGE, EmployeeFields.IS_BLIND],
+                    "calculate": self.calculate_federal_tax
+                },
+                "student default loan": {
+                    "fields": [CalculationFields.GROSS_PAY, EmployeeFields.PAY_PERIOD, EmployeeFields.NO_OF_STUDENT_DEFAULT_LOAN,PayrollTaxesFields.PAYROLL_TAXES],
+                    "calculate": self.calculate_student_loan
+                },
+                "state tax levy": {
+                    "fields": [
+                        EmployeeFields.GROSS_PAY, EmployeeFields.WORK_STATE
+                    ],
+                    "calculate": self.calculate_state_tax_levy
+                },
+            }
 
-            return garnishment_rules[garnishment_type]["calculate"](record)
+            if garnishment_type in garnishment_rules:
+                required_fields = garnishment_rules[garnishment_type]["fields"]
+                missing_fields = self.validate_fields(record, required_fields)
 
-        elif garnishment_type in {GarnishmentTypeFields.STATE_TAX_LEVY, GarnishmentTypeFields.CREDITOR_DEBT}:
-            return {"er_deduction": {"Garnishment_fees": gar_fees_rules_engine().apply_rule(record,2000)}}
+                if missing_fields:
+                    return {"error": f"Missing fields in record: {', '.join(missing_fields)}"}
 
-        return {"error": f"Unsupported garnishment_type: {garnishment_type}"}
+                return garnishment_rules[garnishment_type]["calculate"](record)
+
+            elif garnishment_type in {GarnishmentTypeFields.STATE_TAX_LEVY, GarnishmentTypeFields.CREDITOR_DEBT}:
+                return {"er_deduction": {"Garnishment_fees": gar_fees_rules_engine().apply_rule(record,2000)}}
+        except Exception as e:
+            log_api(
+                api_name="garnishment_calculate",
+                endpoint="/garnishment_calculate/",
+                status_code=500,
+                message=str(e),
+                status="Failed"                            )  
+            return {"error": f"Unsupported garnishment_type: {garnishment_type}"}
+
+
 
     def calculate_child_support(self, record):
         """Calculate child support garnishment."""
@@ -167,12 +178,13 @@ class CalculationDataView():
         garnishment_data = record.get("garnishment_data", [])
         if not garnishment_data:
             return None  
-    
-        garnishment_type = garnishment_data[0].get(EmployeeFields.GARNISHMENT_TYPE, "").strip().lower()
-        result = self.calculate_garnishment(garnishment_type, record)
-    
-        if "error" in result:          
-            return {"ee_id":record.get("ee_id"),"error": result["error"]}
+        
+        try:
+            garnishment_type = garnishment_data[0].get(EmployeeFields.GARNISHMENT_TYPE, "").strip().lower()
+            result = self.calculate_garnishment(garnishment_type, record)
+        except Exception as e:
+            return {"error": str(e), "status": 500, "ee_id": record.get(EmployeeFields.EMPLOYEE_ID)} 
+         
     
         return result  
     
@@ -266,8 +278,13 @@ class CalculationDataView():
 
 
          except Exception as e:
-
-
+             log_api(
+                api_name="garnishment_calculate",
+                endpoint="/garnishment_calculate/",
+                status_code=500,
+                message=str(e),
+                status="Failed"
+                            )  
              return {"error": str(e), "status": 500, "ee_id": case_info.get(EmployeeFields.EMPLOYEE_ID)} 
          
 
@@ -302,21 +319,7 @@ class PostCalculationView(APIView):
                         result = future.result()
                         if result:
                             output.append(result)
-                            log_api(
-                                api_name="garnishment_calculate",
-                                endpoint="/garnishment_calculate/",
-                                status_code=200,
-                                message="API executed successfully",
-                                status="Success"
-                            )
                     except Exception as e:
-                        log_api(
-                            api_name="garnishment_calculate",
-                            endpoint="/garnishment_calculate/",
-                            status_code=500,
-                            message=str(e),
-                            status="Failed"
-                        )
                         output.append({
                             "error": str(e),
                             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -331,13 +334,6 @@ class PostCalculationView(APIView):
             }, status=status.HTTP_200_OK)
 
         except Exception as e:
-            log_api(
-                api_name="garnishment_calculate",
-                endpoint="/garnishment_calculate/",
-                status_code=500,
-                message=str(e),
-                status="Failed"
-            )
             return Response({"error": str(e), "status": status.HTTP_500_INTERNAL_SERVER_ERROR})
 
 
