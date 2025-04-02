@@ -16,60 +16,72 @@ export const renderTable = (data) => {
   const uniqueEntries = new Set(); // Track unique entries
 
   data.results.forEach((result) => {
-    result.agency?.forEach((agency) => {
-      agency.withholding_amt?.forEach((withholdingData, index) => {
-        const garnishmentAmount = withholdingData.garnishment_amount || withholdingData.child_support || "0";
-        const arrearAmount = agency.Arrear?.[index]?.arrear_amount || "0";
-        result.garnishment_data?.forEach((garnishment) => {
-          garnishment.data?.forEach((garnData) => {
-            // Create a unique key based on multiple fields to avoid duplicates
-            const uniqueKey = `${result.ee_id}-${garnData.case_id}-${arrearAmount}-${garnishmentAmount}-${index}`;
-            if (!uniqueEntries.has(uniqueKey)) {
-              uniqueEntries.add(uniqueKey); // Add the key to the set to prevent duplicates
-              allResults.push({
-                ee_id: result.ee_id,
-                case_id: garnData.case_id,
-                garnishment_type: garnishment.type,
-                arrear_amount: arrearAmount,
-                withholding_amount: garnishmentAmount,
-                arrear_from_agency: agency.Arrear?.[index]?.arrear_amount || "0",
-                garnishment_fees: result.er_deduction?.garnishment_fees || "N/A",
-                Work_State: result.work_state,
-                no_of_exemption_including_self: result.no_of_exemption_including_self,
-                pay_period: result.pay_period,
-                filing_status: result.filing_status,
-                wages: result.wages,
-                commission_and_bonus: result.commission_and_bonus,
-                non_accountable_allowances: result.non_accountable_allowances,
-                gross_pay: result.gross_pay,
-                federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
-                social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
-                state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
-                medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
-                local_tax: result.payroll_taxes?.local_tax ?? "N/A",
-                medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
-                industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
-                life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
-                net_pay: result.net_pay,
-                age: result.age,
-                is_blind: result.is_blind,
-                is_spouse_blind: result.is_spouse_blind,
-                union_dues: result.payroll_taxes?.union_dues || "0",
-                wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
-                medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
-                spouse_age: result.spouse_age,
-                support_second_family: result.support_second_family,
-                no_of_student_default_loan: result.no_of_student_default_loan,
-                arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
-                arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
-                withholding_limit_rule: result.withholding_limit_rule || "N/A",
-                CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
-              });
-            }
-          });
+    const garnishmentData = result.garnishment_data || [];
+    const agencyData = result.agency || [];
+
+    const maxLength = Math.max(
+      garnishmentData.reduce((sum, garnishment) => sum + (garnishment.data?.length || 0), 0),
+      agencyData.reduce((sum, agency) => sum + (agency.withholding_amt?.length || 0), 0)
+    );
+
+    for (let i = 0; i < maxLength; i++) {
+      const garnishment = garnishmentData[Math.floor(i / (garnishmentData[0]?.data?.length || 1))] || {};
+      const garnData = garnishment.data?.[i % (garnishment.data?.length || 1)] || {};
+
+      const agency = agencyData[Math.floor(i / (agencyData[0]?.withholding_amt?.length || 1))] || {};
+      const withholdingData = agency.withholding_amt?.[i % (agency.withholding_amt?.length || 1)] || {};
+
+      const garnishmentAmount = withholdingData.garnishment_amount || withholdingData.child_support || "0";
+
+      // Retrieve arrear_amount from agency > Arrear > arrear_amount, fallback to garnData.arrear_amount or "0"
+      const arrearAmount =
+        agency.Arrear?.[i % (agency.Arrear?.length || 1)]?.arrear_amount ||
+        garnData.arrear_amount ||
+        "0";
+
+      const uniqueKey = `${result.ee_id}-${garnData.case_id}-${arrearAmount}-${garnishmentAmount}-${i}`;
+      if (!uniqueEntries.has(uniqueKey)) {
+        uniqueEntries.add(uniqueKey);
+        allResults.push({
+          ee_id: result.ee_id,
+          case_id: garnData.case_id,
+          garnishment_type: garnishment.type,
+          arrear_amount: arrearAmount, // Updated logic for arrear_amount
+          withholding_amount: garnishmentAmount,
+          garnishment_fees: result.er_deduction?.garnishment_fees || "0",
+          Work_State: result.work_state,
+          no_of_exemption_including_self: result.no_of_exemption_including_self,
+          pay_period: result.pay_period,
+          filing_status: result.filing_status,
+          wages: result.wages,
+          commission_and_bonus: result.commission_and_bonus,
+          non_accountable_allowances: result.non_accountable_allowances,
+          gross_pay: result.gross_pay,
+          federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
+          social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
+          state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
+          medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
+          local_tax: result.payroll_taxes?.local_tax ?? "N/A",
+          medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
+          industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
+          life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
+          net_pay: result.net_pay,
+          age: result.age,
+          is_blind: result.is_blind,
+          is_spouse_blind: result.is_spouse_blind,
+          union_dues: result.payroll_taxes?.union_dues || "0",
+          wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
+          medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
+          spouse_age: result.spouse_age,
+          support_second_family: result.support_second_family,
+          no_of_student_default_loan: result.no_of_student_default_loan,
+          arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
+          arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
+          withholding_limit_rule: result.withholding_limit_rule || "N/A",
+          CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
         });
-      });
-    });
+      }
+    }
   });
 
   return (
