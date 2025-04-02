@@ -103,8 +103,8 @@ function Employee({ onDeleteSuccess }) {
       renderCell: (params) => (params.value ? "Active" : "Inactive")
     },
     { field: "garnishment_fees_suspended_till", headerName: "Garnishment Suspended Till", width: 250 },
-    { field: "type", headerName: "Type", width: 120 },
-    { field: "rules", headerName: "Rule", width: 120 },
+    // { field: "type", headerName: "Type", width: 120 },
+    // { field: "rules", headerName: "Rule", width: 120 },
     {
       field: "actions",
       headerName: "Actions",
