@@ -59,10 +59,9 @@ function Form() {
       if (response.data.success) {
         localStorage.setItem('token', response.data.access);
         sessionStorage.setItem('token', response.data.access);
-        localStorage.setItem('id', response.data.user_data.employer_id);
-        sessionStorage.setItem('id', response.data.user_data.employer_id);
-        localStorage.setItem('cid', response.data.user_data.cid);
-        sessionStorage.setItem('cid', response.data.user_data.cid);
+   
+        localStorage.setItem('id', response.data.user_data.id);
+        sessionStorage.setItem('id', response.data.user_data.id);
         sessionStorage.setItem('email', response.data.user_data.email);
         localStorage.setItem('name', response.data.user_data.name);
         sessionStorage.setItem('name', response.data.user_data.name);

@@ -1,4 +1,3 @@
-
 /**
  * Garnishment Component
  * 
@@ -72,7 +71,6 @@ function Garnishment() {
   const [employee_id, setSelectedOption] = useState(null);
   const employer_id = parseInt(sessionStorage.getItem("id"));
 
-
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
   };
@@ -141,108 +139,122 @@ function Garnishment() {
 
   return (
     <>
-      
-            <div className="p-0">
-              {/* <h1 className="uppercase font-bold mb-4 inline-block"><FaBalanceScaleRight/>Garnishment Calcultor</h1> */}
-              <h1 className="edit-profile mt-6 mb-4 inline-block">
-                <FaBalanceScaleRight />
-                Garnishment Calculator
-              </h1>
-              <form onSubmit={handleSubmit}>
-                {/* <MultiStep activeStep={2} > */}
-                <div className="hidden">
-                  <div className="mt-2 hidden">
-                    <input
-                      id="employer_id"
-                      name="employer_id"
-                      value={employer_id}
-                      type="hidden"
-                      // autoComplete="employee_name"
-                      // onChange={(e) => setEid(e.target.value)}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
+      <div style={{ position: "relative" }}>
+        {/* Overlay */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 10,
+          }}
+        >
+          <h2>Maintenance Mode: This component is temporarily unavailable.</h2>
+        </div>
 
-                <div className="tabs mb-6">
-                  <label
-                    htmlFor="empID"
-                    className="block  text-red-700 text-sm font-semibold mb-3"
-                  >
-                    Please Select Garnishment Type:
-                  </label>
-
-                  <button
-                    className={
-                      activeTab === "Child Support"
-                        ? " custom active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
-                        : " mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-gray-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
-                    }
-                    onClick={() => handleTabClick("Child Support")}
-                  >
-                    Child Support
-                  </button>
-                  <button
-                    className={
-                      activeTab === "Student loan"
-                        ? "active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
-                        : " mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
-                    }
-                    onClick={() => handleTabClick("Student loan")}
-                  >
-                    Student loan
-                  </button>
-                  <button
-                    className={
-                      activeTab === "MultiStudent Loan"
-                        ? "active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
-                        : " mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
-                    }
-                    onClick={() => handleTabClick("MultiStudent Loan")}
-                  >
-                    MultiStudent Loan
-                  </button>
-                  <button
-                    className={
-                      activeTab === "Federal Tax"
-                        ? "active inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
-                        : "inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
-                    }
-                    onClick={() => handleTabClick("Federal Tax")}
-                  >
-                    Federal Tax
-                  </button>
+        {/* Main Component */}
+        <div style={{ pointerEvents: "none", opacity: 0.5 }}>
+          <div className="p-0">
+            <h1 className="edit-profile mt-6 mb-4 inline-block">
+              <FaBalanceScaleRight />
+              Garnishment Calculator
+            </h1>
+            <form onSubmit={handleSubmit}>
+              <div className="hidden">
+                <div className="mt-2 hidden">
+                  <input
+                    id="employer_id"
+                    name="employer_id"
+                    value={employer_id}
+                    type="hidden"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
                 </div>
-                {/* Tab content */}
-                <div className="tab-content">
-                  {activeTab === "Child Support" && (
-                    <div>
-                      {" "}
-                      <MultipleChild/>
-                    </div>
-                  )}
-                  {activeTab === "Student loan" && (
-                    <div>
-                      {" "}
-                      <StudentLoan/>
-                    </div>
-                  )}
-                  {activeTab === "MultiStudent Loan" && (
-                    <div>
-                      {" "}
-                      <MultipleStudentLoan/>
-                    </div>
-                  )}
-                  {activeTab === "Federal Tax" && (
-                    <div>
-                      {" "}
-                      <FederalTax/>
-                    </div>
-                  )}
+              </div>
+
+              <div className="tabs mb-6">
+                <label
+                  htmlFor="empID"
+                  className="block  text-red-700 text-sm font-semibold mb-3"
+                >
+                  Please Select Garnishment Type:
+                </label>
+
+                <button
+                  className={
+                    activeTab === "Child Support"
+                      ? " custom active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
+                      : " mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-gray-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
+                  }
+                  onClick={() => handleTabClick("Child Support")}
+                >
+                  Child Support
+                </button>
+                <button
+                  className={
+                    activeTab === "Student loan"
+                      ? "active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
+                      : " mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
+                  }
+                  onClick={() => handleTabClick("Student loan")}
+                >
+                  Student loan
+                </button>
+                <button
+                  className={
+                    activeTab === "MultiStudent Loan"
+                      ? "active  mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
+                      : " mb-4 inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
+                  }
+                  onClick={() => handleTabClick("MultiStudent Loan")}
+                >
+                  MultiStudent Loan
+                </button>
+                <button
+                  className={
+                    activeTab === "Federal Tax"
+                      ? "active inline-flex  mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
+                      : "inline-flex mb-4 justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-slate-900 text-white hover:bg-slate-700 -my-2.5 ml-4"
+                  }
+                  onClick={() => handleTabClick("Federal Tax")}
+                >
+                  Federal Tax
+                </button>
+              </div>
+              {/* Tab content */}
+              <div className="tab-content">
+                {activeTab === "Child Support" && (
+                  <div>
+                    <MultipleChild />
                   </div>
-              </form>
-            </div>
-         
+                )}
+                {activeTab === "Student loan" && (
+                  <div>
+                    <StudentLoan />
+                  </div>
+                )}
+                {activeTab === "MultiStudent Loan" && (
+                  <div>
+                    <MultipleStudentLoan />
+                  </div>
+                )}
+                {activeTab === "Federal Tax" && (
+                  <div>
+                    <FederalTax />
+                  </div>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

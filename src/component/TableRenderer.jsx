@@ -10,7 +10,7 @@ import withReactContent from "sweetalert2-react-content";
 import Rules from "../pages/Rules"; // Import the Rule component
 import { createRoot } from 'react-dom/client'; // import createRoot from React 18
 import MySwal from 'sweetalert2';
-
+import "./TableRenderer.css";
 let swalRoot = null; // Store the root instance globally
 
 const handleRuleClick = (workState) => {
@@ -120,7 +120,7 @@ export const renderTable = (data) => {
           no_of_student_default_loan: result.no_of_student_default_loan,
           arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
           arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
-          withholding_limit_rule: result.withholding_limit_rule || "N/A",
+          withholding_limit_rule: result.withholding_limit_rule || "No Rule",
           disposible_earning: result.disposible_earning || "N/A",
           CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
         });
@@ -198,18 +198,22 @@ export const renderTable = (data) => {
               <TableCell style={{ textAlign: "center" }}>{item.medical_insurance}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.famli_tax}</TableCell>
               <TableCell style={{ textAlign: "center" }}>
-                <button
-                  onClick={() => handleRuleClick(item.Work_State || "No Work State")}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "blue",
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                  }}
-                >
-                  {item.withholding_limit_rule || "No Rule"}
-                </button>
+                {item.garnishment_type !== "State tax levy" ? (
+                  <button
+                    onClick={() => handleRuleClick(item.Work_State || "No Work State")}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "blue",
+                      cursor: "pointer",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    {item.withholding_limit_rule || "No Rule"}
+                  </button>
+                ) : (
+                  <span>{item.withholding_limit_rule || "No Rule"}</span>
+                )}
               </TableCell>
             </TableRow>
           ))}

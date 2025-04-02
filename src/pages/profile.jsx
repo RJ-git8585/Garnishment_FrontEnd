@@ -25,7 +25,7 @@ function Profile() {
   });
 
   const [loading, setLoading] = useState(false);
-  const employer_id = parseInt(sessionStorage.getItem("cid"));
+  const employer_id = parseInt(sessionStorage.getItem("id"));
   const [data, setData] = useState([]);
   const [isEditing, setIsEditing] = useState(false); // State to track edit mode
 
@@ -96,7 +96,7 @@ function Profile() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL}/User/employer-profile/${employer_id}/`, {
+      const response = await fetch(`${BASE_URL}/User/employer_profile/${employer_id}/`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ function Profile() {
         timerProgressBar: true, // Show a progress bar
     });
     setTimeout(function(){
-      // window.location.reload();
+     window.location.reload();
    }, 4000);
     } catch (error) {
       console.error('Error updating profile:', error);
