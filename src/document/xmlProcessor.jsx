@@ -171,9 +171,9 @@ const XmlProcessor = () => {
                       <button className="copyButton" onClick={handleCopy}>
                         <FaCopy />
                       </button>
-                      <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
+                      {/* <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
                         {showTable ? <BsFiletypeJson /> : <FaTableCells />}
-                      </button>
+                      </button> */}
                       <button className="toggleButton" onClick={toggleFullscreen}>
                         {isFullscreen ? <FaCompress /> : <FaExpand />}
                       </button>
