@@ -16,9 +16,9 @@ const user = {
     { name: 'Dashboard', href: '/dashboard', current: true },
     { name: 'Calculator', href: '/garnishment', current: false },
     { name: 'Employee', href: '/employee', current: false },
-    { name: 'IWO', href: '/iwo', current: false },
+    // { name: 'IWO', href: '/iwo', current: false },
     { name: 'Results', href: '/results', current: false },
-    { name: 'Settings', href: '/setting', current: false },
+    // { name: 'Settings', href: '/setting', current: false },
     { name: 'Logout', href: '/logout', current: false },
   ]
   const userNavigation = [
@@ -26,7 +26,7 @@ const user = {
    
     { name: 'Add Location', href: '/addlocation' },
     { name: 'Add Department', href: '/adddepartment' },
-    { name: 'Settings', href: '/setting' },
+    // { name: 'Settings', href: '/setting' },
 
   ]
   

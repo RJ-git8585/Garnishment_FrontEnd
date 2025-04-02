@@ -25,7 +25,7 @@ function Profile() {
   });
 
   const [loading, setLoading] = useState(false);
-  const employer_id = parseInt(sessionStorage.getItem("id"));
+  const employer_id = parseInt(sessionStorage.getItem("cid"));
   const [data, setData] = useState([]);
   const [isEditing, setIsEditing] = useState(false); // State to track edit mode
 
@@ -121,7 +121,7 @@ function Profile() {
         timerProgressBar: true, // Show a progress bar
     });
     setTimeout(function(){
-      window.location.reload();
+      // window.location.reload();
    }, 4000);
     } catch (error) {
       console.error('Error updating profile:', error);

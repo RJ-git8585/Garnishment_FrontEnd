@@ -13,7 +13,7 @@ import PasswordResetConfirm from './pages/PasswordResetConfirm';
 import Dashboard from './pages/dashboard';
 import Logout from './pages/Logout';
 import Profile from './pages/profile';
-import Setting from './pages/setting';
+// import Setting from './pages/setting';
 import Help from './pages/Help';
 import Tax from './pages/Tax';
 import Garnishment from './pages/Garnishment';
@@ -56,7 +56,7 @@ const privateRoutes = [
   { path: "/logout", element: <Logout /> },
   { path: "/profile", element: <Profile /> },
   { path: "/case", element: <CaseRegister /> },
-  { path: "/setting", element: <Setting /> },
+  // { path: "/setting", element: <Setting /> },
   { path: "/help", element: <Help /> },
   { path: "/tax", element: <Tax /> },
   { path: "/garnishment", element: <Garnishment /> },

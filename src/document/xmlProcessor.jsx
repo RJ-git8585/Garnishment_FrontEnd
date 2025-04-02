@@ -32,6 +32,9 @@ const XmlProcessor = () => {
     setShowTable(false);
     setFileUploadTime(null);
     setGarnishmentCalcTime(null);
+
+    // Reload the page
+    window.location.reload();
   };
 
   const handleFileUpload = async (e) => {

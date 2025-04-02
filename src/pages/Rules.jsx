@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { Card, CardContent, Typography, CircularProgress, Grid } from "@mui/material";
 import { API_URLS } from '../constants/apis';
 
-const Rules = () => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const state = queryParams.get("rule") || "No state provided";
+const Rules = ({ workState }) => {
+  const state = workState || "No state provided";
 
   const [data, setData] = useState(null);
   const [mandatoryDeductions, setMandatoryDeductions] = useState(null); // State for second API data
@@ -100,7 +97,7 @@ const Rules = () => {
         <Card style={{ maxWidth: 800, margin: "20px auto", padding: "20px" }}>
           <CardContent>
           <Typography variant="h6" style={{ fontSize: 12, margin: "20px auto", padding: "20px" }} gutterBottom>
-          Disposable income = Gross Pay - Mandatory Deductions:
+          Disposable income = (Wages + Commission & Bonus + On Accountable Allowances) - Mandatory Deductions:
             </Typography>
             <Typography variant="h6" gutterBottom>
               Mandatory Deductions:

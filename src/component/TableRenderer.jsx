@@ -1,9 +1,51 @@
+/* eslint-disable react/no-deprecated */
 /* eslint-disable no-dupe-keys */
-import React from "react";
+import React, { useState } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, BrowserRouter } from "react-router-dom";
 import { formatGarnishmentData } from "../utils/dataFormatter";
 import Navbar from './../Navbar';
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import Rules from "../pages/Rules"; // Import the Rule component
+import { createRoot } from 'react-dom/client'; // import createRoot from React 18
+import MySwal from 'sweetalert2';
+
+let swalRoot = null; // Store the root instance globally
+
+const handleRuleClick = (workState) => {
+  console.log("Work State passed to Rules component:", workState); // Debugging log
+  MySwal.fire({
+    title: "Rule Details",
+    html: "<div id='swal-rule-container'></div>", // Container to hold the React component
+    showCloseButton: true,
+    showConfirmButton: false,
+    customClass: {
+      popup: "swal-wide",
+    },
+    didOpen: () => {
+      const container = document.getElementById('swal-rule-container');
+      if (!swalRoot) {
+        swalRoot = createRoot(container); // Create the React root only once
+      }
+      swalRoot.render(
+        <BrowserRouter>
+          {workState ? (
+            <Rules workState={workState} />
+          ) : (
+            <div style={{ color: "red" }}>No work state data available</div> // Fallback UI
+          )}
+        </BrowserRouter>
+      );
+    },
+    willClose: () => {
+      if (swalRoot) {
+        swalRoot.unmount(); // Clean up the component
+        swalRoot = null; // Reset the root instance
+      }
+    }
+  });
+};
 
 export const renderTable = (data) => {
   const allCases = Array.isArray(data) ? data : formatGarnishmentData(data);
@@ -66,6 +108,7 @@ export const renderTable = (data) => {
           industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
           life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
           net_pay: result.net_pay,
+          famli_tax : result.famli_tax || "N/A",
           age: result.age,
           is_blind: result.is_blind,
           is_spouse_blind: result.is_spouse_blind,
@@ -78,6 +121,7 @@ export const renderTable = (data) => {
           arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
           arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
           withholding_limit_rule: result.withholding_limit_rule || "N/A",
+          disposible_earning: result.disposible_earning || "N/A",
           CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
         });
       }
@@ -94,7 +138,7 @@ export const renderTable = (data) => {
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear From Agency</TableCell>
+            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Disposible Earning</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Work State</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No of Exemption</TableCell>
@@ -117,6 +161,7 @@ export const renderTable = (data) => {
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Life Insurance</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>CaliforniaSDI</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
+            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Famli Tax</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rules</TableCell>
           </TableRow>
         </TableHead>
@@ -128,7 +173,7 @@ export const renderTable = (data) => {
               <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.arrear_from_agency}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.disposible_earning}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.Work_State}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.no_of_exemption_including_self}</TableCell>
@@ -151,13 +196,20 @@ export const renderTable = (data) => {
               <TableCell style={{ textAlign: "center" }}>{item.life_insurance}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.CaliforniaSDI}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.medical_insurance}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.famli_tax}</TableCell>
               <TableCell style={{ textAlign: "center" }}>
-                <Link
-                  to={`/rules?rule=${encodeURIComponent(item.Work_State || "No Rule")}`}
-                  style={{ textDecoration: "none", color: "blue" }}
+                <button
+                  onClick={() => handleRuleClick(item.Work_State || "No Work State")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "blue",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
                 >
                   {item.withholding_limit_rule || "No Rule"}
-                </Link>
+                </button>
               </TableCell>
             </TableRow>
           ))}
@@ -166,3 +218,4 @@ export const renderTable = (data) => {
     </TableContainer>
   );
 };
+

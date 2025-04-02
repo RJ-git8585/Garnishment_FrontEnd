@@ -46,7 +46,7 @@ export const formatGarnishmentData = (response) => {
             withholding_amount:
               result.Agency?.find((agency) => agency.withholding_amt)?.withholding_amt?.[0]?.child_support || garnData.withholding_amount || "0",
             garnishment_fees: result.ER_deduction?.garnishment_fees || "N/A",
-            withholding_limit_rule: result.withholding_limit_rule || "N/A",
+            withholding_limit_rule: result.withholding_limit_rule || "Not Present yet",
           });
         });
       });
