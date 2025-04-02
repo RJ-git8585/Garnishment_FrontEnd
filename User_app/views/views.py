@@ -167,7 +167,7 @@ def EmployerProfile(request):
             
             user = Employer_Profile.objects.create(**data)
 
-            employee = get_object_or_404(Employer_Profile, cid=user.employer_id)
+            employee = get_object_or_404(Employer_Profile, cid=user.id)
             LogEntry.objects.create(
                 action='Employer details added',
                 details=f'Employer details with ID {employee.employer_id}'
@@ -212,49 +212,56 @@ class EmployeeDetailsAPIView(APIView):
 
 
 
-
-#for Updating the Employer Profile data
+#update employee Details
+@method_decorator(csrf_exempt, name='dispatch')
 class EmployerProfileEditView(RetrieveUpdateAPIView):
     queryset = Employer_Profile.objects.all()
     serializer_class = EmployerProfileSerializer
-    lookup_field = 'employer_id'
-    @csrf_exempt
+    lookup_fields = ['id'] 
+
+    def get_object(self):
+        """
+        Overriding `get_object` to fetch the instance based on multiple fields.
+        """
+        queryset = self.filter_queryset(self.get_queryset())
+        print("id",self.kwargs)  # Debugging line
+        filter_kwargs = {field: self.kwargs[field] for field in self.lookup_fields}
+
+        obj = queryset.filter(**filter_kwargs).first()
+        if not obj:
+            raise Exception(f"Object not found with {filter_kwargs}")
+        return obj
+
     def put(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            data = request.data
-    
-            # Check for missing fields
-            # required_fields = ['employer_name', 'street_name', 'federal_employer_identification_number', 'city', 'state', 'country', 'zipcode', 'email', 'number_of_employees', 'department', 'location']
-            # missing_fields = [field for field in required_fields if field not in data or not data[field]]
-            # if missing_fields:
-            #     return JsonResponse({'error': f'Required fields are missing: {", ".join(missing_fields)}', 'status_code':status.HTTP_400_BAD_REQUEST})
-    
-            # Validate length of federal_employer_identification_number
-            if 'federal_employer_identification_number' in data and len(str(data['federal_employer_identification_number'])) != 9:
-                return JsonResponse({'error': 'Federal Employer Identification Number must be exactly 9 characters long', 'status_code':status.HTTP_400_BAD_REQUEST})
-    
-            # Validate email if it's being updated
-            if 'email' in data and Employer_Profile.objects.filter(email=data['email']).exclude(employer_id=instance.employer_id).exists():
-                return JsonResponse({'error': 'Email already registered', 'status_code':status.HTTP_400_BAD_REQUEST})
-    
-            serializer = self.get_serializer(instance, data=data, partial=True)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            LogEntry.objects.create(
-                    action='Employer details Updated',
-                    details=f'Employer details Updated successfully with ID {instance.employer_id}'
-                )
-    
-            response_data = {
-                'success': True,
-                'message': 'Data Updated successfully',
-                'status code': status.HTTP_200_OK
-            }
-        except Exception as e:
-            return JsonResponse({'error': str(e), "status code":status.HTTP_500_INTERNAL_SERVER_ERROR}) 
-        return JsonResponse(response_data)
-    
+        # try:
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        # Logging the update action
+        LogEntry.objects.create(
+            action='Details updated',
+            details=f'Details updated successfully for ID {instance.id}'
+        )
+        # Preparing the response data
+        response_data = {
+            'success': True,
+            'message': 'Data updated successfully',
+            'status_code': status.HTTP_200_OK
+        }
+        return JsonResponse(response_data, status=status.HTTP_200_OK)
+
+        # except Exception as e:
+        #     return JsonResponse(
+        #         {'error': str(e), "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR},
+        #         status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        #     )
+
+
+
+
+
+
 #update employee Details
 @method_decorator(csrf_exempt, name='dispatch')
 class EmployeeDetailsUpdateAPIView(RetrieveUpdateAPIView):

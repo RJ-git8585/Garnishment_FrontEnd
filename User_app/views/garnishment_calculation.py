@@ -115,7 +115,8 @@ class CalculationDataView():
                                 for i in range(1, len(arrear_amount_data) + 1)]}]
             
             record["er_deduction"] = {"garnishment_fees": gar_fees_rules_engine().apply_rule(record, total_withhold_amt)}
-
+            
+            record["disposible_earning"] = ChildSupport().calculate_de(record)
             # Identify withholding limit using state rules
             record["withholding_limit_rule"] = WLIdentifier().get_state_rules(record[EmployeeFields.WORK_STATE].capitalize())
         return record
