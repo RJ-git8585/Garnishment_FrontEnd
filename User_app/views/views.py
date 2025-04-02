@@ -1778,8 +1778,8 @@ class convert_excel_to_json(APIView):
                         "arrears_greater_than_12_weeks": row["arrears_greater_than_12_weeks"],
                         "garnishment_data": [garnishment_data]
                 })
-
-            return Response(output_json, status=status.HTTP_200_OK)
+    
+            return JsonResponse(output_json, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e),"status":status.HTTP_500_INTERNAL_SERVER_ERROR})
         

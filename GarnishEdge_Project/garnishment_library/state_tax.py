@@ -167,4 +167,57 @@ class StateTaxView():
                 }
             )
 
-    
+# record={
+#       "ee_id": "EE005150",
+#       "work_state": "California",
+#       "no_of_exemption_including_self": 1,
+#       "pay_period": "Weekly",
+#       "filing_status": "single",
+#       "wages": 1450,
+#       "commission_and_bonus": 0,
+#       "non_accountable_allowances": 0,
+#       "gross_pay": 1450,
+#       "payroll_taxes": {
+#         "federal_income_tax": 87.56,
+#         "social_security_tax": 77,
+#         "medicare_tax": 98,
+#         "state_tax": 79,
+#         "local_tax": 58,
+#         "union_dues": 22,
+#         "wilmington_tax": 0,
+#         "medical_insurance_pretax": 0,
+#         "industrial_insurance": 0,
+#         "life_insurance": 0,
+#         "CaliforniaSDI": 20,
+#         "famli_tax": None
+#       },
+#       "payroll_deductions": {
+#         "medical_insurance": None
+#       },
+#       "net_pay": 1004.44,
+#       "age": 43,
+#       "is_blind": False,
+#       "is_spouse_blind": False,
+#       "spouse_age": 63,
+#       "support_second_family": "No",
+#       "no_of_student_default_loan": 0,
+#       "arrears_greater_than_12_weeks": "No",
+#       "garnishment_data": [
+#         {
+#           "type": "State tax levy",
+#           "data": [
+#             {
+#               "case_id": "C24393",
+#               "ordered_amount": 0,
+#               "arrear_amount": 0,
+#               "current_medical_support": 0,
+#               "past_due_medical_support": 0,
+#               "current_spousal_support": 0,
+#               "past_due_spousal_support": 0
+#             }
+#           ]
+#         }
+#       ]
+#     }
+# ["FIT" ,"LT", "SST" , "MT" , "CaliforniaSDI","UD"]
+# print("new",StateTaxView().calculate(record))
