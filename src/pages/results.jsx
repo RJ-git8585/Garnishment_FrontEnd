@@ -49,13 +49,7 @@ function Results() {
   }));
 
   return (
-    <div className="min-h-full">
-      <div className="container main ml-auto">
-        <div className="sidebar hidden lg:block">
-          <Sidebar />
-        </div>
-        <div className="content ml-auto flex flex-col">
-          <Headertop />
+    <>
           <hr />
           <Box display="flex" justifyContent="flex-end" my={2}>
             <Button
@@ -114,9 +108,8 @@ function Results() {
               </Box>
             </Box>
           )}
-        </div>
-      </div>
-    </div>
+    
+    </>
   );
 }
 
