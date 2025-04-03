@@ -125,7 +125,7 @@ const XmlProcessor = () => {
           <hr />
           <div className="bg_cls container" ref={containerRef}>
             <h2 className="header">Batch Processor</h2>
-
+<p>You just need to upload excel file to check response here ( *no need to paste json* ) </p>
             {/* Display time response outside API response box */}
             <div className="timeContainer">
               {fileUploadTime !== null && (
