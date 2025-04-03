@@ -160,7 +160,7 @@ const XmlProcessor = () => {
 
                 <textarea
                   className="textArea"
-                  placeholder="Paste your JSON here..."
+                  placeholder=""
                   value={jsonInput}
                   onChange={(e) => setJsonInput(e.target.value)}
                 />
