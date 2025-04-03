@@ -77,14 +77,7 @@ const Rules = ({ workState }) => {
                 ))}
                 {data.WithholdingLimit && (
                   <Grid container item xs={12}>
-                    <Grid item xs={4}>
-                      <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-                        Withholding Limit:
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Typography variant="body2">{data.WithholdingLimit}</Typography>
-                    </Grid>
+                    
                   </Grid>
                 )}
               </Grid>
@@ -98,7 +91,7 @@ const Rules = ({ workState }) => {
           <Card style={{ flex: 1, padding: "20px" }}>
             <CardContent>
               <Typography variant="h6" style={{ fontSize: 12, margin: "20px auto" }} gutterBottom>
-                Disposable income = (Wages + Commission & Bonus + On Accountable Allowances) - Mandatory Deductions:
+                Disposable income = (Wages + Commission & Bonus + Non Accountable Allowances) - Mandatory Deductions:
               </Typography>
               <Typography variant="h6" gutterBottom>
                 Mandatory Deductions:
