@@ -138,7 +138,7 @@ export const renderTable = (data) => {
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Disposible Earning</TableCell>
+            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Disposable Earning</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Work State</TableCell>
             <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No of Exemption</TableCell>
