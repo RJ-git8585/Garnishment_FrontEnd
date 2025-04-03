@@ -161,6 +161,8 @@ const BatchCalculation = () => {
     <>
       <div className="container" ref={containerRef}></div>
         <h2 className="header">Garnishment Processor</h2>
+        <p className="text-sm italic mb-4">Select Json file to check response here.... ( *paste json* ) </p>
+            
         <div className="inputSection">
           <input type="file" accept=".json" onChange={handleFileUpload} className="fileInput" />
           <textarea
