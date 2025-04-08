@@ -121,7 +121,7 @@ export const renderTable = (data) => {
           arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
           arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
-          disposible_earning: result.disposible_earning || "N/A",
+          disposable_earning: result.disposable_earning || "N/A",
           CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
         });
       }
@@ -173,7 +173,7 @@ export const renderTable = (data) => {
               <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.disposible_earning}</TableCell>
+              <TableCell style={{ textAlign: "center" }}>{item.disposable_earning}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.Work_State}</TableCell>
               <TableCell style={{ textAlign: "center" }}>{item.no_of_exemption_including_self}</TableCell>
