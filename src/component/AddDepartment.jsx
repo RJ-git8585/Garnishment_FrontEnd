@@ -4,19 +4,13 @@ import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
 
 import Sidebar from './sidebar'
-// import { ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+
 import { BASE_URL } from '../Config';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-
+import Swal from 'sweetalert2'; 
 function AddDepartment() {
   const navigate = useNavigate();
-    // eslint-disable-next-line no-undef
-   // eslint-disable-next-line no-undef
     const [department_name, setDepart] = useState('');
-     // eslint-disable-next-line no-undef
-    
       // eslint-disable-next-line no-undef
       const employer_id = sessionStorage.getItem("id");
       const handleReset = () => {
@@ -46,8 +40,6 @@ function AddDepartment() {
                 // Handle successful submission
                 console.log('Data submitted successfully!');
                 Swal.fire({
-                  // toast: true, // This enables the toast mode
-                  // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
                   icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
                   title: 'Department Added',
                   // text: "Now Calculation result will not stored !!",
@@ -94,9 +86,6 @@ function AddDepartment() {
                             name="employer_id"
                              value={employer_id}
                             type="hidden"
-                            // autoComplete="employee_name"
-                            // onChange={(e) => setEid(e.target.value)}
-                            
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
