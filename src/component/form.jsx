@@ -88,7 +88,7 @@ function Form() {
                                   <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
                                   {/* <h2 className="Logo_w">GarnishEdge</h2> */}
                         <h2 className=" text-center dark:text-white text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                          Sign in to your account
+                          Sign in to your account this is ritik
                         </h2>
                                 <form onSubmit={handleSubmit} className="lg:mr-4 mt-10 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50">
                                   <div>
