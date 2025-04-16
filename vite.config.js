@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api/user': {
-        target: 'https://garnishment-backend.onrender.com', // Replace with your API
+        target: 'https://garnishment-backend-6lzi.onrender.com', // Replace with your API
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/user/, ''), // Optional: remove "/api" prefix
