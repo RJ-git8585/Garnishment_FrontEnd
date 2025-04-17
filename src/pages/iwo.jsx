@@ -1,83 +1,71 @@
 import { useState } from 'react';
-import { TextField, Button, Box, Grid, Typography, CircularProgress } from '@mui/material';
-import Headertop from '../component/Headertop';
-import Sidebar from '../component/sidebar';
-import PdfUploader from './PdfUploader'; // Import the new component
+import { Button, Box, Typography, CircularProgress } from '@mui/material';
+import axios from 'axios';
+import { BASE_URL } from "../Config"; // Replace with your actual base URL
 
 function Iwo() {
-  const [empID, setEmpID] = useState('');
   const [upload, setUploadFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState(''); // State to store the response message
 
-  const handleFileSelect = (file) => {
-    setUploadFile(file);
+  const handleFileSelect = (event) => {
+    setUploadFile(event.target.files[0]);
   };
 
-  const handleReset = () => {
-    setEmpID('');
-    setUploadFile(null);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Form submitted:', { empID, upload });
+  const handleUpload = async () => {
+    if (!upload) {
+      alert('Please select a file to upload.');
+      return;
+    }
 
     setLoading(true);
-    setTimeout(() => {
+    setResponseMessage(''); // Clear previous response message
+
+    const formData = new FormData();
+    formData.append('file', upload);
+
+    try {
+      const response = await axios.post(`${BASE_URL}/User/UploadIWOPdfFiles/`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Upload successful:', response.data.data.name);
+      setResponseMessage(`Success: uploaded ${response.data.data.name || 'File uploaded successfully!'}`);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      setResponseMessage(`Error: ${error.response?.data?.message || 'Failed to upload file. Please try again.'}`);
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   return (
-    <>
-          <Box sx={{ p: 4 }}>
-            <Typography variant="h5" gutterBottom>
-              IWO Upload Form
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <PdfUploader onFileSelect={handleFileSelect} /> {/* Reusable component */}
-                </Grid>
-
-                <Grid item xs={12}>
-                  <TextField
-                    id="employer_id"
-                    name="employer_id"
-                    value={empID}
-                    type="hidden"
-                    variant="outlined"
-                    fullWidth
-                    sx={{ display: 'none' }}
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Box display="flex" justifyContent="center" gap={2}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      disabled={loading || !upload}
-                      sx={{ width: '150px' }}
-                    >
-                      {loading ? <CircularProgress size={24} color="inherit" /> : 'Upload'}
-                    </Button>
-                    <Button
-                      type="reset"
-                      variant="outlined"
-                      color="secondary"
-                      onClick={handleReset}
-                      sx={{ width: '150px' }}
-                    >
-                      Reset
-                    </Button>
-                  </Box>
-                </Grid>
-              </Grid>
-            </form>
-          </Box>
-      </>
+    <Box sx={{ p: 4 }}>
+      <Typography variant="h5" gutterBottom>
+        Upload PDF File
+      </Typography>
+      <input
+        type="file"
+        accept="application/pdf"
+        onChange={handleFileSelect}
+        style={{ marginBottom: '16px' }}
+      />
+      <Button
+        onClick={handleUpload}
+        variant="contained"
+        color="primary"
+        disabled={loading || !upload}
+        sx={{ width: '150px' }}
+      >
+        {loading ? <CircularProgress size={24} color="inherit" /> : 'Upload'}
+      </Button>
+      {responseMessage && (
+        <Typography variant="body1" color={responseMessage.startsWith('Error') ? 'error' : 'primary'} sx={{ mt: 2 }}>
+          {responseMessage}
+        </Typography>
+      )}
+    </Box>
   );
 }
 
