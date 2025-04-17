@@ -448,8 +448,7 @@ button.sidebar-link {
 /* media start here from */
 @media only screen and (max-width: 1024px) {
 
- 
- 
+
   .sidebar-link svg {
      margin-right: 0px;
   }

@@ -12,11 +12,6 @@ function Login() {
   
   return (
   <Form/>
-
-
-
-
-
 )
 }
 
