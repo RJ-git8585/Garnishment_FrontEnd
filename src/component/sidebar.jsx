@@ -58,7 +58,7 @@ const Sidebar = () => {
       icon: <GiTakeMyMoney />,
       path: '/GarnishFee',
     },
-    // { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
+    { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
     { text: 'Calculator', icon: <CiCalculator2 />, path: '/garnishment' },
     {
       text: 'Processing',
