@@ -1,3 +1,37 @@
+/**
+ * Employee Component
+ * 
+ * This component is responsible for displaying a paginated, server-side rendered table of employees.
+ * It fetches employee data from the backend, supports exporting and importing employee data, 
+ * and provides actions like deleting an employee or navigating to the employee edit page.
+ * 
+ * Key Features:
+ * - Fetches employee data with pagination and displays it in a DataGrid.
+ * - Allows exporting employee data as a file.
+ * - Provides a link to import employee data.
+ * - Displays various employee attributes such as ID, SSN, age, gender, marital status, etc.
+ * - Includes action buttons for deleting employees and editing employee details.
+ * - Implements animations for smooth content transitions during loading.
+ * 
+ * Props:
+ * - onDeleteSuccess (function): Callback function triggered after a successful delete operation.
+ * 
+ * Dependencies:
+ * - React hooks: useState, useEffect, useCallback
+ * - Material-UI components: DataGrid, Box, CircularProgress
+ * - React Spring for animations
+ * - React Router for navigation
+ * - Custom components: Headertop, Sidebar, DeleteItemComponent
+ * - Icons: CgImport, TiExport
+ * 
+ * API Endpoints:
+ * - Fetch employee rules: `${BASE_URL}/User/EmployeeRules/`
+ * - Export employees: `API_URLS.EXPORT_EMPLOYEES`
+ * 
+ * Usage:
+ * Import and use this component in a parent component or route to display the employee management interface.
+ */
+
 import { useState, useEffect, useCallback } from "react";
 import Headertop from "../component/Headertop";
 import Sidebar from "../component/sidebar";
@@ -136,7 +170,7 @@ function Employee({ onDeleteSuccess }) {
           </div>
 
           {/* Table Section */}
-          <h4 className="text-lg font-semibold text-black mb-4">Employees</h4>
+          <h4 className=" mb-4">Employees</h4>
           <Box sx={{ flexGrow: 1, width: "100%", overflow: "auto" }}>
             {loading ? (
               <div className="flex justify-center items-center h-40">

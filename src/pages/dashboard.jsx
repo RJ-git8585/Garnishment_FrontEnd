@@ -92,7 +92,7 @@ function Dashboard() {
           <div className="grid grid-flow-row-dense grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mt-2">
             {['Activity', 'Logs'].map((title, idx) => (
               <div key={idx} className="border-single pb-2 rounded-xl mb-4 border-2">
-                <h5 className="mt-0 py-2 px-2 text-lg bg-cyan-100 font-semibold">{title}</h5>
+                <h5 className="mt-0 py-2 px-2 text-lg bg-transparent-100 font-semibold">{title}</h5>
                 {loading ? (
                   <div className="text-center">
                     <img className="mx-auto h-10 logo-inner w-auto custom_logo_side" src={load} alt="Loading..." />

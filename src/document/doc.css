@@ -233,7 +233,7 @@ li.mb-2.active_cls {
     color: #fff !important;
 }
 .doc_content a{
-    color: #33c6d6;
+    color: #0066ffd6;
 }
 
 .doc_content h1 {
@@ -324,7 +324,7 @@ button.show_btn{
     background:transparent !important;
 }
 .content a {
-    color: #4b6387;
+    color: #0066ff;
     text-decoration: none;
     font-weight: bold;
 }

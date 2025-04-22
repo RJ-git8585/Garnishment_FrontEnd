@@ -6,7 +6,6 @@ import { FaTools } from 'react-icons/fa';
 import { BASE_URL } from '../Config';
 
 function Setting() {
-  const [isChecked, setIsChecked] = useState(false);
   const [isActiveChecked, setIsActiveChecked] = useState(false);
   const navigate = useNavigate(); // Use navigate for routing
 
@@ -17,7 +16,6 @@ function Setting() {
       try {
         const response = await fetch(`${BASE_URL}/User/setting/${id}/`);
         const data = await response.json();
-        setIsChecked(data.data.mode === 'true');
         setIsActiveChecked(data.data.visibility === 'true');
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -25,30 +23,6 @@ function Setting() {
     };
 
     fetchData();
-
-    // Check localStorage for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsChecked(savedTheme === 'dark');
-    }
-  }, []);
-
-  const handleCheckboxChange = useCallback((event) => {
-    const newChecked = event.target.checked;
-    setIsChecked(newChecked);
-
-    // Save the theme preference to localStorage
-    if (newChecked) {
-      document.body.classList.add('dark-mode');
-      document.body.classList.remove('light-mode');
-      localStorage.setItem('theme', 'dark');
-      sessionStorage.setItem('theme', 'dark');
-    } else {
-      document.body.classList.add('light-mode');
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('theme', 'light');
-      sessionStorage.setItem('theme', 'light');
-    }
   }, []);
 
   const handleActivecheckboxChange = useCallback((event) => {
@@ -68,19 +42,6 @@ function Setting() {
         Settings
       </h1>
       <form className="grid grid-cols-2 gap-4 rounded-md space-y-6 p-6" action="#" method="POST">
-        {/* Dark Mode Toggle */}
-        <label className="inline-flex items-center mb-5 cursor-pointer">
-          <input
-            type="checkbox"
-            id="myCheck"
-            className="sr-only peer"
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-          />
-          <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-          <span className="ms-3 text-sm font-medium dark:text-gray-600">Dark Mode</span>
-        </label>
-
         {/* Active Profile Toggle */}
         <label className="inline-flex items-center mb-5 cursor-pointer">
           <input
@@ -95,12 +56,6 @@ function Setting() {
         </label>
 
         {/* Conditional Text */}
-        {isChecked && (
-          <p id="text" style={{ color: isChecked ? 'white' : 'black', backgroundColor: isChecked ? 'black' : 'transparent' }}>
-            Dark mode is activated. This is the text shown when the checkbox is checked.
-          </p>
-        )}
-
         {isActiveChecked && (
           <p id="text">Active Profile checkbox is clicked for new setting to be saved.</p>
         )}
