@@ -6,10 +6,14 @@ import { Link, BrowserRouter } from "react-router-dom";
 import { formatGarnishmentData } from "../utils/dataFormatter";
 import Navbar from './../Navbar';
 import Swal from "sweetalert2";
+
+import { BsFiletypeCsv, BsFiletypeXml } from "react-icons/bs";
 import withReactContent from "sweetalert2-react-content";
 import Rules from "../pages/Rules"; // Import the Rule component
 import { createRoot } from 'react-dom/client'; // import createRoot from React 18
 import MySwal from 'sweetalert2';
+import { saveAs } from "file-saver"; // Ensure this import is correct
+import * as XLSX from "xlsx"; // Import XLSX for Excel export
 import "./TableRenderer.css";
 let swalRoot = null; // Store the root instance globally
 
@@ -47,6 +51,46 @@ const handleRuleClick = (workState) => {
   });
 };
 
+const exportTableData = (data) => {
+  if (!data || data.length === 0) {
+    alert("No data available to export.");
+    return;
+  }
+
+  const headers = Object.keys(data[0]).join(","); // Extract headers from the first row
+  const rows = data.map((row) =>
+    Object.values(row)
+      .map((value) => `"${value}"`) // Wrap values in quotes to handle commas
+      .join(",")
+  );
+  const csvContent = [headers, ...rows].join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  saveAs(blob, "table_data.csv");
+};
+
+const exportTableDataAsExcel = (data) => {
+  if (!data || data.length === 0) {
+    alert("No data available to export.");
+    return;
+  }
+
+  // Dynamically include all `er_deduction` values in the exported data
+  const enrichedData = data.map((row) => {
+    const erDeductions = row.er_deduction || {};
+    return {
+      ...row,
+      ...erDeductions, // Spread all `er_deduction` values into the row
+    };
+  });
+
+  const worksheet = XLSX.utils.json_to_sheet(enrichedData); // Convert JSON data to worksheet
+  const workbook = XLSX.utils.book_new(); // Create a new workbook
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Table Data"); // Append the worksheet to the workbook
+  const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" }); // Write workbook to buffer
+  const blob = new Blob([excelBuffer], { type: "application/octet-stream" });
+  saveAs(blob, "Garnishment_data.xlsx");
+};
+
 export const renderTable = (data) => {
   const allCases = Array.isArray(data) ? data : formatGarnishmentData(data);
 
@@ -74,7 +118,8 @@ export const renderTable = (data) => {
       const withholdingData = agency.withholding_amt?.[i % (agency.withholding_amt?.length || 1)] || {};
 
       const garnishmentAmount = withholdingData.garnishment_amount || withholdingData.child_support || "0";
-
+      console.log("Garnishment 1 Amount:", garnishmentAmount); // Debugging log
+      console.log("withholdingData 1 Amount:", withholdingData);
       // Retrieve arrear_amount from agency > Arrear > arrear_amount, fallback to garnData.arrear_amount or "0"
       const arrearAmount =
         agency.Arrear?.[i % (agency.Arrear?.length || 1)]?.arrear_amount ||
@@ -89,8 +134,8 @@ export const renderTable = (data) => {
           case_id: garnData.case_id,
           garnishment_type: garnishment.type,
           arrear_amount: arrearAmount, // Updated logic for arrear_amount
-          withholding_amount: garnishmentAmount,
-          garnishment_fees: result.er_deduction?.garnishment_fees || "0",
+          withholding_amount: garnishmentAmount, // Ensure garnishmentAmount is used here
+          ...result.er_deduction, // Include all `er_deduction` values dynamically
           Work_State: result.work_state,
           no_of_exemption_including_self: result.no_of_exemption_including_self,
           pay_period: result.pay_period,
@@ -108,7 +153,7 @@ export const renderTable = (data) => {
           industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
           life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
           net_pay: result.net_pay,
-          famli_tax : result.famli_tax || "N/A",
+          famli_tax: result.famli_tax || "N/A",
           age: result.age,
           is_blind: result.is_blind,
           is_spouse_blind: result.is_spouse_blind,
@@ -129,97 +174,129 @@ export const renderTable = (data) => {
   });
 
   return (
-    <TableContainer component={Paper} style={{ marginTop: "20px", overflowX: "auto" }}>
-      <Table>
-        <TableHead>
-          <TableRow style={{ backgroundColor: "#f5f5f5" }}>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Employee ID</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Case ID</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Disposable Earning</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Work State</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No of Exemption</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Pay Period</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Filing Status</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Wages</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Commission and Bonus</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Non-Accountable Allowances</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Gross Pay</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Net Pay</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Federal Income Tax</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Social Security Tax</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medicare Tax</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>State Income Tax</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Local Tax</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Union Dues</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Wilmington Tax</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance Pretax</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Industrial Insurance</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Life Insurance</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>CaliforniaSDI</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Famli Tax</TableCell>
-            <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rules</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {allResults.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell style={{ textAlign: "center" }}>{item.ee_id}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.case_id}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.disposable_earning}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.Work_State}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.no_of_exemption_including_self}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.pay_period}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.filing_status}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.wages}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.commission_and_bonus}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.non_accountable_allowances}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.gross_pay}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.net_pay}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.federal_income_tax}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.social_security_tax}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.medicare_tax}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.state_income_tax}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.local_tax}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.union_dues}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.wilmington_tax}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.medical_insurance_pretax}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.industrial_insurance}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.life_insurance}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.CaliforniaSDI}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.medical_insurance}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>{item.famli_tax}</TableCell>
-              <TableCell style={{ textAlign: "center" }}>
-                {item.garnishment_type !== "State tax levy" ? (
-                  <button
-                    onClick={() => handleRuleClick(item.Work_State || "No Work State")}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      color: "blue",
-                      cursor: "pointer",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    {item.withholding_limit_rule || "No Rule"}
-                  </button>
-                ) : (
-                  <span>{item.withholding_limit_rule || "No Rule"}</span>
-                )}
-              </TableCell>
+    <div>
+      <button
+        onClick={() => exportTableData(allResults)}
+        style={{
+          marginBottom: "10px",
+          padding: "10px 20px",
+          backgroundColor: "#007bff",
+          color: "#fff",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+       
+        <BsFiletypeCsv />
+      </button>
+      <button
+        onClick={() => exportTableDataAsExcel(allResults)}
+        style={{
+          marginBottom: "10px",
+          marginLeft: "10px",
+          padding: "10px 20px",
+          backgroundColor: "#28a745",
+          color: "#fff",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        <BsFiletypeXml />
+      </button>
+      <TableContainer component={Paper} style={{ marginTop: "20px", overflowX: "auto" }}>
+        <Table>
+          <TableHead>
+            <TableRow style={{ backgroundColor: "#f5f5f5" }}>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Employee ID</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Case ID</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Disposable Earning</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Work State</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No of Exemption</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Pay Period</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Filing Status</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Wages</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Commission and Bonus</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Non-Accountable Allowances</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Gross Pay</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Net Pay</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Federal Income Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Social Security Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medicare Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>State Income Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Local Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Union Dues</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Wilmington Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance Pretax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Industrial Insurance</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Life Insurance</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>CaliforniaSDI</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Famli Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rules</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {allResults.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell style={{ textAlign: "center" }}>{item.ee_id}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.case_id}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.disposable_earning}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.Work_State}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.no_of_exemption_including_self}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.pay_period}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.filing_status}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.wages}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.commission_and_bonus}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.non_accountable_allowances}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.gross_pay}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.net_pay}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.federal_income_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.social_security_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.medicare_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.state_income_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.local_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.union_dues}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.wilmington_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.medical_insurance_pretax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.industrial_insurance}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.life_insurance}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.CaliforniaSDI}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.medical_insurance}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.famli_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>
+                  {item.garnishment_type !== "State tax levy" ? (
+                    <button
+                      onClick={() => handleRuleClick(item.Work_State || "No Work State")}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "blue",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      {item.withholding_limit_rule || "No Rule"}
+                    </button>
+                  ) : (
+                    <span>{item.withholding_limit_rule || "No Rule"}</span>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 };
 
