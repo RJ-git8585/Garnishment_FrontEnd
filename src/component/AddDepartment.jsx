@@ -6,6 +6,9 @@ import Headertop from "../component/Headertop";
 import Sidebar from "./sidebar";
 import { BASE_URL } from "../Config";
 
+
+
+
 function AddDepartment() {
   const navigate = useNavigate();
   const [department_name, setDepart] = useState("");
