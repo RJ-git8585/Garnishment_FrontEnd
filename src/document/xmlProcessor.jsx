@@ -180,9 +180,9 @@ const XmlProcessor = () => {
                       <button className="toggleButton" onClick={toggleFullscreen}>
                         {isFullscreen ? <FaCompress /> : <FaExpand />}
                       </button>
-                      <button className="toggleButton" onClick={() => exportToExcel(response)}>
+                      {/* <button className="toggleButton" onClick={() => exportToExcel(response)}>
                         <BsFiletypeXml />
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                   <div className="responseContainer">
