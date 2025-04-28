@@ -26,11 +26,19 @@ th, td {
 }
 
 th {
-  background-color: #f4f4f4;
+  background-color: #4a4a4a; /* Set header background color to gray */
+  color: #fff; /* Set header text color to white */
   font-weight: bold;
+  font-size: 12px; /* Make header text smaller */
+  text-align: center; /* Center-align header text */
+  padding: 4px; /* Reduce spacing in header cells */
   position: sticky; /* Make headers sticky */
   top: 0; /* Stick to the top of the table */
-  z-index: 1; /* Ensure headers are above other content */
+  z-index: 10; /* Ensure headers are above other content */
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for better visibility */
+  white-space: nowrap; /* Ensure text is displayed in a single line */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
 }
 
 tr:nth-child(even) {
@@ -41,12 +49,15 @@ tr:hover {
   background-color: #f1f1f1;
 }
 
-th:first-child, td:first-child {
-  width: 10%; /* Increase the width of the "Sr" column */
-  text-align: center;
+.table-container {
+  max-height: 500px; /* Set a maximum height for the table container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
+  border: 1px solid #ddd; /* Add a border around the table container */
 }
-
-th:nth-child(2), td:nth-child(2),
-th:nth-child(3), td:nth-child(3) {
-  width: 45%; /* Make "Parameter" and "Value" columns the same width */
+.css-1jxw05q-MuiTableCell-root{
+  background-color: gray !important; /* Set background color to gray */
+}
+.css-1orzuox-MuiTableCell-root{
+  color:white !important;
 }

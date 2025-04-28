@@ -116,7 +116,8 @@ export const renderTable = (data) => {
 
     const maxLength = Math.max(
       garnishmentData.reduce((sum, garnishment) => sum + (garnishment.data?.length || 0), 0),
-      agencyData.reduce((sum, agency) => sum + (agency.withholding_amt?.length || 0), 0)
+      agencyData.reduce((sum, agency) => sum + (agency.withholding_amt?.length || 0), 0),
+      agencyData.reduce((sum, agency) => sum + (agency.arrear?.length || 0), 0) // Ensure arrear length is considered
     );
 
     for (let i = 0; i < maxLength; i++) {
@@ -125,8 +126,10 @@ export const renderTable = (data) => {
 
       const agency = agencyData[Math.floor(i / (agencyData[0]?.withholding_amt?.length || 1))] || {};
       const withholdingData = agency.withholding_amt?.[i % (agency.withholding_amt?.length || 1)] || {};
+      const arrearData = agency.arrear?.[i % (agency.arrear?.length || 1)] || {};
 
-      const garnishmentAmount = withholdingData.garnishment_amount || withholdingData.child_support || "0";
+      const garnishmentAmount = withholdingData.child_support || "0"; // Fetch child_support
+      const withholdingArrear = arrearData.withholding_arrear || "0"; // Fetch withholding_arrear
 
       // Retrieve arrear_amount and ordered_amount from the response
       const arrearAmount =
@@ -151,7 +154,8 @@ export const renderTable = (data) => {
           garnishment_type: garnishment.type,
           arrear_amount: arrearAmount,
           ordered_amount: orderedAmount, // Correctly fetch and display ordered_amount
-          withholding_amount: garnishmentAmount,
+          withholding_amount: garnishmentAmount, // Display withholding amount
+          withholding_arrear: withholdingArrear, // Display withholding arrear
           allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction or result
           ...result.er_deduction,
           Work_State: result.work_state,
@@ -224,48 +228,49 @@ export const renderTable = (data) => {
       >
         <BsFiletypeXml />
       </button>
-      <TableContainer component={Paper} style={{ marginTop: "20px", overflowX: "auto" }}>
-        <Table>
+      <TableContainer component={Paper} style={{ marginTop: "20px", maxHeight: "500px", overflowX: "auto" }} stickyHeader>
+        <Table stickyHeader>
           <TableHead>
-            <TableRow style={{ backgroundColor: "#f5f5f5" }}>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Employee ID</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Case ID</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Work State</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Pay Period</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Ordered Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Filing Status</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No of Exemption</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Wages</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Commission and Bonus</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Non Accountable Allowances</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Gross Pay</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Federal Income Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>State Income Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Social Security Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medicare Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Local Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Union Dues</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Wilmington Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance Pretax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Industrial Insurance</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Life Insurance</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>CaliforniaSDI</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Famli Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Age</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Is Blind</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Is Spouse Blind</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Spouse Age</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Support Second Family</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrears Greater Than 12 Weeks</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No. of Student Default Loan</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Disposable Earnings</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Allowable Disposable Earnings</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rule Key</TableCell>
+            <TableRow style={{ backgroundColor: "#4a4a4a" }}> {/* Set background color to gray */}
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Employee ID</TableCell> {/* White text */}
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Case ID</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Garnishment Type</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Work State</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Pay Period</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Ordered Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Arrear Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Filing Status</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>No of Exemption</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Wages</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Commission and Bonus</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Non Accountable Allowances</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Gross Pay</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Federal Income Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>State Income Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Social Security Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Medicare Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Local Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Union Dues</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Wilmington Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Medical Insurance Pretax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Industrial Insurance</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Life Insurance</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>CaliforniaSDI</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Famli Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Medical Insurance</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Age</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Is Blind</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Is Spouse Blind</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Spouse Age</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Support Second Family</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Arrears Greater Than 12 Weeks</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>No. of Student Default Loan</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Disposable Earnings</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Allowable Disposable Earnings</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Withholding Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Withholding Arrear</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Garnishment Fees</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Rule Key</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -307,6 +312,7 @@ export const renderTable = (data) => {
                 <TableCell style={{ textAlign: "center" }}>{item.disposable_earning}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.allowable_disposable_earning}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.withholding_arrear}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   {item.garnishment_type !== "State tax levy" ? (
