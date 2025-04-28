@@ -230,7 +230,7 @@ export const renderTable = (data) => {
       </button>
       <TableContainer component={Paper} style={{ marginTop: "20px", maxHeight: "500px", overflowX: "auto" }} stickyHeader>
         <Table stickyHeader>
-          <TableHead>
+          <TableHead className="headcss">
             <TableRow style={{ backgroundColor: "#4a4a4a" }}> {/* Set background color to gray */}
               <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Employee ID</TableCell> {/* White text */}
               <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Case ID</TableCell>
