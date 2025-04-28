@@ -61,3 +61,6 @@ tr:hover {
 .css-1orzuox-MuiTableCell-root{
   color:white !important;
 }
+.MuiTableHead-root{
+  background-color: #000 !important;
+}
