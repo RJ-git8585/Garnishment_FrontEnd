@@ -64,12 +64,7 @@ function EmpImport() {
 
   return (
     <div className="min-h-full">
-      <div className="container main ml-auto">
-        <div className="sidebar hidden lg:block">
-          <Sidebar />
-        </div>
-        <div className="content ml-auto">
-          <Headertop />
+      
           <Box sx={{ p: 4 }}>
             <Typography variant="h5" gutterBottom>
                Employee Upload Form
@@ -142,8 +137,7 @@ function EmpImport() {
             </form>
           </Box>
         </div>
-      </div>
-    </div>
+    
   );
 }
 
