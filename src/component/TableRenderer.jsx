@@ -17,11 +17,17 @@ import * as XLSX from "xlsx"; // Import XLSX for Excel export
 import "./TableRenderer.css";
 let swalRoot = null; // Store the root instance globally
 
-const handleRuleClick = (workState) => {
-  console.log("Work State passed to Rules component:", workState); // Debugging log
+const handleRuleClick = (workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount) => {
+  console.log("Work State:", workState);
+  console.log("Employee ID:", employeeId);
+  console.log("Supports Second Family:", supportsSecondFamily);
+  console.log("Arrears More Than 12 Weeks:", arrearsMoreThan12Weeks);
+  console.log("Disposable Earnings:", disposableEarnings);
+  console.log("Data Count:", dataCount);
+
   MySwal.fire({
-    title: "Rule Details",
-    html: "<div id='swal-rule-container'></div>", // Container to hold the React component
+    // title: "Rule Details",
+    html: "<div id='swal-rule-container'></div>",
     showCloseButton: true,
     showConfirmButton: false,
     customClass: {
@@ -30,22 +36,25 @@ const handleRuleClick = (workState) => {
     didOpen: () => {
       const container = document.getElementById('swal-rule-container');
       if (!swalRoot) {
-        swalRoot = createRoot(container); // Create the React root only once
+        swalRoot = createRoot(container);
       }
       swalRoot.render(
         <BrowserRouter>
-          {workState ? (
-            <Rules workState={workState} />
-          ) : (
-            <div style={{ color: "red" }}>No work state data available</div> // Fallback UI
-          )}
+          <Rules
+            workState={workState}
+            employeeId={employeeId}
+            supportsSecondFamily={supportsSecondFamily}
+            arrearsMoreThan12Weeks={arrearsMoreThan12Weeks}
+            disposableEarnings={disposableEarnings}
+            dataCount={dataCount}
+          />
         </BrowserRouter>
       );
     },
     willClose: () => {
       if (swalRoot) {
-        swalRoot.unmount(); // Clean up the component
-        swalRoot = null; // Reset the root instance
+        swalRoot.unmount();
+        swalRoot = null;
       }
     }
   });
@@ -168,6 +177,7 @@ export const renderTable = (data) => {
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
           disposable_earning: result.disposable_earning || "N/A",
           CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
+          data_count: garnishment.data ? garnishment.data.length : 0, // Count dictionaries in `data`
         });
       }
     }
@@ -212,23 +222,20 @@ export const renderTable = (data) => {
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Employee ID</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Case ID</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Type</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Disposable Earning</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Work State</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No of Exemption</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Pay Period</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Ordered Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrear Amount</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Filing Status</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No of Exemption</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Wages</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Commission and Bonus</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Non-Accountable Allowances</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Non Accountable Allowances</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Gross Pay</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Net Pay</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Federal Income Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>State Income Tax</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Social Security Tax</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medicare Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>State Income Tax</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Local Tax</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Union Dues</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Wilmington Tax</TableCell>
@@ -236,8 +243,19 @@ export const renderTable = (data) => {
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Industrial Insurance</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Life Insurance</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>CaliforniaSDI</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Famli Tax</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Age</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Is Blind</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Is Spouse Blind</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Spouse Age</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Support Second Family</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Arrears Greater Than 12 Weeks</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>No. of Student Default Loan</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Disposable Earnings</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Allowable Disposable Earnings</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Withholding Amount</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Garnishment Fees</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rule Key</TableCell>
             </TableRow>
           </TableHead>
@@ -247,23 +265,20 @@ export const renderTable = (data) => {
                 <TableCell style={{ textAlign: "center" }}>{item.ee_id}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.case_id}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.disposable_earning}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.Work_State}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.no_of_exemption_including_self}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.pay_period}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.ordered_amount}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.filing_status}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.no_of_exemption_including_self}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.wages}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.commission_and_bonus}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.non_accountable_allowances}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.gross_pay}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.net_pay}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.federal_income_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.state_income_tax}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.social_security_tax}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.medicare_tax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.state_income_tax}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.local_tax}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.union_dues}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.wilmington_tax}</TableCell>
@@ -271,12 +286,32 @@ export const renderTable = (data) => {
                 <TableCell style={{ textAlign: "center" }}>{item.industrial_insurance}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.life_insurance}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.CaliforniaSDI}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.medical_insurance}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.famli_tax}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.medical_insurance}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.age}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.is_blind}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.is_spouse_blind}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.spouse_age}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.support_second_family}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.arrears_greater_than_12_weeks}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.no_of_student_default_loan}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.disposable_earning}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.allowable_disposable_earning}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
+                <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>
                   {item.garnishment_type !== "State tax levy" ? (
                     <button
-                      onClick={() => handleRuleClick(item.Work_State || "No Work State")}
+                      onClick={() =>
+                        handleRuleClick(
+                          item.Work_State || "No Work State",
+                          item.ee_id,
+                          item.support_second_family || "No",
+                          item.arrears_greater_than_12_weeks || "No",
+                          item.disposable_earning || "0",
+                          item.data_count
+                        )
+                      }
                       style={{
                         background: "none",
                         border: "none",

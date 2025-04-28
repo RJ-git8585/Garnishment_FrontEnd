@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, Typography, CircularProgress, Grid } from "@mui/material";
+import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid } from "@mui/material";
 import { API_URLS } from '../constants/apis';
 
-const Rules = ({ workState }) => {
-  const state = workState || "No state provided";
-
+const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount }) => {
   const [data, setData] = useState(null);
-  const [mandatoryDeductions, setMandatoryDeductions] = useState(null); // State for second API data
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -15,21 +12,14 @@ const Rules = ({ workState }) => {
       setLoading(true);
       setError("");
       try {
-        // Fetch data from the first API
-        const response1 = await fetch(`${API_URLS.RULESDATA}/${state}`);
-        if (!response1.ok) {
-          throw new Error(`Failed to fetch data: ${response1.statusText}`);
+        const response = await fetch(
+          `${API_URLS.RULESDATA3}/${workState}/${employeeId}/${supportsSecondFamily}/${arrearsMoreThan12Weeks}/${disposableEarnings}/${dataCount}/`
+        );
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
-        const result1 = await response1.json();
-        setData(result1.data);
-
-        // Fetch data from the second API
-        const response2 = await fetch(`${API_URLS.RULESDATA2}/${state}`);
-        if (!response2.ok) {
-          throw new Error(`Failed to fetch mandatory deductions: ${response2.statusText}`);
-        }
-        const result2 = await response2.json();
-        setMandatoryDeductions(result2.mandatory_deductions); // Access the "data" key from the second API response
+        const result = await response.json();
+        setData(result.data);
       } catch (err) {
         setError(err.message || "An error occurred while fetching data.");
       } finally {
@@ -37,10 +27,16 @@ const Rules = ({ workState }) => {
       }
     };
 
-    if (state !== "No state provided") {
-      fetchData();
-    }
-  }, [state]);
+    fetchData();
+  }, [workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount]);
+
+  const formatText = (text) => {
+    return text
+      .replace(/_/g, " ") // Replace underscores with spaces
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()) // Capitalize each word
+      .join(" ");
+  };
 
   if (loading) {
     return <CircularProgress />;
@@ -50,72 +46,79 @@ const Rules = ({ workState }) => {
     return <p style={{ color: "red" }}>{error}</p>;
   }
 
+  if (!data) {
+    return <p>No data available for the selected parameters.</p>;
+  }
+
   return (
     <div style={{ padding: "20px" }}>
-      <Typography variant="h4" gutterBottom>
-        Withholding Limit Rule Details for {state}
+      <Typography variant="h5" style={{ fontWeight: "bold", marginBottom: "20px" }}>
+        Child Support Computation Rules
       </Typography>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: "20px" }}>
-        {data ? (
-          <Card style={{ flex: 1, padding: "20px" }}>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Rule Details:
-              </Typography>
-              <Grid container spacing={2}>
-                {Object.entries(data).map(([key, value], index) => (
-                  <Grid container item xs={12} key={key}>
-                    <Grid item xs={4}>
-                      <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-                        {key}:
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Typography variant="body2">{value}</Typography>
-                    </Grid>
-                  </Grid>
-                ))}
-                {data.WithholdingLimit && (
-                  <Grid container item xs={12}>
-                    
-                  </Grid>
-                )}
-              </Grid>
-            </CardContent>
-          </Card>
-        ) : (
-          <Typography>No data available for the selected state.</Typography>
-        )}
-
-        {mandatoryDeductions ? (
-          <Card style={{ flex: 1, padding: "20px" }}>
-            <CardContent>
-              <Typography variant="h6" style={{ fontSize: 12, margin: "20px auto" }} gutterBottom>
-                Disposable income = (Wages + Commission & Bonus + Non Accountable Allowances) - Mandatory Deductions:
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                Mandatory Deductions:
-              </Typography>
-              <Grid container spacing={2}>
-                {Object.entries(mandatoryDeductions).map(([key, value], index) => (
-                  <Grid container item xs={12} key={key}>
-                    <Grid item xs={4}>
-                      <Typography variant="subtitle1" style={{ fontWeight: "bold" }}>
-                        {index + 1}:
-                      </Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Typography variant="body2">{value}</Typography>
-                    </Grid>
-                  </Grid>
-                ))}
-              </Grid>
-            </CardContent>
-          </Card>
-        ) : (
-          <Typography>No mandatory deductions data available for Florida.</Typography>
-        )}
-      </div>
+      <TableContainer component={Paper} style={{ marginTop: "20px" }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell style={{ fontWeight: "bold" }}></TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>A</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>B</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Sr</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Parameter</TableCell>
+              <TableCell style={{ fontWeight: "bold" }}>Value</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>1</TableCell>
+              <TableCell>State</TableCell>
+              <TableCell>{data.State}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>2</TableCell>
+              <TableCell>Allocation Method</TableCell>
+              <TableCell>{data.AllocationMethod}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>3</TableCell>
+              <TableCell>Withholding Limit</TableCell>
+              <TableCell>{data.WithholdingLimit}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>4</TableCell>
+              <TableCell>Rule</TableCell>
+              <TableCell>{data.Rule}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>5</TableCell>
+              <TableCell>Applied Withholding Limit</TableCell>
+              <TableCell>{data.applied_withholding_limit}%</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>6</TableCell>
+              <TableCell>Disposable Earning</TableCell>
+              <TableCell>
+                (Wages + Commissions + Bonuses + Non-Accountable Allowances) - Mandatory Deductions
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>7</TableCell>
+              <TableCell>Mandatory Deductions</TableCell>
+              <TableCell>
+                {Object.values(data.mandatory_deductions)
+                  .map((value) => formatText(value))
+                  .join(", ")}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>8</TableCell>
+              <TableCell>Allowable Disposable Earning</TableCell>
+              <TableCell>Applied Withholding Limit x Disposable Earning</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

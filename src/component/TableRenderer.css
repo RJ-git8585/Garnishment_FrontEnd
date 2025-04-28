@@ -1,14 +1,49 @@
-.swal-wide {
-  width: 100% !important;
-  width: 1080px !important;
+.swal2-popup.swal2-modal.swal2-show {
+  width: 60%; /* Set popup width to 60% of the screen */
+  max-width: 800px; /* Limit the maximum width */
+  position: fixed; /* Ensure the popup stays fixed on the screen */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+  padding: 10px; /* Reduce padding for better visibility */
+  border-radius: 6px; /* Slightly reduce rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  background-color: #fff; /* Ensure a white background */
+  animation: none; /* Disable any animations that cause the popup to move */
+  max-height: none; /* Remove height restriction */
+  overflow: visible; /* Remove scrolling */
 }
-.swal2-popup.swal2-modal.swal-wide.swal2-show {
-  width: 1080px;
+
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
-#swal-rule-container {
-  grid-column: 2;
-  grid-row: 2;
-  place-self: center center;
-  WIDTH: 1080PX;
-  
+
+th, td {
+  text-align: left;
+  padding: 6px; /* Reduce padding for table cells */
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+th:first-child, td:first-child {
+  width: 10%; /* Increase the width of the "Sr" column */
+  text-align: center;
+}
+
+th:nth-child(2), td:nth-child(2),
+th:nth-child(3), td:nth-child(3) {
+  width: 45%; /* Make "Parameter" and "Value" columns the same width */
 }
