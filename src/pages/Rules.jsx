@@ -59,11 +59,6 @@ const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12W
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell style={{ fontWeight: "bold" }}></TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>A</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>B</TableCell>
-            </TableRow>
-            <TableRow>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Sr</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Parameter</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Value</TableCell>
@@ -73,22 +68,22 @@ const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12W
             <TableRow>
               <TableCell>1</TableCell>
               <TableCell>State</TableCell>
-              <TableCell>{data.State}</TableCell>
+              <TableCell>{data.state}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>2</TableCell>
               <TableCell>Allocation Method</TableCell>
-              <TableCell>{data.AllocationMethod}</TableCell>
+              <TableCell>{data.allocation_method}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>3</TableCell>
               <TableCell>Withholding Limit</TableCell>
-              <TableCell>{data.WithholdingLimit}</TableCell>
+              <TableCell>{data.withholding_limit}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>4</TableCell>
               <TableCell>Rule</TableCell>
-              <TableCell>{data.Rule}</TableCell>
+              <TableCell>{data.rule}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>5</TableCell>
@@ -114,7 +109,7 @@ const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12W
             <TableRow>
               <TableCell>8</TableCell>
               <TableCell>Allowable Disposable Earning</TableCell>
-              <TableCell>Applied Withholding Limit x Disposable Earning</TableCell>
+              <TableCell>Applied Withholding Limit * Disposable Earning</TableCell>
             </TableRow>
           </TableBody>
         </Table>

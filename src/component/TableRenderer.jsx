@@ -127,13 +127,20 @@ export const renderTable = (data) => {
       const withholdingData = agency.withholding_amt?.[i % (agency.withholding_amt?.length || 1)] || {};
 
       const garnishmentAmount = withholdingData.garnishment_amount || withholdingData.child_support || "0";
-      console.log("Garnishment 1 Amount:", garnishmentAmount); // Debugging log
-      console.log("withholdingData 1 Amount:", withholdingData);
-      // Retrieve arrear_amount from agency > Arrear > arrear_amount, fallback to garnData.arrear_amount or "0"
+
+      // Retrieve arrear_amount and ordered_amount from the response
       const arrearAmount =
         agency.Arrear?.[i % (agency.Arrear?.length || 1)]?.arrear_amount ||
         garnData.arrear_amount ||
         "0";
+
+      const orderedAmount =
+        garnishment.ordered_amount !== undefined
+          ? garnishment.ordered_amount
+          : garnData.ordered_amount || "0";
+
+      // Fetch allowable_disposable_earning from er_deduction
+      const allowableDisposableEarning = result.er_deduction?.allowable_disposable_earning || "0";
 
       const uniqueKey = `${result.ee_id}-${garnData.case_id}-${arrearAmount}-${garnishmentAmount}-${i}`;
       if (!uniqueEntries.has(uniqueKey)) {
@@ -142,9 +149,13 @@ export const renderTable = (data) => {
           ee_id: result.ee_id,
           case_id: garnData.case_id,
           garnishment_type: garnishment.type,
-          arrear_amount: arrearAmount, // Updated logic for arrear_amount
-          withholding_amount: garnishmentAmount, // Ensure garnishmentAmount is used here
-          ...result.er_deduction, // Include all `er_deduction` values dynamically
+          arrear_amount: arrearAmount,
+          ordered_amount: orderedAmount, // Correctly fetch and display ordered_amount
+          withholding_amount: garnishmentAmount,
+          allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction
+          is_blind: result.is_blind ? "True" : "False", // Display true/false for is_blind
+          is_spouse_blind: result.is_spouse_blind ? "True" : "False", // Display true/false for is_spouse_blind
+          ...result.er_deduction,
           Work_State: result.work_state,
           no_of_exemption_including_self: result.no_of_exemption_including_self,
           pay_period: result.pay_period,
@@ -164,8 +175,6 @@ export const renderTable = (data) => {
           net_pay: result.net_pay,
           famli_tax: result.famli_tax || "N/A",
           age: result.age,
-          is_blind: result.is_blind,
-          is_spouse_blind: result.is_spouse_blind,
           union_dues: result.payroll_taxes?.union_dues || "0",
           wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
           medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
@@ -177,7 +186,7 @@ export const renderTable = (data) => {
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
           disposable_earning: result.disposable_earning || "N/A",
           CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
-          data_count: garnishment.data ? garnishment.data.length : 0, // Count dictionaries in `data`
+          data_count: garnishment.data ? garnishment.data.length : 0,
         });
       }
     }
