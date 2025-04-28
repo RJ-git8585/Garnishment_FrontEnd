@@ -140,7 +140,7 @@ export const renderTable = (data) => {
           : garnData.ordered_amount || "0";
 
       // Fetch allowable_disposable_earning from er_deduction
-      const allowableDisposableEarning = result.er_deduction?.allowable_disposable_earning || "0";
+      const allowableDisposableEarning = result.er_deduction?.allowable_disposable_earning || result.allowable_disposable_earning || "N/A";
 
       const uniqueKey = `${result.ee_id}-${garnData.case_id}-${arrearAmount}-${garnishmentAmount}-${i}`;
       if (!uniqueEntries.has(uniqueKey)) {
@@ -152,9 +152,7 @@ export const renderTable = (data) => {
           arrear_amount: arrearAmount,
           ordered_amount: orderedAmount, // Correctly fetch and display ordered_amount
           withholding_amount: garnishmentAmount,
-          allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction
-          is_blind: result.is_blind ? "True" : "False", // Display true/false for is_blind
-          is_spouse_blind: result.is_spouse_blind ? "True" : "False", // Display true/false for is_spouse_blind
+          allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction or result
           ...result.er_deduction,
           Work_State: result.work_state,
           no_of_exemption_including_self: result.no_of_exemption_including_self,
@@ -175,6 +173,8 @@ export const renderTable = (data) => {
           net_pay: result.net_pay,
           famli_tax: result.famli_tax || "N/A",
           age: result.age,
+          is_blind: result.is_blind ? "True" : "False", // Display true/false for is_blind
+          is_spouse_blind: result.is_spouse_blind ? "True" : "False", // Display true/false for is_spouse_blind
           union_dues: result.payroll_taxes?.union_dues || "0",
           wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
           medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",

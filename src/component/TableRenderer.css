@@ -28,6 +28,9 @@ th, td {
 th {
   background-color: #f4f4f4;
   font-weight: bold;
+  position: sticky; /* Make headers sticky */
+  top: 0; /* Stick to the top of the table */
+  z-index: 1; /* Ensure headers are above other content */
 }
 
 tr:nth-child(even) {
