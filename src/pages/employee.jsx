@@ -20,7 +20,7 @@ function Employee({ onDeleteSuccess }) {
   const [pageSize, setPageSize] = useState(10);
   const [totalRows, setTotalRows] = useState(0);
   const [employeeRules, setEmployeeRules] = useState({});
-  const exportLink = (API_URLS.EXPORT_EMPLOYEES + `?cid=${cid}`);
+  const exportLink = (API_URLS.EXPORT_EMPLOYEES);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
