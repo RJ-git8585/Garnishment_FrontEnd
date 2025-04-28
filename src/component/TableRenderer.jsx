@@ -238,7 +238,7 @@ export const renderTable = (data) => {
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>CaliforniaSDI</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Medical Insurance</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Famli Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rules</TableCell>
+              <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Rule Key</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
