@@ -178,7 +178,7 @@ export const renderTable = (data) => {
           allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction or result
           withholding_amount: garnishmentAmount, // Display withholding amount
           withholding_arrear: arrearAmount, // Display withholding arrear
-          garnishment_fees: result.garnishment_fees || "N/A",
+          ...result.er_deduction,
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
           data_count: garnishment.data ? garnishment.data.length : 0,
         });
