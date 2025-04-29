@@ -63,7 +63,7 @@ function Orders({ onDeleteSuccess }) {
                   // },
                   { field: 'fein', headerName: 'FEIN', width: 120 },
                   { field: 'case_id', headerName: 'CaseID', width: 120 },
-                  { field: 'state', headerName: 'State', width: 140 },
+                  { field: 'work_state', headerName: 'State', width: 140 },
                   { field: 'type', headerName: 'GarrnishmentType', width: 150 },
                   { field: 'sdu', headerName: 'SDU', width: 150 },
                   { field: 'start_date', headerName: 'Start Date', width: 150 },
