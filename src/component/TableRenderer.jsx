@@ -195,12 +195,13 @@ export const renderTable = (data) => {
         style={{
           marginBottom: "10px",
           padding: "10px 20px",
-          backgroundColor: "#007bff",
+          backgroundColor: "#3e484c",
           color: "#fff",
           border: "none",
           borderRadius: "5px",
           cursor: "pointer",
         }}
+        title="EXPORT CSV"
       >
        
         <BsFiletypeCsv />
@@ -211,12 +212,13 @@ export const renderTable = (data) => {
           marginBottom: "10px",
           marginLeft: "10px",
           padding: "10px 20px",
-          backgroundColor: "#28a745",
+          backgroundColor: "#3e484c",
           color: "#fff",
           border: "none",
           borderRadius: "5px",
           cursor: "pointer",
         }}
+        title="EXPORT EXCEL"
       >
         <BsFiletypeXml />
       </button>
