@@ -23,10 +23,9 @@ const handleRuleClick = (workState, employeeId, supportsSecondFamily, arrearsMor
   console.log("Supports Second Family:", supportsSecondFamily);
   console.log("Arrears More Than 12 Weeks:", arrearsMoreThan12Weeks);
   console.log("Disposable Earnings:", disposableEarnings);
-  console.log("Data Count:", dataCount);
+  console.log("Data Count:", dataCount); // Ensure dataCount is logged
 
   MySwal.fire({
-    // title: "Rule Details",
     html: "<div id='swal-rule-container'></div>",
     showCloseButton: true,
     showConfirmButton: false,
@@ -46,7 +45,7 @@ const handleRuleClick = (workState, employeeId, supportsSecondFamily, arrearsMor
             supportsSecondFamily={supportsSecondFamily}
             arrearsMoreThan12Weeks={arrearsMoreThan12Weeks}
             disposableEarnings={disposableEarnings}
-            dataCount={dataCount}
+            dataCount={dataCount} // Pass dataCount here
           />
         </BrowserRouter>
       );
@@ -66,15 +65,16 @@ const exportTableData = (data) => {
     return;
   }
 
-  const headers = Object.keys(data[0]).join(","); // Extract headers from the first row
-  const rows = data.map((row) =>
+  const filteredData = data.map(({ data_count, ...rest }) => rest); // Exclude data_count
+  const headers = Object.keys(filteredData[0]).join(","); // Extract headers from the first row
+  const rows = filteredData.map((row) =>
     Object.values(row)
       .map((value) => `"${value}"`) // Wrap values in quotes to handle commas
       .join(",")
   );
   const csvContent = [headers, ...rows].join("\n");
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  saveAs(blob, "table_data.csv");
+  saveAs(blob, "Garnisment_data.csv");
 };
 
 const exportTableDataAsExcel = (data) => {
@@ -83,16 +83,8 @@ const exportTableDataAsExcel = (data) => {
     return;
   }
 
-  // Dynamically include all `er_deduction` values in the exported data
-  const enrichedData = data.map((row) => {
-    const erDeductions = row.er_deduction || {};
-    return {
-      ...row,
-      ...erDeductions, // Spread all `er_deduction` values into the row
-    };
-  });
-
-  const worksheet = XLSX.utils.json_to_sheet(enrichedData); // Convert JSON data to worksheet
+  const filteredData = data.map(({ data_count, ...rest }) => rest); // Exclude data_count
+  const worksheet = XLSX.utils.json_to_sheet(filteredData); // Convert JSON data to worksheet
   const workbook = XLSX.utils.book_new(); // Create a new workbook
   XLSX.utils.book_append_sheet(workbook, worksheet, "Table Data"); // Append the worksheet to the workbook
   const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" }); // Write workbook to buffer
@@ -128,7 +120,7 @@ export const renderTable = (data) => {
       const withholdingData = agency.withholding_amt?.[i % (agency.withholding_amt?.length || 1)] || {};
       const arrearData = agency.arrear?.[i % (agency.arrear?.length || 1)] || {};
 
-      const garnishmentAmount = withholdingData.child_support || "0"; // Fetch child_support
+      const garnishmentAmount = withholdingData.child_support || withholdingData.garnishment_amount || "0"; // Fetch child_support
       const withholdingArrear = arrearData.withholding_arrear || "0"; // Fetch withholding_arrear
 
       // Retrieve arrear_amount and ordered_amount from the response
@@ -155,7 +147,7 @@ export const renderTable = (data) => {
           arrear_amount: arrearAmount,
           ordered_amount: orderedAmount, // Correctly fetch and display ordered_amount
           withholding_amount: garnishmentAmount, // Display withholding amount
-          withholding_arrear: withholdingArrear, // Display withholding arrear
+          withholding_arrear: arrearAmount, // Display withholding arrear
           allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction or result
           ...result.er_deduction,
           Work_State: result.work_state,

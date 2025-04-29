@@ -2,18 +2,19 @@ import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid } from "@mui/material";
 import { API_URLS } from '../constants/apis';
 
-const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount }) => {
+const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount = 0 }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    console.log("Received dataCount:", dataCount); // Debugging to ensure dataCount is passed correctly
     const fetchData = async () => {
       setLoading(true);
       setError("");
       try {
         const response = await fetch(
-          `${API_URLS.RULESDATA3}/${workState}/${employeeId}/${supportsSecondFamily}/${arrearsMoreThan12Weeks}/${disposableEarnings}/${dataCount}/`
+          `${API_URLS.RULESDATA3}/${workState}/${employeeId}/${supportsSecondFamily}/${arrearsMoreThan12Weeks}/${disposableEarnings}/${dataCount}/` // Pass dataCount in the API call
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
@@ -28,7 +29,7 @@ const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12W
     };
 
     fetchData();
-  }, [workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount]);
+  }, [workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount]); // Include dataCount in the dependency array
 
   const formatText = (text) => {
     return text
