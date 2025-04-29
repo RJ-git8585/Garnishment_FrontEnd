@@ -174,13 +174,13 @@ export const renderTable = (data) => {
           support_second_family: result.support_second_family,
           arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
           no_of_student_default_loan: result.no_of_student_default_loan,
-          net_pay: result.net_pay,
           disposable_earning: result.disposable_earning || "N/A",
           allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction or result
           withholding_amount: garnishmentAmount, // Display withholding amount
-          withholding_arrear: withholdingArrear, // Display withholding arrear
+          withholding_arrear: arrearAmount, // Display withholding arrear
           ...result.er_deduction,
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
+          arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
           data_count: garnishment.data ? garnishment.data.length : 0,
         });
       }
@@ -258,7 +258,6 @@ export const renderTable = (data) => {
               <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Support Second Family</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Arrears Greater Than 12 Weeks</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>No. of Student Default Loan</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Net Pay</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Disposable Earnings</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Allowable Disposable Earnings</TableCell>
               <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Withholding Amount</TableCell>
@@ -303,7 +302,6 @@ export const renderTable = (data) => {
                 <TableCell style={{ textAlign: "center" }}>{item.support_second_family}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.arrears_greater_than_12_weeks}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.no_of_student_default_loan}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.net_pay}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.disposable_earning}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.allowable_disposable_earning}</TableCell>
                 <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>

@@ -1,42 +1,41 @@
 import { useState, useEffect, useCallback } from "react";
-import Headertop from "../component/Headertop";
-import Sidebar from "../component/sidebar";
 import DeleteItemComponent from "../component/DeleteItemComponent";
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";
 import { BASE_URL } from "../Config";
 import { Link } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
-import Box from "@mui/material/Box";
-import { API_URLS } from "../constants/apis";
-import { useSpring, animated } from '@react-spring/web';
-import CircularProgress from '@mui/material/CircularProgress';
 
 function Employee({ onDeleteSuccess }) {
-  const cid = sessionStorage.getItem("cid");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize] = useState(10); // Fixed page size to 10
   const [totalRows, setTotalRows] = useState(0);
   const [employeeRules, setEmployeeRules] = useState({});
-  const exportLink = (API_URLS.EXPORT_EMPLOYEES);
+  const exportLink = `${BASE_URL}/User/ExportEmployees`;
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/User/EmployeeRules/?page=${page + 1}&limit=${pageSize}`);
+      const response = await fetch(`${BASE_URL}/User/EmployeeRules`);
       const jsonData = await response.json();
-      
-      setData(jsonData.data || []);
-      setTotalRows(jsonData.total || 0);
 
-      // Map ee_id to case_id
-      const caseIdMap = {};
-      jsonData.data.forEach(rule => {
-        caseIdMap[rule.ee_id] = rule.case_id; // Ensure API response has these fields
-      });
-      setEmployeeRules(caseIdMap);
+      if (jsonData.data) {
+        setTotalRows(jsonData.data.length); // Set total rows based on all data
+        const startIndex = page * pageSize;
+        const paginatedData = jsonData.data.slice(startIndex, startIndex + pageSize); // Slice data for the current page
+        setData(paginatedData);
+
+        // Map ee_id to case_id
+        const caseIdMap = {};
+        jsonData.data.forEach((rule) => {
+          caseIdMap[rule.ee_id] = rule.case_id;
+        });
+        setEmployeeRules(caseIdMap);
+      } else {
+        setData([]);
+        setTotalRows(0);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -45,132 +44,140 @@ function Employee({ onDeleteSuccess }) {
   }, [page, pageSize]);
 
   useEffect(() => {
-    
     fetchData();
   }, [fetchData]);
 
+  const handlePageChange = (newPage) => {
+    if (newPage >= 0 && newPage < Math.ceil(totalRows / pageSize)) {
+      setPage(newPage);
+    }
+  };
+
   const columns = [
-    // { field: "cid", headerName: "Company ID", width: 120 }, a
-     { 
-      field: "ee_id", 
-      headerName: "Employee ID", 
-      width: 150,
-      renderCell: (params) => {
-        const caseId = employeeRules[params.value] || "default_case_id"; 
-        console.log(caseId)
-        // alert(caseId)// Fallback if missing
+    {
+      field: "ee_id",
+      headerName: "Employee ID",
+      renderCell: (value) => {
+        const caseId = employeeRules[value] || "default_case_id";
         return (
-          <Link to={`/employee/edit/${caseId}/${params.value}`} className="text-blue-500 hover:underline">
-            {params.value}
+          <Link
+            to={`/employee/edit/${caseId}/${value}`}
+            className="text-blue-500 hover:underline"
+          >
+             {value}
           </Link>
         );
-      }
+      },
     },
-    { field: "social_security_number", headerName: "SSN", width: 150 },
-    { field: "age", headerName: "Age", width: 100 },
-    { field: "gender", headerName: "Gender", width: 120 },
-    { field: "home_state", headerName: "Home State", width: 120 },
-    { field: "work_state", headerName: "Work State", width: 120 },
-    { field: "pay_period", headerName: "Pay Period", width: 150 },
-    { field: "case_id", headerName: "Case Id", width: 150 },
-    { 
-      field: "is_blind", 
-      headerName: "Blind", 
-      width: 120, 
-      renderCell: (params) => (params.value ? "Yes" : "No")
-    },
-    { field: "marital_status", headerName: "Marital Status", width: 150 },
-    { field: "filing_status", headerName: "Filing Status", width: 150 },
-    { field: "spouse_age", headerName: "Spouse Age", width: 120 },
-    { 
-      field: "is_spouse_blind", 
-      headerName: "Spouse Blind", 
-      width: 150, 
-      renderCell: (params) => (params.value ? "Yes" : "No")
-    },
-    { field: "number_of_exemptions", headerName: "No. of Exemptions", width: 180 },
-    { 
-      field: "support_second_family", 
-      headerName: "Support 2nd Family", 
-      width: 180, 
-      renderCell: (params) => (params.value ? "Yes" : "No")
-    },
-    { field: "number_of_student_default_loan", headerName: "No. of Default Loans", width: 200 },
-    { 
-      field: "garnishment_fees_status", 
-      headerName: "Garnishment Status", 
-      width: 180, 
-      renderCell: (params) => (params.value ? "Active" : "Inactive")
-    },
-    { field: "garnishment_fees_suspended_till", headerName: "Garnishment Suspended Till", width: 250 },
-    // { field: "type", headerName: "Type", width: 120 },
-    // { field: "rules", headerName: "Rule", width: 120 },
+    { field: "social_security_number", headerName: "SSN" },
+    { field: "age", headerName: "Age" },
+    { field: "gender", headerName: "Gender" },
+    { field: "home_state", headerName: "Home State" },
+    { field: "work_state", headerName: "Work State" },
+    { field: "pay_period", headerName: "Pay Period" },
+    { field: "case_id", headerName: "Case Id" },
+    { field: "is_blind", headerName: "Blind", renderCell: (value) => (value ? "Yes" : "No") },
+    { field: "marital_status", headerName: "Marital Status" },
+    { field: "filing_status", headerName: "Filing Status" },
+    { field: "spouse_age", headerName: "Spouse Age" },
+    { field: "is_spouse_blind", headerName: "Spouse Blind", renderCell: (value) => (value ? "Yes" : "No") },
+    { field: "number_of_exemptions", headerName: "No. of Exemptions" },
+    { field: "support_second_family", headerName: "Support 2nd Family", renderCell: (value) => (value ? "Yes" : "No") },
+    { field: "number_of_student_default_loan", headerName: "No. of Default Loans" },
+    { field: "garnishment_fees_status", headerName: "Garnishment Status", renderCell: (value) => (value ? "Active" : "Inactive") },
+    { field: "garnishment_fees_suspended_till", headerName: "Garnishment Suspended Till" },
     {
       field: "actions",
       headerName: "Actions",
-      width: 120,
-      sortable: false,
-      renderCell: (params) => (
-        <DeleteItemComponent id={params.row.ee_id} cid={params.row.case_id} type="emp" onDeleteSuccess={onDeleteSuccess} />
+      renderCell: (row) => (
+        <DeleteItemComponent id={row.ee_id} cid={row.case_id} type="emp" onDeleteSuccess={onDeleteSuccess} />
       ),
     },
   ];
 
-  const contentAnimation = useSpring({
-    opacity: loading ? 0 : 1,
-    transform: loading ? 'translateY(10px)' : 'translateY(0)',
-    config: { duration: 500 },
-  });
+  const renderTableHeader = () => (
+    <tr>
+      {columns.map((col) => (
+        <th key={col.field} className="px-4 py-2 bg-gray-800 text-white">
+          {col.headerName}
+        </th>
+      ))}
+    </tr>
+  );
+
+  const renderTableRows = () =>
+    data.map((row, index) => (
+      <tr key={index} className="border-b">
+        {columns.map((col) => (
+          <td key={col.field} className="px-4 py-2">
+            {col.renderCell ? col.renderCell(row[col.field] || "") : row[col.field] || "N/A"}
+          </td>
+        ))}
+      </tr>
+    ));
+
+  const totalPages = Math.ceil(totalRows / pageSize);
 
   return (
-   <>
+    <>
+      {/* Action Buttons */}
+      <div className="text-right mt-4 mb-4">
+        <a
+          href={exportLink}
+          className="border inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
+        >
+          <TiExport className="mr-1" /> Export
+        </a>
+        <a
+          href="/EmpImport"
+          className="border inline-flex ml-2 items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
+        >
+          <CgImport className="mr-1" /> Import
+        </a>
+      </div>
 
-          {/* Action Buttons */}
-          <div className="text-right mt-4 mb-4">
-            <a href={exportLink} className="border inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50">
-              <TiExport className="mr-1" /> Export
-            </a>
-            <a href="/EmpImport" className="border inline-flex ml-2 items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50">
-              <CgImport className="mr-1" /> Import
-            </a>
+      {/* Table Section */}
+      <h4 className="text-lg font-semibold text-black mb-4">Employees</h4>
+      <div className="overflow-x-auto text-sm">
+        {loading ? (
+          <div className="flex justify-center items-center h-40">
+            <div className="loader">Loading...</div>
           </div>
+        ) : data.length > 0 ? (
+          <table className="table-auto w-full border-collapse border border-gray-200">
+            <thead>{renderTableHeader()}</thead>
+            <tbody>{renderTableRows()}</tbody>
+          </table>
+        ) : (
+          <p className="text-center text-gray-500">No records found.</p>
+        )}
+      </div>
 
-          {/* Table Section */}
-          <h4 className="text-lg font-semibold text-black mb-4">Employees</h4>
-          <Box sx={{ flexGrow: 1, width: "100%", overflow: "auto" }}>
-            {loading ? (
-              <div className="flex justify-center items-center h-40">
-                <CircularProgress />
-              </div>
-            ) : (
-              <animated.div style={contentAnimation}>
-                <DataGrid
-                  getRowId={(row) => row.ee_id}
-                  columns={columns}
-                  rows={data}
-                  rowCount={totalRows} // Ensure correct pagination count
-                  pagination
-                  pageSizeOptions={[10, 25, 50, 100]}
-                  pageSize={pageSize}
-                  paginationMode="server"
-                  onPageChange={(newPage) => setPage(newPage)}
-                  onPageSizeChange={(newSize) => setPageSize(newSize)}
-                  loading={loading}
-                  sx={{
-                    "& .MuiDataGrid-columnHeaders": {
-                      backgroundColor: "black", // Entire header row background
-                      color: "white", // All headers text color
-                    },
-                    "& .MuiDataGrid-columnHeader[data-field='actions']": {
-                      backgroundColor: "#313131", // "Actions" column header only
-                      color: "white", // "Actions" text white
-                    },
-                  }}
-                />
-              </animated.div>
-            )}
-          </Box>
-      </>
+      {/* Pagination */}
+      <div className="flex justify-between items-center mt-4">
+        <button
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 0}
+          className={`px-4 py-2 border text-sm rounded-md ${
+            page === 0 ? "bg-gray-300 cursor-not-allowed" : "bg-white hover:bg-gray-100"
+          }`}
+        >
+          Previous
+        </button>
+        <span className="text-sm">
+          Page {page + 1} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page + 1 >= totalPages}
+          className={`px-4 py-2 border text-sm rounded-md ${
+            page + 1 >= totalPages ? "bg-gray-300 text-sm cursor-not-allowed" : "bg-white hover:bg-gray-100"
+          }`}
+        >
+          Next
+        </button>
+      </div>
+    </>
   );
 }
 
