@@ -43,7 +43,7 @@ function OrdImport() {
 
     try {
         // const id = sessionStorage.getItem("id");
-      const response = await fetch(`${BASE_URL}/User/upsert_gar_order/`, {
+      const response = await fetch(`${BASE_URL}/User/upsert-gar-orders/`, {
         method: 'POST',
         body: formData,
       });

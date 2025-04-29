@@ -16,7 +16,7 @@ function Orders({ onDeleteSuccess }) {
   // function Orders() {
   const cid = sessionStorage.getItem("cid");
   const [data, setData] = useState([]);
-  const Link1 = `${BASE_URL}/User/ExportEmployees/${cid}/`;
+  const Link1 = `${BASE_URL}/User/ExportOrder/`;
 
   const dataFetchedRef = useRef(false);
   useEffect(() => {
