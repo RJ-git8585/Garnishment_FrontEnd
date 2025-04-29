@@ -65,26 +65,8 @@ const exportTableData = (data) => {
     return;
   }
 
-  const columnOrder = [
-    "ee_id", "case_id", "garnishment_type", "Work_State", "pay_period", "ordered_amount",
-    "arrear_amount", "filing_status", "no_of_exemption_including_self", "wages", "commission_and_bonus",
-    "non_accountable_allowances", "gross_pay", "federal_income_tax", "state_income_tax", "social_security_tax",
-    "medicare_tax", "local_tax", "union_dues", "wilmington_tax", "medical_insurance_pretax", "industrial_insurance",
-    "life_insurance", "CaliforniaSDI", "famli_tax", "medical_insurance", "age", "is_blind", "is_spouse_blind",
-    "spouse_age", "support_second_family", "arrears_greater_than_12_weeks", "no_of_student_default_loan",
-    "disposable_earning", "allowable_disposable_earning", "withholding_amount", "withholding_arrear",
-    "garnishment_fees", "withholding_limit_rule"
-  ];
-
-  const filteredData = data.map((row) => {
-    const orderedRow = {};
-    columnOrder.forEach((key) => {
-      orderedRow[key] = row[key] || ""; // Ensure all columns are included in the correct order
-    });
-    return orderedRow;
-  });
-
-  const headers = columnOrder.join(",");
+  const filteredData = data.map(({ data_count, ...rest }) => rest); // Exclude data_count
+  const headers = Object.keys(filteredData[0]).join(","); // Extract headers from the first row
   const rows = filteredData.map((row) =>
     Object.values(row)
       .map((value) => `"${value}"`) // Wrap values in quotes to handle commas
@@ -92,7 +74,7 @@ const exportTableData = (data) => {
   );
   const csvContent = [headers, ...rows].join("\n");
   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  saveAs(blob, "Garnishment_data.csv");
+  saveAs(blob, "Garnisment_data.csv");
 };
 
 const exportTableDataAsExcel = (data) => {
@@ -101,26 +83,8 @@ const exportTableDataAsExcel = (data) => {
     return;
   }
 
-  const columnOrder = [
-    "ee_id", "case_id", "garnishment_type", "Work_State", "pay_period", "ordered_amount",
-    "arrear_amount", "filing_status", "no_of_exemption_including_self", "wages", "commission_and_bonus",
-    "non_accountable_allowances", "gross_pay", "federal_income_tax", "state_income_tax", "social_security_tax",
-    "medicare_tax", "local_tax", "union_dues", "wilmington_tax", "medical_insurance_pretax", "industrial_insurance",
-    "life_insurance", "CaliforniaSDI", "famli_tax", "medical_insurance", "age", "is_blind", "is_spouse_blind",
-    "spouse_age", "support_second_family", "arrears_greater_than_12_weeks", "no_of_student_default_loan",
-    "disposable_earning", "allowable_disposable_earning", "withholding_amount", "withholding_arrear",
-    "garnishment_fees", "withholding_limit_rule"
-  ];
-
-  const filteredData = data.map((row) => {
-    const orderedRow = {};
-    columnOrder.forEach((key) => {
-      orderedRow[key] = row[key] || ""; // Ensure all columns are included in the correct order
-    });
-    return orderedRow;
-  });
-
-  const worksheet = XLSX.utils.json_to_sheet(filteredData); // Convert ordered data to worksheet
+  const filteredData = data.map(({ data_count, ...rest }) => rest); // Exclude data_count
+  const worksheet = XLSX.utils.json_to_sheet(filteredData); // Convert JSON data to worksheet
   const workbook = XLSX.utils.book_new(); // Create a new workbook
   XLSX.utils.book_append_sheet(workbook, worksheet, "Table Data"); // Append the worksheet to the workbook
   const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" }); // Write workbook to buffer

@@ -58,7 +58,7 @@ const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12W
       </Typography>
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>
         <Table>
-          <TableHead>
+          <TableHead className="headecssbg_colr">
             <TableRow>
               <TableCell style={{ fontWeight: "bold", textAlign: "center" }}>Sr</TableCell>
               <TableCell style={{ fontWeight: "bold" }}>Parameter</TableCell>
