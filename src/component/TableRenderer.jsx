@@ -116,12 +116,27 @@ export const renderTable = (data) => {
       const garnishment = garnishmentData[Math.floor(i / (garnishmentData[0]?.data?.length || 1))] || {};
       const garnData = garnishment.data?.[i % (garnishment.data?.length || 1)] || {};
 
-      const agency = agencyData[Math.floor(i / (agencyData[0]?.withholding_amt?.length || 1))] || {};
+      const agency = agencyData.length > 0 
+        ? agencyData[Math.floor(i / (agencyData[0]?.withholding_amt?.length || 1))] || {} 
+        : {}; 
+      // Dynamically handle cases where agencyData might be empty or undefined
+
       const withholdingData = agency.withholding_amt?.[i % (agency.withholding_amt?.length || 1)] || {};
-      const arrearData = agency.arrear?.[i % (agency.arrear?.length || 1)] || {};
+
+      // Use a loop to find the withholding_arrear value in the agency array
+      let withholdingArrear = "N/A";
+      for (const agencyItem of agencyData) {
+        if (agencyItem.arrear && agencyItem.arrear.length > 0) {
+          const arrearItem = agencyItem.arrear[i % agencyItem.arrear.length];
+          if (arrearItem && arrearItem.withholding_arrear !== undefined) {
+            withholdingArrear = arrearItem.withholding_arrear;
+            break;
+          }
+        }
+      }
+      // Ensure withholding_arrear fetches the correct value, including 0, and only shows "N/A" when missing
 
       const garnishmentAmount = withholdingData.child_support || withholdingData.garnishment_amount || "0"; // Fetch child_support
-      const withholdingArrear = arrearData.withholding_arrear || "0"; // Fetch withholding_arrear
 
       // Retrieve arrear_amount and ordered_amount from the response
       const arrearAmount =
@@ -177,7 +192,7 @@ export const renderTable = (data) => {
           disposable_earning: result.disposable_earning || "N/A",
           allowable_disposable_earning: allowableDisposableEarning,
           withholding_amount: garnishmentAmount,
-          withholding_arrear: arrearAmount,
+          withholding_arrear: withholdingArrear, // Correctly fetch withholding_arrear, including 0
           ...result.er_deduction,
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
           data_count: garnishment.data ? garnishment.data.length : 0,
@@ -313,6 +328,7 @@ export const renderTable = (data) => {
                 <TableCell style={{ textAlign: "center" }}>
                   {item.garnishment_type !== "State tax levy" ? (
                     <button
+                      type="button" // Explicitly set the type to avoid the warning
                       onClick={() =>
                         handleRuleClick(
                           item.Work_State || "No Work State",
