@@ -210,12 +210,15 @@ export const renderTable = (data) => {
         style={{
           marginBottom: "10px",
           marginLeft: "10px",
-          padding: "10px 20px",
+          padding: "5px 10px",
           backgroundColor: "#3e484c",
           color: "#fff",
           border: "none",
           borderRadius: "5px",
+          float: "inline-end",
           cursor: "pointer",
+          position: "relative",
+          top: "2px",
         }}
         title="EXPORT EXCEL"
       >

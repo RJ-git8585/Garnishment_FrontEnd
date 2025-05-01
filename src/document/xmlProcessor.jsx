@@ -170,7 +170,7 @@ const XmlProcessor = () => {
                 <div className="responseSection">
                   <div className="responseHeader">
                     <h3>API Response</h3>
-                    <div>
+                    <div className="fucntionalButtons">
                       <button className="copyButton" onClick={handleCopy}>
                         <FaCopy />
                       </button>

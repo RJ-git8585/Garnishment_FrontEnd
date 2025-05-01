@@ -56,12 +56,16 @@
   color: red;
   margin-top: 10px;
 }
-
+.fucntionalButtons{
+  position: relative;
+  bottom: -40px;
+}
 .responseHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  margin-right: 35px;
 }
 
 .responseContainer {
