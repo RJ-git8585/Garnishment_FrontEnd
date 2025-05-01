@@ -109,7 +109,7 @@ export const renderTable = (data) => {
     const maxLength = Math.max(
       garnishmentData.reduce((sum, garnishment) => sum + (garnishment.data?.length || 0), 0),
       agencyData.reduce((sum, agency) => sum + (agency.withholding_amt?.length || 0), 0),
-      agencyData.reduce((sum, agency) => sum + (agency.arrear?.length || 0), 0) // Ensure arrear length is considered
+      agencyData.reduce((sum, agency) => sum + (agency.arrear?.length || 0), 0)
     );
 
     for (let i = 0; i < maxLength; i++) {
@@ -144,43 +144,44 @@ export const renderTable = (data) => {
           ee_id: result.ee_id,
           case_id: garnData.case_id,
           garnishment_type: garnishment.type,
-          Work_State: result.work_state,
-          pay_period: result.pay_period,
-          ordered_amount: orderedAmount, // Correctly fetch and display ordered_amount
           arrear_amount: arrearAmount,
-          filing_status: result.filing_status,
+          ordered_amount: orderedAmount, // Correctly fetch and display ordered_amount
+          withholding_amount: garnishmentAmount, // Display withholding amount
+          withholding_arrear: arrearAmount, // Display withholding arrear
+          allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction or result
+          ...result.er_deduction,
+          Work_State: result.work_state,
           no_of_exemption_including_self: result.no_of_exemption_including_self,
+          pay_period: result.pay_period,
+          filing_status: result.filing_status,
           wages: result.wages,
           commission_and_bonus: result.commission_and_bonus,
           non_accountable_allowances: result.non_accountable_allowances,
           gross_pay: result.gross_pay,
           federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
-          state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
           social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
+          state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
           medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
           local_tax: result.payroll_taxes?.local_tax ?? "N/A",
-          union_dues: result.payroll_taxes?.union_dues || "0",
-          wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
-          medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
+          medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
           industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
           life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
-          CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
+          net_pay: result.net_pay,
           famli_tax: result.famli_tax || "N/A",
-          medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
           age: result.age,
           is_blind: result.is_blind ? "True" : "False", // Display true/false for is_blind
           is_spouse_blind: result.is_spouse_blind ? "True" : "False", // Display true/false for is_spouse_blind
+          union_dues: result.payroll_taxes?.union_dues || "0",
+          wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
+          medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
           spouse_age: result.spouse_age,
           support_second_family: result.support_second_family,
-          arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
           no_of_student_default_loan: result.no_of_student_default_loan,
-          disposable_earning: result.disposable_earning || "N/A",
-          allowable_disposable_earning: allowableDisposableEarning, // Display allowable_disposable_earning from er_deduction or result
-          withholding_amount: garnishmentAmount, // Display withholding amount
-          withholding_arrear: arrearAmount, // Display withholding arrear
-          ...result.er_deduction,
-          withholding_limit_rule: result.withholding_limit_rule || "No Rule",
+          arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
           arrears_greater_than_12_weeks_amount: garnData.arrears_greater_than_12_weeks_amount || "N/A",
+          withholding_limit_rule: result.withholding_limit_rule || "No Rule",
+          disposable_earning: result.disposable_earning || "N/A",
+          CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
           data_count: garnishment.data ? garnishment.data.length : 0,
         });
       }
@@ -215,10 +216,11 @@ export const renderTable = (data) => {
           color: "#fff",
           border: "none",
           borderRadius: "5px",
-          float: "inline-end",
           cursor: "pointer",
           position: "relative",
-          top: "2px",
+          bottom: "-2px",
+          float: "inline-end",
+
         }}
         title="EXPORT EXCEL"
       >
