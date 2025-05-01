@@ -11,7 +11,6 @@ function Employee({ onDeleteSuccess }) {
   const [page, setPage] = useState(0);
   const [pageSize] = useState(10); // Fixed page size to 10
   const [totalRows, setTotalRows] = useState(0);
-  const [employeeRules, setEmployeeRules] = useState({});
   const exportLink = `${BASE_URL}/User/ExportEmployees`;
 
   const fetchData = useCallback(async () => {
@@ -25,13 +24,6 @@ function Employee({ onDeleteSuccess }) {
         const startIndex = page * pageSize;
         const paginatedData = jsonData.data.slice(startIndex, startIndex + pageSize); // Slice data for the current page
         setData(paginatedData);
-
-        // Map ee_id to case_id
-        const caseIdMap = {};
-        jsonData.data.forEach((rule) => {
-          caseIdMap[rule.ee_id] = rule.case_id;
-        });
-        setEmployeeRules(caseIdMap);
       } else {
         setData([]);
         setTotalRows(0);
@@ -57,17 +49,14 @@ function Employee({ onDeleteSuccess }) {
     {
       field: "ee_id",
       headerName: "Employee ID",
-      renderCell: (value) => {
-        const caseId = employeeRules[value] || "default_case_id";
-        return (
-          <Link
-            to={`/employee/edit/${caseId}/${value}`}
-            className="text-blue-500 hover:underline"
-          >
-             {value}
-          </Link>
-        );
-      },
+      renderCell: (row) => (
+        <Link
+          to={`/employee/edit/${row.case_id}/${row.ee_id}`}
+          className="text-blue-500 hover:underline"
+        >
+          {row.ee_id}
+        </Link>
+      ),
     },
     { field: "social_security_number", headerName: "SSN" },
     { field: "age", headerName: "Age" },
@@ -76,21 +65,25 @@ function Employee({ onDeleteSuccess }) {
     { field: "work_state", headerName: "Work State" },
     { field: "pay_period", headerName: "Pay Period" },
     { field: "case_id", headerName: "Case Id" },
-    { field: "is_blind", headerName: "Blind", renderCell: (value) => (value ? "Yes" : "No") },
+    { field: "is_blind", headerName: "Blind", renderCell: (row) => (row.is_blind ? "Yes" : "No") },
     { field: "marital_status", headerName: "Marital Status" },
     { field: "filing_status", headerName: "Filing Status" },
     { field: "spouse_age", headerName: "Spouse Age" },
-    { field: "is_spouse_blind", headerName: "Spouse Blind", renderCell: (value) => (value ? "Yes" : "No") },
+    { field: "is_spouse_blind", headerName: "Spouse Blind", renderCell: (row) => (row.is_spouse_blind ? "Yes" : "No") },
     { field: "number_of_exemptions", headerName: "No. of Exemptions" },
-    { field: "support_second_family", headerName: "Support 2nd Family", renderCell: (value) => (value ? "Yes" : "No") },
+    { field: "support_second_family", headerName: "Support 2nd Family", renderCell: (row) => (row.support_second_family ? "Yes" : "No") },
     { field: "number_of_student_default_loan", headerName: "No. of Default Loans" },
-    { field: "garnishment_fees_status", headerName: "Garnishment Status", renderCell: (value) => (value ? "Active" : "Inactive") },
+    { field: "garnishment_fees_status", headerName: "Garnishment Status", renderCell: (row) => (row.garnishment_fees_status ? "Active" : "Inactive") },
     { field: "garnishment_fees_suspended_till", headerName: "Garnishment Suspended Till" },
     {
       field: "actions",
       headerName: "Actions",
       renderCell: (row) => (
-        <DeleteItemComponent id={row.ee_id} cid={row.case_id} type="emp" onDeleteSuccess={onDeleteSuccess} />
+        <DeleteItemComponent
+          id={row.ee_id} // Pass ee_id
+          cid={row.case_id} // Pass case_id
+          onDeleteSuccess={onDeleteSuccess}
+        />
       ),
     },
   ];
@@ -110,7 +103,7 @@ function Employee({ onDeleteSuccess }) {
       <tr key={index} className="border-b">
         {columns.map((col) => (
           <td key={col.field} className="px-4 py-2">
-            {col.renderCell ? col.renderCell(row[col.field] || "") : row[col.field] || "N/A"}
+            {col.renderCell ? col.renderCell(row) : row[col.field] || "N/A"}
           </td>
         ))}
       </tr>

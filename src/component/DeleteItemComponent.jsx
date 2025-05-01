@@ -1,56 +1,66 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react';
+import React from 'react';
 import axios from 'axios';
-// import {  toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 import { BASE_URL } from '../Config';
 import Swal from 'sweetalert2';
-// import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-function DeleteItemComponent({id,cid, onDeleteSuccess, onDeleteError }) {
+function DeleteItemComponent({ id, cid, onDeleteSuccess, onDeleteError }) {
+ 
 
   const handleDelete = async () => {
+    
+    if (!id || !cid) {
+      console.error('Missing id or cid for deletion:', { id, cid });
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Unable to delete. Missing required details (id or cid).',
+        showConfirmButton: true,
+      });
+      return;
+    }
 
-    console.log(id)
+    console.log('Attempting to delete with id:', id, 'and cid:', cid);
+
     try {
       const response = await axios.delete(`${BASE_URL}/User/EmployeeDelete/${cid}/${id}`);
 
-      if (response.status === 200 || response.status === 204) { // Handle successful deletion
+      if (response.status === 200 || response.status === 204) {
         console.log('Item deleted successfully!');
         Swal.fire({
-          icon: 'error', // 'success', 'error', 'warning', 'info', 'question'
+          icon: 'success',
           title: 'Employee Deleted',
-          // text: "Now Calculation result will not stored !!",
-          showConfirmButton: false, // Hide the confirm button
-          timer: 3000, // Auto close after 3 seconds
-          timerProgressBar: true, // Show a progress bar
-      });
-      setTimeout(function(){
-        window.location.reload();
-     }, 3000);
-        onDeleteSuccess && onDeleteSuccess(id); 
-        // console.log("from if")
-       
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+        onDeleteSuccess && onDeleteSuccess(id);
       } else {
-        throw new Error('Unexpected API response status'); 
-        // eslint-disable-next-line no-unreachable
-        
+        throw new Error(`Unexpected API response status: ${response.status}`);
       }
-    } catch (error) {   
+    } catch (error) {
       console.error('Error deleting item:', error);
-      onDeleteError && onDeleteError(error); // Optional callback for error handling
-    } finally {
-
-    // toast.warning('Item deleted successfully!!!');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to delete the employee. Please try again.',
+        showConfirmButton: true,
+      });
+      onDeleteError && onDeleteError(error);
     }
   };
 
   return (
     <div>
-      
-        <button onClick={handleDelete} className="py-2 button-cls text-sm  text-red font-semibold  ">Delete</button>
-    
+      <button
+        onClick={handleDelete}
+        className="py-2 button-cls text-sm text-red font-semibold"
+      >
+        Delete
+      </button>
     </div>
   );
 }
