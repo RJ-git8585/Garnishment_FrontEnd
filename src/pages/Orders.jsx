@@ -88,7 +88,15 @@ function Orders({ onDeleteSuccess }) {
     data.map((row, index) => (
       <tr key={index} className="border-b">
         {columns.map((col) => (
-          <td key={col.field} className="px-4 py-2">
+          <td
+            key={col.field}
+            className="px-4 py-2"
+            style={{
+              whiteSpace: "nowrap", // Ensure text does not wrap
+              overflow: "hidden", // Hide overflow
+              textOverflow: "ellipsis", // Add ellipsis for overflowed text
+            }}
+          >
             {col.renderCell ? col.renderCell(row) : row[col.field] || "N/A"}
           </td>
         ))}
