@@ -4,39 +4,41 @@ import { BASE_URL } from '../Config';
 import Swal from 'sweetalert2';
 
 // eslint-disable-next-line react/prop-types
-function DeleteItemComponent({ id, cid, onDeleteSuccess, onDeleteError }) {
- 
-
+function DeleteItemComponent({ id, cid, type, onDeleteSuccess, onDeleteError }) {
   const handleDelete = async () => {
-    
-    if (!id || !cid) {
-      console.error('Missing id or cid for deletion:', { id, cid });
+    if (!cid) {
+      console.error('Missing cid for deletion:', { cid });
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Unable to delete. Missing required details (id or cid).',
+        text: 'Unable to delete. Missing required details (cid).',
         showConfirmButton: true,
       });
       return;
     }
 
-    console.log('Attempting to delete with id:', id, 'and cid:', cid);
+    const endpoint =
+      type === "emp"
+        ? `${BASE_URL}/User/EmployeeDelete/${cid}/${id}`
+        : `${BASE_URL}/User/GarOrderDelete/${cid}/`;
+
+    console.log('Attempting to delete with id:', id, 'cid:', cid, 'type:', type);
 
     try {
-      const response = await axios.delete(`${BASE_URL}/User/EmployeeDelete/${cid}/${id}`);
+      const response = await axios.delete(endpoint);
 
       if (response.status === 200 || response.status === 204) {
         console.log('Item deleted successfully!');
         Swal.fire({
           icon: 'success',
-          title: 'Employee Deleted',
+          title: type === "emp" ? 'Employee Deleted' : 'Order Deleted',
+          text: type === "emp"
+            ? 'The employee has been successfully deleted.'
+            : 'The order has been successfully deleted.',
           showConfirmButton: false,
           timer: 3000,
           timerProgressBar: true,
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000);
         onDeleteSuccess && onDeleteSuccess(id);
       } else {
         throw new Error(`Unexpected API response status: ${response.status}`);
@@ -46,7 +48,7 @@ function DeleteItemComponent({ id, cid, onDeleteSuccess, onDeleteError }) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Failed to delete the employee. Please try again.',
+        text: `Failed to delete the ${type === "emp" ? 'employee' : 'order'}. Please try again.`,
         showConfirmButton: true,
       });
       onDeleteError && onDeleteError(error);

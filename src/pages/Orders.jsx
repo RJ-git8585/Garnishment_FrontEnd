@@ -67,6 +67,7 @@ function Orders({ onDeleteSuccess }) {
         <DeleteItemComponent
           id={row.eeid} // Pass eeid
           cid={row.case_id} // Pass case_id
+          type="order" // Specify type as "order"
           onDeleteSuccess={onDeleteSuccess}
         />
       ),

@@ -82,6 +82,7 @@ function Employee({ onDeleteSuccess }) {
         <DeleteItemComponent
           id={row.ee_id} // Pass ee_id
           cid={row.case_id} // Pass case_id
+          type="emp"
           onDeleteSuccess={onDeleteSuccess}
         />
       ),
