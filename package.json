@@ -51,6 +51,7 @@
     "react-syntax-highlighter": "^15.6.1",
     "react-toastify": "^10.0.5",
     "select": "^1.1.2",
+    "simple-datatables": "^10.0.0",
     "sweetalert2": "^11.17.2",
     "sweetalert2-react-content": "^5.1.0",
     "tesseract.js": "^6.0.0",
