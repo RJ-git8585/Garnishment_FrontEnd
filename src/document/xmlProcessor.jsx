@@ -1,10 +1,10 @@
 import { BASE_URL } from '../Config';
 import Headertop from '../component/Headertop';
 import { FaTableCells } from "react-icons/fa6";
-import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
+import { FaCopy, FaExpand, FaCompress, FaArrowUp } from "react-icons/fa"; // Import FaArrowUp for the floating button
 import { BsFiletypeJson, BsFiletypeXml } from "react-icons/bs";
 import Sidebar from '../component/sidebar';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './xml.css';
 import { renderTable } from '../component/TableRenderer';
 import { exportToExcel } from '../component/ExcelExporter';
@@ -21,6 +21,7 @@ const XmlProcessor = () => {
   const [fileUploadTime, setFileUploadTime] = useState(null);
   const [garnishmentCalcTime, setGarnishmentCalcTime] = useState(null);
   const containerRef = useRef(null);
+  const [showScrollButton, setShowScrollButton] = useState(false); // State for showing the scroll button
 
   const reloadComponent = () => {
     setReloadKey(prevKey => prevKey + 1);
@@ -120,81 +121,107 @@ const XmlProcessor = () => {
     setIsFullscreen(!isFullscreen);
   };
 
+  // Scroll to top functionality
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Show or hide the scroll button based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollButton(true);
+      } else {
+        setShowScrollButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-  <>
-          <hr />
-          <div className="bg_cls container" ref={containerRef}>
-            <h2 className="header">Batch Processor</h2>
-<p className="text-sm italic">Please upload the excel file.... </p>
-            {/* Display time response outside API response box */}
-            <div className="timeContainer">
-              {fileUploadTime !== null && (
-                <p className="text-black">
-                  File Upload Time: <b>{fileUploadTime}</b> ms
-                </p>
-              )}
-              {garnishmentCalcTime !== null && (
-                <p className="text-black">
-                  Garnishment Calculation Time: <b>{garnishmentCalcTime}</b> ms
-                </p>
-              )}
+    <>
+      <hr />
+      <div className="bg_cls container" ref={containerRef}>
+        <h2 className="header">Batch Processor</h2>
+        <p className="text-sm italic">Please upload the excel file.... </p>
+        {/* Display time response outside API response box */}
+        <div className="timeContainer">
+          {fileUploadTime !== null && (
+            <p className="text-black">
+              File Upload Time: <b>{fileUploadTime}</b> ms
+            </p>
+          )}
+          {garnishmentCalcTime !== null && (
+            <p className="text-black">
+              Garnishment Calculation Time: <b>{garnishmentCalcTime}</b> ms
+            </p>
+          )}
+        </div>
+
+        <div className="columnContainer">
+          <div className="inputSection">
+            <div className="fileInputContainer">
+              <input
+                type="file"
+                accept=".xlsx"
+                onChange={handleFileUpload}
+                className="fileInput"
+              />
+              <button
+                className="resetButton"
+                onClick={reloadComponent}
+                disabled={loading}
+              >
+                {loading ? 'Loading Responses...' : 'Reset'}
+              </button>
             </div>
 
-            <div className="columnContainer">
-              <div className="inputSection">
-                <div className="fileInputContainer">
-                  <input
-                    type="file"
-                    accept=".xlsx"
-                    onChange={handleFileUpload}
-                    className="fileInput"
-                  />
-                  <button
-                    className="resetButton"
-                    onClick={reloadComponent}
-                    disabled={loading}
-                  >
-                    {loading ? 'Loading Responses...' : 'Reset'}
+            <textarea
+              className="textArea"
+              placeholder=""
+              value={jsonInput}
+              onChange={(e) => setJsonInput(e.target.value)}
+            />
+            {error && <p className="error">{error}</p>}
+          </div>
+          {response && (
+            <div className="responseSection">
+              <div className="responseHeader">
+                <h3>API Response</h3>
+                <div className="fucntionalButtons">
+                  <button className="copyButton" onClick={handleCopy}>
+                    <FaCopy />
+                  </button>
+                  <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
+                    {showTable ? <BsFiletypeJson /> : <FaTableCells />}
+                  </button>
+                  <button className="toggleButton" onClick={toggleFullscreen}>
+                    {isFullscreen ? <FaCompress /> : <FaExpand />}
                   </button>
                 </div>
-
-                <textarea
-                  className="textArea"
-                  placeholder=""
-                  value={jsonInput}
-                  onChange={(e) => setJsonInput(e.target.value)}
-                />
-                {error && <p className="error">{error}</p>}
               </div>
-              {response && (
-                <div className="responseSection">
-                  <div className="responseHeader">
-                    <h3>API Response</h3>
-                    <div className="fucntionalButtons">
-                      <button className="copyButton" onClick={handleCopy}>
-                        <FaCopy />
-                      </button>
-                      <button className="toggleButton" onClick={() => setShowTable(!showTable)}>
-                        {showTable ? <BsFiletypeJson /> : <FaTableCells />}
-                      </button>
-                      <button className="toggleButton" onClick={toggleFullscreen}>
-                        {isFullscreen ? <FaCompress /> : <FaExpand />}
-                      </button>
-                      {/* <button className="toggleButton" onClick={() => exportToExcel(response)}>
-                        <BsFiletypeXml />
-                      </button> */}
-                    </div>
-                  </div>
-                  <div className="responseContainer">
-                    {showTable ? renderTable(response) : (
-                      <pre className="responsejson">{JSON.stringify(response, null, 2)}</pre>
-                    )}
-                  </div>
-                </div>
-              )}
+              <div className="responseContainer">
+                {showTable ? renderTable(response) : (
+                  <pre className="responsejson">{JSON.stringify(response, null, 2)}</pre>
+                )}
+              </div>
             </div>
-          </div>
-          </>
+          )}
+        </div>
+      </div>
+
+      {/* Floating Scroll-to-Top Button */}
+      {showScrollButton && (
+        <button
+          className="fixed bottom-4 text-sm right-4 bg-gray-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600"
+          onClick={scrollToTop}
+        >
+          <FaArrowUp />
+        </button>
+      )}
+    </>
   );
 };
 
