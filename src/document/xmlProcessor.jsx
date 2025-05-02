@@ -215,7 +215,7 @@ const XmlProcessor = () => {
       {/* Floating Scroll-to-Top Button */}
       {showScrollButton && (
         <button
-          className="fixed bottom-4 text-sm right-4 bg-gray-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600"
+          className="fixed bottom-4 text-sm right-4 bg-gray-500 text-white p-3 rounded-full shadow-lg hover:bg-gray-700"
           onClick={scrollToTop}
         >
           <FaArrowUp />
