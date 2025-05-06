@@ -341,8 +341,8 @@ function Garnishment2() {
               >
                 <option value="">Select Garnishment Type</option>
                 <option value="Child Support">Child Support Garnishment</option>
-                <option value="federal tax levy">Federal Tax Levy</option>
                 <option value="creditor debt">Creditor Debt Garnishment</option>
+                <option value="federal tax levy">Federal Tax Levy</option>
                 {/* <option value="Tax Refund Garnishment">Tax Refund Garnishment</option> */}
                 {/* <option value="Social Security Garnishment">Social Security Garnishment (limited cases)</option> */}
                 <option value="student default loan">Student Loan Garnishment</option>
@@ -703,7 +703,11 @@ function Garnishment2() {
                       <td className="border border-gray-300 px-4 py-2">
                         {result.agency[0]?.withholding_amt[0]?.child_support !== undefined
                           ? result.agency[0]?.withholding_amt[0]?.child_support
-                          : result.agency[0]?.withholding_amt[0]?.garnishment_amount || "N/A"}
+                          : result.agency[0]?.withholding_amt[0]?.garnishment_amount !== undefined
+                          ? result.agency[0]?.withholding_amt[0]?.garnishment_amount
+                          : result.agency[0]?.withholding_amt[0]?.creditor_debt !== undefined
+                          ? result.agency[0]?.withholding_amt[0]?.creditor_debt
+                          : 0}
                       </td>
                       <td className="border border-gray-300 px-4 py-2">
                         {result.agency[1]?.arrear[0]?.withholding_arrear !== undefined
