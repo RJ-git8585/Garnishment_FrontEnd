@@ -135,13 +135,13 @@ function Garnishment2() {
               medical_insurance: parseFloat(formData.medical_insurance) || 0,
             },
             net_pay: parseFloat(formData.net_pay) || 0,
-            age: formData.age || 0, // Add this field if required
-            is_blind: formData.is_blind || false, // Add this field if required
-            is_spouse_blind: formData.is_spouse_blind || false, // Add this field if required
-            spouse_age: formData.spouse_age || 0, // Add this field if required
-            support_second_family: formData.support_second_family === "true",
-            no_of_student_default_loan: formData.no_of_student_default_loan || 0, // Add this field if required
-            arrears_greater_than_12_weeks: formData.arrears_greater_than_12_weeks === "true",
+            age: formData.age, // Add this field if required
+            is_blind: formData.is_blind, // Add this field if required
+            is_spouse_blind: formData.is_spouse_blind, // Add this field if required
+            spouse_age: formData.spouse_age, // Add this field if required
+            support_second_family: formData.support_second_family,
+            no_of_student_default_loan: formData.no_of_student_default_loan,
+            arrears_greater_than_12_weeks: formData.arrears_greater_than_12_weeks,
             garnishment_data: formData.garnishment_data.map((garnishment) => ({
               type: garnishment.type,
               data: garnishment.data.map((garnData) => ({
@@ -351,6 +351,7 @@ function Garnishment2() {
                 type="number"
                 id="wages"
                 name="wages"
+                placeholder="Enter Wages number"
                 value={formData.wages}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -605,8 +606,8 @@ function Garnishment2() {
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               >
                 <option value="">Select</option>
-                <option value="Yes">True</option>
-                <option value="No">False</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
               </select>
             </div>
           </div>
