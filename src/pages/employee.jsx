@@ -65,7 +65,7 @@ function Employee({ onDeleteSuccess }) {
     { field: "work_state", headerName: "Work State" },
     { field: "pay_period", headerName: "Pay Period" },
     { field: "case_id", headerName: "Case Id" },
-    { field: "is_blind", headerName: "Blind", renderCell: (row) => (row.is_blind ? "Yes" : "No") },
+    { field: "is_blind", headerName: "Blind", renderCell: (row) => (row.is_blind ? "True" : "False") },
     { field: "marital_status", headerName: "Marital Status" },
     { field: "filing_status", headerName: "Filing Status" },
     { field: "spouse_age", headerName: "Spouse Age" },

@@ -17,6 +17,7 @@ import Profile from './pages/profile';
 import Help from './pages/Help';
 import Tax from './pages/Tax';
 import Garnishment from './pages/Garnishment';
+import Garnishment2 from './pages/Garnishment2';
 import Employee from './pages/employee';
 import EmployeeEditForm from './pages/EmployeeEditForm';
 import EmployeeProfile from './pages/EmployeeProfile';
@@ -60,6 +61,7 @@ const privateRoutes = [
   { path: "/help", element: <Help /> },
   { path: "/tax", element: <Tax /> },
   { path: "/garnishment", element: <Garnishment /> },
+  { path: "/garnishment-pro", element: <Garnishment2 /> },
   { path: "/employee", element: <Employee /> },
   { path: "/employee/edit/:case_id/:ee_id", element: <EmployeeEditForm /> },
   { path: "/employee/:id/:employeeId", element: <EmployeeProfile /> },

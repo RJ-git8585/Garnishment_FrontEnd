@@ -205,7 +205,7 @@ function MultipleGarnishments() {
           <div className="">
             <div className="p-0">
               <form onSubmit={handleSubmit}>
-                <h6 className='mt-4 mb-4 font-bold  text-sm'>EMPLOYEE DETAILS : </h6>
+                <h6 className='mt-4 mb-4 font-bold  text-sm'>EMPLOYEE DETAILS: </h6>
                 <div className=" appearance-none border-slate-900 border p-2 pb-4 rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 divide-y-reverse sm:mx-auto sm:w-full gap-4 mb-2">
                   <div>
                     <label htmlFor="empID" className="block text-gray-700 text-sm font-bold mb-3">

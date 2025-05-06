@@ -58,7 +58,6 @@ const handleRuleClick = (workState, employeeId, supportsSecondFamily, arrearsMor
     }
   });
 };
-
 const exportTableData = (data) => {
   if (!data || data.length === 0) {
     alert("No data available to export.");
@@ -135,7 +134,6 @@ export const renderTable = (data) => {
         }
       }
       // Ensure withholding_arrear fetches the correct value, including 0, and only shows "N/A" when missing
-
       const garnishmentAmount = withholdingData.child_support || withholdingData.garnishment_amount || "0"; // Fetch child_support
 
       // Retrieve arrear_amount and ordered_amount from the response
@@ -169,6 +167,7 @@ export const renderTable = (data) => {
           commission_and_bonus: result.commission_and_bonus,
           non_accountable_allowances: result.non_accountable_allowances,
           gross_pay: result.gross_pay,
+          net_pay: result.net_pay,
           federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
           state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
           social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
@@ -190,6 +189,7 @@ export const renderTable = (data) => {
           arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
           no_of_student_default_loan: result.no_of_student_default_loan,
           disposable_earning: result.disposable_earning || "N/A",
+          total_mandatory_deduction: result.total_mandatory_deduction || "N/A",
           allowable_disposable_earning: allowableDisposableEarning,
           withholding_amount: garnishmentAmount,
           withholding_arrear: withholdingArrear, // Correctly fetch withholding_arrear, including 0
@@ -201,24 +201,53 @@ export const renderTable = (data) => {
     }
   });
 
+  const columns = [
+    { label: "Employee ID", key: "ee_id" },
+    { label: "Case ID", key: "case_id" },
+    { label: "Work State", key: "Work_State" },
+    { label: "Pay Period", key: "pay_period" },
+    { label: "Garnishment Type", key: "garnishment_type" },
+    { label: "Wages", key: "wages" },
+    { label: "Commission and Bonus", key: "commission_and_bonus" },
+    { label: "Non Accountable Allowances", key: "non_accountable_allowances" },
+    { label: "Gross Pay", key: "gross_pay" },
+    { label: "Net Pay", key: "net_pay" },
+    { label: "Total Mandatory Deduction", key: "total_mandatory_deduction" },
+    { label: "Disposable Earnings", key: "disposable_earning" },
+    { label: "Support Second Family", key: "support_second_family" },
+    { label: "Arrears Greater Than 12 Weeks", key: "arrears_greater_than_12_weeks" },
+    { label: "Allowable Disposable Earnings", key: "allowable_disposable_earning" },
+    { label: "Ordered Amount", key: "ordered_amount" },
+    { label: "Arrear Amount", key: "arrear_amount" },
+    { label: "Withholding Amount", key: "withholding_amount" },
+    { label: "Withholding Arrear", key: "withholding_arrear" },
+    { label: "Rule Key", key: "withholding_limit_rule" },
+    // { label: "Filing Status", key: "filing_status" },
+    // { label: "No of Exemption", key: "no_of_exemption_including_self" },
+    // { label: "Federal Income Tax", key: "federal_income_tax" },
+    // { label: "State Income Tax", key: "state_income_tax" },
+    // { label: "Social Security Tax", key: "social_security_tax" },
+    // { label: "Medicare Tax", key: "medicare_tax" },
+    // { label: "Local Tax", key: "local_tax" },
+    // { label: "Union Dues", key: "union_dues" },
+    // { label: "Wilmington Tax", key: "wilmington_tax" },
+    // { label: "Medical Insurance Pretax", key: "medical_insurance_pretax" },
+    // { label: "Industrial Insurance", key: "industrial_insurance" },
+    // { label: "Life Insurance", key: "life_insurance" },
+    // { label: "CaliforniaSDI", key: "CaliforniaSDI" },
+    // { label: "Famli Tax", key: "famli_tax" },
+    // { label: "Medical Insurance", key: "medical_insurance" },
+    // { label: "Age", key: "age" },
+    // { label: "Is Blind", key: "is_blind" },
+    // { label: "Is Spouse Blind", key: "is_spouse_blind" },
+    // { label: "Spouse Age", key: "spouse_age" },
+    // { label: "No. of Student Default Loan", key: "no_of_student_default_loan" },
+    //  { label: "Garnishment Fees", key: "garnishment_fees" },
+    
+  ];
+
   return (
     <div>
-      {/* <button
-        onClick={() => exportTableData(allResults)}
-        style={{
-          marginBottom: "10px",
-          padding: "10px 20px",
-          backgroundColor: "#3e484c",
-          color: "#fff",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-        title="EXPORT CSV"
-      >
-       
-        <BsFiletypeCsv />
-      </button> */}
       <button
         onClick={() => exportTableDataAsExcel(allResults)}
         style={{
@@ -242,117 +271,50 @@ export const renderTable = (data) => {
       <TableContainer component={Paper} style={{ marginTop: "20px", maxHeight: "500px", overflowX: "auto" }} stickyHeader>
         <Table stickyHeader>
           <TableHead className="headcss">
-            <TableRow style={{ backgroundColor: "#4a4a4a" }}> {/* Set background color to gray */}
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Employee ID</TableCell> {/* White text */}
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Case ID</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Garnishment Type</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Work State</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Pay Period</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Ordered Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Arrear Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Filing Status</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>No of Exemption</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Wages</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Commission and Bonus</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Non Accountable Allowances</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Gross Pay</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Federal Income Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>State Income Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Social Security Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Medicare Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Local Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Union Dues</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Wilmington Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Medical Insurance Pretax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Industrial Insurance</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Life Insurance</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>CaliforniaSDI</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Famli Tax</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Medical Insurance</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Age</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Is Blind</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Is Spouse Blind</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Spouse Age</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Support Second Family</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Arrears Greater Than 12 Weeks</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>No. of Student Default Loan</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Disposable Earnings</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Allowable Disposable Earnings</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Withholding Amount</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Withholding Arrear</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Garnishment Fees</TableCell>
-              <TableCell style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Rule Key</TableCell>
+            <TableRow style={{ backgroundColor: "#4a4a4a" }}>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.key}
+                  style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {allResults.map((item, index) => (
               <TableRow key={index}>
-                <TableCell style={{ textAlign: "center" }}>{item.ee_id}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.case_id}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.garnishment_type}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.Work_State}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.pay_period}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.ordered_amount}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.arrear_amount}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.filing_status}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.no_of_exemption_including_self}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.wages}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.commission_and_bonus}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.non_accountable_allowances}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.gross_pay}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.federal_income_tax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.state_income_tax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.social_security_tax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.medicare_tax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.local_tax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.union_dues}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.wilmington_tax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.medical_insurance_pretax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.industrial_insurance}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.life_insurance}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.CaliforniaSDI}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.famli_tax}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.medical_insurance}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.age}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.is_blind}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.is_spouse_blind}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.spouse_age}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.support_second_family}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.arrears_greater_than_12_weeks}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.no_of_student_default_loan}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.disposable_earning}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.allowable_disposable_earning}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.withholding_amount}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.withholding_arrear}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>{item.garnishment_fees}</TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {item.garnishment_type !== "State tax levy" ? (
-                    <button
-                      type="button" // Explicitly set the type to avoid the warning
-                      onClick={() =>
-                        handleRuleClick(
-                          item.Work_State || "No Work State",
-                          item.ee_id,
-                          item.support_second_family || "No",
-                          item.arrears_greater_than_12_weeks || "No",
-                          item.disposable_earning || "0",
-                          item.data_count
-                        )
-                      }
-                      style={{
-                        background: "none",
-                        border: "none",
-                        color: "blue",
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      }}
-                    >
-                      {item.withholding_limit_rule || "No Rule"}
-                    </button>
-                  ) : (
-                    <span>{item.withholding_limit_rule || "No Rule"}</span>
-                  )}
-                </TableCell>
+                {columns.map((column) => (
+                  <TableCell key={column.key} style={{ textAlign: "center" }}>
+                    {column.key === "withholding_limit_rule" && item.garnishment_type !== "State tax levy" ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRuleClick(
+                            item.Work_State || "No Work State",
+                            item.ee_id,
+                            item.support_second_family || "No",
+                            item.arrears_greater_than_12_weeks || "No",
+                            item.disposable_earning || "0",
+                            item.data_count
+                          )
+                        }
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {item[column.key] || "No Rule"}
+                      </button>
+                    ) : (
+                      item[column.key] || "N/A"
+                    )}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>
