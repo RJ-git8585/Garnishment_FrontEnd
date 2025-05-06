@@ -55,6 +55,7 @@ function Garnishment2() {
   const [loading, setLoading] = useState(false);
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false); // Maintenance mode state
   const [errors, setErrors] = useState({}); // State to track errors
+  const resultsRef = React.createRef(); // Create a reference for the results section
 
   useEffect(() => {
     // Simulate fetching maintenance mode status from an API or config
@@ -64,6 +65,12 @@ function Garnishment2() {
     };
     fetchMaintenanceMode();
   }, []);
+
+  useEffect(() => {
+    if (calculationResult && resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: "smooth" }); // Scroll to the results section
+    }
+  }, [calculationResult]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -333,14 +340,14 @@ function Garnishment2() {
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               >
                 <option value="">Select Garnishment Type</option>
-                <option value="Wage Garnishment">Wage Garnishment</option>
-                <option value="Bank Account Garnishment">Bank Account Garnishment</option>
-                <option value="Tax Refund Garnishment">Tax Refund Garnishment</option>
-                <option value="Social Security Garnishment">Social Security Garnishment (limited cases)</option>
                 <option value="Child Support">Child Support Garnishment</option>
+                <option value="federal tax levy">Federal Tax Levy</option>
+                <option value="creditor debt">Creditor Debt Garnishment</option>
+                {/* <option value="Tax Refund Garnishment">Tax Refund Garnishment</option> */}
+                {/* <option value="Social Security Garnishment">Social Security Garnishment (limited cases)</option> */}
                 <option value="student default loan">Student Loan Garnishment</option>
                 <option value="State Tax Levy">State Tax Levy</option>
-                <option value="Property Lien">Property Lien (related method, not direct garnishment)</option>
+                
               </select>
             </div>
             <div>
@@ -606,8 +613,8 @@ function Garnishment2() {
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               >
                 <option value="">Select</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
+                <option value="Yes">True</option>
+                <option value="No">False</option>
               </select>
             </div>
           </div>
@@ -673,45 +680,43 @@ function Garnishment2() {
             </button>
           </div>
         </form>
-        {calculationResult && calculationResult.results && (
-          <div className="mt-6">
-            <h2 className="text-lg font-bold mb-4">Calculation Result:</h2>
-            <table className="table-auto border-collapse border border-gray-300 w-full text-sm">
-              <thead>
-                <tr className="bg-gray-200">
-                
-                  <th className="border border-gray-300 px-4 py-2 text-left">Disposable Earnings</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">Allowable Disposable Earnings</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">Total Mandatory Deduction</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">Withholding Amount</th>
-                  <th className="border border-gray-300 px-4 py-2 text-left">Withholding Arrear</th>
-                  {/* <th className="border border-gray-300 px-4 py-2 text-left">Rule Key</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {calculationResult.results.map((result, index) => (
-                  <tr key={index}>
-               
-                    <td className="border border-gray-300 px-4 py-2">{result.disposable_earning}</td>
-                    <td className="border border-gray-300 px-4 py-2">{result.allowable_disposable_earning}</td>
-                    <td className="border border-gray-300 px-4 py-2">{result.total_mandatory_deduction}</td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {result.agency[0]?.withholding_amt[0]?.child_support !== undefined
-                        ? result.agency[0]?.withholding_amt[0]?.child_support
-                        : result.agency[0]?.withholding_amt[0]?.garnishment_amount || "N/A"}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {result.agency[1]?.arrear[0]?.withholding_arrear !== undefined
-                        ? result.agency[1]?.arrear[0]?.withholding_arrear
-                        : "N/A"}
-                    </td>
-                    {/* <td className="border border-gray-300 px-4 py-2">{result.withholding_limit_rule}</td> */}
+        <div ref={resultsRef} className="mt-6">
+          {calculationResult && calculationResult.results && (
+            <>
+              <h2 className="text-lg font-bold mb-4">Calculation Result:</h2>
+              <table className="table-auto border-collapse border border-gray-300 w-full text-sm">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="border border-gray-300 px-4 py-2 text-left">Disposable Earnings</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Allowable Disposable Earnings</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Total Mandatory Deduction</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Withholding Amount</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Withholding Arrear</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {calculationResult.results.map((result, index) => (
+                    <tr key={index}>
+                      <td className="border border-gray-300 px-4 py-2">{result.disposable_earning}</td>
+                      <td className="border border-gray-300 px-4 py-2">{result.allowable_disposable_earning}</td>
+                      <td className="border border-gray-300 px-4 py-2">{result.total_mandatory_deduction}</td>
+                      <td className="border border-gray-300 px-4 py-2">
+                        {result.agency[0]?.withholding_amt[0]?.child_support !== undefined
+                          ? result.agency[0]?.withholding_amt[0]?.child_support
+                          : result.agency[0]?.withholding_amt[0]?.garnishment_amount || "N/A"}
+                      </td>
+                      <td className="border border-gray-300 px-4 py-2">
+                        {result.agency[1]?.arrear[0]?.withholding_arrear !== undefined
+                          ? result.agency[1]?.arrear[0]?.withholding_arrear
+                          : "N/A"}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
