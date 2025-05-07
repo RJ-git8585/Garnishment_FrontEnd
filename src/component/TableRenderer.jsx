@@ -134,7 +134,7 @@ export const renderTable = (data) => {
         }
       }
       // Ensure withholding_arrear fetches the correct value, including 0, and only shows "N/A" when missing
-      const garnishmentAmount = withholdingData.child_support || withholdingData.garnishment_amount ||  withholdingData.creditordebt
+      const garnishmentAmount = withholdingData.child_support || withholdingData.garnishment_amount ||  withholdingData.creditor_debt
       
        || "0"; // Fetch child_support
 
