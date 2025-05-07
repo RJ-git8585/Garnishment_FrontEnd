@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../Config';
 import Swal from 'sweetalert2';
-
+import { RiDeleteBin6Line } from "react-icons/ri";
 // eslint-disable-next-line react/prop-types
 function DeleteItemComponent({ id, cid, type, onDeleteSuccess, onDeleteError }) {
   const handleDelete = async () => {
@@ -61,7 +61,7 @@ function DeleteItemComponent({ id, cid, type, onDeleteSuccess, onDeleteError }) 
         onClick={handleDelete}
         className="py-2 button-cls text-sm text-red font-semibold"
       >
-        Delete
+         <RiDeleteBin6Line />
       </button>
     </div>
   );
