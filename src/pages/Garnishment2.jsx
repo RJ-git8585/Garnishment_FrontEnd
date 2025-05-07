@@ -358,7 +358,7 @@ function Garnishment2() {
                 type="number"
                 id="wages"
                 name="wages"
-                placeholder="Enter Wages number"
+                placeholder="Enter Wages Number"
                 value={formData.wages}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -372,6 +372,7 @@ function Garnishment2() {
                 type="number"
                 id="commission_and_bonus"
                 name="commission_and_bonus"
+                placeholder="Enter Commission and Bonus Number"
                 value={formData.commission_and_bonus}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -385,6 +386,7 @@ function Garnishment2() {
                 type="number"
                 id="non_accountable_allowances"
                 name="non_accountable_allowances"
+                placeholder="Enter Non-Accountable Number"
                 value={formData.non_accountable_allowances}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -398,6 +400,7 @@ function Garnishment2() {
                 type="number"
                 id="gross_pay"
                 name="gross_pay"
+                placeholder="Enter Gross Pay Number"
                 value={formData.gross_pay}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -411,6 +414,7 @@ function Garnishment2() {
                 type="number"
                 id="federal_income_tax"
                 name="federal_income_tax"
+                placeholder="Enter Federal Income Tax Number"
                 value={formData.federal_income_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -424,6 +428,7 @@ function Garnishment2() {
                 type="number"
                 id="social_security_tax"
                 name="social_security_tax"
+                placeholder="Enter Social Security Tax Number"
                 value={formData.social_security_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -437,6 +442,7 @@ function Garnishment2() {
                 type="number"
                 id="medicare_tax"
                 name="medicare_tax"
+                placeholder="Enter Medicare Tax Number"
                 value={formData.medicare_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -450,6 +456,7 @@ function Garnishment2() {
                 type="number"
                 id="state_tax"
                 name="state_tax"
+                placeholder="Enter State Tax Number"
                 value={formData.state_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -463,6 +470,7 @@ function Garnishment2() {
                 type="number"
                 id="local_tax"
                 name="local_tax"
+                placeholder="Enter Local Tax        ` Number"
                 value={formData.local_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"

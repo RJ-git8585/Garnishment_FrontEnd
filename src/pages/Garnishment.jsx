@@ -107,6 +107,7 @@ function Garnishment() {
           <p className="text-white text-lg mb-6">
             This feature is currently under maintenance. Please check back later.
           </p>
+          <p><a className="text-sm" href="/garnishment-pro">Calculator Pro</a></p>
         </div>
       )}
       <div className={isMaintenanceMode ? "pointer-events-none opacity-50" : ""}>
