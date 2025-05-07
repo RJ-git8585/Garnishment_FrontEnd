@@ -290,32 +290,28 @@ export const renderTable = (data) => {
                 {columns.map((column) => (
                   <TableCell key={column.key} style={{ textAlign: "center" }}>
                     {column.key === "withholding_limit_rule" && item.garnishment_type !== "State tax levy" ? (
-                      item[column.key] === "No Rule" ? (
-                        <span style={{ color: "gray" }}>{item[column.key]}</span>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleRuleClick(
-                              item.Work_State || "No Work State",
-                              item.ee_id,
-                              item.support_second_family || "No",
-                              item.arrears_greater_than_12_weeks || "No",
-                              item.disposable_earning || "0",
-                              item.data_count
-                            )
-                          }
-                          style={{
-                            background: "none",
-                            border: "none",
-                            color: "blue",
-                            cursor: "pointer",
-                            textDecoration: "underline",
-                          }}
-                        >
-                          {item[column.key]}
-                        </button>
-                      )
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRuleClick(
+                            item.Work_State || "No Work State",
+                            item.ee_id,
+                            item.support_second_family || "No",
+                            item.arrears_greater_than_12_weeks || "No",
+                            item.disposable_earning || "0",
+                            item.data_count
+                          )
+                        }
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "blue",
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {item[column.key] || "No Rule"}
+                      </button>
                     ) : (
                       item[column.key] || "N/A"
                     )}
