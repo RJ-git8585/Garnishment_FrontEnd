@@ -1,6 +1,8 @@
 export const StateList = [
+  { id: 46, label: 'Alaska' },
     { id: 1, label: 'Alabama' },
     { id: 2, label: 'Arizona' },
+    { id: 47, label: 'Arkansas' },
     { id: 3, label: 'California' },
     { id: 4, label: 'Colorado' },
     { id: 5, label: 'Connecticut' },
@@ -44,8 +46,6 @@ export const StateList = [
     { id: 43, label: 'West Virginia' },
     { id: 44, label: 'Wisconsin' },
     { id: 45, label: 'Wyoming' },
-    { id: 46, label: 'Alaska' },
-    { id: 47, label: 'Arkansas' },
     { id: 48, label: 'Delaware' },
     { id: 49, label: 'Hawaii' },
     { id: 50, label: 'New York' },

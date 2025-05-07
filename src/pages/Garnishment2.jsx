@@ -283,7 +283,7 @@ function Garnishment2() {
             </div>
             <div>
               <label htmlFor="pay_period" className="block text-sm font-bold mb-1">
-                Pay Period:
+                Pay Period <span className="text-red-700">*</span>:
               </label>
               <select
                 id="pay_period"
@@ -291,6 +291,7 @@ function Garnishment2() {
                 value={formData.pay_period}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                required
               >
                 <option value="">Select Pay Period</option>
                 <option value="weekly">Weekly</option>
