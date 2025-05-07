@@ -59,7 +59,7 @@ const Sidebar = () => {
       path: '/GarnishFee',
     },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
-    { text: 'Calculator', icon: <CiCalculator2 />, path: '/garnishment' },
+    { text: 'Calculator', icon: <CiCalculator2 />, path: '/garnishment-pro' },
     {
       text: 'Processing',
       icon: <FaBalanceScaleRight />,
