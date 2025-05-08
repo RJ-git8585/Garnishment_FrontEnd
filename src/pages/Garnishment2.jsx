@@ -360,7 +360,7 @@ function Garnishment2() {
                 type="number"
                 id="wages"
                 name="wages"
-                placeholder="Enter Wages Number"
+                placeholder="Enter Wages Amount"
                 value={formData.wages}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -374,7 +374,7 @@ function Garnishment2() {
                 type="number"
                 id="commission_and_bonus"
                 name="commission_and_bonus"
-                placeholder="Enter Commission and Bonus Number"
+                placeholder="Enter Commission and Bonus Amount"
                 value={formData.commission_and_bonus}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -388,7 +388,7 @@ function Garnishment2() {
                 type="number"
                 id="non_accountable_allowances"
                 name="non_accountable_allowances"
-                placeholder="Enter Non-Accountable Number"
+                placeholder="Enter Non-Accountable Amount"
                 value={formData.non_accountable_allowances}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -402,7 +402,7 @@ function Garnishment2() {
                 type="number"
                 id="gross_pay"
                 name="gross_pay"
-                placeholder="Enter Gross Pay Number"
+                placeholder="Enter Gross Pay Amount"
                 value={formData.gross_pay}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -416,7 +416,7 @@ function Garnishment2() {
                 type="number"
                 id="federal_income_tax"
                 name="federal_income_tax"
-                placeholder="Enter Federal Income Tax Number"
+                placeholder="Enter Federal Income Tax Amount"
                 value={formData.federal_income_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -430,7 +430,7 @@ function Garnishment2() {
                 type="number"
                 id="social_security_tax"
                 name="social_security_tax"
-                placeholder="Enter Social Security Tax Number"
+                placeholder="Enter Social Security Tax Amount"
                 value={formData.social_security_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -444,7 +444,7 @@ function Garnishment2() {
                 type="number"
                 id="medicare_tax"
                 name="medicare_tax"
-                placeholder="Enter Medicare Tax Number"
+                placeholder="Enter Medicare Tax Amount"
                 value={formData.medicare_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -458,7 +458,7 @@ function Garnishment2() {
                 type="number"
                 id="state_tax"
                 name="state_tax"
-                placeholder="Enter State Tax Number"
+                placeholder="Enter State Tax Amount"
                 value={formData.state_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -472,7 +472,7 @@ function Garnishment2() {
                 type="number"
                 id="local_tax"
                 name="local_tax"
-                placeholder="Enter Local Tax Number"
+                placeholder="Enter Local Tax Amount"
                 value={formData.local_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -486,7 +486,7 @@ function Garnishment2() {
                 type="number"
                 id="union_dues"
                 name="union_dues"
-                placeholder="Enter Union Dues Number"
+                placeholder="Enter Union Dues Amount"
                 value={formData.union_dues}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -500,7 +500,7 @@ function Garnishment2() {
                 type="number"
                 id="wilmington_tax"
                 name="wilmington_tax"
-                 placeholder="Enter Wilmington Tax Number"
+                 placeholder="Enter Wilmington Tax Amount"
                 value={formData.wilmington_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -514,7 +514,7 @@ function Garnishment2() {
                 type="number"
                 id="medical_insurance_pretax"
                 name="medical_insurance_pretax"
-                 placeholder="Enter Medical Insurance Number"
+                 placeholder="Enter Medical Insurance Amount"
                 value={formData.medical_insurance_pretax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -528,7 +528,7 @@ function Garnishment2() {
                 type="number"
                 id="industrial_insurance"
                 name="industrial_insurance"
-                 placeholder="Enter Industrial Insurance Number"
+                 placeholder="Enter Industrial Insurance Amount"
                 value={formData.industrial_insurance}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -542,7 +542,7 @@ function Garnishment2() {
                 type="number"
                 id="life_insurance"
                 name="life_insurance"
-                placeholder="Enter Life Insurance Number"
+                placeholder="Enter Life Insurance Amount"
                 value={formData.life_insurance}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -556,7 +556,7 @@ function Garnishment2() {
                 type="number"
                 id="CaliforniaSDI"
                 name="CaliforniaSDI"
-                placeholder="Enter California SDI Number"
+                placeholder="Enter California SDI Amount"
                 value={formData.CaliforniaSDI}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -570,7 +570,7 @@ function Garnishment2() {
                 type="number"
                 id="famli_tax"
                 name="famli_tax"
-                placeholder="Enter FAMLI Tax Number"
+                placeholder="Enter FAMLI Tax Amount"
                 value={formData.famli_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -584,7 +584,7 @@ function Garnishment2() {
                 type="number"
                 id="medical_insurance"
                 name="medical_insurance"
-                placeholder="Enter Medical Insurance Number"
+                placeholder="Enter Medical Insurance Amount"
                 value={formData.medical_insurance}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
@@ -598,7 +598,7 @@ function Garnishment2() {
                 type="number"
                 id="net_pay"
                 name="net_pay"
-                 placeholder="Enter Net Pay Number"
+                 placeholder="Enter Net Pay Amount"
                 value={formData.net_pay}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
