@@ -3,12 +3,13 @@ import { FaBalanceScaleRight } from "react-icons/fa";
 import axios from "axios";
 import { StateList } from "../Constant";
 import { BASE_URL } from '../Config';
-import Swal from "sweetalert2";
+import Swal from "sweetalert2"; // Import Swal for popup messages
+import ErrorBoundary from "../component/ErrorBoundary"; // Import the ErrorBoundary component
 
 function Garnishment2() {
   const generateBatchId = () => {
     const timestamp = Date.now().toString(36);
-    const randomString = Math.random().toString(36).substring(2, 8);
+    const randomString = Math.random().toString(36).substring(2, 8); // Ensure randomString is defined here
     return `BATCH-${timestamp}-${randomString}`;
   };
 
@@ -97,6 +98,9 @@ function Garnishment2() {
     if (!formData.ee_id) {
       newErrors.ee_id = "Employee ID is mandatory.";
     }
+    if (formData.garnishment_data[0].type === "Creditor Debt" && !formData.no_of_dependent_child) {
+      newErrors.no_of_dependent_child = "No. of Dependent Child is mandatory for Creditor Debt.";
+    }
     formData.garnishment_data[0].data.forEach((item, index) => {
       if (!item.case_id) {
         newErrors[`case_id_${index}`] = "Case ID is mandatory.";
@@ -183,6 +187,11 @@ function Garnishment2() {
       }
     } catch (error) {
       console.error("Error calculating garnishment:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "An error occurred while submitting the form. Please try again later.",
+      });
     } finally {
       setLoading(false);
     }
@@ -620,6 +629,9 @@ function Garnishment2() {
             <div>
               <label htmlFor="no_of_dependent_child" className="block text-sm font-bold mb-1">
                 No. of Dependent Child:
+                {formData.garnishment_data[0].type === "Creditor Debt" && (
+                  <span className="text-red-700"> *</span>
+                )}
               </label>
               <input
                 type="number"
@@ -629,7 +641,11 @@ function Garnishment2() {
                 value={formData.no_of_dependent_child}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                required={formData.garnishment_data[0].type === "Creditor Debt"}
               />
+              {errors.no_of_dependent_child && (
+                <p className="text-red-600 text-xs mt-1">{errors.no_of_dependent_child}</p>
+              )}
             </div>
             <div>
               <label htmlFor="support_second_family" className="block text-sm font-bold mb-1">
@@ -775,4 +791,10 @@ function Garnishment2() {
   );
 }
 
-export default Garnishment2;
+export default function Garnishment2Wrapper() {
+  return (
+    <ErrorBoundary>
+      <Garnishment2 />
+    </ErrorBoundary>
+  );
+}
