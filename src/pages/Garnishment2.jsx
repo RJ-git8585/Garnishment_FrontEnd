@@ -30,7 +30,7 @@ function Garnishment2() {
     local_tax: "",
     union_dues: "",
     wilmington_tax: "",
-    medical_insurance_pretax: "",
+    
     industrial_insurance: "",
     life_insurance: "",
     CaliforniaSDI: "",
@@ -138,7 +138,7 @@ function Garnishment2() {
               local_tax: parseFloat(formData.local_tax) || 0,
               union_dues: parseFloat(formData.union_dues) || 0,
               wilmington_tax: parseFloat(formData.wilmington_tax) || 0,
-              medical_insurance_pretax: parseFloat(formData.medical_insurance_pretax) || 0,
+              
               industrial_insurance: parseFloat(formData.industrial_insurance) || 0,
               life_insurance: parseFloat(formData.life_insurance) || 0,
               california_sdi: parseFloat(formData.california_sdi) || 0,
@@ -216,7 +216,7 @@ function Garnishment2() {
       local_tax: "",
       union_dues: "",
       wilmington_tax: "",
-      medical_insurance_pretax: "",
+    
       industrial_insurance: "",
       life_insurance: "",
       california_sdi: "",
@@ -529,20 +529,7 @@ function Garnishment2() {
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               />
             </div>
-            <div>
-              <label htmlFor="medical_insurance_pretax" className="block text-sm font-bold mb-1">
-                Medical Insurance (Pre-Tax):
-              </label>
-              <input
-                type="number"
-                id="medical_insurance_pretax"
-                name="medical_insurance_pretax"
-                 placeholder="Enter Medical Insurance Amount"
-                value={formData.medical_insurance_pretax}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
+            
             <div>
               <label htmlFor="industrial_insurance" className="block text-sm font-bold mb-1">
                 Industrial Insurance:
