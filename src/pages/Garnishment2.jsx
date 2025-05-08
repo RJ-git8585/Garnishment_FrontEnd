@@ -8,7 +8,7 @@ import ErrorBoundary from "../component/ErrorBoundary"; // Import the ErrorBound
 
 function Garnishment2() {
   const generateBatchId = () => {
-    const timestamp = Date.now().toString(36);
+    const timestamp = Date.now().toString(16);
     const randomString = Math.random().toString(36).substring(2, 8); // Ensure randomString is defined here
     return `BATCH-${timestamp}-${randomString}`;
   };
