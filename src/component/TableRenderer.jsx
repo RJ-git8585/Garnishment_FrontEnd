@@ -166,7 +166,9 @@ export const renderTable = (data) => {
           filing_status: result.filing_status,
           no_of_exemption_including_self: result.no_of_exemption_including_self,
           wages: result.wages,
-          commission_and_bonus: result.commission_and_bonus,
+          commission_and_bonus: result.commission_and_bonus !== undefined && result.commission_and_bonus !== 0 
+            ? result.commission_and_bonus 
+            : "0",
           non_accountable_allowances: result.non_accountable_allowances,
           gross_pay: result.gross_pay,
           net_pay: result.net_pay,
