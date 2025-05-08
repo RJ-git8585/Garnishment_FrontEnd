@@ -141,7 +141,7 @@ function Garnishment2() {
               medical_insurance_pretax: parseFloat(formData.medical_insurance_pretax) || 0,
               industrial_insurance: parseFloat(formData.industrial_insurance) || 0,
               life_insurance: parseFloat(formData.life_insurance) || 0,
-              CaliforniaSDI: parseFloat(formData.CaliforniaSDI) || 0,
+              california_sdi: parseFloat(formData.california_sdi) || 0,
               famli_tax: parseFloat(formData.famli_tax) || 0,
             },
             payroll_deductions: {
