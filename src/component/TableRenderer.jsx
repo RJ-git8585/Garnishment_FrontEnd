@@ -169,7 +169,9 @@ export const renderTable = (data) => {
           commission_and_bonus: result.commission_and_bonus !== undefined && result.commission_and_bonus !== 0 
             ? result.commission_and_bonus 
             : "0",
-          non_accountable_allowances: result.non_accountable_allowances,
+          non_accountable_allowances: result.non_accountable_allowances !== undefined && result.non_accountable_allowances !== 0 
+            ? result.non_accountable_allowances 
+            : "0",
           gross_pay: result.gross_pay,
           net_pay: result.net_pay,
           federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
