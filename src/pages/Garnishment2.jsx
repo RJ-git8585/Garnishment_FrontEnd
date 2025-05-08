@@ -142,9 +142,10 @@ function Garnishment2() {
               life_insurance: parseFloat(formData.life_insurance) || 0,
               california_sdi: parseFloat(formData.california_sdi) || 0,
               famli_tax: parseFloat(formData.famli_tax) || 0,
+              medical_insurance: parseFloat(formData.medical_insurance) || 0,
             },
           
-            medical_insurance: parseFloat(formData.medical_insurance) || 0,
+           
             
             net_pay: parseFloat(formData.net_pay) || 0,
             age: formData.age, // Add this field if required
