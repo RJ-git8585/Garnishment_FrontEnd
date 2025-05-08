@@ -573,13 +573,13 @@ function Garnishment2() {
             </div>
             <div>
               <label htmlFor="california_sdi" className="block text-sm font-bold mb-1">
-                California SDI:
+                SDI:
               </label>
               <input
                 type="number"
                 id="california_sdi"
                 name="california_sdi"
-                placeholder="Enter California SDI Amount"
+                placeholder="Enter SDI Amount"
                 value={formData.california_sdi}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
