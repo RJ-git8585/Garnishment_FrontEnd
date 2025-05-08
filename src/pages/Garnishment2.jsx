@@ -35,6 +35,7 @@ function Garnishment2() {
     famli_tax: "",
     medical_insurance: "",
     net_pay: "",
+    no_of_dependent_child: "",
     support_second_family: "",
     arrears_greater_than_12_weeks: "",
     garnishment_data: [
@@ -198,10 +199,11 @@ function Garnishment2() {
       medical_insurance_pretax: "",
       industrial_insurance: "",
       life_insurance: "",
-      CaliforniaSDI: "",
+      california_sdi: "",
       famli_tax: "",
       medical_insurance: "",
       net_pay: "",
+      no_of_dependent_child: "",
       support_second_family: "",
       arrears_greater_than_12_weeks: "",
       garnishment_data: [
@@ -549,15 +551,15 @@ function Garnishment2() {
               />
             </div>
             <div>
-              <label htmlFor="CaliforniaSDI" className="block text-sm font-bold mb-1">
+              <label htmlFor="california_sdi" className="block text-sm font-bold mb-1">
                 California SDI:
               </label>
               <input
                 type="number"
-                id="CaliforniaSDI"
-                name="CaliforniaSDI"
+                id="california_sdi"
+                name="california_sdi"
                 placeholder="Enter California SDI Amount"
-                value={formData.CaliforniaSDI}
+                value={formData.california_sdi}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               />
@@ -600,6 +602,20 @@ function Garnishment2() {
                 name="net_pay"
                  placeholder="Enter Net Pay Amount"
                 value={formData.net_pay}
+                onChange={handleInputChange}
+                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+              />
+            </div>
+            <div>
+              <label htmlFor="no_of_dependent_child" className="block text-sm font-bold mb-1">
+                No. of Dependent Child:
+              </label>
+              <input
+                type="number"
+                id="no_of_dependent_child"
+                name="no_of_dependent_child"
+                placeholder="Enter Number of Dependent Child"
+                value={formData.no_of_dependent_child}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               />
