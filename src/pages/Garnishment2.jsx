@@ -3,6 +3,7 @@ import { FaBalanceScaleRight } from "react-icons/fa";
 import axios from "axios";
 import { StateList } from "../Constant";
 import { BASE_URL } from '../Config';
+import Swal from "sweetalert2";
 
 function Garnishment2() {
   const generateBatchId = () => {
@@ -170,7 +171,16 @@ function Garnishment2() {
         `${BASE_URL}/User/garnishment_calculate/`,
         formattedData
       );
-      setCalculationResult(response.data);
+
+      if (response.data.results?.error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: response.data.results.error,
+        });
+      } else {
+        setCalculationResult(response.data);
+      }
     } catch (error) {
       console.error("Error calculating garnishment:", error);
     } finally {
@@ -265,6 +275,38 @@ function Garnishment2() {
               {errors.ee_id && <p className="text-red-600 text-xs mt-1">{errors.ee_id}</p>}
             </div>
             <div>
+              <label htmlFor="garnishment_type" className="block text-sm font-bold mb-1">
+                Garnishment Type:
+              </label>
+              <select
+                id="garnishment_type"
+                name="garnishment_type"
+                value={formData.garnishment_data[0].type}
+                onChange={(e) =>
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    garnishment_data: [
+                      {
+                        ...prevData.garnishment_data[0],
+                        type: e.target.value,
+                      },
+                    ],
+                  }))
+                }
+                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+              >
+                <option value="">Select Garnishment Type</option>
+                <option value="Child Support">Child Support Garnishment</option>
+                <option value="Creditor Debt">Creditor Debt Garnishment</option>
+                <option value="Federal Tax Levy">Federal Tax Levy</option>
+                {/* <option value="Tax Refund Garnishment">Tax Refund Garnishment</option> */}
+                {/* <option value="Social Security Garnishment">Social Security Garnishment (limited cases)</option> */}
+                <option value="student default loan">Student Loan Garnishment</option>
+                <option value="State Tax Levy">State Tax Levy</option>
+                
+              </select>
+            </div>
+            <div>
               <label htmlFor="work_state" className="block text-sm font-bold mb-1">
                 Work State:
               </label>
@@ -322,38 +364,7 @@ function Garnishment2() {
                 <option value="additional_exempt_amount">Additional Exempt Amount</option>
               </select>
             </div>
-            <div>
-              <label htmlFor="garnishment_type" className="block text-sm font-bold mb-1">
-                Garnishment Type:
-              </label>
-              <select
-                id="garnishment_type"
-                name="garnishment_type"
-                value={formData.garnishment_data[0].type}
-                onChange={(e) =>
-                  setFormData((prevData) => ({
-                    ...prevData,
-                    garnishment_data: [
-                      {
-                        ...prevData.garnishment_data[0],
-                        type: e.target.value,
-                      },
-                    ],
-                  }))
-                }
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              >
-                <option value="">Select Garnishment Type</option>
-                <option value="Child Support">Child Support Garnishment</option>
-                <option value="Creditor Debt">Creditor Debt Garnishment</option>
-                <option value="Federal Tax Levy">Federal Tax Levy</option>
-                {/* <option value="Tax Refund Garnishment">Tax Refund Garnishment</option> */}
-                {/* <option value="Social Security Garnishment">Social Security Garnishment (limited cases)</option> */}
-                <option value="student default loan">Student Loan Garnishment</option>
-                <option value="State Tax Levy">State Tax Levy</option>
-                
-              </select>
-            </div>
+            
             <div>
               <label htmlFor="wages" className="block text-sm font-bold mb-1">
                 Wages:
