@@ -138,15 +138,14 @@ function Garnishment2() {
               local_tax: parseFloat(formData.local_tax) || 0,
               union_dues: parseFloat(formData.union_dues) || 0,
               wilmington_tax: parseFloat(formData.wilmington_tax) || 0,
-              
               industrial_insurance: parseFloat(formData.industrial_insurance) || 0,
               life_insurance: parseFloat(formData.life_insurance) || 0,
               california_sdi: parseFloat(formData.california_sdi) || 0,
               famli_tax: parseFloat(formData.famli_tax) || 0,
             },
-            payroll_deductions: {
-              medical_insurance: parseFloat(formData.medical_insurance) || 0,
-            },
+          
+            medical_insurance: parseFloat(formData.medical_insurance) || 0,
+            
             net_pay: parseFloat(formData.net_pay) || 0,
             age: formData.age, // Add this field if required
             is_blind: formData.is_blind, // Add this field if required
@@ -216,7 +215,6 @@ function Garnishment2() {
       local_tax: "",
       union_dues: "",
       wilmington_tax: "",
-    
       industrial_insurance: "",
       life_insurance: "",
       california_sdi: "",
