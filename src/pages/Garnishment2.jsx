@@ -30,16 +30,16 @@ function Garnishment2() {
     local_tax: "",
     union_dues: "",
     wilmington_tax: "",
-    
     industrial_insurance: "",
     life_insurance: "",
-    CaliforniaSDI: "",
+    california_sdi: "",
     famli_tax: "",
     medical_insurance: "",
     net_pay: "",
     no_of_dependent_child: "",
     support_second_family: "",
     arrears_greater_than_12_weeks: "",
+    no_of_exemption_including_self: "", // Add this field
     garnishment_data: [
       {
         type: "",
@@ -123,7 +123,7 @@ function Garnishment2() {
           {
             ee_id: formData.ee_id,
             work_state: formData.work_state,
-            no_of_exemption_including_self: 0, // Add this field if required
+            no_of_exemption_including_self: parseInt(formData.no_of_exemption_including_self, 10) || 0, // Include this field
             pay_period: formData.pay_period,
             filing_status: formData.filing_status,
             wages: parseFloat(formData.wages) || 0,
@@ -224,6 +224,7 @@ function Garnishment2() {
       no_of_dependent_child: "",
       support_second_family: "",
       arrears_greater_than_12_weeks: "",
+      no_of_exemption_including_self: "", // Add this field
       garnishment_data: [
         {
           type: "",
@@ -608,6 +609,20 @@ function Garnishment2() {
                 name="net_pay"
                  placeholder="Enter Net Pay Amount"
                 value={formData.net_pay}
+                onChange={handleInputChange}
+                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+              />
+            </div>
+            <div>
+              <label htmlFor="no_of_exemption_including_self" className="block text-sm font-bold mb-1">
+                No. of Exemptions :
+              </label>
+              <input
+                type="number"
+                id="no_of_exemption_including_self"
+                name="no_of_exemption_including_self"
+                placeholder="Enter No. of Exemptions"
+                value={formData.no_of_exemption_including_self}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               />
