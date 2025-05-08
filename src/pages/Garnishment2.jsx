@@ -155,6 +155,7 @@ function Garnishment2() {
             support_second_family: formData.support_second_family,
             no_of_student_default_loan: formData.no_of_student_default_loan,
             arrears_greater_than_12_weeks: formData.arrears_greater_than_12_weeks,
+            no_of_dependent_child: parseInt(formData.no_of_dependent_child, 10) || 0, // Include this field
             garnishment_data: formData.garnishment_data.map((garnishment) => ({
               type: garnishment.type,
               data: garnishment.data.map((garnData) => ({
