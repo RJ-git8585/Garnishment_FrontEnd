@@ -208,7 +208,7 @@ input[type="file"] {
   margin-bottom: 10px;
 }
 .content {
-  width: 82%;
+  width: 84%;
   position: relative;
   /* margin-left: 211px !important; */
   font-size: 28px;
@@ -217,6 +217,9 @@ input[type="file"] {
 .container {
   /* max-width: 1280px; */
   /* margin-right: inherit; */
+}
+img.mx-auto.h-10.w-auto.logo-cls {
+  height: 65px;
 }
 .border-gray-50{
   border: 1px solid #ffffff4a !important; 
@@ -436,7 +439,7 @@ button.sidebar-link {
   color: #000;
 }
 .css-1thdd5r-MuiDrawer-docked .MuiDrawer-paper {
-  width: 280px !important;
+  width: 250px !important;
   box-sizing: border-box;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }

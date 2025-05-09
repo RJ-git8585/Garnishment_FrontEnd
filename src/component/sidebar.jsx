@@ -168,7 +168,7 @@ const Sidebar = () => {
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ p: 2 }}>
-        <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
+        <img className="mx-auto h-10 w-auto logo-cls" src={logo} alt="Your Company" />
       </Box>
       <Divider />
       <List className="menu_cls">{renderMenuItems}</List>

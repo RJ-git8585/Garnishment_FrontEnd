@@ -1,185 +1,156 @@
-import { useState, useEffect, useCallback } from "react";
-import DeleteItemComponent from "../component/DeleteItemComponent";
+import { useState, useEffect } from "react";
+import { BASE_URL } from "../Config";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";
-import { BASE_URL } from "../Config";
-import { Link } from "react-router-dom";
+import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import the loader icon
 
-function Employee({ onDeleteSuccess }) {
+function Employee() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
-  const [pageSize] = useState(10); // Fixed page size to 10
-  const [totalRows, setTotalRows] = useState(0);
-  const exportLink = `${BASE_URL}/User/ExportEmployees`;
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`${BASE_URL}/User/EmployeeRules`);
-      const jsonData = await response.json();
-
-      if (jsonData.data) {
-        setTotalRows(jsonData.data.length); // Set total rows based on all data
-        const startIndex = page * pageSize;
-        const paginatedData = jsonData.data.slice(startIndex, startIndex + pageSize); // Slice data for the current page
-        setData(paginatedData);
-      } else {
-        setData([]);
-        setTotalRows(0);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [page, pageSize]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true); // State to track loading
+  const rowsPerPage = 10;
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    const fetchData = async () => {
+      setLoading(true); // Start loading
+      try {
+        const response = await fetch(`${BASE_URL}/User/EmployeeRules/`);
+        const jsonData = await response.json();
+        setData(jsonData.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Stop loading
+      }
+    };
 
-  const handlePageChange = (newPage) => {
-    if (newPage >= 0 && newPage < Math.ceil(totalRows / pageSize)) {
-      setPage(newPage);
-    }
+    fetchData();
+  }, []);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
-  const columns = [
-    {
-      field: "ee_id",
-      headerName: "Employee ID",
-      renderCell: (row) => (
-        <Link
-          to={`/employee/edit/${row.case_id}/${row.ee_id}`}
-          className="text-blue-500 hover:underline"
-        >
-          {row.ee_id}
-        </Link>
-      ),
-    },
-    { field: "social_security_number", headerName: "SSN" },
-    { field: "age", headerName: "Age" },
-    { field: "gender", headerName: "Gender" },
-    { field: "home_state", headerName: "Home State" },
-    { field: "work_state", headerName: "Work State" },
-    { field: "pay_period", headerName: "Pay Period" },
-    { field: "case_id", headerName: "Case Id" },
-    { field: "is_blind", headerName: "Blind", renderCell: (row) => (row.is_blind ? "True" : "False") },
-    { field: "marital_status", headerName: "Marital Status" },
-    { field: "filing_status", headerName: "Filing Status" },
-    { field: "spouse_age", headerName: "Spouse Age" },
-    { field: "is_spouse_blind", headerName: "Spouse Blind", renderCell: (row) => (row.is_spouse_blind ? "Yes" : "No") },
-    { field: "number_of_exemptions", headerName: "No. of Exemptions" },
-    { field: "support_second_family", headerName: "Support 2nd Family", renderCell: (row) => (row.support_second_family ? "Yes" : "No") },
-    { field: "number_of_student_default_loan", headerName: "No. of Default Loans" },
-    { field: "garnishment_fees_status", headerName: "Garnishment Status", renderCell: (row) => (row.garnishment_fees_status ? "Active" : "Inactive") },
-    { field: "garnishment_fees_suspended_till", headerName: "Garnishment Suspended Till" },
-    {
-      field: "actions",
-      headerName: "Actions",
-      renderCell: (row) => (
-        <DeleteItemComponent
-          id={row.ee_id} // Pass ee_id
-          cid={row.case_id} // Pass case_id
-          type="emp"
-          onDeleteSuccess={onDeleteSuccess}
-        />
-      ),
-    },
-  ];
-
-  const renderTableHeader = () => (
-    <tr>
-      {columns.map((col) => (
-        <th key={col.field} className="px-4 py-2 bg-gray-800 text-white">
-          {col.headerName}
-        </th>
-      ))}
-    </tr>
+  const paginatedData = data.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
   );
 
-  const renderTableRows = () =>
-    data.map((row, index) => (
-      <tr key={index} className="border-b">
-        {columns.map((col) => (
-          <td
-            key={col.field}
-            className="px-4 py-2"
-            style={{
-              whiteSpace: "nowrap", // Ensure text does not wrap
-              overflow: "hidden", // Hide overflow
-              textOverflow: "ellipsis", // Add ellipsis for overflowed text
-            }}
-          >
-            {col.renderCell ? col.renderCell(row) : row[col.field] || "N/A"}
-          </td>
-        ))}
-      </tr>
-    ));
-
-  const totalPages = Math.ceil(totalRows / pageSize);
+  const totalPages = Math.ceil(data.length / rowsPerPage);
 
   return (
-    <>
-      {/* Action Buttons */}
-      <div className="text-right mt-4 mb-4">
-        <a
-          href={exportLink}
-          className="border inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
-        >
-          <TiExport className="mr-1" /> Export
-        </a>
-        <a
-          href="/EmpImport"
-          className="border inline-flex ml-2 items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
-        >
-          <CgImport className="mr-1" /> Import
-        </a>
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h4 className="text-lg font-bold text-gray-800">Employees</h4>
+        <div className="flex space-x-2">
+          <a
+            href={`${BASE_URL}/User/ExportEmployees/`}
+            className="border inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
+          >
+            <TiExport className="mr-1" /> Export
+          </a>
+          <a
+            href="/EmpImport"
+            className="border inline-flex ml-2 items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
+          >
+            <CgImport className="mr-1" /> Import
+          </a>
+        </div>
       </div>
 
-      {/* Table Section */}
-      <h4 className="text-lg font-semibold text-black mb-4">Employees</h4>
-      <div className="overflow-x-auto text-sm">
-        {loading ? (
-          <div className="flex justify-center items-center h-40">
-            <div className="loader">Loading...</div>
-          </div>
-        ) : data.length > 0 ? (
-          <table className="table-auto w-full border-collapse border border-gray-200">
-            <thead>{renderTableHeader()}</thead>
-            <tbody>{renderTableRows()}</tbody>
-          </table>
-        ) : (
-          <p className="text-center text-gray-500">No records found.</p>
-        )}
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+        <table className="min-w-full bg-white border rounded shadow">
+          <thead>
+            <tr className="bg-gray-200 text-gray-700">
+              <th className="px-6 py-3 text-left text-sm">Employee ID</th>
+              <th className="px-6 py-3 text-left text-sm">SSN</th>
+              <th className="px-6 py-3 text-left text-sm">Age</th>
+              <th className="px-6 py-3 text-left text-sm">Gender</th>
+              <th className="px-6 py-3 text-left text-sm">Home State</th>
+              <th className="px-6 py-3 text-left text-sm">Work State</th>
+              <th className="px-6 py-3 text-left text-sm">Pay Period</th>
+              <th className="px-6 py-3 text-left text-sm">Case ID</th>
+              <th className="px-6 py-3 text-left text-sm">Blind</th>
+              <th className="px-6 py-3 text-left text-sm">Marital Status</th>
+              <th className="px-6 py-3 text-left text-sm">Filing Status</th>
+              <th className="px-6 py-3 text-left text-sm">Spouse Age</th>
+              <th className="px-6 py-3 text-left text-sm">Spouse Blind</th>
+              <th className="px-6 py-3 text-left text-sm">No. of Exemptions</th>
+              <th className="px-6 py-3 text-left text-sm">Support 2nd Family</th>
+              <th className="px-6 py-3 text-left text-sm">No. of Default Loans</th>
+              <th className="px-6 py-3 text-left text-sm">Garnishment Status</th>
+              <th className="px-6 py-3 text-left text-sm">Garnishment Suspended Till</th>
+              <th className="px-6 py-3 text-left text-sm">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="19" className="py-6">
+                  <div className="flex justify-left ml-20 items-center h-40">
+                    <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
+                  </div>
+                </td>
+              </tr>
+            ) : (
+              paginatedData.map((row, index) => (
+                <tr key={index} className="border-t hover:bg-gray-100">
+                  <td className="px-6 py-3 text-sm truncate">{row.ee_id}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.social_security_number}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.age}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.gender}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.home_state}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.work_state}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.pay_period}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.case_id}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.is_blind ? "True" : "False"}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.marital_status}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.filing_status}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.spouse_age}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.is_spouse_blind ? "Yes" : "No"}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.number_of_exemptions}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.support_second_family ? "Yes" : "No"}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.number_of_student_default_loan}</td>
+                  <td className="px-6 py-3 text-sm truncate">
+                    {row.garnishment_fees_status ? "Active" : "Inactive"}
+                  </td>
+                  <td className="px-6 py-3 text-sm truncate">{row.garnishment_fees_suspended_till}</td>
+                  <td className="px-6 py-3 text-sm">
+                    <button
+                      className="text-red-500 hover:underline"
+                      onClick={() => console.log(`Delete ${row.ee_id}`)}
+                    >
+                      <RiDeleteBin6Line />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
 
-      {/* Pagination */}
       <div className="flex justify-between items-center mt-4">
-        <button
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 0}
-          className={`px-4 py-2 border text-sm rounded-md ${
-            page === 0 ? "bg-gray-300 cursor-not-allowed" : "bg-white hover:bg-gray-100"
-          }`}
-        >
-          Previous
-        </button>
-        <span className="text-sm">
-          Page {page + 1} of {totalPages}
-        </span>
-        <button
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page + 1 >= totalPages}
-          className={`px-4 py-2 border text-sm rounded-md ${
-            page + 1 >= totalPages ? "bg-gray-300 text-sm cursor-not-allowed" : "bg-white hover:bg-gray-100"
-          }`}
-        >
-          Next
-        </button>
+        <p className="text-sm text-gray-600">
+          Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
+          {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries
+        </p>
+        <div className="flex space-x-1">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={`px-2 py-1 border rounded text-sm ${
+                currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 

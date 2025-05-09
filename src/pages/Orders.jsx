@@ -1,112 +1,144 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BASE_URL } from '../Config';
-import { DataGrid } from '@mui/x-data-grid';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField'; // Import TextField for search functionality
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { CgImport } from "react-icons/cg";
+import { TiExport } from "react-icons/ti";
+import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import a new loader icon
 
-function Orders({ onDeleteSuccess }) {
+function Orders() {
   const cid = sessionStorage.getItem("cid");
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]); // State for filtered data
-  const [searchQuery, setSearchQuery] = useState(''); // State for search query
-  const [pageSize, setPageSize] = useState(10); // State for page size
-  const Link1 = `${BASE_URL}/User/ExportOrder/`;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true); // State to track loading
+  const rowsPerPage = 10;
 
-  const dataFetchedRef = useRef(false);
   useEffect(() => {
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
-
     const fetchData = async () => {
+      setLoading(true); // Start loading
       try {
         const response = await fetch(`${BASE_URL}/User/GetOrderDetails/`);
         const jsonData = await response.json();
         setData(jsonData.data);
-        setFilteredData(jsonData.data); // Initialize filtered data
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
 
     fetchData();
   }, [cid]);
 
-  // Handle search query change
-  const handleSearch = (event) => {
-    const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
-    setFilteredData(
-      data.filter((row) =>
-        Object.values(row).some((value) =>
-          String(value).toLowerCase().includes(query)
-        )
-      )
-    );
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
+  const paginatedData = data.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+
   return (
-    <div>
-      <div className="items-right text-right mt-4 mb-4 customexport">
-        <a href={Link1} className="border inline-flex items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          Export
-        </a>
-        <a href="/OrdImport" className="border inline-flex ml-2 items-right rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          Import
-        </a>
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h4 className="text-lg font-bold text-gray-800">Orders</h4>
+        <div className="flex space-x-2">
+          <a
+            href={`${BASE_URL}/User/ExportOrder/`}
+            className="border inline-flex ml-2 items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
+          >
+            <TiExport className="mr-1" />Export
+          </a>
+          <a
+            href="/OrdImport"
+            className="border inline-flex ml-2 items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
+          >
+           <CgImport className="mr-1" /> Import
+          </a>
+        </div>
       </div>
 
-      <h4 className="text-l text-black-800 mb-4">Orders</h4>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border rounded shadow">
+          <thead>
+            <tr className="bg-gray-200 text-gray-700">
+              <th className="px-6 py-3 text-left text-sm">Employee ID</th>
+              <th className="px-6 py-3 text-left text-sm">FEIN</th>
+              <th className="px-6 py-3 text-left text-sm">Case ID</th>
+              <th className="px-6 py-3 text-left text-sm">State</th>
+              <th className="px-6 py-3 text-left text-sm">Garnishment Type</th>
+              <th className="px-6 py-3 text-left text-sm">SDU</th>
+              <th className="px-6 py-3 text-left text-sm">Start Date</th>
+              <th className="px-6 py-3 text-left text-sm">End Date</th>
+              <th className="px-6 py-3 text-left text-sm">Amount</th>
+              <th className="px-6 py-3 text-left text-sm">Arrears 12 Weeks</th>
+              <th className="px-6 py-3 text-left text-sm">Arrear Amount</th>
+              <th className="px-6 py-3 text-left text-sm">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="12" className="py-6">
+                  <div className="flex justify-center items-center h-40">
+                    <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
+                  </div>
+                </td>
+              </tr>
+            ) : (
+              paginatedData.map((row, index) => (
+                <tr key={index} className="border-t hover:bg-gray-100">
+                  <td className="px-6 py-3 text-sm truncate">{row.eeid}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.fein}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.case_id}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.work_state}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.type}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.sdu}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.start_date}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.end_date}</td>
+                  <td className="px-6 py-3 text-sm truncate">{row.amount}</td>
+                  <td className="px-6 py-3 text-sm truncate">
+                    {row.arrear_greater_than_12_weeks ? "True" : "False"}
+                  </td>
+                  <td className="px-6 py-3 text-sm truncate">{row.arrear_amount}</td>
+                  <td className="px-6 py-3 text-sm">
+                    <button
+                      className="text-red-500 hover:underline"
+                      onClick={() => console.log(`Delete ${row.case_id}`)}
+                    >
+                      <RiDeleteBin6Line />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
-      {/* Search bar for filtering */}
-      {/* <TextField
-        label="Search"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        value={searchQuery}
-        onChange={handleSearch}
-      /> */}
-
-      <Box sx={{ height: 600, width: '100%' }}>
-        <DataGrid
-          getRowId={(row) => row.id || row.case_id}
-          columns={[
-            { field: 'eeid', headerName: 'Employee Id', width: 120 },
-            { field: 'fein', headerName: 'FEIN', width: 120 },
-            { field: 'case_id', headerName: 'CaseID', width: 120 },
-            { field: 'work_state', headerName: 'State', width: 140 },
-            { field: 'type', headerName: 'Garnishment Type', width: 150 },
-            { field: 'sdu', headerName: 'SDU', width: 150 },
-            { field: 'start_date', headerName: 'Start Date', width: 150 },
-            { field: 'end_date', headerName: 'End Date', width: 150 },
-            { field: 'amount', headerName: 'Amount', width: 100 },
-            { field: 'arrear_greater_than_12_weeks', headerName: 'Arrears Greater Than 12 Weeks', width: 200 },
-            { field: 'arrear_amount', headerName: 'Arrear Amount', width: 100 },
-            {
-              field: 'Actions', headerName: 'Actions', width: 100,
-              renderCell: (params) => (
-                <div className="flex p-6 space-x-2">
-                  <button
-                    className="text-red-500 hover:underline"
-                    onClick={() => console.log(`Delete ${params.row.case_id}`)}
-                  >
-                    <RiDeleteBin6Line />
-                  </button>
-                </div>
-              )
-            },
-          ]}
-          rows={filteredData} // Use filtered data for rows
-          pageSize={pageSize}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)} // Update page size dynamically
-          rowsPerPageOptions={[10, 25, 50]} // Allow options for 10, 25, and 50 rows per page
-          pagination // Enable pagination
-          paginationMode="client" // Explicitly set pagination mode to 'client'
-          autoHeight // Automatically adjust height for better display
-          disableSelectionOnClick // Disable row selection on click
-        />
-      </Box>
+      {!loading && (
+        <div className="flex justify-between items-center mt-4">
+          <p className="text-sm text-gray-600">
+            Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
+            {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries
+          </p>
+          <div className="flex space-x-1">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`px-2 py-1 border rounded text-sm ${
+                  currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

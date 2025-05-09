@@ -44,8 +44,8 @@ function Headertop() {
        <Disclosure as="nav" className="border-b-[3px] bg-white-800">
        {({ open }) => (
          <>
-           <div className="mx-auto max-w-7xl px-2 py-2  sm:px-6 lg:px-6">
-             <div className="flex h-16 items-center  justify-between">
+           <div className="mx-auto max-w-7xl   sm:px-6 lg:px-6">
+             <div className="flex h-12 items-center  justify-between">
                <div className="flex items-center ">
                  <div className="flex-shrink-0">
            </div>

@@ -8,8 +8,8 @@ import ErrorBoundary from "../component/ErrorBoundary"; // Import the ErrorBound
 
 function Garnishment2() {
   const generateBatchId = () => {
-    const timestamp = Date.now().toString(16);
-    const randomString = Math.random().toString(36).substring(2, 8); // Ensure randomString is defined here
+    const timestamp = Date.now().toString(36).slice(-4); // Shorten timestamp
+    const randomString = Math.random().toString(36).substring(2, 6).toUpperCase(); // Shorten and capitalize
     return `BATCH-${timestamp}-${randomString}`;
   };
 
@@ -144,9 +144,7 @@ function Garnishment2() {
               famli_tax: parseFloat(formData.famli_tax) || 0,
               medical_insurance: parseFloat(formData.medical_insurance) || 0,
             },
-          
-           
-            
+
             net_pay: parseFloat(formData.net_pay) || 0,
             age: formData.age, // Add this field if required
             is_blind: formData.is_blind, // Add this field if required
