@@ -225,8 +225,8 @@ input[type="file"] {
 }
 .content {
   margin-left: 250px;
-  width: calc(100% - 250px);
-  padding: 20px;
+  width: calc(100% - 220px);
+  padding: 10px 0px;
   box-sizing: border-box;
 }
 .container {
@@ -465,6 +465,31 @@ button.sidebar-link {
 
 .active {
   background-color: #6e6887 !important;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px; /* Set the width of the vertical scrollbar */
+  height: 6px; /* Set the height of the horizontal scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Set the color of the scrollbar thumb */
+  border-radius: 10px; /* Add rounded corners to the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Change the color of the scrollbar thumb on hover */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Set the color of the scrollbar track */
+}
+
+/* Apply custom scrollbar styles to specific elements */
+.overflow-x-auto {
+  scrollbar-width: thin; /* For Firefox: make the scrollbar thin */
+  scrollbar-color: #888 #f1f1f1; /* For Firefox: set thumb and track colors */
 }
 
 /* media start here from */
