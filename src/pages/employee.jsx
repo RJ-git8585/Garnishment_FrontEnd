@@ -3,7 +3,8 @@ import { BASE_URL } from "../Config";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";
-import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import the loader icon
+import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import loader icon
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 function Employee() {
   const [data, setData] = useState([]);
@@ -59,7 +60,7 @@ function Employee() {
         </div>
       </div>
 
-      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-200">
+      <div className="overflow-x-auto">
         <table className="min-w-full bg-white border rounded shadow">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
@@ -88,7 +89,7 @@ function Employee() {
             {loading ? (
               <tr>
                 <td colSpan="19" className="py-6">
-                  <div className="flex justify-left ml-20 items-center h-40">
+                  <div className="flex justify-left items-left h-40">
                     <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
                   </div>
                 </td>
@@ -96,7 +97,14 @@ function Employee() {
             ) : (
               paginatedData.map((row, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="px-6 py-3 text-sm truncate">{row.ee_id}</td>
+                  <td className="px-6 py-3 text-sm truncate">
+                    <Link
+                      to={`/employee/edit/${row.case_id}/${row.ee_id}`}
+                      className="text-blue-500 hover:underline"
+                    >
+                      {row.ee_id}
+                    </Link>
+                  </td>
                   <td className="px-6 py-3 text-sm truncate">{row.social_security_number}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.age}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.gender}</td>
@@ -131,25 +139,27 @@ function Employee() {
         </table>
       </div>
 
-      <div className="flex justify-between items-center mt-4">
-        <p className="text-sm text-gray-600">
-          Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
-          {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries
-        </p>
-        <div className="flex space-x-1">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-              className={`px-2 py-1 border rounded text-sm ${
-                currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
+      {!loading && (
+        <div className="flex justify-between items-center mt-4">
+          <p className="text-sm text-gray-600">
+            Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
+            {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries
+          </p>
+          <div className="flex space-x-1">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`px-2 py-1 border rounded text-sm ${
+                  currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
