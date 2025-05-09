@@ -59,7 +59,7 @@ function Employee() {
         </div>
       </div>
 
-      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+      <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-200">
         <table className="min-w-full bg-white border rounded shadow">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
