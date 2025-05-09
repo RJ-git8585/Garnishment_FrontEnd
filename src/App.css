@@ -1,4 +1,3 @@
-
 body{
   font-size: 12px;
 }
@@ -124,19 +123,21 @@ span.cutom_error {
   display: block;
 }
 .sidebar {
-  height: 100%;
-  /* width: 18%; */
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  height: 100vh;
   position: fixed;
-  z-index: 1;
-  top:0;
+  z-index: 1000;
+  top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #f7f7f791 !important;
   overflow-x: hidden;
+  overflow-y: auto;
   padding-top: 20px;
-    padding: 14px;
-    margin-right: 20px;
-    background: #f7f7f791 !important;
-    box-shadow: 10px 10px 16px 7px rgb(0 0 0 / 12%);
+  padding: 14px;
+  margin-right: 20px;
+  box-shadow: 10px 10px 16px 7px rgb(0 0 0 / 12%);
 }
 
 li.sidebar-item {
@@ -207,16 +208,34 @@ input[type="file"] {
   font-size: 18px;
   margin-bottom: 10px;
 }
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+}
 .content {
-  width: 84%;
-  position: relative;
-  /* margin-left: 211px !important; */
-  font-size: 28px;
-  padding: 0px 10px;
+  margin-left: 250px;
+  width: calc(100% - 250px);
+  padding: 20px;
+  box-sizing: border-box;
 }
 .container {
-  /* max-width: 1280px; */
-  /* margin-right: inherit; */
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 15px;
 }
 img.mx-auto.h-10.w-auto.logo-cls {
   height: 65px;
@@ -450,7 +469,16 @@ button.sidebar-link {
 
 /* media start here from */
 @media only screen and (max-width: 1024px) {
+  .sidebar {
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+  }
 
+  .content {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+  }
 
   .sidebar-link svg {
      margin-right: 0px;
@@ -461,10 +489,10 @@ button.sidebar-link {
   .content{
     width: 98%;
   }
-  }
-  button.absolute.right-2.custom_position.text-gray-500 {
-    right: 30px;
-    top: 155px;
+}
+button.absolute.right-2.custom_position.text-gray-500 {
+  right: 30px;
+  top: 155px;
 }
 
 
@@ -475,12 +503,31 @@ button.sidebar-link {
   .left_side_login {
     width: 100%;
 }
-.sidebar{
-  display:none;
+.sidebar {
+  position: fixed;
+  width: 100%;
+  height: auto;
+  max-height: 60px;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background-color: #111;
+}
+.sidebar .menu_cls {
+  display: none;
 }
 button.absolute.right-2.custom_position.text-gray-500 {
   right: 30px;
   top: 148px;
+}
+.content {
+  margin-left: 0;
+  width: 100%;
+  padding-top: 70px;
 }
   }
 
@@ -504,6 +551,15 @@ button.absolute.right-2.custom_position.text-gray-500 {
     
   }
 
+  @media only screen and (max-width: 480px) {
+    .sidebar {
+      padding: 5px 10px;
+    }
+
+    .content {
+      padding: 10px;
+    }
+  }
 
   /* table css cosutom is used for */
   .MuiDataGrid-columnHeader.MuiDataGrid-columnHeader--sortable.MuiDataGrid-withBorderColor {

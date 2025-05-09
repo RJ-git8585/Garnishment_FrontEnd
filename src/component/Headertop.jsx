@@ -41,7 +41,7 @@ function Headertop() {
 
     return (
        <>
-       <Disclosure as="nav" className="border-b-[3px] bg-white-800">
+       <Disclosure as="nav" className="border-b-[2px] bg-white-800">
        {({ open }) => (
          <>
            <div className="mx-auto max-w-7xl   sm:px-6 lg:px-6">
