@@ -225,7 +225,7 @@ input[type="file"] {
 }
 .content {
   margin-left: 250px;
-  width: calc(100% - 250px);
+  width: calc(100% - 270px);
   padding: 10px 0px;
   box-sizing: border-box;
 }
