@@ -5,6 +5,7 @@ import { StateList, StateCreditorList, StateLevyContactList } from "../Constant"
 import { BASE_URL } from '../Config';
 import Swal from "sweetalert2"; // Import Swal for popup messages
 import ErrorBoundary from "../component/ErrorBoundary"; // Import the ErrorBoundary component
+import { GrFormEdit } from "react-icons/gr";
 
 function Garnishment2() {
   const generateBatchId = () => {
@@ -132,10 +133,13 @@ function Garnishment2() {
     // Update state options based on garnishment type
     if (selectedType === "Child Support") {
       setStateOptions(StateList);
+      console.log("Child Support selected");
     } else if (selectedType === "Creditor Debt") {
       setStateOptions(StateCreditorList);
+      console.log("Creditor Debt selected");
     } else if (selectedType === "State Tax Levy") {
       setStateOptions(StateLevyContactList);
+      console.log("State Tax Levy selected"); 
     } else {
       setStateOptions([]); // Clear options if no valid type is selected
     }
@@ -345,12 +349,12 @@ function Garnishment2() {
             </div>
           ) : (
             <div className="flex items-center ml-2">
-              <span className="text-gray-700">{formData.batch_id}</span>
+              <span className="text-gray-700 text-sm">{formData.batch_id}</span>
               <button
                 onClick={handleBatchIdEdit}
-                className="ml-2 bg-gray-300 text-black px-2 py-1 rounded text-sm"
+                className="ml-2 bg-gray-300 text-black px-2 py-1 rounded text-lg"
               >
-                Edit
+                <GrFormEdit />
               </button>
             </div>
           )}
