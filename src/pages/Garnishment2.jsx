@@ -349,7 +349,7 @@ function Garnishment2() {
             </div>
           ) : (
             <div className="flex items-center ml-2">
-              <span className="text-gray-700 text-sm">{formData.batch_id}</span>
+              <span className="text-gray-700 text-base font-medium">{formData.batch_id}</span>
               <button
                 onClick={handleBatchIdEdit}
                 className="ml-2 bg-gray-300 text-black px-2 py-1 rounded text-lg"
