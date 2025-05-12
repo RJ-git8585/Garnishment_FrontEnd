@@ -1,21 +1,20 @@
 import { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import { BASE_URL } from "../Config";
-import Headertop from "../component/Headertop";
-import Sidebar from "../component/sidebar";
-import EditGarnishmentRule from "./EditGarnishmentRule"; 
+import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import loader icon
+import Button from "@mui/material/Button"; // Import Button for rule actions
+import EditGarnishmentRule from "./EditGarnishmentRule"; // Import EditGarnishmentRule component
 
 function GarnishFee() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true); // State to track loading
   const [selectedRuleId, setSelectedRuleId] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
+  const rowsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      setLoading(true); // Start loading
       try {
         const response = await fetch(`${BASE_URL}/User/GarnishmentFeesStatesRules/`);
         const jsonData = await response.json();
@@ -23,11 +22,16 @@ function GarnishFee() {
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setLoading(false);
+        setLoading(false); // Stop loading
       }
     };
+
     fetchData();
   }, []);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const handleEditOpen = (rule) => {
     setSelectedRuleId(rule);
@@ -39,38 +43,91 @@ function GarnishFee() {
     setSelectedRuleId(null);
   };
 
+  const paginatedData = data.slice(
+    (currentPage - 1) * rowsPerPage,
+    currentPage * rowsPerPage
+  );
+
+  const totalPages = Math.ceil(data.length / rowsPerPage);
+
   return (
-         <>
-          <h4 className="text-l text-black-800 mb-4">Garnishment Fee</h4>
-          <Box sx={{ height: 600, width: "100%" }}>
-            <DataGrid
-              getRowId={(row) => row.id}
-              columns={[
-                { field: "id", headerName: "ID", width: 260 },
-                { field: "state", headerName: "State", width: 320, renderCell: ({ value }) => <span style={{ textTransform: "capitalize" }}>{value}</span> },
-                { field: "pay_period", headerName: "Pay Period", width: 320 },
-                {
-                  field: "rule",
-                  headerName: "Rule",
-                  width: 320,
-                  renderCell: ({ row }) => (
-                    <Button variant="text" color="primary" onClick={() => handleEditOpen(row.rule)}>
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-4">
+        <h4 className="text-lg font-bold text-gray-800">Garnishment Fees</h4>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border rounded shadow">
+          <thead>
+            <tr className="bg-gray-200 text-gray-700">
+              <th className="px-6 py-3 text-left text-sm">ID</th>
+              <th className="px-6 py-3 text-left text-sm">State</th>
+              <th className="px-6 py-3 text-left text-sm">Pay Period</th>
+              <th className="px-6 py-3 text-left text-sm">Rule</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="4" className="py-6">
+                  <div className="flex justify-center items-center h-40">
+                    <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
+                  </div>
+                </td>
+              </tr>
+            ) : (
+              paginatedData.map((row, index) => (
+                <tr key={index} className="border-t hover:bg-gray-100">
+                  <td className="px-6 py-1 text-sm truncate">{row.id}</td>
+                  <td className="px-6 py-1 text-sm truncate">{row.state}</td>
+                  <td className="px-6 py-1 text-sm truncate">{row.pay_period}</td>
+                  <td className="px-6 py-1 text-sm truncate">
+                    <Button
+                      variant="text"
+                      color="primary"
+                      onClick={() => handleEditOpen(row.rule)}
+                      className="text-blue-500 hover:underline"
+                    >
                       {row.rule}
                     </Button>
-                  ),
-                },
-              ]}
-              rows={loading ? [] : data}
-              pageSize={20}
-              rowsPerPageOptions={[20]}
-              pagination
-              paginationMode="client"
-              loading={loading}
-            />
-          </Box>
-        
-      {selectedRuleId && <EditGarnishmentRule rule={selectedRuleId} open={editOpen} handleClose={handleEditClose} />}
-      </>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {!loading && (
+        <div className="flex justify-between items-center mt-4">
+          <p className="text-sm text-gray-600">
+            Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
+            {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries
+          </p>
+          <div className="flex space-x-1">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`px-2 py-1 border rounded text-sm ${
+                  currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {selectedRuleId && (
+        <EditGarnishmentRule
+          rule={selectedRuleId}
+          open={editOpen}
+          handleClose={handleEditClose}
+        />
+      )}
+    </div>
   );
 }
 
