@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FaBalanceScaleRight } from "react-icons/fa";
 import axios from "axios";
-import { StateList } from "../Constant";
+import { StateList, StateCreditorList, StateLevyContactList } from "../Constant";
 import { BASE_URL } from '../Config';
 import Swal from "sweetalert2"; // Import Swal for popup messages
 import ErrorBoundary from "../component/ErrorBoundary"; // Import the ErrorBoundary component
 
 function Garnishment2() {
   const generateBatchId = () => {
-    const timestamp = Date.now().toString(36).slice(-4); // Shorten timestamp
-    const randomString = Math.random().toString(36).substring(2, 6).toUpperCase(); // Shorten and capitalize
-    return `BATCH-${timestamp}-${randomString}`;
+    const timestamp = Date.now().toString(36).toUpperCase().slice(-3); // Shorten and capitalize timestamp
+    const randomString = Math.random().toString(36).toUpperCase().substring(2, 5); // Capitalize random string
+    return `B${timestamp}${randomString}`; // Combine and return in uppercase
   };
 
   const [formData, setFormData] = useState({
@@ -54,6 +54,40 @@ function Garnishment2() {
     ],
   });
 
+  const [stateOptions, setStateOptions] = useState(StateList); // Default to StateList
+  const [isEditingBatchId, setIsEditingBatchId] = useState(false); // State for editing Batch ID
+
+  const handleBatchIdEdit = () => {
+    setIsEditingBatchId(true);
+  };
+
+  const handleBatchIdChange = (e) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      batch_id: e.target.value,
+    }));
+  };
+
+  const handleBatchIdSave = () => {
+    if (!formData.batch_id.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Batch ID",
+        text: "Batch ID cannot be empty.",
+      });
+      return;
+    }
+    setIsEditingBatchId(false);
+  };
+
+  const handleBatchIdCancel = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      batch_id: generateBatchId(),
+    }));
+    setIsEditingBatchId(false);
+  };
+
   const [calculationResult, setCalculationResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false); // Maintenance mode state
@@ -81,6 +115,30 @@ function Garnishment2() {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleGarnishmentTypeChange = (e) => {
+    const selectedType = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      garnishment_data: [
+        {
+          ...prevData.garnishment_data[0],
+          type: selectedType,
+        },
+      ],
+    }));
+
+    // Update state options based on garnishment type
+    if (selectedType === "Child Support") {
+      setStateOptions(StateList);
+    } else if (selectedType === "Creditor Debt") {
+      setStateOptions(StateCreditorList);
+    } else if (selectedType === "State Tax Levy") {
+      setStateOptions(StateLevyContactList);
+    } else {
+      setStateOptions([]); // Clear options if no valid type is selected
+    }
   };
 
   const handleNestedInputChange = (e, index, key) => {
@@ -262,7 +320,41 @@ function Garnishment2() {
           <FaBalanceScaleRight />
           Garnishment Calculator 
         </h1>
-        <h2 className="text-lg font-bold mb-4">Batch ID: {formData.batch_id}</h2>
+        <div className="flex items-center mb-4">
+          <h2 className="text-lg font-bold">Batch ID:</h2>
+          {isEditingBatchId ? (
+            <div className="flex items-center ml-2">
+              <input
+                type="text"
+                value={formData.batch_id}
+                onChange={handleBatchIdChange}
+                className="border rounded-md px-2 py-1 text-sm"
+              />
+              <button
+                onClick={handleBatchIdSave}
+                className="ml-2 bg-blue-500 text-white px-2 py-1 rounded text-sm"
+              >
+                Save
+              </button>
+              <button
+                onClick={handleBatchIdCancel}
+                className="ml-2 bg-gray-500 text-white px-2 py-1 rounded text-sm"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center ml-2">
+              <span className="text-gray-700">{formData.batch_id}</span>
+              <button
+                onClick={handleBatchIdEdit}
+                className="ml-2 bg-gray-300 text-black px-2 py-1 rounded text-sm"
+              >
+                Edit
+              </button>
+            </div>
+          )}
+        </div>
         <form onSubmit={handleSubmit}>
           <input type="hidden" name="batch_id" value={formData.batch_id} />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-4 rounded-md">
@@ -290,28 +382,15 @@ function Garnishment2() {
                 id="garnishment_type"
                 name="garnishment_type"
                 value={formData.garnishment_data[0].type}
-                onChange={(e) =>
-                  setFormData((prevData) => ({
-                    ...prevData,
-                    garnishment_data: [
-                      {
-                        ...prevData.garnishment_data[0],
-                        type: e.target.value,
-                      },
-                    ],
-                  }))
-                }
+                onChange={handleGarnishmentTypeChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               >
                 <option value="">Select Garnishment Type</option>
                 <option value="Child Support">Child Support Garnishment</option>
                 <option value="Creditor Debt">Creditor Debt Garnishment</option>
                 <option value="Federal Tax Levy">Federal Tax Levy</option>
-                {/* <option value="Tax Refund Garnishment">Tax Refund Garnishment</option> */}
-                {/* <option value="Social Security Garnishment">Social Security Garnishment (limited cases)</option> */}
                 <option value="student default loan">Student Loan Garnishment</option>
                 <option value="State Tax Levy">State Tax Levy</option>
-                
               </select>
             </div>
             <div>
@@ -326,7 +405,7 @@ function Garnishment2() {
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               >
                 <option value="">Select Work State</option>
-                {StateList.map((state) => (
+                {stateOptions.map((state) => (
                   <option key={state.id} value={state.label}>
                     {state.label}
                   </option>
@@ -757,6 +836,7 @@ function Garnishment2() {
                     <th className="border border-gray-300 px-4 py-2 text-left">Total Mandatory Deduction</th>
                     <th className="border border-gray-300 px-4 py-2 text-left">Withholding Amount</th>
                     <th className="border border-gray-300 px-4 py-2 text-left">Withholding Arrear</th>
+                    <th className="border border-gray-300 px-4 py-2 text-left">Garnishment Fees</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -778,6 +858,10 @@ function Garnishment2() {
                         {result.agency[1]?.arrear[0]?.withholding_arrear !== undefined
                           ? result.agency[1]?.arrear[0]?.withholding_arrear
                           : "N/A"}
+                      </td>
+
+                      <td className="border border-gray-300 px-4 py-2">
+                        {result.er_deduction?.garnishment_fees || "N/A"}
                       </td>
                     </tr>
                   ))}
