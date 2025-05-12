@@ -160,7 +160,7 @@ const BatchCalculation = () => {
   return (
     <>
       <div className="container" ref={containerRef}></div>
-        <h2 className="header">Garnishment Processor</h2>
+        <h2 className="header text-lg">Garnishment Processor</h2>
         <p className="text-sm italic mb-4">Please upload the json file to get the result.... </p>
             
         <div className="inputSection">

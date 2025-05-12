@@ -258,7 +258,7 @@ function Garnishment2() {
         </div>
       )}
       <div className={isMaintenanceMode ? "pointer-events-none opacity-50" : ""}>
-        <h1 className="edit-profile mt-6 mb-4 inline-block">
+        <h1 className="edit-profile text-lg mt-6 mb-4 inline-block">
           <FaBalanceScaleRight />
           Garnishment Calculator 
         </h1>
