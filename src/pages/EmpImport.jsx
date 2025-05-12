@@ -48,11 +48,12 @@ function EmpImport() {
         body: formData,
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to upload the file. Please try again.');
+          throw new Error(data.error || 'Failed to upload the file. Please try again.');
       }
 
-      const data = await response.json();
       setSuccess('File uploaded successfully and data imported.');
       console.log('Response from server:', data);
     } catch (err) {
