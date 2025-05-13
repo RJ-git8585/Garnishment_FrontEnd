@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-undef */
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicRoute from './component/PublicRoute';
 import PrivateRoute from './component/PrivateRoute';
@@ -44,7 +43,6 @@ import AddLocation from './component/AddLocation';
 import Siganture from './document/Siganture';
 import BatchCalculation from './document/BatchCalculation';
 import XmlProcessor from './document/xmlProcessor';
-
 
 const publicRoutes = [
   { path: "/", element: <Form />, restricted: true },

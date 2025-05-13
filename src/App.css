@@ -1,8 +1,19 @@
-body{
-  font-size: 12px;
-}
 body {
+  font-size: 12px;
   font-family: 'Roboto', sans-serif;
+}
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+button {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .css-fyswvn{
   
