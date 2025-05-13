@@ -13,6 +13,7 @@ import PasswordResetConfirm from './pages/PasswordResetConfirm';
 import Dashboard from './pages/dashboard';
 import Logout from './pages/Logout';
 import Profile from './pages/profile';
+
 // import Setting from './pages/setting';
 import Help from './pages/Help';
 import Tax from './pages/Tax';
