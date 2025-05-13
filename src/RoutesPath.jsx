@@ -34,6 +34,7 @@ import ComImport from './pages/ComImport';
 import OrdImport from './pages/OrdImport';
 import Rules from './pages/Rules';
 
+
 // Components
 import AddEmployee from './component/AddEmployee';
 import AddDepartment from './component/AddDepartment';
