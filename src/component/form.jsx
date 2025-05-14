@@ -59,7 +59,11 @@ function Form() {
       if (response.data.success) {
         localStorage.setItem('token', response.data.access);
         sessionStorage.setItem('token', response.data.access);
-   
+        localStorage.setItem('refreshtoken', response.data.refresh);
+        sessionStorage.setItem('refreshtoken', response.data.refresh);
+        localStorage.setItem('time', response.data.expire_time);
+        sessionStorage.setItem('time', response.data.expire_time);
+        
         localStorage.setItem('id', response.data.user_data.id);
         sessionStorage.setItem('id', response.data.user_data.id);
         sessionStorage.setItem('email', response.data.user_data.email);

@@ -75,12 +75,9 @@ const XmlProcessor = () => {
     try {
       setLoading(true);
       const startTime = new Date().getTime();
-
       const apiResponse = await fetch(`${BASE_URL}/User/garnishment_calculate/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
@@ -95,7 +92,7 @@ const XmlProcessor = () => {
       setResponse(result);
       setShowTable(false);
     } catch (err) {
-      setError(err.message || "An error occurred while processing your request.");
+      setError(err.message || 'An error occurred while processing your request.');
       setResponse(null);
     } finally {
       setLoading(false);

@@ -58,9 +58,9 @@ const handleRuleClick = (workState, employeeId, supportsSecondFamily, arrearsMor
     }
   });
 };
+
 const exportTableData = (data) => {
   if (!data || data.length === 0) {
-    alert("No data available to export.");
     return;
   }
 
@@ -163,8 +163,8 @@ export const renderTable = (data) => {
           pay_period: result.pay_period,
           ordered_amount: orderedAmount,
           arrear_amount: arrearAmount,
-          filing_status: result.filing_status,
-          no_of_exemption_including_self: result.no_of_exemption_including_self,
+          // filing_status: result.filing_status,
+          // no_of_exemption_including_self: result.no_of_exemption_including_self,
           wages: result.wages,
           commission_and_bonus: result.commission_and_bonus !== undefined && result.commission_and_bonus !== 0 
             ? result.commission_and_bonus 
@@ -174,32 +174,32 @@ export const renderTable = (data) => {
             : "0",
           gross_pay: result.gross_pay,
           net_pay: result.net_pay,
-          federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
-          state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
-          social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
-          medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
-          local_tax: result.payroll_taxes?.local_tax ?? "N/A",
-          union_dues: result.payroll_taxes?.union_dues || "0",
-          wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
-          medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
-          industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
-          life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
-          CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
-          famli_tax: result.famli_tax || "N/A",
-          medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
-          age: result.age,
-          is_blind: result.is_blind ? "True" : "False",
-          is_spouse_blind: result.is_spouse_blind ? "True" : "False",
-          spouse_age: result.spouse_age,
+          // federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
+          // state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
+          // social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
+          // medicare_tax: result.payroll_taxes?.medicare_tax ?? "N/A",
+          // local_tax: result.payroll_taxes?.local_tax ?? "N/A",
+          // union_dues: result.payroll_taxes?.union_dues || "0",
+          // wilmington_tax: result.payroll_taxes?.wilmington_tax || "N/A",
+          // medical_insurance_pretax: result.payroll_taxes?.medical_insurance_pretax || "N/A",
+          // industrial_insurance: result.payroll_taxes?.industrial_insurance ?? "N/A",
+          // life_insurance: result.payroll_taxes?.life_insurance ?? "N/A",
+          // CaliforniaSDI: result.payroll_taxes?.CaliforniaSDI || "N/A",
+          // famli_tax: result.famli_tax || "N/A",
+          // medical_insurance: result.payroll_taxes?.medical_insurance ?? "N/A",
+          // age: result.age,
+          // is_blind: result.is_blind ? "True" : "False",
+          // is_spouse_blind: result.is_spouse_blind ? "True" : "False",
+          // spouse_age: result.spouse_age,
           support_second_family: result.support_second_family,
           arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
-          no_of_student_default_loan: result.no_of_student_default_loan,
+          // no_of_student_default_loan: result.no_of_student_default_loan,
           disposable_earning: result.disposable_earning || "N/A",
           total_mandatory_deduction: result.total_mandatory_deduction || "N/A",
           allowable_disposable_earning: allowableDisposableEarning,
           withholding_amount: garnishmentAmount,
           withholding_arrear: withholdingArrear, // Correctly fetch withholding_arrear, including 0
-          ...result.er_deduction,
+          // ...result.er_deduction,
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
           data_count: garnishment.data ? garnishment.data.length : 0,
         });

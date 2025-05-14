@@ -288,7 +288,7 @@ function Garnishment2() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-4 rounded-md">
             <div>
               <label htmlFor="garnishment_type" className="block text-sm font-bold mb-1">
-                Garnishment Type:
+                Garnishment Type <span className="text-red-700">*</span>:
               </label>
               <select
                 id="garnishment_type"
@@ -296,8 +296,9 @@ function Garnishment2() {
                 value={formData.garnishment_data[0].type}
                 onChange={handleGarnishmentTypeChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                required
               >
-                <option value="Reset">Select Garnishment Type</option>
+                <option value="">Select Garnishment Type</option>
                 <option value="Child Support">Child Support Garnishment</option>
                 <option value="Creditor Debt">Creditor Debt Garnishment</option>
                 <option value="Federal Tax Levy">Federal Tax Levy</option>
@@ -307,7 +308,7 @@ function Garnishment2() {
             </div>
             <div>
               <label htmlFor="work_state" className="block text-sm font-bold mb-1">
-                Work State:
+                Work State <span className="text-red-700">*</span>:
               </label>
               <select
                 id="work_state"
@@ -315,6 +316,7 @@ function Garnishment2() {
                 value={formData.work_state}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                required
               >
                 <option value="">Select Work State</option>
                 {stateOptions.map((state) => (
@@ -347,7 +349,7 @@ function Garnishment2() {
               <>
                 <div>
                   <label htmlFor="filing_status" className="block text-sm font-bold mb-1">
-                    Filing Status:
+                    Filing Status <span className="text-red-700">*</span>:
                   </label>
                   <select
                     id="filing_status"
@@ -355,6 +357,7 @@ function Garnishment2() {
                     value={formData.filing_status}
                     onChange={handleInputChange}
                     className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                    required  
                   >
                     <option value="">Select Filing Status</option>
                     <option value="single">Single</option>
@@ -367,7 +370,7 @@ function Garnishment2() {
                 </div>
                 <div>
                   <label htmlFor="no_of_dependent_child" className="block text-sm font-bold mb-1">
-                    No. of Dependent Child:
+                    No. of Dependent Child  <span className="text-red-700">*</span>:
                   </label>
                   <input
                     type="number"
@@ -377,7 +380,8 @@ function Garnishment2() {
                     value={formData.no_of_dependent_child}
                     onChange={handleInputChange}
                     className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-                  />
+                    required
+                />
                 </div>
               </>
             )}
@@ -401,7 +405,7 @@ function Garnishment2() {
             </div>
             <div>
               <label htmlFor="federal_income_tax" className="block text-sm font-bold mb-1">
-                Total Mandatory Deduction:
+                Total Mandatory Deduction <span className="text-red-700">*</span>:
               </label>
               <input
                 type="number"
@@ -411,12 +415,13 @@ function Garnishment2() {
                 value={formData.federal_income_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                required
               />
             </div>
             {["State Tax Levy", "Creditor Debt"].includes(formData.garnishment_data[0].type) && (
               <div>
                 <label htmlFor="net_pay" className="block text-sm font-bold mb-1">
-                  Net Pay:
+                  Net Pay <span className="text-red-700">*</span>:
                 </label>
                 <input
                   type="number"
@@ -426,13 +431,14 @@ function Garnishment2() {
                   value={formData.net_pay}
                   onChange={handleInputChange}
                   className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                  required
                 />
               </div>
             )}
             {formData.garnishment_data[0].type !== "Child Support" && (
               <div>
                 <label htmlFor="no_of_exemption_including_self" className="block text-sm font-bold mb-1">
-                  No. of Exemptions:
+                  No. of Exemptions <span className="text-red-700">*</span>:
                 </label>
                 <input
                   type="number"
@@ -442,14 +448,15 @@ function Garnishment2() {
                   value={formData.no_of_exemption_including_self}
                   onChange={handleInputChange}
                   className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-                />
+                  required
+                                 />
               </div>
             )}
             {!["Creditor Debt", "State Tax Levy"].includes(formData.garnishment_data[0].type) && (
               <>
                 <div>
                   <label htmlFor="support_second_family" className="block text-sm font-bold mb-1">
-                    Support Second Family:
+                    Support Second Family <span className="text-red-700">*</span>:
                   </label>
                   <select
                     id="support_second_family"
@@ -457,6 +464,7 @@ function Garnishment2() {
                     value={formData.support_second_family}
                     onChange={handleInputChange}
                     className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                    required
                   >
                     <option value="">Select Support Second Family</option>
                     <option value="Yes">True</option>
@@ -465,7 +473,7 @@ function Garnishment2() {
                 </div>
                 <div>
                   <label htmlFor="arrears_greater_than_12_weeks" className="block text-sm font-bold mb-1">
-                    Arrears Greater Than 12 Weeks:
+                    Arrears Greater Than 12 Weeks <span className="text-red-700">*</span>:
                   </label>
                   <select
                     id="arrears_greater_than_12_weeks"
@@ -473,6 +481,7 @@ function Garnishment2() {
                     value={formData.arrears_greater_than_12_weeks}
                     onChange={handleInputChange}
                     className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                    required
                   >
                     <option value="">Select Arrears Greater Than 12 Weeks</option>
                     <option value="Yes">True</option>
@@ -491,7 +500,7 @@ function Garnishment2() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 border p-4 rounded-md"> 
               <div>
                 <label htmlFor="ordered_amount" className="block text-sm font-bold mb-1">
-                  Ordered Amount:
+                  Ordered Amount <span className="text-red-700">*</span>:
                 </label>
                 <input
                   type="number"
@@ -501,11 +510,12 @@ function Garnishment2() {
                   value={formData.garnishment_data[0].data[0].ordered_amount}
                   onChange={(e) => handleNestedInputChange(e, 0, "ordered_amount")}
                   className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                  required
                 />
               </div>
               <div>
                 <label htmlFor="arrear_amount" className="block text-sm font-bold mb-1">
-                  Arrear Amount:
+                  Arrear Amount <span className="text-red-700">*</span>:
                 </label>
                 <input
                   type="number"
@@ -515,15 +525,16 @@ function Garnishment2() {
                   value={formData.garnishment_data[0].data[0].arrear_amount}
                   onChange={(e) => handleNestedInputChange(e, 0, "arrear_amount")}
                   className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                  required
                 />
               </div>
             </div>
             </div>
           )}
-          <div className="flex justify-end mt-4 space-x-2">
+          <div className="flex justify-end mt-2 space-x-1">
             <button
               type="submit"
-              className="bg-blue-500 text-white py-3 px-4 rounded hover:bg-blue-600 transition-all duration-200 text-sm"
+              className="bg-blue-500 text-white py-2 px-3 rounded hover:bg-blue-600 transition-all duration-200 text-sm"
               disabled={loading}
             >
               {loading ? "Calculating..." : "Calculate"}
@@ -531,7 +542,7 @@ function Garnishment2() {
             <button
               type="button"
               onClick={handleReset}
-              className="bg-gray-500 text-white py-3 px-4 rounded hover:bg-gray-600 transition-all duration-200 text-sm"
+              className="bg-gray-500 text-white py-2 px-3 rounded hover:bg-gray-600 transition-all duration-200 text-sm"
             >
               Reset
             </button>
