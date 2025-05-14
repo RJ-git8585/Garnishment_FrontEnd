@@ -407,7 +407,7 @@ function Garnishment2() {
                 type="number"
                 id="federal_income_tax"
                 name="federal_income_tax"
-                placeholder="Enter Federal Income Tax Amount"
+                placeholder="Enter Total Mandatory Deduction Amount"
                 value={formData.federal_income_tax}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
