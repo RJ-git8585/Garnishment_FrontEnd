@@ -53,7 +53,9 @@ const BatchCalculation = () => {
 
       const apiResponse = await fetch(`${BASE_URL}/User/garnishment_calculate/`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(parsedData),
       });
       if (!apiResponse.ok) {

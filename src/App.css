@@ -11,7 +11,12 @@ body.light-mode {
   background-color: #ffffff;
   color: #000000;
 }
-
+.note_cls{
+    font-size: 0.6rem !important;
+    line-height: 0.50rem !important;
+    color:rgb(6, 45, 81) !important;
+    
+}
 button {
   transition: background-color 0.3s ease, color 0.3s ease;
 }

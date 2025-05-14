@@ -5,7 +5,6 @@ import { StateList, StateCreditorList, StateLevyContactList } from "../Constant"
 import { BASE_URL } from '../Config';
 import Swal from "sweetalert2"; // Import Swal for popup messages
 import ErrorBoundary from "../component/ErrorBoundary"; // Import the ErrorBoundary component
-import { GrFormEdit } from "react-icons/gr";
 
 function Garnishment2() {
   const generateBatchId = () => {
@@ -14,39 +13,37 @@ function Garnishment2() {
     return `B${timestamp}${randomString}`; // Combine and return in uppercase
   };
 
+  const generateEmployeeId = () => {
+    const timestamp = Date.now().toString(36).toUpperCase().slice(-3);
+    const randomString = Math.random().toString(36).toUpperCase().substring(2, 5);
+    return `EE${timestamp}${randomString}`;
+  };
+
+  const generateCaseId = () => {
+    const timestamp = Date.now().toString(36).toUpperCase().slice(-3);
+    const randomString = Math.random().toString(36).toUpperCase().substring(2, 5);
+    return `C${timestamp}${randomString}`;
+  };
+
   const [formData, setFormData] = useState({
     batch_id: generateBatchId(),
-    ee_id: "",
+    ee_id: generateEmployeeId(),
+    case_id: generateCaseId(), // Auto-generate case ID
     work_state: "",
     pay_period: "",
     filing_status: "",
-    wages: "",
-    commission_and_bonus: "",
-    non_accountable_allowances: "",
     gross_pay: "",
     federal_income_tax: "",
-    social_security_tax: "",
-    medicare_tax: "",
-    state_tax: "",
-    local_tax: "",
-    union_dues: "",
-    wilmington_tax: "",
-    industrial_insurance: "",
-    life_insurance: "",
-    california_sdi: "",
-    famli_tax: "",
-    medical_insurance: "",
     net_pay: "",
     no_of_dependent_child: "",
     support_second_family: "",
     arrears_greater_than_12_weeks: "",
-    no_of_exemption_including_self: "", // Add this field
+    no_of_exemption_including_self: "",
     garnishment_data: [
       {
         type: "",
         data: [
           {
-            case_id: "",
             ordered_amount: "",
             arrear_amount: "",
           },
@@ -56,39 +53,6 @@ function Garnishment2() {
   });
 
   const [stateOptions, setStateOptions] = useState(StateList); // Default to StateList
-  const [isEditingBatchId, setIsEditingBatchId] = useState(false); // State for editing Batch ID
-
-  const handleBatchIdEdit = () => {
-    setIsEditingBatchId(true);
-  };
-
-  const handleBatchIdChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      batch_id: e.target.value,
-    }));
-  };
-
-  const handleBatchIdSave = () => {
-    if (!formData.batch_id.trim()) {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid Batch ID",
-        text: "Batch ID cannot be empty.",
-      });
-      return;
-    }
-    setIsEditingBatchId(false);
-  };
-
-  const handleBatchIdCancel = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      batch_id: generateBatchId(),
-    }));
-    setIsEditingBatchId(false);
-  };
-
   const [calculationResult, setCalculationResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isMaintenanceMode, setIsMaintenanceMode] = useState(false); // Maintenance mode state
@@ -120,6 +84,21 @@ function Garnishment2() {
 
   const handleGarnishmentTypeChange = (e) => {
     const selectedType = e.target.value;
+
+    if (selectedType === "Reset") {
+      handleReset(); // Reset the form
+      return;
+    }
+
+    if (selectedType === "Federal Tax Levy" || selectedType === "student default loan") {
+      Swal.fire({
+        icon: "info",
+        title: "Not Implemented",
+        text: "This calculation is not implemented yet.",
+      });
+      return; // Prevent further processing for these types
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       garnishment_data: [
@@ -163,11 +142,6 @@ function Garnishment2() {
     if (formData.garnishment_data[0].type === "Creditor Debt" && !formData.no_of_dependent_child) {
       newErrors.no_of_dependent_child = "No. of Dependent Child is mandatory for Creditor Debt.";
     }
-    formData.garnishment_data[0].data.forEach((item, index) => {
-      if (!item.case_id) {
-        newErrors[`case_id_${index}`] = "Case ID is mandatory.";
-      }
-    });
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -184,48 +158,38 @@ function Garnishment2() {
         cases: [
           {
             ee_id: formData.ee_id,
+            case_id: formData.case_id, // Pass case_id
             work_state: formData.work_state,
-            no_of_exemption_including_self: parseInt(formData.no_of_exemption_including_self, 10) || 0, // Include this field
+            no_of_exemption_including_self: parseInt(formData.no_of_exemption_including_self, 10) || 0,
             pay_period: formData.pay_period,
             filing_status: formData.filing_status,
-            wages: parseFloat(formData.wages) || 0,
-            commission_and_bonus: parseFloat(formData.commission_and_bonus) || 0,
-            non_accountable_allowances: parseFloat(formData.non_accountable_allowances) || 0,
             gross_pay: parseFloat(formData.gross_pay) || 0,
+            wages: 0, // Default to 0
+            commission_and_bonus: parseFloat(formData.gross_pay) || 0, // Default to 0
+            non_accountable_allowances: 0, // Default to 0
             payroll_taxes: {
               federal_income_tax: parseFloat(formData.federal_income_tax) || 0,
-              social_security_tax: parseFloat(formData.social_security_tax) || 0,
-              medicare_tax: parseFloat(formData.medicare_tax) || 0,
-              state_tax: parseFloat(formData.state_tax) || 0,
-              local_tax: parseFloat(formData.local_tax) || 0,
-              union_dues: parseFloat(formData.union_dues) || 0,
-              wilmington_tax: parseFloat(formData.wilmington_tax) || 0,
-              industrial_insurance: parseFloat(formData.industrial_insurance) || 0,
-              life_insurance: parseFloat(formData.life_insurance) || 0,
-              california_sdi: parseFloat(formData.california_sdi) || 0,
-              famli_tax: parseFloat(formData.famli_tax) || 0,
-              medical_insurance: parseFloat(formData.medical_insurance) || 0,
+              social_security_tax: 0, // Pass 0
+              medicare_tax: 0, // Pass 0
+              state_tax: 0, // Pass 0
+              local_tax: 0, // Pass 0
+              union_dues: 0, // Pass 0
+              wilmington_tax: 0, // Pass 0
+              industrial_insurance: 0, // Pass 0
+              life_insurance: 0, // Pass 0
+              california_sdi: 0, // Pass 0
+              famli_tax: 0, // Pass 0
+              medical_insurance: 0, // Pass 0
             },
-
             net_pay: parseFloat(formData.net_pay) || 0,
-            age: formData.age, // Add this field if required
-            is_blind: formData.is_blind, // Add this field if required
-            is_spouse_blind: formData.is_spouse_blind, // Add this field if required
-            spouse_age: formData.spouse_age, // Add this field if required
             support_second_family: formData.support_second_family,
-            no_of_student_default_loan: formData.no_of_student_default_loan,
             arrears_greater_than_12_weeks: formData.arrears_greater_than_12_weeks,
-            no_of_dependent_child: parseInt(formData.no_of_dependent_child, 10) || 0, // Include this field
+            no_of_dependent_child: parseInt(formData.no_of_dependent_child, 10) || 0,
             garnishment_data: formData.garnishment_data.map((garnishment) => ({
               type: garnishment.type,
               data: garnishment.data.map((garnData) => ({
-                case_id: garnData.case_id,
                 ordered_amount: parseFloat(garnData.ordered_amount) || 0,
                 arrear_amount: parseFloat(garnData.arrear_amount) || 0,
-                current_medical_support: garnData.current_medical_support || 0, // Add if required
-                past_due_medical_support: garnData.past_due_medical_support || 0, // Add if required
-                current_spousal_support: garnData.current_spousal_support || 0, // Add if required
-                past_due_spousal_support: garnData.past_due_spousal_support || 0, // Add if required
               })),
             })),
           },
@@ -234,7 +198,12 @@ function Garnishment2() {
 
       const response = await axios.post(
         `${BASE_URL}/User/garnishment_calculate/`,
-        formattedData
+        formattedData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       if (response.data.results?.error) {
@@ -261,37 +230,23 @@ function Garnishment2() {
   const handleReset = () => {
     setFormData({
       batch_id: generateBatchId(),
-      ee_id: "",
+      ee_id: generateEmployeeId(),
+      case_id: generateCaseId(),
       work_state: "",
       pay_period: "",
       filing_status: "",
-      wages: "",
-      commission_and_bonus: "",
-      non_accountable_allowances: "",
       gross_pay: "",
       federal_income_tax: "",
-      social_security_tax: "",
-      medicare_tax: "",
-      state_tax: "",
-      local_tax: "",
-      union_dues: "",
-      wilmington_tax: "",
-      industrial_insurance: "",
-      life_insurance: "",
-      california_sdi: "",
-      famli_tax: "",
-      medical_insurance: "",
       net_pay: "",
       no_of_dependent_child: "",
       support_second_family: "",
       arrears_greater_than_12_weeks: "",
-      no_of_exemption_including_self: "", // Add this field
+      no_of_exemption_including_self: "",
       garnishment_data: [
         {
           type: "",
           data: [
             {
-              case_id: "",
               ordered_amount: "",
               arrear_amount: "",
             },
@@ -303,10 +258,12 @@ function Garnishment2() {
   };
 
   useEffect(() => {
-    // Regenerate batch_id on component mount
+    // Regenerate batch_id and ee_id on component mount
     setFormData((prevData) => ({
       ...prevData,
       batch_id: generateBatchId(),
+      ee_id: generateEmployeeId(),
+      case_id: generateCaseId(),
     }));
   }, []);
 
@@ -324,60 +281,11 @@ function Garnishment2() {
           <FaBalanceScaleRight />
           Garnishment Calculator 
         </h1>
-        <div className="flex items-center mb-4">
-          <h2 className="text-lg font-bold">Batch ID:</h2>
-          {isEditingBatchId ? (
-            <div className="flex items-center ml-2">
-              <input
-                type="text"
-                value={formData.batch_id}
-                onChange={handleBatchIdChange}
-                className="border rounded-md px-2 py-1 text-sm"
-              />
-              <button
-                onClick={handleBatchIdSave}
-                className="ml-2 bg-blue-500 text-white px-2 py-1 rounded text-sm"
-              >
-                Save
-              </button>
-              <button
-                onClick={handleBatchIdCancel}
-                className="ml-2 bg-gray-500 text-white px-2 py-1 rounded text-sm"
-              >
-                Cancel
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center ml-2">
-              <span className="text-gray-700 text-base font-medium">{formData.batch_id}</span>
-              <button
-                onClick={handleBatchIdEdit}
-                className="ml-2 bg-gray-300 text-black px-2 py-1 rounded text-lg"
-              >
-                <GrFormEdit />
-              </button>
-            </div>
-          )}
-        </div>
         <form onSubmit={handleSubmit}>
           <input type="hidden" name="batch_id" value={formData.batch_id} />
+          <input type="hidden" name="ee_id" value={formData.ee_id} />
+          <input type="hidden" name="case_id" value={formData.case_id} />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-4 rounded-md">
-            <div>
-              <label htmlFor="ee_id" className="block text-sm font-bold mb-1">
-                Employee ID <span className="text-red-700">*</span>:
-              </label>
-              <input
-                type="text"
-                id="ee_id"
-                placeholder="Enter Employee ID"
-                name="ee_id"
-                value={formData.ee_id}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-                required
-              />
-              {errors.ee_id && <p className="text-red-600 text-xs mt-1">{errors.ee_id}</p>}
-            </div>
             <div>
               <label htmlFor="garnishment_type" className="block text-sm font-bold mb-1">
                 Garnishment Type:
@@ -389,7 +297,7 @@ function Garnishment2() {
                 onChange={handleGarnishmentTypeChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               >
-                <option value="">Select Garnishment Type</option>
+                <option value="Reset">Select Garnishment Type</option>
                 <option value="Child Support">Child Support Garnishment</option>
                 <option value="Creditor Debt">Creditor Debt Garnishment</option>
                 <option value="Federal Tax Levy">Federal Tax Levy</option>
@@ -435,72 +343,47 @@ function Garnishment2() {
                 <option value="monthly">Monthly</option>
               </select>
             </div>
-            <div>
-              <label htmlFor="filing_status" className="block text-sm font-bold mb-1">
-                Filing Status:
-              </label>
-              <select
-                id="filing_status"
-                name="filing_status"
-                value={formData.filing_status}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              >
-                <option value="">Select Filing Status</option>
-                <option value="single">Single</option>
-                <option value="married_filing_joint_return">Married Filing Joint Return</option>
-                <option value="married_filing_separate_return">Married Filing Separate Return</option>
-                <option value="head_of_household">Head of Household</option>
-                <option value="qualifying_widowers">Qualifying Widowers</option>
-                <option value="additional_exempt_amount">Additional Exempt Amount</option>
-              </select>
-            </div>
-            
-            <div>
-              <label htmlFor="wages" className="block text-sm font-bold mb-1">
-                Wages:
-              </label>
-              <input
-                type="number"
-                id="wages"
-                name="wages"
-                placeholder="Enter Wages Amount"
-                value={formData.wages}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="commission_and_bonus" className="block text-sm font-bold mb-1">
-                Commission and Bonus:
-              </label>
-              <input
-                type="number"
-                id="commission_and_bonus"
-                name="commission_and_bonus"
-                placeholder="Enter Commission and Bonus Amount"
-                value={formData.commission_and_bonus}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="non_accountable_allowances" className="block text-sm font-bold mb-1">
-                Non-Accountable Allowances:
-              </label>
-              <input
-                type="number"
-                id="non_accountable_allowances"
-                name="non_accountable_allowances"
-                placeholder="Enter Non-Accountable Amount"
-                value={formData.non_accountable_allowances}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
+            {formData.garnishment_data[0].type === "Creditor Debt" && (
+              <>
+                <div>
+                  <label htmlFor="filing_status" className="block text-sm font-bold mb-1">
+                    Filing Status:
+                  </label>
+                  <select
+                    id="filing_status"
+                    name="filing_status"
+                    value={formData.filing_status}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                  >
+                    <option value="">Select Filing Status</option>
+                    <option value="single">Single</option>
+                    <option value="married_filing_joint_return">Married Filing Joint Return</option>
+                    <option value="married_filing_separate_return">Married Filing Separate Return</option>
+                    <option value="head_of_household">Head of Household</option>
+                    <option value="qualifying_widowers">Qualifying Widowers</option>
+                    <option value="additional_exempt_amount">Additional Exempt Amount</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="no_of_dependent_child" className="block text-sm font-bold mb-1">
+                    No. of Dependent Child:
+                  </label>
+                  <input
+                    type="number"
+                    id="no_of_dependent_child"
+                    name="no_of_dependent_child"
+                    placeholder="Enter Number of Dependent Child"
+                    value={formData.no_of_dependent_child}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                  />
+                </div>
+              </>
+            )}
             <div>
               <label htmlFor="gross_pay" className="block text-sm font-bold mb-1">
-                Gross Pay:
+                Gross Pay <span className="text-red-700">*</span>:
               </label>
               <input
                 type="number"
@@ -510,11 +393,15 @@ function Garnishment2() {
                 value={formData.gross_pay}
                 onChange={handleInputChange}
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                required
               />
+              <p className="text-xs note_cls text-gray-400 mt-1">
+                (Wages + Commission & Bonus + Non-Accountable Allowances)
+              </p>
             </div>
             <div>
               <label htmlFor="federal_income_tax" className="block text-sm font-bold mb-1">
-                Federal Income Tax:
+                Total Mandatory Deduction:
               </label>
               <input
                 type="number"
@@ -526,291 +413,113 @@ function Garnishment2() {
                 className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
               />
             </div>
-            <div>
-              <label htmlFor="social_security_tax" className="block text-sm font-bold mb-1">
-                Social Security Tax:
-              </label>
-              <input
-                type="number"
-                id="social_security_tax"
-                name="social_security_tax"
-                placeholder="Enter Social Security Tax Amount"
-                value={formData.social_security_tax}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="medicare_tax" className="block text-sm font-bold mb-1">
-                Medicare Tax:
-              </label>
-              <input
-                type="number"
-                id="medicare_tax"
-                name="medicare_tax"
-                placeholder="Enter Medicare Tax Amount"
-                value={formData.medicare_tax}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="state_tax" className="block text-sm font-bold mb-1">
-                State Tax:
-              </label>
-              <input
-                type="number"
-                id="state_tax"
-                name="state_tax"
-                placeholder="Enter State Tax Amount"
-                value={formData.state_tax}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="local_tax" className="block text-sm font-bold mb-1">
-                Local Tax:
-              </label>
-              <input
-                type="number"
-                id="local_tax"
-                name="local_tax"
-                placeholder="Enter Local Tax Amount"
-                value={formData.local_tax}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="union_dues" className="block text-sm font-bold mb-1">
-                Union Dues:
-              </label>
-              <input
-                type="number"
-                id="union_dues"
-                name="union_dues"
-                placeholder="Enter Union Dues Amount"
-                value={formData.union_dues}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="wilmington_tax" className="block text-sm font-bold mb-1">
-                Wilmington Tax:
-              </label>
-              <input
-                type="number"
-                id="wilmington_tax"
-                name="wilmington_tax"
-                 placeholder="Enter Wilmington Tax Amount"
-                value={formData.wilmington_tax}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="industrial_insurance" className="block text-sm font-bold mb-1">
-                Industrial Insurance:
-              </label>
-              <input
-                type="number"
-                id="industrial_insurance"
-                name="industrial_insurance"
-                 placeholder="Enter Industrial Insurance Amount"
-                value={formData.industrial_insurance}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="life_insurance" className="block text-sm font-bold mb-1">
-                Life Insurance:
-              </label>
-              <input
-                type="number"
-                id="life_insurance"
-                name="life_insurance"
-                placeholder="Enter Life Insurance Amount"
-                value={formData.life_insurance}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="california_sdi" className="block text-sm font-bold mb-1">
-                SDI:
-              </label>
-              <input
-                type="number"
-                id="california_sdi"
-                name="california_sdi"
-                placeholder="Enter SDI Amount"
-                value={formData.california_sdi}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="famli_tax" className="block text-sm font-bold mb-1">
-                FAMLI Tax:
-              </label>
-              <input
-                type="number"
-                id="famli_tax"
-                name="famli_tax"
-                placeholder="Enter FAMLI Tax Amount"
-                value={formData.famli_tax}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="medical_insurance" className="block text-sm font-bold mb-1">
-                Medical Insurance:
-              </label>
-              <input
-                type="number"
-                id="medical_insurance"
-                name="medical_insurance"
-                placeholder="Enter Medical Insurance Amount"
-                value={formData.medical_insurance}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="net_pay" className="block text-sm font-bold mb-1">
-                Net Pay:
-              </label>
-              <input
-                type="number"
-                id="net_pay"
-                name="net_pay"
-                 placeholder="Enter Net Pay Amount"
-                value={formData.net_pay}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="no_of_exemption_including_self" className="block text-sm font-bold mb-1">
-                No. of Exemptions :
-              </label>
-              <input
-                type="number"
-                id="no_of_exemption_including_self"
-                name="no_of_exemption_including_self"
-                placeholder="Enter No. of Exemptions"
-                value={formData.no_of_exemption_including_self}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              />
-            </div>
-            <div>
-              <label htmlFor="no_of_dependent_child" className="block text-sm font-bold mb-1">
-                No. of Dependent Child:
-                {formData.garnishment_data[0].type === "Creditor Debt" && (
-                  <span className="text-red-700"> *</span>
-                )}
-              </label>
-              <input
-                type="number"
-                id="no_of_dependent_child"
-                name="no_of_dependent_child"
-                placeholder="Enter Number of Dependent Child"
-                value={formData.no_of_dependent_child}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-                required={formData.garnishment_data[0].type === "Creditor Debt"}
-              />
-              {errors.no_of_dependent_child && (
-                <p className="text-red-600 text-xs mt-1">{errors.no_of_dependent_child}</p>
-              )}
-            </div>
-            <div>
-              <label htmlFor="support_second_family" className="block text-sm font-bold mb-1">
-                Support Second Family:
-              </label>
-              <select
-                id="support_second_family"
-                name="support_second_family"
-                value={formData.support_second_family}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              >
-                <option value="">Select Support Second Family</option>
-                <option value="Yes">True</option>
-                <option value="No">False</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="arrears_greater_than_12_weeks" className="block text-sm font-bold mb-1">
-                Arrears Greater Than 12 Weeks:
-              </label>
-              <select
-                id="arrears_greater_than_12_weeks"
-                name="arrears_greater_than_12_weeks"
-                value={formData.arrears_greater_than_12_weeks}
-                onChange={handleInputChange}
-                className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-              >
-                <option value="">Select Arrears Greater Than 12 Weeks</option>
-                <option value="Yes">True</option>
-                <option value="No">False</option>
-              </select>
-            </div>
-          </div>
-          <h2 className="mt-6 text-lg font-bold">Garnishment Data</h2>
-          {formData.garnishment_data[0].data.map((item, index) => (
-            <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 border p-4 rounded-md">
+            {["State Tax Levy", "Creditor Debt"].includes(formData.garnishment_data[0].type) && (
               <div>
-                <label htmlFor={`case_id_${index}`} className="block text-sm font-bold mb-1">
-                  Case ID <span className="text-red-700">*</span>:
+                <label htmlFor="net_pay" className="block text-sm font-bold mb-1">
+                  Net Pay:
                 </label>
                 <input
-                  type="text"
-                  id={`case_id_${index}`}
-                  value={item.case_id}
-                   placeholder="Enter Case ID"
-                  onChange={(e) => handleNestedInputChange(e, index, "case_id")}
+                  type="number"
+                  id="net_pay"
+                  name="net_pay"
+                  placeholder="Enter Net Pay Amount"
+                  value={formData.net_pay}
+                  onChange={handleInputChange}
                   className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
-                  required
                 />
-                {errors[`case_id_${index}`] && (
-                  <p className="text-red-600 text-xs mt-1">{errors[`case_id_${index}`]}</p>
-                )}
               </div>
+            )}
+            {formData.garnishment_data[0].type !== "Child Support" && (
               <div>
-                <label htmlFor={`ordered_amount_${index}`} className="block text-sm font-bold mb-1">
+                <label htmlFor="no_of_exemption_including_self" className="block text-sm font-bold mb-1">
+                  No. of Exemptions:
+                </label>
+                <input
+                  type="number"
+                  id="no_of_exemption_including_self"
+                  name="no_of_exemption_including_self"
+                  placeholder="Enter No. of Exemptions"
+                  value={formData.no_of_exemption_including_self}
+                  onChange={handleInputChange}
+                  className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                />
+              </div>
+            )}
+            {!["Creditor Debt", "State Tax Levy"].includes(formData.garnishment_data[0].type) && (
+              <>
+                <div>
+                  <label htmlFor="support_second_family" className="block text-sm font-bold mb-1">
+                    Support Second Family:
+                  </label>
+                  <select
+                    id="support_second_family"
+                    name="support_second_family"
+                    value={formData.support_second_family}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                  >
+                    <option value="">Select Support Second Family</option>
+                    <option value="Yes">True</option>
+                    <option value="No">False</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="arrears_greater_than_12_weeks" className="block text-sm font-bold mb-1">
+                    Arrears Greater Than 12 Weeks:
+                  </label>
+                  <select
+                    id="arrears_greater_than_12_weeks"
+                    name="arrears_greater_than_12_weeks"
+                    value={formData.arrears_greater_than_12_weeks}
+                    onChange={handleInputChange}
+                    className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
+                  >
+                    <option value="">Select Arrears Greater Than 12 Weeks</option>
+                    <option value="Yes">True</option>
+                    <option value="No">False</option>
+                  </select>
+                </div>
+              </>
+            )}
+          </div>
+         
+          {["Child Support", "Federal Tax Levy", "student default loan"].includes(
+            formData.garnishment_data[0].type
+          ) && (
+            <div>
+              <h2 className="mt-6 text-lg font-bold">Garnishment Data</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 border p-4 rounded-md"> 
+              <div>
+                <label htmlFor="ordered_amount" className="block text-sm font-bold mb-1">
                   Ordered Amount:
                 </label>
                 <input
                   type="number"
-                  id={`ordered_amount_${index}`}
+                  id="ordered_amount"
+                  name="ordered_amount"
                   placeholder="Enter Ordered Amount"
-                  value={item.ordered_amount}
-                  onChange={(e) => handleNestedInputChange(e, index, "ordered_amount")}
+                  value={formData.garnishment_data[0].data[0].ordered_amount}
+                  onChange={(e) => handleNestedInputChange(e, 0, "ordered_amount")}
                   className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
                 />
               </div>
               <div>
-                <label htmlFor={`arrear_amount_${index}`} className="block text-sm font-bold mb-1">
+                <label htmlFor="arrear_amount" className="block text-sm font-bold mb-1">
                   Arrear Amount:
                 </label>
                 <input
                   type="number"
-                  id={`arrear_amount_${index}`}
-                  value={item.arrear_amount}
-                   placeholder="Enter Arrear Amount "
-                  onChange={(e) => handleNestedInputChange(e, index, "arrear_amount")}
+                  id="arrear_amount"
+                  name="arrear_amount"
+                  placeholder="Enter Arrear Amount"
+                  value={formData.garnishment_data[0].data[0].arrear_amount}
+                  onChange={(e) => handleNestedInputChange(e, 0, "arrear_amount")}
                   className="block w-full rounded-md border border-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm p-2"
                 />
               </div>
             </div>
-          ))}
+            </div>
+          )}
           <div className="flex justify-end mt-4 space-x-2">
             <button
               type="submit"

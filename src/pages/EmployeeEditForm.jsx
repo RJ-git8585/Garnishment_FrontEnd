@@ -176,7 +176,7 @@ function EmployeeEditForm() {
   return (
     <>
         
-          <h2 className="mb-2">Edit Employee</h2>
+          <h2 className="edit-profile text-lg mt-6 mb-4 inline-block">Edit Employee</h2>
         
           <form onSubmit={handleSubmit} className="space-y-6 form_cls">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 p-4">
