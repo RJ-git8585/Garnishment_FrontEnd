@@ -78,11 +78,8 @@ function Form() {
     } finally {
       setLoading(false); // Stop loader
     }
-  };
+  }; 
 
-
-  
-  
   return (
     <>
       <div className="flex full-page-height lg:h-screen  dark:bg-slate-800 flex-1 flex-col justify-center px-6 py-12 lg:px-8">
