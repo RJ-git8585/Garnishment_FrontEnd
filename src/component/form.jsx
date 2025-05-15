@@ -1,20 +1,20 @@
-import {  useState, useEffect } from 'react';
-import logo from '/src/Logo_g.png';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import logo from "/src/Logo_g.png";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
-import { BASE_URL } from '../Config';
+import { BASE_URL } from "../Config";
 import { CircularProgress, Backdrop, Typography } from "@mui/material";
-
 
 function Form() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false); // Loader state
+  let refreshTimeout = null; // Timeout reference for token refresh
 
   useEffect(() => {
     document.body.style.height = "100vh";
