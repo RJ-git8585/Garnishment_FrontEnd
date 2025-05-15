@@ -33,7 +33,7 @@ import EmpImport from './pages/EmpImport';
 import ComImport from './pages/ComImport';
 import OrdImport from './pages/OrdImport';
 import Rules from './pages/Rules';
-
+import Ruleslist from './pages/Ruleslist';
 
 // Components
 import AddEmployee from './component/AddEmployee';
@@ -82,7 +82,9 @@ const privateRoutes = [
   { path: "/BatchCalculation", element: <BatchCalculation /> },
   { path: "/xmlProcessor", element: <XmlProcessor /> },
   { path: "/rules", element: <Rules /> },
+  { path: "/ruleslist", element: <Ruleslist /> },
 ];
+
 
 function RoutesPath() {
   return (

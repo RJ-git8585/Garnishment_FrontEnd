@@ -78,8 +78,8 @@ function GarnishFee() {
             ) : (
               paginatedData.map((row, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="px-6 py-1 text-sm truncate">{row.id}</td>
-                  <td className="px-6 py-1 text-sm truncate">{row.state}</td>
+                  <td className="px-6 py-1 text-sm truncate capitalize">{row.id}</td>
+                  <td className="px-6 py-1 text-sm truncate capitalize">{row.state}</td>
                   <td className="px-6 py-1 text-sm truncate">{row.pay_period}</td>
                   <td className="px-6 py-1 text-sm truncate">
                     <Button
