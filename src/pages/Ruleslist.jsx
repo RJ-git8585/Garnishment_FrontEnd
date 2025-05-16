@@ -40,7 +40,9 @@ const Ruleslist = () => {
 
   const handleEditSave = async (updatedData) => {
     try {
-      const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/`, {
+      // Ensure the state is included in the API endpoint
+      const state = updatedData.state || editData.state; // Use the state from updatedData or fallback to the original state
+      const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/${state}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -53,6 +55,8 @@ const Ruleslist = () => {
           icon: "success",
           title: "Rule Updated",
           text: "The rule has been successfully updated.",
+        }).then(() => {
+          window.location.reload(); // Reload the page after the success message
         });
 
         setData((prevData) =>
