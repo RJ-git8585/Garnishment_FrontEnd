@@ -54,12 +54,12 @@ const Sidebar = () => {
       // ],
     },
     {
-      text: 'Fees',
+      text: 'Fees Rules',
       icon: <GiTakeMyMoney />,
       path: '/GarnishFee',
     },
     {
-      text: 'RulesList',
+      text: 'Rules List',
       icon: <GiTakeMyMoney />,
       path: '/ruleslist',
     },

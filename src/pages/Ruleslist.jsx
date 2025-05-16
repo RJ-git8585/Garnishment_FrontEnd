@@ -91,11 +91,11 @@ const Ruleslist = () => {
         <table className="min-w-full bg-white border rounded shadow">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
+              <th className="px-6 py-3 text-left text-sm">Sr</th>
               <th className="px-6 py-3 text-left text-sm">Rule ID</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
               <th className="px-6 py-3 text-left text-sm">Deduct From</th>
               <th className="px-6 py-3 text-left text-sm">Withholding Limit</th>
-              <th className="px-6 py-3 text-left text-sm">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -110,11 +110,12 @@ const Ruleslist = () => {
             ) : paginatedData.length > 0 ? (
               paginatedData.map((rule, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
+                  <td className="px-6 py-3 text-sm">{(currentPage - 1) * rowsPerPage + index + 1}</td>
                   <td className="px-6 py-3 text-sm">{rule.id}</td>
                   <td className="px-6 py-3 text-sm">
                     <button
                       onClick={() => handleEditClick(rule)}
-                      className="text-blue-800 hover:underline"
+                      className="text-500 hover:underline rulebtn_cls"
                     >
                       {rule.state}
                     </button>
@@ -122,9 +123,6 @@ const Ruleslist = () => {
                   <td className="px-6 py-3 text-sm capitalize">{rule.deduct_from || "N/A"}</td>
                   <td className="px-6 py-3 text-sm">
                     {rule.withholding_limit_percent ? `${rule.withholding_limit_percent}%` : "N/A"}
-                  </td>
-                  <td className="px-6 py-3 text-sm">
-                    <RiDeleteBin6Line className="text-red-500 cursor-pointer" />
                   </td>
                 </tr>
               ))
@@ -138,7 +136,6 @@ const Ruleslist = () => {
           </tbody>
         </table>
       </div>
-
       {/* Pagination */}
       {!loading && (
         <div className="flex justify-between items-center mt-4">
@@ -178,10 +175,8 @@ const Ruleslist = () => {
                 <input
                   type="text"
                   value={editData.state}
-                  onChange={(e) =>
-                    setEditData((prev) => ({ ...prev, state: e.target.value }))
-                  }
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border rounded px-3 py-2 bg-gray-100 cursor-not-allowed"
+                  readOnly
                 />
               </div>
               <div className="mb-4">

@@ -33,6 +33,11 @@ button {
   overflow: auto;
   width: 500px !important;
 }
+.rulebtn_cls{
+  color: #4b6387;
+  text-decoration: none;
+  font-weight: bold;
+}
 .css-tuj5z2 {
   min-width: 40px !important;
  
