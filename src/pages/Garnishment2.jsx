@@ -299,10 +299,10 @@ function Garnishment2() {
                 required
               >
                 <option value="">Select Garnishment Type</option>
-                <option value="Child Support">Child Support Garnishment</option>
-                <option value="Creditor Debt">Creditor Debt Garnishment</option>
+                <option value="Child Support">Child Support</option>
+                <option value="Creditor Debt">Creditor Debt</option>
                 <option value="Federal Tax Levy">Federal Tax Levy</option>
-                <option value="student default loan">Student Loan Garnishment</option>
+                <option value="student default loan">Student Default Loan </option>
                 <option value="State Tax Levy">State Tax Levy</option>
               </select>
             </div>
