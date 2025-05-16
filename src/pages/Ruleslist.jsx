@@ -121,7 +121,7 @@ const Ruleslist = () => {
                       {rule.state}
                     </button>
                   </td>
-                  <td className="px-6 py-3 text-sm">{rule.deduct_from || "N/A"}</td>
+                  <td className="px-6 py-3 text-sm capitalize">{rule.deduct_from || "N/A"}</td>
                   <td className="px-6 py-3 text-sm">
                     {rule.withholding_limit_percent ? `${rule.withholding_limit_percent}%` : "N/A"}
                   </td>
