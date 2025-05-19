@@ -20,7 +20,10 @@ const Ruleslist = () => {
       try {
         const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/`);
         const jsonData = await response.json();
-        setData(jsonData.data || []);
+        const sortedData = jsonData.data.sort((a, b) =>
+          a.state.localeCompare(b.state)
+        ); // Sort data alphabetically by state
+        setData(sortedData || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
