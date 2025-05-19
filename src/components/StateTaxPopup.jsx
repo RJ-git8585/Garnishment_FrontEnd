@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { StateList } from "../Constant"; // Import state list
+import { BASE_URL } from "../Config"; // Import BASE_URL for API calls
+import Swal from "sweetalert2"; // Import Swal for notifications
 
 const deductFromOptions = [
   { value: "disposable earnings", label: "Disposable Earnings" },
@@ -21,13 +23,55 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
-    handleSave(formData);
+  const validateForm = () => {
+    const { state, description, deduct_from, withholding_limit_percent } = formData;
+    if (!state || !description || !deduct_from || !withholding_limit_percent) {
+      Swal.fire({
+        icon: "error",
+        title: "Validation Error",
+        text: "All fields are required. Please fill out the form completely.",
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+
+    try {
+      const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "State Tax Rule submitted successfully.",
+        });
+        handleSave(formData); // Call the parent save handler
+        handleClose(); // Close the popup
+      } else {
+        throw new Error("Failed to submit the form.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "An error occurred while submitting the form. Please try again later.",
+      });
+    }
   };
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-      <DialogTitle>State Tax Rule</DialogTitle>
+      <DialogTitle>Request State Tax Rule Change</DialogTitle>
       <DialogContent>
         <FormControl fullWidth margin="normal">
           <InputLabel>State</InputLabel>
@@ -94,7 +138,7 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
           onClick={handleSubmit}
           variant="contained"
           style={{
-            backgroundColor: "red", // Light pink color
+            backgroundColor: "red",
             color: "white",
           }}
         >
