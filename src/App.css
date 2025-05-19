@@ -34,9 +34,14 @@ button {
   width: 500px !important;
 }
 .rulebtn_cls{
-  color: #4b6387;
+  color: #4b6387 !important;
   text-decoration: none;
   font-weight: bold;
+  white-space: nowrap;
+}
+.inline-cls{
+  white-space: nowrap;
+
 }
 .css-tuj5z2 {
   min-width: 40px !important;

@@ -3,6 +3,7 @@ import { BASE_URL } from "../Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Swal from "sweetalert2";
 import EditRulePopup from "../components/EditRulePopup";
+import StateTaxPopup from "../components/StateTaxPopup"; // Import the new popup component
 
 const Ruleslist = () => {
   const [data, setData] = useState([]);
@@ -11,6 +12,7 @@ const Ruleslist = () => {
   const rowsPerPage = 10;
   const [editData, setEditData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isStateTaxPopupOpen, setIsStateTaxPopupOpen] = useState(false); // State for the new popup
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +42,7 @@ const Ruleslist = () => {
 
   const handleEditSave = async (updatedData) => {
     try {
-      // Ensure the state is included in the API endpoint
-      const state = updatedData.state || editData.state; // Use the state from updatedData or fallback to the original state
+      const state = updatedData.state || editData.state;
       const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/${state}`, {
         method: "PUT",
         headers: {
@@ -56,7 +57,7 @@ const Ruleslist = () => {
           title: "Rule Updated",
           text: "The rule has been successfully updated.",
         }).then(() => {
-          window.location.reload(); // Reload the page after the success message
+          window.location.reload();
         });
 
         setData((prevData) =>
@@ -78,6 +79,12 @@ const Ruleslist = () => {
     }
   };
 
+  const handleStateTaxSave = (stateTaxData) => {
+    console.log("State Tax Data Submitted:", stateTaxData);
+    setIsStateTaxPopupOpen(false);
+    // Add logic to save state tax data to the backend
+  };
+
   const paginatedData = data.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
@@ -87,7 +94,15 @@ const Ruleslist = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">State Tax Levy Rules</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">State Tax Levy Rules</h1>
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          onClick={() => setIsStateTaxPopupOpen(true)} // Open the state tax popup
+        >
+          State Tax Rules Request
+        </button>
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border rounded shadow">
           <thead>
@@ -97,12 +112,13 @@ const Ruleslist = () => {
               <th className="px-6 py-3 text-left text-sm">State</th>
               <th className="px-6 py-3 text-left text-sm">Deduct From</th>
               <th className="px-6 py-3 text-left text-sm">Withholding Limit</th>
+              <th className="px-6 py-3 text-left text-sm">Withholding Limit Rule</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="5" className="py-6">
+                <td colSpan="6" className="py-6">
                   <div className="flex justify-center items-center h-40">
                     <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
                   </div>
@@ -113,23 +129,24 @@ const Ruleslist = () => {
                 <tr key={index} className="border-t hover:bg-gray-100">
                   <td className="px-6 py-3 text-sm">{(currentPage - 1) * rowsPerPage + index + 1}</td>
                   <td className="px-6 py-3 text-sm">{rule.id}</td>
-                  <td className="px-6 py-3 text-sm">
+                  <td className="px-6 py-3 text-sm rulebtn_cls">
                     <button
                       onClick={() => handleEditClick(rule)}
-                      className="text-blue-500 hover:underline"
+                      className="text-500 hover:underline"
                     >
                       {rule.state}
                     </button>
                   </td>
-                  <td className="px-6 py-3 text-sm capitalize">{rule.deduct_from || "N/A"}</td>
+                  <td className="px-6 py-3 text-sm capitalize inline-cls">{rule.deduct_from || "N/A"}</td>
                   <td className="px-6 py-3 text-sm">
                     {rule.withholding_limit_percent ? `${rule.withholding_limit_percent}%` : "N/A"}
                   </td>
+                  <td className="px-6 py-3 text-sm capitalize">{rule.withholding_limit_rule || "N/A"}</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="py-6 text-center text-gray-500">
+                <td colSpan="6" className="py-6 text-center text-gray-500">
                   No rules found.
                 </td>
               </tr>
@@ -164,6 +181,15 @@ const Ruleslist = () => {
           handleClose={() => setIsEditing(false)}
           ruleData={editData}
           handleSave={handleEditSave}
+        />
+      )}
+
+      {/* State Tax Popup */}
+      {isStateTaxPopupOpen && (
+        <StateTaxPopup
+          open={isStateTaxPopupOpen}
+          handleClose={() => setIsStateTaxPopupOpen(false)}
+          handleSave={handleStateTaxSave}
         />
       )}
     </div>
