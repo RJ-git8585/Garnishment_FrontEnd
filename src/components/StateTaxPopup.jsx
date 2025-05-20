@@ -40,7 +40,7 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/`, {
+      const response = await fetch(`${BASE_URL}/User/state-tax-levy-rule-edit-request/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,7 +52,7 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "State Tax Rule submitted successfully.",
+          text: "Request is submitted successfully.",
         });
         handleSave(formData); // Call the parent save handler
         handleClose(); // Close the popup
