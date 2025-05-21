@@ -15,7 +15,7 @@ import { createRoot } from 'react-dom/client'; // import createRoot from React 1
 import MySwal from 'sweetalert2';
 import { saveAs } from "file-saver"; // Ensure this import is correct
 import * as XLSX from "xlsx"; // Import XLSX for Excel export
-import "./TableRenderer.css";
+import "./../utils/TableRenderer.css"; // Updated path for the CSS file
 let swalRoot = null; // Store the root instance globally
 
 const handleRuleClick = (workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount) => {

@@ -128,10 +128,7 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button
-          onClick={handleClose}
-          color="secondary"
-        >
+        <Button onClick={handleClose} color="secondary">
           Cancel
         </Button>
         <Button

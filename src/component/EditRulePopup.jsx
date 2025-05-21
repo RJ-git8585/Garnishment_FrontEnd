@@ -17,14 +17,13 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
 
   useEffect(() => {
     if (ruleData) {
-        
       const matchedOption = deductFromOptions.find(
         (option) =>
           sanitizeString(option.value.toLowerCase()) === sanitizeString(ruleData.deduct_from?.toLowerCase())
       );
       setFormData({
         state: sanitizeString(ruleData.state) || "",
-        deduct_from: matchedOption ? matchedOption.value : "", // Match value from options
+        deduct_from: matchedOption ? matchedOption.value : "",
         withholding_limit_percent: sanitizeString(ruleData.withholding_limit_percent) || "",
       });
     }
@@ -38,7 +37,7 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
   const handleSubmit = () => {
     handleSave(formData);
   };
-  
+
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
       <DialogTitle>Edit Rule</DialogTitle>
@@ -53,11 +52,10 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
           />
         </FormControl>
         <FormControl fullWidth margin="normal">
-            {/* {formData.state} */}
           <InputLabel>Deduct From</InputLabel>
           <Select
             name="deduct_from"
-            value={formData.deduct_from || ""} // Ensure this matches one of the MenuItem values
+            value={formData.deduct_from || ""}
             onChange={handleChange}
             label="Deduct From"
           >

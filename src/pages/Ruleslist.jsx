@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Swal from "sweetalert2";
-import EditRulePopup from "../components/EditRulePopup";
-import StateTaxPopup from "../components/StateTaxPopup"; // Import the new popup component
+import EditRulePopup from "../component/EditRulePopup"; // Updated path
+import StateTaxPopup from "../component/StateTaxPopup"; // Updated path
 
 const Ruleslist = () => {
   const [data, setData] = useState([]);
@@ -103,7 +103,7 @@ const Ruleslist = () => {
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
           onClick={() => setIsStateTaxPopupOpen(true)} // Open the state tax popup
         >
-          State Tax Rules Request
+         State Tax Rules Edit Request
         </button>
       </div>
       <div className="overflow-x-auto">
