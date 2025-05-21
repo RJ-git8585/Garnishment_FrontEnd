@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSpring, animated, useTransition } from '@react-spring/web';
-import Sidebar from '../component/sidebar';
-import Headertop from '../component/Headertop';
 import ProfileHeader from '../component/ProfileHeader';
-import load from '../bouncing-circles.svg';
+import load from '../utils/image/bouncing-circles.svg';
 import { DiJqueryLogo } from 'react-icons/di';
 import { BASE_URL } from '../Config';
 import { API_URLS } from '../constants/apis';

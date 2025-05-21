@@ -4,7 +4,7 @@ import Sidebar from '../component/sidebar';
 // import { toast } from 'react-toastify';
 import Headertop from '../component/Headertop';
 import { FaUserCheck } from "react-icons/fa";
-import load from '../bouncing-circles.svg';
+import load from '../utils/image/bouncing-circles.svg';
 import Swal from 'sweetalert2'
 import { BASE_URL } from '../Config';
 
