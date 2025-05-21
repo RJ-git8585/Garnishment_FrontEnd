@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import logo from "/src/Logo_g.png";
+import logo from '../utils/image/Logo_g.png';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";

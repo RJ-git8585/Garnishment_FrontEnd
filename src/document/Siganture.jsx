@@ -1,4 +1,4 @@
-import "./doc.css";
+import "../utils/css/doc.css";
 import { useState, useEffect } from "react";
 import { FaCode } from "react-icons/fa";
 import { HiOutlineDocumentText } from "react-icons/hi";
@@ -7,7 +7,7 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 // import { SignatureMenus } from "../constants/signature";
 import Documentation from "./Documentation";
 import ApiRef from "./apiRef";
-import logo from '/src/Logo_g.png';
+import Logo from '../utils/image/Logo_g.png';
 // import BatchCalculation from "./BatchCalculation";
 
 const Footer = () => (
@@ -125,7 +125,7 @@ const Signature = () => {
   return (
     <div className="docs bg-black">
       <div className="doc_sidebar">
-       <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" /> 
+       <img className="mx-auto h-10 w-auto" src={Logo} alt="Your Company" /> 
         <p className="text-center">Version: 1.0</p>
         <p className="text-center mb-10">Last Updated: 29th Dec, 2024</p>
         <hr />

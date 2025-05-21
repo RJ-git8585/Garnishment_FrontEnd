@@ -1,14 +1,47 @@
+/**
+ * Form Component
+ * 
+ * This component renders a signup form with fields for employer name, username, email, password, 
+ * and re-enter password. It also includes social login options and links to additional resources.
+ * 
+ * Features:
+ * - Handles form input changes and submission.
+ * - Sends form data to the backend for user registration.
+ * - Applies custom styles to the body during the component's lifecycle.
+ * - Displays social login options and additional links for documentation, API, and contact.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered signup form component.
+ * 
+ * @example
+ * <Form />
+ * 
+ * State:
+ * - `formData` (object): Stores the form input values.
+ *   - `name` (string): Employer name.
+ *   - `username` (string): Username.
+ *   - `email` (string): Email address.
+ *   - `password1` (string): Password.
+ *   - `password2` (string): Re-entered password.
+ * 
+ * Effects:
+ * - Applies custom styles to the body on mount and resets them on unmount.
+ * 
+ * Methods:
+ * - `handleChange(e)`: Updates the `formData` state when an input field changes.
+ * - `handleSubmit(e)`: Handles form submission, sends data to the backend, and handles success or error responses.
+ * 
+ * Dependencies:
+ * - `axios`: For making HTTP requests.
+ * - `BASE_URL`: The base URL for the backend API.
+ * - `React`, `useState`, `useEffect`: React hooks for state management and lifecycle handling.
+ * - `FcGoogle`, `RiFacebookFill`: Icons for social login options.
+ */
 // eslint-disable-next-line no-unused-vars
 import React, { useState ,useEffect } from 'react';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-// import logo from '/src/Logo (1).png';
-// eslint-disable-next-line no-unused-vars
-import logo from '/src/Logo_g.png';
-// import {  toast } from "react-toastify";
+import logo from '../utils/image/Logo_g.png';
 import { FcGoogle } from "react-icons/fc";
-// import {  ToastContainer,toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { RiFacebookFill } from "react-icons/ri";
 import { BASE_URL } from '../Config';
 function Form() {
@@ -50,16 +83,11 @@ function Form() {
       const response = await axios.post(`${BASE_URL}/User/register`, formData);
       alert('Registration successful2');
       if (response.data.message) {
-        // alert(response.data);
-        // alert('Registration successful');
-        // toast.success('Registration successful');
         console.log(response.data)
-        // navigate('/');
       }
     } catch (error) {
       console.error(error.response.data);
       console.log(error.response.data);
-      // toast.warning(error.response.data)
       alert(error.response.data.error);
     }
   };

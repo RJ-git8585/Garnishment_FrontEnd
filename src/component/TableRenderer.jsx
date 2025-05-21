@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 import { Link, BrowserRouter } from "react-router-dom";
 import { formatGarnishmentData } from "../utils/dataFormatter";
-import Navbar from './../Navbar';
+// import Navbar from './../Navbar';
 import Swal from "sweetalert2";
 
 import { BsFiletypeCsv, BsFiletypeXml } from "react-icons/bs";
@@ -15,7 +15,7 @@ import { createRoot } from 'react-dom/client'; // import createRoot from React 1
 import MySwal from 'sweetalert2';
 import { saveAs } from "file-saver"; // Ensure this import is correct
 import * as XLSX from "xlsx"; // Import XLSX for Excel export
-import "./../utils/TableRenderer.css"; // Updated path for the CSS file
+import "../utils/css/TableRenderer.css"; // Updated path for the CSS file
 let swalRoot = null; // Store the root instance globally
 
 const handleRuleClick = (workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount) => {

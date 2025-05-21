@@ -4,7 +4,7 @@ import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import Headertop from "../component/Headertop";
 import Sidebar from "../component/sidebar";
 import { FaTableCells } from "react-icons/fa6";
-import "./batch.css";
+import "../utils/css/batch.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 

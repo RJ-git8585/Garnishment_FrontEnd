@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '/src/Logo_g.png';
+import logo from '../utils/image/Logo_g.png';
 import {
   Drawer,
   List,

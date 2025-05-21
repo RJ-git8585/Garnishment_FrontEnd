@@ -56,10 +56,12 @@
   color: red;
   margin-top: 10px;
 }
+
 .fucntionalButtons{
   position: relative;
   bottom: -40px;
 }
+
 .responseHeader {
   display: flex;
   justify-content: space-between;
@@ -90,6 +92,7 @@
   cursor: pointer;
 margin-right:5px ;
 }
+
 .header{
   color:#000 !important;
 }

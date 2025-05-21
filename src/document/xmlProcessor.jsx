@@ -5,7 +5,7 @@ import { FaCopy, FaExpand, FaCompress, FaArrowUp } from "react-icons/fa"; // Imp
 import { BsFiletypeJson, BsFiletypeXml } from "react-icons/bs";
 import Sidebar from '../component/sidebar';
 import { useState, useRef, useEffect } from 'react';
-import './xml.css';
+import '../utils/css/xml.css';
 import { renderTable } from '../component/TableRenderer';
 import { exportToExcel } from '../component/ExcelExporter';
 
