@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { BASE_URL } from "../Config";
+import { BASE_URL } from "../configration/Config";
 import Headertop from "../component/Headertop";
 import Sidebar from "../component/sidebar";
-import { StateList,GenderList,PeriodList,FillingStatusList } from "../Constant";
+import { StateList,GenderList,PeriodList,FillingStatusList } from "../constants/Constant";
 import { Radio,TextField } from "@mui/material"; 
 import { FormControl, InputLabel, Select, MenuItem,FormLabel, RadioGroup, FormControlLabel } from "@mui/material";
 

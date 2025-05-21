@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";

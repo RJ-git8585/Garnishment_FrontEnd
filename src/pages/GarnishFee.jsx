@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BASE_URL } from "../Config";
+import { BASE_URL } from "../configration/Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import loader icon
 import Button from "@mui/material/Button"; // Import Button for rule actions
 import EditGarnishmentRule from "./EditGarnishmentRule"; // Import EditGarnishmentRule component

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
-import { BASE_URL } from "../Config";
+import { BASE_URL } from "../configration/Config";
 import { CircularProgress, Backdrop, Typography } from "@mui/material";
 
 function Form() {

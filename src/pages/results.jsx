@@ -5,7 +5,7 @@ import { TiExport } from 'react-icons/ti';
 import { DataGrid } from '@mui/x-data-grid';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 
 function Results() {
   const id = sessionStorage.getItem("id");

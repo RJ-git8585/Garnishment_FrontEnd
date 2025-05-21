@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import Swal from 'sweetalert2';
 
 function StudentLoan() {

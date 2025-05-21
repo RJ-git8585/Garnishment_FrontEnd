@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BASE_URL } from "../Config";
+import { BASE_URL } from "../configration/Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Swal from "sweetalert2";
 import EditRulePopup from "../component/EditRulePopup"; // Updated path

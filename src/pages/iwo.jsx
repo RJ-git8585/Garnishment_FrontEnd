@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
-import { BASE_URL } from "../Config"; // Replace with your actual base URL
+import { BASE_URL } from "../configration/Config"; // Replace with your actual base URL
 
 function Iwo() {
   const [upload, setUploadFile] = useState(null);

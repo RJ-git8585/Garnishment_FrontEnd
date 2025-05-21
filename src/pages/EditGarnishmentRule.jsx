@@ -6,7 +6,7 @@ import {
   InputLabel, Grid, CircularProgress
 } from "@mui/material";
 import { motion } from "framer-motion";
-import { BASE_URL } from "../Config";
+import { BASE_URL } from "../configration/Config";
 
 
 function EditGarnishmentRule({ rule, open, handleClose }) {

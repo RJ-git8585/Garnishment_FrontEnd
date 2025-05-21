@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from 'sweetalert2';
-import { StateList } from "../Constant";
+import { StateList } from "../constants/Constant";
 
 function MultipleChild() {
   const [employee_name, setEmpName] = useState('');

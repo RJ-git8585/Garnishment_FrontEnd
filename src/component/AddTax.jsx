@@ -5,7 +5,7 @@ import Headertop from '../component/Headertop'
 import Sidebar from './sidebar'
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import { useNavigate } from 'react-router-dom';
 import {  FaMoneyBill } from 'react-icons/fa';
 

@@ -1,50 +1,50 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PublicRoute from './component/PublicRoute';
-import PrivateRoute from './component/PrivateRoute';
-import Notfound from './pages/Notfound';
-import Sidebar from './component/sidebar';
-import Headertop from './component/Headertop';
+import PublicRoute from './PublicRoute';
+import PrivateRoute from './PrivateRoute';
+import Notfound from '../pages/Notfound';
+import Sidebar from './sidebar';
+import Headertop from './Headertop';
 
 // Pages
-import Form from './component/form';
-import Signup from './pages/signup';
-import Forgot from './pages/forgot';
-import PasswordResetConfirm from './pages/PasswordResetConfirm';
-import Dashboard from './pages/dashboard';
-import Logout from './pages/Logout';
-import Profile from './pages/profile';
+import Form from './form';
+import Signup from '../pages/signup';
+import Forgot from '../pages/forgot';
+import PasswordResetConfirm from '../pages/PasswordResetConfirm';
+import Dashboard from '../pages/dashboard';
+import Logout from '../pages/Logout';
+import Profile from '../pages/profile';
 
 // import Setting from './pages/setting';
-import Help from './pages/Help';
-import Tax from './pages/Tax';
-import Garnishment from './pages/Garnishment';
-import Garnishment2 from './pages/Garnishment2';
-import Employee from './pages/employee';
-import EmployeeEditForm from './pages/EmployeeEditForm';
-import EmployeeProfile from './pages/EmployeeProfile';
-import CaseRegister from './pages/CaseRegister';
-import Department from './pages/department';
-import Location from './pages/location';
-import Iwo from './pages/iwo';
-import Results from './pages/results';
-import GarnishFee from './pages/GarnishFee';
-import Orders from './pages/Orders';
-import EmpImport from './pages/EmpImport';
-import ComImport from './pages/ComImport';
-import OrdImport from './pages/OrdImport';
-import Rules from './pages/Rules';
-import Ruleslist from './pages/Ruleslist';
+import Help from '../pages/Help';
+import Tax from '../pages/Tax';
+import Garnishment from '../pages/Garnishment';
+import Garnishment2 from '../pages/Garnishment2';
+import Employee from '../pages/employee';
+import EmployeeEditForm from '../pages/EmployeeEditForm';
+import EmployeeProfile from '../pages/EmployeeProfile';
+import CaseRegister from '../pages/CaseRegister';
+import Department from '../pages/department';
+import Location from '../pages/location';
+import Iwo from '../pages/iwo';
+import Results from '../pages/results';
+import GarnishFee from '../pages/GarnishFee';
+import Orders from '../pages/Orders';
+import EmpImport from '../pages/EmpImport';
+import ComImport from '../pages/ComImport';
+import OrdImport from '../pages/OrdImport';
+import Rules from '../pages/Rules';
+import Ruleslist from '../pages/Ruleslist';
 
 // Components
-import AddEmployee from './component/AddEmployee';
-import AddDepartment from './component/AddDepartment';
-import AddTax from './component/AddTax';
-import AddLocation from './component/AddLocation';
+import AddEmployee from './AddEmployee';
+import AddDepartment from './AddDepartment';
+import AddTax from './AddTax';
+import AddLocation from './AddLocation';
 
 // Documents
-import Siganture from './document/Siganture';
-import BatchCalculation from './document/BatchCalculation';
-import XmlProcessor from './document/xmlProcessor';
+import Siganture from '../document/Siganture';
+import BatchCalculation from '../document/BatchCalculation';
+import XmlProcessor from '../document/xmlProcessor';
 
 const publicRoutes = [
   { path: "/", element: <Form />, restricted: true },

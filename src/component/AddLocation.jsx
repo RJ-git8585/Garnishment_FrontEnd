@@ -2,7 +2,7 @@
 // eslint-disable-next-line no-unused-vars
 import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import Sidebar from './sidebar'
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';

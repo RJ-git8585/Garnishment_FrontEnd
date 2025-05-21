@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import { BASE_URL } from "../Config";
+import { BASE_URL } from "../configration/Config";
 
 const StatetaxLevyRules = ({ caseId }) => {
   const [data, setData] = useState(null);

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import Swal from 'sweetalert2';
 import { RiDeleteBin6Line } from "react-icons/ri";
 // eslint-disable-next-line react/prop-types

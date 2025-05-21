@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaBalanceScaleRight } from "react-icons/fa";
 import axios from "axios";
-import { StateList, StateCreditorList, StateLevyContactList } from "../Constant";
-import { BASE_URL } from '../Config';
+import { StateList, StateCreditorList, StateLevyContactList } from "../constants/Constant";
+import { BASE_URL } from '../configration/Config';
 import Swal from "sweetalert2"; // Import Swal for popup messages
 import ErrorBoundary from "../component/ErrorBoundary"; // Import the ErrorBoundary component
 

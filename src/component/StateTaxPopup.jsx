@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { StateList } from "../Constant"; // Import state list
-import { BASE_URL } from "../Config"; // Import BASE_URL for API calls
+import { StateList } from "../constants/Constant"; // Import state list
+import { BASE_URL } from "../configration/Config"; // Import BASE_URL for API calls
 import Swal from "sweetalert2"; // Import Swal for notifications
 
 const deductFromOptions = [

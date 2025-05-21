@@ -1,4 +1,4 @@
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import Headertop from '../component/Headertop';
 import { FaTableCells } from "react-icons/fa6";
 import { FaCopy, FaExpand, FaCompress, FaArrowUp } from "react-icons/fa"; // Import FaArrowUp for the floating button

@@ -6,7 +6,7 @@ import Headertop from '../component/Headertop';
 import { FaUserCheck } from "react-icons/fa";
 import load from '../utils/image/bouncing-circles.svg';
 import Swal from 'sweetalert2'
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 
 function Profile() {
   const [profileData, setProfileData] = useState({

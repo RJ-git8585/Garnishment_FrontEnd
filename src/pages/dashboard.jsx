@@ -3,7 +3,7 @@ import { useSpring, animated, useTransition } from '@react-spring/web';
 import ProfileHeader from '../component/ProfileHeader';
 import load from '../utils/image/bouncing-circles.svg';
 import { DiJqueryLogo } from 'react-icons/di';
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import { API_URLS } from '../constants/apis';
 
 function Dashboard() {

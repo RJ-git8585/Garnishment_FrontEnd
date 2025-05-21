@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 // import load from '../bouncing-circles.svg';
 import Swal from 'sweetalert2';
 import Headertop from '../component/Headertop';

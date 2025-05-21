@@ -4,7 +4,7 @@ import Headertop from '../component/Headertop';
 import Sidebar from './sidebar';
 import { TextField } from '@mui/material';
 
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 import Swal from 'sweetalert2';
 import { FaUserTie } from "react-icons/fa";
 import InputMask from 'react-input-mask';

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { BASE_URL } from "../Config";
+import { BASE_URL } from "../configration/Config";
 import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import Headertop from "../component/Headertop";
 import Sidebar from "../component/sidebar";

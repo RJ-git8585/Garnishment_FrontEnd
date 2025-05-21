@@ -43,7 +43,7 @@ import axios from 'axios';
 import logo from '../utils/image/Logo_g.png';
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
-import { BASE_URL } from '../Config';
+import { BASE_URL } from '../configration/Config';
 function Form() {
   const [formData, setFormData] = useState({
     name: '',
