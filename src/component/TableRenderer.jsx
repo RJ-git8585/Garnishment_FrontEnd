@@ -229,7 +229,7 @@ export const renderTable = (data) => {
           allowable_disposable_earning: allowableDisposableEarning,
           withholding_amount: garnishmentAmount,
           withholding_arrear: withholdingArrear, // Correctly fetch withholding_arrear, including 0
-          // ...result.er_deduction,
+          ...result.er_deduction,
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
           data_count: garnishment.data ? garnishment.data.length : 0,
         });
@@ -257,6 +257,7 @@ export const renderTable = (data) => {
     { label: "Arrear Amount", key: "arrear_amount" },
     { label: "Withholding Amount", key: "withholding_amount" },
     { label: "Withholding Arrear", key: "withholding_arrear" },
+     { label: "Garnishment Fees", key: "garnishment_fees" },
     { label: "Rule Key", key: "withholding_limit_rule" },
     // { label: "Filing Status", key: "filing_status" },
     // { label: "No of Exemption", key: "no_of_exemption_including_self" },

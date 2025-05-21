@@ -36,7 +36,7 @@ const Logout = () => {
     <>
       <button className="sidebar-link" onClick={handleLogout}>
         <FaSignOutAlt />
-        <p>LOGOUT</p>
+        <p>Sign Out</p>
       </button>
 
       {/* Backdrop Loader */}

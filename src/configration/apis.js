@@ -1,6 +1,6 @@
 // src/constants/apiConstants.js
 
-const API_BASE_URL = "https://garnishment-backend.onrender.com";
+const API_BASE_URL = "https://garnishment-backend-6lzi.onrender.com";
 
 export const API_URLS = {
   DASHBOARD_USERS_DATA: `${API_BASE_URL}/User/DashboardData`,

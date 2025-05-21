@@ -2,8 +2,6 @@
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Headertop from "../component/Headertop";
-import Sidebar from "./sidebar";
 import { BASE_URL } from "../configration/Config";
 
 function AddDepartment() {

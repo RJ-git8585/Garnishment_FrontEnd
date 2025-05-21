@@ -1,17 +1,11 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-// Import Roboto font
-// https://vitejs.dev/config/
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    proxy: {
-      '/api/user': {
-        target: 'https://garnishment-backend.onrender.com', // Replace with your API
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/user/, ''), // Optional: remove "/api" prefix
-      },
+    plugins: [react()],
+    test: {
+        globals: true,
+        environment: 'jsdom', // Use jsdom for DOM simulation
+        setupFiles: './src/setupTests.js', // Optional setup file
     },
-  },
-})
+});
