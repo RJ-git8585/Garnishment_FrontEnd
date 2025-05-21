@@ -24,7 +24,7 @@
  * - `mobileMenuOpen` (boolean): Tracks whether the mobile menu is open or closed.
  */
 import React, { useState, Fragment } from "react";
-import myImage from "/src/White-logo-1 (1).png";
+import myImage from "../utils/image/White-logo-1 (1).png";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { PlayCircleIcon, PhoneIcon } from "@heroicons/react/20/solid";
