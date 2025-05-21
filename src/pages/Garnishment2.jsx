@@ -25,29 +25,31 @@ function Garnishment2() {
     return `C${timestamp}${randomString}`;
   };
 
-  const [formData, setFormData] = useState(() => {
-    const initialFormData = {
-      batch_id: generateBatchId(),
-      ee_id: generateEmployeeId(),
-      work_state: "",
-      pay_period: "",
-      filing_status: "",
-      gross_pay: "",
-      federal_income_tax: "",
-      net_pay: "",
-      no_of_dependent_child: "",
-      support_second_family: "",
-      arrears_greater_than_12_weeks: "",
-      no_of_exemption_including_self: "",
-      garnishment_data: [
-        {
-          type: "",
-          data: [],
-        },
-      ],
-    };
-
-    return initialFormData;
+  const [formData, setFormData] = useState({
+    batch_id: generateBatchId(),
+    ee_id: generateEmployeeId(),
+    case_id: generateCaseId(), // Auto-generate case ID
+    work_state: "",
+    pay_period: "",
+    filing_status: "",
+    gross_pay: "",
+    federal_income_tax: "",
+    net_pay: "",
+    no_of_dependent_child: "",
+    support_second_family: "",
+    arrears_greater_than_12_weeks: "",
+    no_of_exemption_including_self: "",
+    garnishment_data: [
+      {
+        type: "",
+        data: [
+          {
+            ordered_amount: "",
+            arrear_amount: "",
+          },
+        ],
+      },
+    ],
   });
 
   const [stateOptions, setStateOptions] = useState(StateList); // Default to StateList
@@ -97,74 +99,28 @@ function Garnishment2() {
       return; // Prevent further processing for these types
     }
 
-    setFormData((prevData) => {
-      let updatedData = { ...prevData };
-
-      switch (selectedType) {
-        case "Child Support":
-        case "Creditor Debt":
-          updatedData = {
-            ...prevData,
-            garnishment_data: [
-              {
-                type: selectedType,
-                data: [
-                  {
-                    ordered_amount: "",
-                    arrear_amount: "",
-                  },
-                ],
-              },
-            ],
-          };
-          break;
-
-        case "State Tax Levy":
-          updatedData = {
-            ...prevData,
-            garnishment_data: [
-              {
-                type: "State Tax Levy",
-                data: [
-                  {
-                    case_id: generateCaseId(),
-                    ordered_amount: "",
-                    arrear_amount: "",
-                  },
-                ],
-              },
-            ],
-          };
-          break;
-
-        default:
-          updatedData.garnishment_data[0] = {
-            ...updatedData.garnishment_data[0],
-            type: selectedType,
-          };
-          break;
-      }
-
-      return updatedData;
-    });
+    setFormData((prevData) => ({
+      ...prevData,
+      garnishment_data: [
+        {
+          ...prevData.garnishment_data[0],
+          type: selectedType,
+        },
+      ],
+    }));
 
     // Update state options based on garnishment type
-    switch (selectedType) {
-      case "Child Support":
-        setStateOptions(StateList);
-        console.log("Child Support selected");
-        break;
-      case "Creditor Debt":
-        setStateOptions(StateCreditorList);
-        console.log("Creditor Debt selected");
-        break;
-      case "State Tax Levy":
-        setStateOptions(StateLevyContactList);
-        console.log("State Tax Levy selected");
-        break;
-      default:
-        setStateOptions([]); // Clear options if no valid type is selected
-        break;
+    if (selectedType === "Child Support") {
+      setStateOptions(StateList);
+      console.log("Child Support selected");
+    } else if (selectedType === "Creditor Debt") {
+      setStateOptions(StateCreditorList);
+      console.log("Creditor Debt selected");
+    } else if (selectedType === "State Tax Levy") {
+      setStateOptions(StateLevyContactList);
+      console.log("State Tax Levy selected");
+    } else {
+      setStateOptions([]); // Clear options if no valid type is selected
     }
   };
 
@@ -202,7 +158,7 @@ function Garnishment2() {
         cases: [
           {
             ee_id: formData.ee_id,
-            case_id: formData.case_id, // Pass case_id
+            
             work_state: formData.work_state,
             no_of_exemption_including_self: parseInt(formData.no_of_exemption_including_self, 10) || 0,
             pay_period: formData.pay_period,
@@ -232,6 +188,7 @@ function Garnishment2() {
             garnishment_data: formData.garnishment_data.map((garnishment) => ({
               type: garnishment.type,
               data: garnishment.data.map((garnData) => ({
+                case_id: formData.case_id, // Pass case_id
                 ordered_amount: parseFloat(garnData.ordered_amount) || 0,
                 arrear_amount: parseFloat(garnData.arrear_amount) || 0,
               })),
