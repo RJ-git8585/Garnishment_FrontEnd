@@ -1,3 +1,50 @@
+
+/**
+ * CaseRegistrationForm Component
+ *
+ * This component renders a form for case registration, allowing users to input
+ * various details related to a case, such as case ID, employee ID, garnishment type,
+ * ordered amounts, and support details. It also includes functionality to reset the form
+ * and submit the data.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered CaseRegistrationForm component.
+ *
+ * @example
+ * <CaseRegistrationForm />
+ *
+ * State:
+ * - `formData` (object): Holds the form data for all input fields.
+ *   - `caseID` (string): Case ID.
+ *   - `eeID` (string): Employee ID.
+ *   - `fein` (string): Federal Employer Identification Number.
+ *   - `issuingState` (string): State issuing the garnishment.
+ *   - `garnishmentType` (string): Type of garnishment.
+ *   - `orderedAmount` (string): Ordered amount for garnishment.
+ *   - `payPeriod` (string): Pay period for garnishment.
+ *   - `arrear` (string): Arrear amount.
+ *   - `arrearPayPeriod` (string): Pay period for arrears.
+ *   - `arrearsGreaterThan12Weeks` (boolean): Indicates if arrears exceed 12 weeks.
+ *   - `currentMedicalSupport` (string): Current medical support amount.
+ *   - `medicalSupportPayPeriod` (string): Pay period for medical support.
+ *   - `pastDueMedicalSupport` (string): Past due medical support amount.
+ *   - `pastDueMedicalSupportPayPeriod` (string): Pay period for past due medical support.
+ *   - `currentSpousalSupport` (string): Current spousal support amount.
+ *   - `spousalSupportPayPeriod` (string): Pay period for spousal support.
+ *   - `pastDueSpousalSupport` (string): Past due spousal support amount.
+ *   - `pastDueSpousalSupportPayPeriod` (string): Pay period for past due spousal support.
+ *
+ * Handlers:
+ * - `handleChange`: Updates the `formData` state when an input field changes.
+ * - `handleSubmit`: Handles form submission and logs the form data.
+ * - `handleReset`: Resets the form to its initial state.
+ *
+ * Dependencies:
+ * - `@mui/material`: Used for UI components like TextField, Button, Grid, Typography, Paper, Divider, and Checkbox.
+ * - `Headertop`: Custom component for the header section.
+ * - `Sidebar`: Custom component for the sidebar navigation.
+ */
 import { useState } from "react";
 import { 
   TextField, FormControlLabel, 

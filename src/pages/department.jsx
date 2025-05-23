@@ -1,15 +1,39 @@
 
-// eslint-disable-next-line no-unused-vars
+/**
+ * Department component displays a list of departments fetched from an API.
+ * It includes functionality to fetch department data, display it in a table,
+ * and provide actions for editing and deleting departments.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Department component.
+ *
+ * @example
+ * <Department />
+ *
+ * @description
+ * - Fetches department data from the API using the `useEffect` hook.
+ * - Displays the data in a table with columns for Employer ID, Department Name, Department ID, and actions.
+ * - Includes a button for exporting data (currently non-functional).
+ *
+ * @dependencies
+ * - React
+ * - react-icons (TiExport)
+ * - ProfileHeader (custom component)
+ *
+ * @state
+ * - `data` (Array): Stores the fetched department data.
+ *
+ * @hooks
+ * - `useState`: Manages the state of the department data.
+ * - `useEffect`: Fetches department data when the component mounts.
+ *
+ * @notes
+ * - The `id` is retrieved from `sessionStorage`.
+ * - Error handling is implemented for the fetch operation.
+ * - Some commented-out code is present for additional functionality (e.g., adding departments).
+ */
 import { React, useState,useEffect } from 'react'
-import Headertop from '../component/Headertop'
 import ProfileHeader from '../component/ProfileHeader'
-import Sidebar from '../component/sidebar'
-// import {  toast } from 'react-toastify';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// import { FaPlusCircle } from "react-icons/fa";
-
-
 import { TiExport } from "react-icons/ti";
 
 

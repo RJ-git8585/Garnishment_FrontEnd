@@ -1,3 +1,40 @@
+
+
+/**
+ * EmpImport Component
+ * 
+ * This component provides a form for uploading employee details via a file. 
+ * It allows users to upload a file, associate it with an employer ID, and submit the data to the server.
+ * 
+ * Features:
+ * - File upload with support for `.csv`, `.pdf`, `.doc`, and `.docx` formats.
+ * - Displays success or error messages based on the server response.
+ * - Includes a reset button to clear the form.
+ * - Shows a loading spinner during the file upload process.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Employee Upload Form component.
+ * 
+ * @example
+ * <EmpImport />
+ * 
+ * State Variables:
+ * - `empID` (string): Stores the employer ID entered by the user.
+ * - `upload` (File | null): Stores the uploaded file object.
+ * - `loading` (boolean): Indicates whether the file upload is in progress.
+ * - `error` (string): Stores error messages to display to the user.
+ * - `success` (string): Stores success messages to display to the user.
+ * 
+ * Functions:
+ * - `handleReset`: Resets the form fields and clears error/success messages.
+ * - `handleSubmit`: Handles the form submission, validates the input, and sends the file and employer ID to the server.
+ * 
+ * Dependencies:
+ * - `@mui/material`: Used for UI components like Button, Box, Grid, Input, Typography, and CircularProgress.
+ * - `BASE_URL`: The base URL for the API endpoint, imported from the configuration file.
+ * - `Headertop` and `Sidebar`: Custom components for the page layout (not used in this specific code snippet).
+ */
 import { useState } from 'react';
 import {
 
@@ -9,8 +46,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { BASE_URL } from '../configration/Config';
-import Headertop from '../component/Headertop';
-import Sidebar from '../component/sidebar';
+
 
 function EmpImport() {
   const [empID, setEmpID] = useState('');

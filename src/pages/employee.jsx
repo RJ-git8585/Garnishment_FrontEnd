@@ -1,3 +1,43 @@
+
+/**
+ * Employee Component
+ *
+ * This component displays a paginated table of employee data fetched from an API.
+ * It includes features for exporting and importing employee data, as well as navigation
+ * to edit employee details. The table supports pagination and displays a loading spinner
+ * while data is being fetched.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Employee component.
+ *
+ * @example
+ * // Usage
+ * import Employee from './Employee';
+ * 
+ * function App() {
+ *   return <Employee />;
+ * }
+ *
+ * @state {Array} data - The array of employee data fetched from the API.
+ * @state {number} currentPage - The current page number for pagination.
+ * @state {boolean} loading - Indicates whether the data is being loaded.
+ *
+ * @constant {number} rowsPerPage - The number of rows displayed per page.
+ *
+ * @function handlePageChange - Updates the current page number for pagination.
+ * @param {number} pageNumber - The page number to navigate to.
+ *
+ * @function fetchData - Fetches employee data from the API and updates the state.
+ *
+ * @function paginatedData - Slices the employee data array to display only the rows
+ *                           for the current page.
+ *
+ * @constant {number} totalPages - The total number of pages based on the data length
+ *                                 and rows per page.
+ *
+ * @returns {JSX.Element} A table displaying employee data with pagination controls,
+ *                        export/import buttons, and a loading spinner.
+ */
 import { useState, useEffect } from "react";
 import { BASE_URL } from "../configration/Config";
 import { RiDeleteBin6Line } from "react-icons/ri";

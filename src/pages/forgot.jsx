@@ -1,6 +1,40 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from "react";
 
+/**
+ * Forgot Component
+ *
+ * This component renders a password recovery page where users can input their email
+ * to request a password reset link. It includes form validation, error handling, 
+ * and success messages.
+ *
+ * @component
+ * @returns {JSX.Element} The Forgot component.
+ *
+ * @example
+ * // Usage
+ * import Forgot from './forgot';
+ * 
+ * function App() {
+ *   return <Forgot />;
+ * }
+ *
+ * Features:
+ * - Custom body styles applied on mount and reset on unmount.
+ * - Form submission to send a password reset request to the backend.
+ * - Displays success or error messages based on the response.
+ *
+ * State Variables:
+ * @state {string} email - The email input value.
+ * @state {string} message - Success message displayed after a successful request.
+ * @state {string} error - Error message displayed if the request fails.
+ *
+ * Effects:
+ * - Applies custom styles to the body element on component mount and resets them on unmount.
+ *
+ * Functions:
+ * @function handleSubmit - Handles the form submission, sends a POST request to the backend,
+ *                          and updates the message or error state based on the response.
+ */
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Logo from '../utils/image/Logo_g.png';
 function Forgot() {

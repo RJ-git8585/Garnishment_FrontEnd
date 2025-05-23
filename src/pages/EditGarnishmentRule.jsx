@@ -1,4 +1,22 @@
-/* eslint-disable react/prop-types */
+
+/**
+ * Component for editing a garnishment rule.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.rule - The ID of the rule to be edited.
+ * @param {boolean} props.open - A boolean indicating whether the dialog is open.
+ * @param {Function} props.handleClose - A function to handle closing the dialog.
+ *
+ * @returns {JSX.Element} The EditGarnishmentRule component.
+ *
+ * @example
+ * <EditGarnishmentRule
+ *   rule="123"
+ *   open={true}
+ *   handleClose={() => console.log("Dialog closed")}
+ * />
+ */
 import { useState, useEffect } from "react";
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,

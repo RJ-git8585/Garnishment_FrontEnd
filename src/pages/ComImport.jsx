@@ -1,3 +1,43 @@
+
+
+/**
+ * ComImport Component
+ * 
+ * This component provides a form for uploading company-related files and submitting them to the server.
+ * It includes file upload functionality, employer ID input, and displays success or error messages based on the server response.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Company Upload Form component.
+ * 
+ * @example
+ * <ComImport />
+ * 
+ * @dependencies
+ * - React hooks: useState
+ * - Material-UI components: Button, Box, Grid, Input, Typography, CircularProgress
+ * - Custom components: Headertop, Sidebar
+ * - Configuration: BASE_URL from '../configration/Config'
+ * 
+ * @state
+ * - {string} empID - The employer ID entered by the user.
+ * - {File|null} upload - The file selected for upload.
+ * - {boolean} loading - Indicates whether the form submission is in progress.
+ * - {string} error - Error message to display if the submission fails.
+ * - {string} success - Success message to display if the submission succeeds.
+ * 
+ * @functions
+ * - handleReset: Resets the form fields and messages.
+ * - handleSubmit: Handles form submission, validates input, sends the file and employer ID to the server, and manages success/error states.
+ * 
+ * @styles
+ * - Uses Material-UI's `sx` prop for styling components.
+ * 
+ * @notes
+ * - The file input accepts `.csv`, `.pdf`, `.doc`, and `.docx` file types.
+ * - Displays a loading spinner on the submit button while the form is being processed.
+ * - Error and success messages are displayed conditionally based on the state.
+ */
 import { useState } from 'react';
 import {
 

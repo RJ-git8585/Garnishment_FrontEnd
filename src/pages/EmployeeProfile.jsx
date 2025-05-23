@@ -1,11 +1,53 @@
+
+
+/**
+ * EmployeeProfile Component
+ * 
+ * This component displays and allows editing of an employee's profile details.
+ * It fetches employee data from the server, displays it in a form, and provides
+ * functionality to edit and save changes.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The EmployeeProfile component.
+ * 
+ * @example
+ * <EmployeeProfile />
+ * 
+ * @dependencies
+ * - React: useState, useEffect
+ * - React Router: useParams, useNavigate
+ * - Material-UI: Typography, TextField, Grid, Button, Box, Paper, CircularProgress
+ * - SweetAlert2: Swal
+ * 
+ * @state
+ * - {Object} employee - The employee data fetched from the server.
+ * - {boolean} loading - Indicates whether the data is being loaded.
+ * - {boolean} isEditing - Indicates whether the form is in edit mode.
+ * - {Object} editableFields - Stores the editable fields of the employee profile.
+ * 
+ * @hooks
+ * - useEffect: Fetches employee details when the component mounts or when `employeeId` changes.
+ * 
+ * @functions
+ * - fetchEmployeeDetails: Fetches employee details from the server.
+ * - handleEditClick: Enables edit mode for the form.
+ * - handleSaveClick: Sends updated employee details to the server and saves changes.
+ * - handleInputChange: Updates the `editableFields` state when form inputs change.
+ * 
+ * @routes
+ * - GET `${BASE_URL}/User/GetSingleEmployee/:id/:employeeId/`: Fetches employee details.
+ * - PUT `${BASE_URL}/User/employee_details/:employeeId/`: Updates employee details.
+ * 
+ * @errorHandling
+ * - Displays error messages using SweetAlert2 when fetching or updating data fails.
+ */
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../configration/Config';
-// import load from '../bouncing-circles.svg';
+
 import Swal from 'sweetalert2';
-import Headertop from '../component/Headertop';
-import Sidebar from '../component/sidebar';
-// import { Grid } from '@mui/x-data-grid';
+
 import { 
   Typography, 
   TextField, 

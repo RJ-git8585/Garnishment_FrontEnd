@@ -1,8 +1,66 @@
+
+
+/**
+ * EmployeeEditForm Component
+ * 
+ * This component renders a form to edit employee details. It fetches employee data
+ * based on `case_id` and `ee_id` from the URL parameters and allows the user to update
+ * the details. The form includes various input fields, radio buttons, and dropdowns
+ * for editing employee information.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered EmployeeEditForm component.
+ * 
+ * @example
+ * <EmployeeEditForm />
+ * 
+ * @dependencies
+ * - React hooks: `useState`, `useEffect`
+ * - React Router hooks: `useParams`, `useNavigate`
+ * - Material-UI components: `TextField`, `Radio`, `FormControl`, `InputLabel`, `Select`, 
+ *   `MenuItem`, `FormLabel`, `RadioGroup`, `FormControlLabel`
+ * 
+ * @state {Object} employeeData - The state object containing employee details.
+ * @state {string} employeeData.ee_id - Employee ID (read-only).
+ * @state {string} employeeData.case_id - Case ID (read-only).
+ * @state {string} employeeData.social_security_number - Social Security Number (formatted as XXX-XX-XXXX).
+ * @state {string} employeeData.age - Employee's age.
+ * @state {string} employeeData.gender - Employee's gender.
+ * @state {string} employeeData.home_state - Employee's home state.
+ * @state {string} employeeData.work_state - Employee's work state.
+ * @state {string} employeeData.pay_period - Employee's pay period.
+ * @state {boolean} employeeData.support_second_family - Whether the employee supports a second family.
+ * @state {string} employeeData.number_of_exemptions - Number of exemptions.
+ * @state {string} employeeData.filing_status - Filing status.
+ * @state {string} employeeData.marital_status - Marital status.
+ * @state {string} employeeData.number_of_student_default_loan - Number of student default loans.
+ * @state {string} employeeData.spouse_age - Spouse's age.
+ * @state {boolean} employeeData.is_spouse_blind - Whether the spouse is blind.
+ * @state {boolean} employeeData.garnishment_fees_status - Garnishment fees status (active/suspended).
+ * @state {string} employeeData.garnishment_fees_suspended_till - Date until garnishment fees are suspended.
+ * 
+ * @hooks
+ * - `useEffect`: Fetches employee data when `case_id` or `ee_id` changes.
+ * - `useState`: Manages the state of employee data.
+ * - `useParams`: Retrieves `case_id` and `ee_id` from the URL.
+ * - `useNavigate`: Navigates to the employee list page after successful update.
+ * 
+ * @functions
+ * @function fetchEmployeeData - Fetches employee data from the API and updates the state.
+ * @function handleInputChange - Handles changes to input fields and updates the state.
+ * @function handleSubmit - Submits the updated employee data to the API.
+ * @function renderInput - Renders a Material-UI `TextField` for input fields.
+ * @function renderRadio - Renders a Material-UI `RadioGroup` for boolean options.
+ * @function renderSelect - Renders a Material-UI `Select` dropdown for predefined options.
+ * 
+ * @api
+ * - GET `${BASE_URL}/User/GetSingleEmployee/:case_id/:ee_id/` - Fetches employee data.
+ * - PUT `${BASE_URL}/User/update_employee_details/:case_id/:ee_id/` - Updates employee details.
+ */
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../configration/Config";
-import Headertop from "../component/Headertop";
-import Sidebar from "../component/sidebar";
 import { StateList,GenderList,PeriodList,FillingStatusList } from "../constants/Constant";
 import { Radio,TextField } from "@mui/material"; 
 import { FormControl, InputLabel, Select, MenuItem,FormLabel, RadioGroup, FormControlLabel } from "@mui/material";
