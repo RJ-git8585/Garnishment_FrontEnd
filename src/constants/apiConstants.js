@@ -1,5 +1,4 @@
-// src/constants/apiConstants.js
-// Defining multiple constants
+
 export const Authentication = `Endpoint: /User/Login
 
 Method: POST

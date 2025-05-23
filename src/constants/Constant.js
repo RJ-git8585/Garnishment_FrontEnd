@@ -1,3 +1,10 @@
+/**
+ * A list of U.S. states with their corresponding IDs and labels.
+ * 
+ * @constant {Array<Object>} StateList
+ * @property {number} id - The unique identifier for the state.
+ * @property {string} label - The name of the state.
+ */
 export const StateList = [
   { id: 46, label: 'Alaska' },
     { id: 1, label: 'Alabama' },

@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 import { createContext, useState, useEffect } from 'react';
 import Sidebar from './sidebar';
 export const ThemeContext = createContext();

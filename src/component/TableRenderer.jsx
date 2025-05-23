@@ -1,5 +1,5 @@
-/* eslint-disable react/no-deprecated */
-/* eslint-disable no-dupe-keys */
+
+
 import React, { useState } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 import { Link, BrowserRouter } from "react-router-dom";

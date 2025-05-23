@@ -1,5 +1,11 @@
 // src/constants/apiConstants.js
 
+/**
+ * The base URL for the Garnishment Backend API.
+ * This URL is used as the root endpoint for all API requests.
+ * 
+ * @constant {string} API_BASE_URL
+ */
 const API_BASE_URL = "https://garnishment-backend-6lzi.onrender.com";
 
 export const API_URLS = {

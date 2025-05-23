@@ -1,3 +1,56 @@
+/**
+ * RoutesPath Component
+ * 
+ * This component defines the routing structure for the application using `react-router-dom`.
+ * It separates public and private routes, applies appropriate route guards, and includes
+ * layout components like `Sidebar` and `Headertop` for private routes.
+ * 
+ * Public routes are accessible without authentication, while private routes require authentication.
+ * A `Notfound` component is rendered for undefined routes.
+ * 
+ * @component
+ * @returns {JSX.Element} The routing structure of the application.
+ * 
+ * Public Routes:
+ * - "/" (Form, restricted)
+ * - "/signup" (Signup, restricted)
+ * - "/forgot" (Forgot, restricted)
+ * - "/reset-password/:token" (PasswordResetConfirm, restricted)
+ * 
+ * Private Routes:
+ * - "/dashboard" (Dashboard)
+ * - "/logout" (Logout)
+ * - "/profile" (Profile)
+ * - "/case" (CaseRegister)
+ * - "/help" (Help)
+ * - "/tax" (Tax)
+ * - "/garnishment" (Garnishment)
+ * - "/garnishment-pro" (Garnishment2)
+ * - "/employee" (Employee)
+ * - "/employee/edit/:case_id/:ee_id" (EmployeeEditForm)
+ * - "/employee/:id/:employeeId" (EmployeeProfile)
+ * - "/addemployee" (AddEmployee)
+ * - "/adddepartment" (AddDepartment)
+ * - "/addlocation" (AddLocation)
+ * - "/department" (Department)
+ * - "/location" (Location)
+ * - "/iwo" (Iwo)
+ * - "/results" (Results)
+ * - "/addtax" (AddTax)
+ * - "/GarnishFee" (GarnishFee)
+ * - "/Orders" (Orders)
+ * - "/EmpImport" (EmpImport)
+ * - "/ComImport" (ComImport)
+ * - "/OrdImport" (OrdImport)
+ * - "/BatchCalculation" (BatchCalculation)
+ * - "/xmlProcessor" (XmlProcessor)
+ * - "/rules" (Rules)
+ * - "/ruleslist" (Ruleslist)
+ * 
+ * Additional Routes:
+ * - "*" (Notfound)
+ * - "/docs" (Siganture)
+ */
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';

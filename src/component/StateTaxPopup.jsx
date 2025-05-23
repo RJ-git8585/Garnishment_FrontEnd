@@ -1,3 +1,46 @@
+
+/**
+ * StateTaxPopup Component
+ * 
+ * This component renders a popup dialog for requesting a state tax rule change.
+ * It includes a form with fields for selecting a state, providing a description,
+ * choosing a deduction type, and specifying a withholding limit percentage.
+ * 
+ * Props:
+ * @param {boolean} open - Determines whether the popup is open or closed.
+ * @param {function} handleClose - Function to handle closing the popup.
+ * @param {function} handleSave - Function to handle saving the form data.
+ * 
+ * State:
+ * @typedef {Object} FormData
+ * @property {string} state - The selected state.
+ * @property {string} description - The description of the tax rule change.
+ * @property {string} deduct_from - The type of deduction (e.g., disposable earnings, gross pay, net pay).
+ * @property {string} withholding_limit_percent - The withholding limit percentage.
+ * 
+ * @param {FormData} formData - The state object holding form data.
+ * 
+ * Functions:
+ * @function handleChange - Updates the form data state when a field value changes.
+ * @param {Object} e - The event object from the input field.
+ * 
+ * @function validateForm - Validates the form fields to ensure all required fields are filled.
+ * @returns {boolean} - Returns true if the form is valid, otherwise false.
+ * 
+ * @function handleSubmit - Submits the form data to the server via an API call.
+ * If successful, it displays a success notification, calls the parent save handler,
+ * and closes the popup. If unsuccessful, it displays an error notification.
+ * 
+ * Dependencies:
+ * - React (useState)
+ * - Material-UI components: Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem
+ * - StateList (imported from "../constants/Constant")
+ * - BASE_URL (imported from "../configration/Config")
+ * - Swal (imported from "sweetalert2" for notifications)
+ * 
+ * Usage:
+ * <StateTaxPopup open={open} handleClose={handleClose} handleSave={handleSave} />
+ */
 import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { StateList } from "../constants/Constant"; // Import state list
