@@ -1,3 +1,49 @@
+
+/**
+ * ApiRef Component
+ *
+ * This component provides a user interface for viewing and interacting with API references.
+ * It includes features such as search functionality, keyboard shortcuts, and expandable sections
+ * for detailed API information, including query parameters, CURL commands, and responses.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered ApiRef component.
+ *
+ * @example
+ * <ApiRef />
+ *
+ * @description
+ * - Displays a list of API references with details such as URL, method, content type, and query parameters.
+ * - Allows users to search for specific API references using a search bar.
+ * - Provides keyboard shortcut ('S') to focus on the search bar.
+ * - Includes expandable sections to show or hide CURL commands and API responses.
+ *
+ * @dependencies
+ * - React hooks: `useState`, `useRef`, `useEffect`
+ * - Material-UI components: `AppBar`, `Toolbar`, `Typography`, `TextField`, `Box`, `Button`, `InputAdornment`
+ * - Third-party libraries: `react-syntax-highlighter`, `react-icons`
+ *
+ * @state
+ * @property {string | null} activeSection - The currently expanded section ID, or `null` if no section is expanded.
+ * @property {string} searchQuery - The current search query entered by the user.
+ *
+ * @hooks
+ * - `useState` to manage `activeSection` and `searchQuery`.
+ * - `useRef` to reference the search input field for keyboard focus.
+ * - `useEffect` to add and remove the keyboard shortcut event listener.
+ *
+ * @functions
+ * @function toggleSection - Toggles the visibility of a section based on its ID.
+ * @param {string} sectionId - The ID of the section to toggle.
+ *
+ * @function handleKeyDown - Handles the 'S' key press to focus on the search bar.
+ * @param {KeyboardEvent} event - The keyboard event triggered by the user.
+ *
+ * @variables
+ * @constant {Array} sections - An array of API reference objects, each containing details such as title, description, parameters, CURL command, and response.
+ * @constant {Array} filteredSections - A filtered list of sections based on the user's search query.
+ */
 import { useState, useRef, useEffect } from 'react';
 import { LoginResponce, Logincrl, RegisterResponce, Registrationcrl } from '../constants/ApiConstants';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';

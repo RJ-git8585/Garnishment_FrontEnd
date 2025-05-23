@@ -1,3 +1,55 @@
+
+/**
+ * FederalTax Component
+ * 
+ * This component renders a form for calculating federal tax details for employees.
+ * It allows users to input employee details, disposable income, garnishment fees, 
+ * and other relevant information, and then submit the data for calculation.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered FederalTax component.
+ * 
+ * @example
+ * <FederalTax />
+ * 
+ * @state {string} employee_name - The name of the selected employee.
+ * @state {string} disposable_income - The disposable income entered by the user.
+ * @state {string} garnishment_fees - The garnishment fees entered by the user.
+ * @state {string} order_id - The order ID entered by the user.
+ * @state {string} pay_period - The selected pay period (e.g., weekly, monthly).
+ * @state {string} no_of_exception - The number of exemptions entered by the user.
+ * @state {string} filing_status - The selected filing status (e.g., single, married).
+ * @state {number|null} employee_id - The ID of the selected employee.
+ * @state {object|null} calculationResult - The result of the tax calculation.
+ * @state {Array} options - The list of employee options fetched from the API.
+ * 
+ * @function generateUniqueNumber
+ * Generates a unique identifier using the current timestamp and a random string.
+ * 
+ * @function handleSubmit
+ * Handles the form submission, sends the data to the server, and fetches the calculation result.
+ * 
+ * @function handleReset
+ * Resets the form fields and clears the calculation result.
+ * 
+ * @function handleChange
+ * Updates the selected employee ID and name based on the dropdown selection.
+ * 
+ * @function handleChangePay
+ * Updates the selected pay period.
+ * 
+ * @function handleChangeStatus
+ * Updates the selected filing status.
+ * 
+ * @useEffect
+ * Fetches the employee details from the server when the component mounts.
+ * 
+ * @dependencies
+ * - React (useState, useEffect)
+ * - BASE_URL (from configuration)
+ * - Swal (for displaying alerts)
+ */
 import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '../configration/Config';
 import Swal from 'sweetalert2';

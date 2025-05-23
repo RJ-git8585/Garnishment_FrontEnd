@@ -1,3 +1,55 @@
+
+
+/**
+ * StudentLoan Component
+ * 
+ * This component renders a form for calculating student loan garnishment details for employees.
+ * It fetches employee data, allows input of garnishment details, and displays the calculation results.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered StudentLoan component.
+ * 
+ * @example
+ * <StudentLoan />
+ * 
+ * @function
+ * @name StudentLoan
+ * 
+ * @description
+ * - Fetches employee details from the server on component mount.
+ * - Allows the user to select an employee and input garnishment details.
+ * - Submits the data to the server for calculation and displays the results.
+ * - Provides a reset functionality to clear the form.
+ * 
+ * @state {string} employee_name - The name of the selected employee.
+ * @state {string} disposable_income - The disposable income entered by the user.
+ * @state {string} garnishment_fees - The garnishment fees entered by the user.
+ * @state {string} order_id - The order ID entered by the user.
+ * @state {number|null} employee_id - The ID of the selected employee.
+ * @state {object|null} calculationResult - The result of the garnishment calculation.
+ * @state {Array} options - The list of employees fetched from the server.
+ * 
+ * @constant {number} employer_id - The employer ID retrieved from session storage.
+ * 
+ * @function generateUniqueNumber
+ * @description Generates a unique identifier using the current timestamp and a random string.
+ * @returns {string} A unique identifier.
+ * 
+ * @function handleSubmit
+ * @description Handles form submission, sends data to the server, and fetches calculation results.
+ * @param {Event} event - The form submission event.
+ * 
+ * @function handleReset
+ * @description Resets the form fields and clears the calculation result.
+ * 
+ * @function handleChangeName
+ * @description Handles the selection of an employee and updates the employee name.
+ * @param {Event} e - The change event from the employee selection dropdown.
+ * 
+ * @useEffect
+ * @description Fetches employee details from the server when the component mounts.
+ */
 import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '../configration/Config';
 import Swal from 'sweetalert2';

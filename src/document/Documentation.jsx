@@ -1,3 +1,44 @@
+
+/**
+ * Documentation Component
+ * 
+ * This component renders the GarnishEdge Engine API documentation, providing
+ * details about various API endpoints, their inputs, and example code snippets.
+ * It includes a search functionality to filter through the documentation sections.
+ * 
+ * Features:
+ * - Displays API documentation with titles, descriptions, and input details.
+ * - Allows toggling of code snippets for each section.
+ * - Provides a search bar to filter documentation based on user input.
+ * - Focuses the search bar when the "S" key is pressed.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Documentation component.
+ * 
+ * @example
+ * <Documentation />
+ * 
+ * State:
+ * - `activeCode` (string|null): Tracks the currently active code snippet section.
+ * - `searchQuery` (string): Stores the user's search query for filtering sections.
+ * 
+ * Refs:
+ * - `textFieldRef`: Reference to the search input field for programmatic focus.
+ * 
+ * Sections:
+ * - `Introduction`: Overview of the GarnishEdge Engine API.
+ * - `PEOLogin`: Details about the Login API, including inputs and example code.
+ * - `CompanyOnboarding`: Information about the Company Onboarding API.
+ * - `EmployeeOnboarding`: Details about the Employee Onboarding API.
+ * 
+ * Dependencies:
+ * - `react-icons/fa`: For the code icon.
+ * - `react-syntax-highlighter`: For displaying code snippets with syntax highlighting.
+ * - `@mui/material`: For Material-UI components like AppBar, Toolbar, and TextField.
+ * - `../constants/ApiConstants`: Contains API-related constants.
+ * - `../constants/Signature`: Contains documentation-related constants.
+ */
 import { useState, useRef, useEffect } from 'react';
 import { FaCode } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -5,8 +46,8 @@ import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { AppBar, Toolbar, Typography, TextField, Box, Button } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import { TbArrowBigDownLinesFilled } from "react-icons/tb";
-import { CompanyOnboarding, EmployeeOnboarding, Authentication } from '../constants/apiConstants';
-import { Documentations } from '../constants/signature';
+import { CompanyOnboarding, EmployeeOnboarding, Authentication } from '../constants/ApiConstants';
+import { Documentations } from '../constants/Signature';
 
 const Documentation = () => {
   const [activeCode, setActiveCode] = useState(null);

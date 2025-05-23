@@ -1,8 +1,53 @@
+
+
+/**
+ * BatchCalculation Component
+ *
+ * This component provides functionality to process garnishment calculations by uploading a JSON file
+ * or pasting JSON input. It sends the data to an API endpoint and displays the response in either
+ * JSON format or a table format. Users can also copy the response to the clipboard or toggle fullscreen mode.
+ *
+ * State Variables:
+ * - reloadKey: A key to trigger component re-render for resetting the state.
+ * - jsonInput: Stores the JSON input provided by the user.
+ * - response: Stores the API response data.
+ * - error: Stores error messages, if any.
+ * - loading: Indicates whether the API request is in progress.
+ * - showTable: Toggles between JSON view and table view of the response.
+ * - isFullscreen: Tracks whether the component is in fullscreen mode.
+ *
+ * Refs:
+ * - containerRef: Reference to the container element for fullscreen functionality.
+ *
+ * Functions:
+ * - reloadComponent: Resets the component state to its initial values.
+ * - handleFileUpload: Handles the upload of a JSON file, parses its content, and updates the state.
+ * - handleConvert: Sends the JSON input to the API for processing and updates the response state.
+ * - handleCopy: Copies the API response to the clipboard.
+ * - toggleFullscreen: Toggles the fullscreen mode for the component.
+ * - renderTable: Renders the API response data in a table format.
+ *
+ * API Endpoint:
+ * - `${BASE_URL}/User/garnishment_calculate/`: Endpoint to process garnishment calculations.
+ *
+ * Props: None
+ *
+ * Dependencies:
+ * - React hooks: useState, useRef
+ * - Material-UI components: Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer
+ * - React icons: FaCopy, FaExpand, FaCompress, FaTableCells, BsFiletypeJson
+ *
+ * CSS:
+ * - Imports styles from "../utils/css/batch.css".
+ *
+ * Usage:
+ * - Upload a JSON file or paste JSON input to process garnishment calculations.
+ * - View the response in JSON or table format.
+ * - Copy the response or toggle fullscreen mode for better visibility.
+ */
 import { useState, useRef } from "react";
 import { BASE_URL } from "../configration/Config";
 import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
-import Headertop from "../component/Headertop";
-import Sidebar from "../component/sidebar";
 import { FaTableCells } from "react-icons/fa6";
 import "../utils/css/batch.css";
 import { BsFiletypeJson } from "react-icons/bs";

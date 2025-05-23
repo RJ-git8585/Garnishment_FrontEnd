@@ -1,3 +1,47 @@
+
+/**
+ * Garnishment Component
+ * 
+ * This component renders a form for calculating garnishment details. It includes
+ * fields for employee details, earnings, garnishment fees, and other related inputs.
+ * The form allows users to select a garnishment type, add arrears amounts, and submit
+ * the data for calculation.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The Garnishment Calculator form.
+ * 
+ * @example
+ * <Garnishment />
+ * 
+ * @dependencies
+ * - React: For managing component state and rendering.
+ * - react-icons: For rendering icons.
+ * - Headertop: Custom header component.
+ * - Sidebar: Custom sidebar component.
+ * - BASE_URL: Configuration constant for API base URL.
+ * 
+ * @state
+ * - {Object} formData - Stores the form input values.
+ * - {Array} options - Stores the list of employees fetched from the API.
+ * - {Array} inputs - Tracks the dynamic input fields for additional data.
+ * - {Array} arrearInputs - Tracks the dynamic input fields for arrears amounts.
+ * 
+ * @methods
+ * - handleInputChange: Updates formData state when input fields change.
+ * - handleAddInput: Adds a new dynamic input field for arrears or other data.
+ * - handleReset: Resets the form to its initial state.
+ * - handleSubmit: Submits the form data to the backend API.
+ * 
+ * @hooks
+ * - useMemo: Memoizes the employer ID fetched from sessionStorage.
+ * - useState: Manages component state for form data, options, and dynamic inputs.
+ * - useEffect: Fetches employee details from the API on component mount.
+ * 
+ * @api
+ * - GET `${BASE_URL}/User/getemployeedetails/:id/`: Fetches employee details.
+ * - POST `https://garnishment-backend.onrender.com/User/CalculationDataView`: Submits form data.
+ */
 import React, { useState, useEffect, useMemo } from 'react';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';

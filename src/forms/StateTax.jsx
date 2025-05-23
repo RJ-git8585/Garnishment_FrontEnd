@@ -1,4 +1,48 @@
-/* eslint-disable no-unused-vars */
+
+/**
+ * StateTax Component
+ * 
+ * This component renders a multi-step form for collecting user information, including personal details,
+ * address information, and a review step. It uses React state to manage the current step and form data.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered StateTax component.
+ * 
+ * @example
+ * <StateTax />
+ * 
+ * State:
+ * - `step` (number): Tracks the current step of the form.
+ * - `employee_name` (string): Stores the employee name (currently unused).
+ * - `formData` (object): Stores the form data with the following fields:
+ *   - `name` (string): The user's name.
+ *   - `email` (string): The user's email address.
+ *   - `address` (string): The user's address.
+ *   - `city` (string): The user's city.
+ *   - `state` (string): The user's state.
+ *   - `zip` (string): The user's zip code.
+ * 
+ * Functions:
+ * - `handleChange(e: React.ChangeEvent<HTMLInputElement>): void`
+ *   Handles input changes and updates the `formData` state.
+ * 
+ * - `nextStep(): void`
+ *   Advances to the next step of the form.
+ * 
+ * - `prevStep(): void`
+ *   Returns to the previous step of the form.
+ * 
+ * - `handleSubmit(e: React.FormEvent<HTMLFormElement>): void`
+ *   Handles form submission and logs the form data to the console.
+ * 
+ * - `renderStep(): JSX.Element | null`
+ *   Renders the appropriate form step based on the current `step` state.
+ * 
+ * Steps:
+ * - Step 1: Collects personal information (name and email).
+ * - Step 2: Collects address information (address, city, state, zip code).
+ * - Step 3: Displays a review of the entered information and provides a submit button.
+ */
 import React, { useState } from 'react';
 import { RxQuestionMarkCircled } from "react-icons/rx";
 import { FaCarSide } from "react-icons/fa";

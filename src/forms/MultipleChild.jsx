@@ -1,3 +1,84 @@
+
+/**
+ * Component for managing multiple child support and arrears details.
+ * 
+ * This component allows users to input employee details, garnishment details, 
+ * and calculate garnishment amounts based on the provided data. It supports 
+ * dynamic addition and removal of child withhold amounts and arrears amounts.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered MultipleChild component.
+ * 
+ * @example
+ * <MultipleChild />
+ * 
+ * @function
+ * @name MultipleChild
+ * 
+ * @description
+ * - Fetches employee details from the server on component mount.
+ * - Allows users to input and manage child support and arrears details.
+ * - Submits the data to the server for calculation and displays the results.
+ * - Provides reset functionality to clear all inputs.
+ * 
+ * @state {string} employee_name - The name of the selected employee.
+ * @state {string} disposable_income - The disposable income of the employee.
+ * @state {string} garnishment_fees - The garnishment fees.
+ * @state {string} order_id - The order ID for the garnishment.
+ * @state {string} state - The selected state.
+ * @state {string} number_of_arrear - The number of arrears.
+ * @state {string} number_of_child_support_order - The number of child support orders.
+ * @state {boolean} arrears_greater_than_12_weeks - Whether arrears are greater than 12 weeks.
+ * @state {boolean} support_second_family - Whether the employee supports a second family.
+ * @state {number|null} employee_id - The ID of the selected employee.
+ * @state {Array<Object>} inputs - List of child withhold amounts.
+ * @state {Array<Object>} arrearInputs - List of arrears amounts.
+ * @state {string} calculationResult - The result of the garnishment calculation.
+ * @state {Array<Object>} options - List of employee options fetched from the server.
+ * @state {string} pay_period - The selected pay period (weekly or biweekly).
+ * 
+ * @constant {number} employer_id - The employer ID fetched from session storage.
+ * 
+ * @function generateUniqueNumber
+ * @description Generates a unique batch ID using a timestamp and random string.
+ * @returns {string} A unique batch ID.
+ * 
+ * @function handleAddInput
+ * @description Adds a new input field for child withhold amounts or arrears amounts.
+ * @param {string} type - The type of input to add ('child' or 'arrears').
+ * 
+ * @function handleRemoveInput
+ * @description Removes an input field for child withhold amounts or arrears amounts.
+ * @param {string} type - The type of input to remove ('child' or 'arrears').
+ * @param {number} id - The ID of the input to remove.
+ * 
+ * @function handleInputChange
+ * @description Updates the value of a specific input field.
+ * @param {string} type - The type of input to update ('child' or 'arrears').
+ * @param {Object} event - The event object from the input field.
+ * @param {number} index - The index of the input to update.
+ * 
+ * @function handleChangeName
+ * @description Updates the selected employee details based on the selected employee ID.
+ * @param {Object} e - The event object from the select field.
+ * 
+ * @function handleReset
+ * @description Resets all input fields and state variables to their initial values.
+ * 
+ * @function handleSubmit
+ * @description Submits the form data to the server for calculation and fetches the results.
+ * @param {Object} event - The event object from the form submission.
+ * 
+ * @useEffect
+ * @description Fetches employee details from the server when the component mounts.
+ * 
+ * @dependencies
+ * - `useState` and `useEffect` from React.
+ * - `BASE_URL` from the configuration file.
+ * - `Swal` from SweetAlert2 for displaying alerts.
+ * - `StateList` from constants for state options.
+ * - `FaTrashAlt` from react-icons for delete icons.
+ */
 import { useState, useEffect } from 'react';
 import { BASE_URL } from '../configration/Config';
 import { FaTrashAlt } from "react-icons/fa";

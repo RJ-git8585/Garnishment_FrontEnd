@@ -1,9 +1,51 @@
+
+/**
+ * XmlProcessor Component
+ * 
+ * This component provides functionality for processing XML files by uploading an Excel file,
+ * converting it to JSON, and performing garnishment calculations. It also includes features
+ * such as displaying API responses, copying responses to the clipboard, toggling between JSON
+ * and table views, and a scroll-to-top button.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered XmlProcessor component.
+ * 
+ * @state {number} reloadKey - A key to trigger component re-render.
+ * @state {string} jsonInput - The JSON input string.
+ * @state {Object|null} response - The API response object.
+ * @state {string} error - Error message, if any.
+ * @state {boolean} loading - Indicates whether an API call is in progress.
+ * @state {boolean} showTable - Toggles between JSON and table view for the response.
+ * @state {boolean} isFullscreen - Indicates whether the component is in fullscreen mode.
+ * @state {File|null} file - The uploaded file (not directly used in the component).
+ * @state {number|null} fileUploadTime - Time taken to upload the file in milliseconds.
+ * @state {number|null} garnishmentCalcTime - Time taken for garnishment calculation in milliseconds.
+ * @state {boolean} showScrollButton - Indicates whether the scroll-to-top button is visible.
+ * 
+ * @function reloadComponent - Resets the component state and reloads the page.
+ * @function handleFileUpload - Handles the file upload process, sends the file to the server, 
+ *                              and processes the response.
+ * @function handleGarnishmentCalculation - Sends JSON data to the server for garnishment calculation 
+ *                                          and processes the response.
+ * @function handleCopy - Copies the API response to the clipboard.
+ * @function toggleFullscreen - Toggles the fullscreen mode for the component.
+ * @function scrollToTop - Scrolls the page to the top smoothly.
+ * 
+ * @useEffect - Adds an event listener to track scroll position and toggles the visibility of the 
+ *              scroll-to-top button.
+ * 
+ * @dependencies
+ * - BASE_URL: The base URL for API requests.
+ * - react-icons: Icons used for UI elements.
+ * - renderTable: Function to render the response as a table.
+ * - exportToExcel: Function to export data to an Excel file.
+ * - CSS: Styles imported from '../utils/css/xml.css'.
+ */
 import { BASE_URL } from '../configration/Config';
-import Headertop from '../component/Headertop';
 import { FaTableCells } from "react-icons/fa6";
 import { FaCopy, FaExpand, FaCompress, FaArrowUp } from "react-icons/fa"; // Import FaArrowUp for the floating button
 import { BsFiletypeJson, BsFiletypeXml } from "react-icons/bs";
-import Sidebar from '../component/sidebar';
 import { useState, useRef, useEffect } from 'react';
 import '../utils/css/xml.css';
 import { renderTable } from '../component/TableRenderer';

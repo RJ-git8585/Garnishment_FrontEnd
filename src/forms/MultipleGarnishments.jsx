@@ -1,3 +1,53 @@
+
+/**
+ * MultipleGarnishments Component
+ * 
+ * This component is used to manage and calculate garnishments for employees. It provides a form to input employee details,
+ * garnishment details, and other related information. The component also allows users to add multiple inputs for arrears 
+ * and withhold amounts, and calculates the garnishment results based on the provided data.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered MultipleGarnishments component.
+ * 
+ * @example
+ * <MultipleGarnishments />
+ * 
+ * @state {string} employee_name - The name of the selected employee.
+ * @state {string} pay_period - The selected pay period (e.g., Weekly, Monthly).
+ * @state {number} no_of_exception - The number of exemptions entered by the user.
+ * @state {string} disposable_income - The disposable income entered by the user.
+ * @state {string} garnishment_fees - The garnishment fees entered by the user.
+ * @state {string} order_id - The order ID entered by the user.
+ * @state {string} state - The selected state from the dropdown.
+ * @state {string} number_of_arrear - The number of arrears entered by the user.
+ * @state {string} number_of_garnishment - The number of child support garnishments entered by the user.
+ * @state {boolean} arrears_greater_than_12_weeks - Whether arrears are greater than 12 weeks.
+ * @state {boolean} support_second_family - Whether the employee supports a second family.
+ * @state {number|null} employee_id - The selected employee ID.
+ * @state {Array} inputs - Array of input objects for withhold amounts.
+ * @state {Array} arrearInputs - Array of input objects for arrears amounts.
+ * @state {string} calculationResult - The result of the garnishment calculation.
+ * @state {Array} options - List of employee options fetched from the API.
+ * @state {string} filing_status - The selected filing status.
+ * @state {Array} selectedOptionradio - Array of selected garnishment types.
+ * 
+ * @constant {Array} optionsradio - List of garnishment types available for selection.
+ * @constant {Array} StateList - List of states available for selection.
+ * @constant {number} employer_id - The employer ID fetched from session storage.
+ * @constant {Object} style - Style object for the trash icon.
+ * 
+ * @function handleChangeName - Handles the change event for the employee dropdown and updates the employee name.
+ * @function handleChangeoptionredio - Handles the change event for garnishment type checkboxes.
+ * @function handleAddInput - Adds a new input field for withhold amounts (up to 5).
+ * @function handleRemoveInput - Removes an input field for withhold amounts.
+ * @function handleAddArrearInput - Adds a new input field for arrears amounts (up to 5).
+ * @function handleRemoveArrearInput - Removes an input field for arrears amounts.
+ * @function handleReset - Resets the form fields to their initial state.
+ * @function handleSubmit - Handles the form submission and performs garnishment calculations.
+ * 
+ * @useEffect fetchData - Fetches employee details from the API when the component mounts.
+ */
 import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '../Config';
 import { FaTrashAlt } from "react-icons/fa";

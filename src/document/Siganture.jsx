@@ -1,14 +1,52 @@
+
+/**
+ * Signature Component
+ * 
+ * This component renders a documentation and API reference interface with a sidebar menu
+ * and content area. It includes functionality for toggling between documentation and API
+ * menus, expanding/collapsing submenus, and dynamically rendering content based on the
+ * active menu.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Signature component.
+ * 
+ * @example
+ * <Signature />
+ * 
+ * @description
+ * - The sidebar includes a logo, version information, and a menu for navigation.
+ * - The menu supports nested submenus with toggle functionality.
+ * - The content area dynamically renders components based on the selected menu.
+ * - The background color and text color are adjusted when the pathname is `/docs`.
+ * 
+ * @state
+ * - `activeMenu` (`string`): Tracks the currently active menu (e.g., "documentation" or "api").
+ * - `submenuOpen` (`object`): Tracks the open/close state of submenus.
+ * 
+ * @dependencies
+ * - React hooks: `useState`, `useEffect`
+ * - Icons: `FaCode`, `HiOutlineDocumentText`, `IoIosArrowUp`, `IoIosArrowDown`
+ * - Components: `Documentation`, `ApiRef`
+ * - Assets: `Logo` (imported image)
+ * 
+ * @menuData
+ * - `documentation`: Contains links and submenus for documentation topics.
+ * - `api`: Contains links and submenus for API references with HTTP methods.
+ * 
+ * @functions
+ * - `toggleSubmenu(menu: string): void`: Toggles the open/close state of a submenu.
+ * - `renderMenu(): JSX.Element`: Renders the sidebar menu with nested submenus.
+ * - `renderContent(): JSX.Element`: Renders the content area based on the active menu.
+ */
 import "../utils/css/doc.css";
 import { useState, useEffect } from "react";
 import { FaCode } from "react-icons/fa";
 import { HiOutlineDocumentText } from "react-icons/hi";
-// import { CiCalculator1 } from "react-icons/ci";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-// import { SignatureMenus } from "../constants/signature";
 import Documentation from "./Documentation";
-import ApiRef from "./apiRef";
+import ApiRef from "./ApiRef";
 import Logo from '../utils/image/Logo_g.png';
-// import BatchCalculation from "./BatchCalculation";
 
 const Footer = () => (
   <footer className="mt-10">

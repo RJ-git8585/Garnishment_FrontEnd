@@ -1,3 +1,58 @@
+
+/**
+ * MultipleStudentLoan Component
+ * 
+ * This component provides a form to calculate garnishment details for multiple student loans.
+ * It fetches employee details, allows the user to input financial data, and displays the calculation results.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered MultipleStudentLoan component.
+ * 
+ * @example
+ * <MultipleStudentLoan />
+ * 
+ * @function
+ * @name MultipleStudentLoan
+ * 
+ * @description
+ * - Fetches employee details from the server on component mount.
+ * - Allows the user to select an employee and input financial details.
+ * - Submits the data to the server for calculation and displays the results.
+ * - Provides a reset functionality to clear the form.
+ * 
+ * @state {string} employee_name - The name of the selected employee.
+ * @state {number} disposable_income - The disposable income entered by the user.
+ * @state {number} garnishment_fees - The garnishment fees entered by the user.
+ * @state {string} order_id - The order ID entered by the user.
+ * @state {Array} options - The list of employees fetched from the server.
+ * @state {number|null} employee_id - The ID of the selected employee.
+ * @state {Object|null} calculationResult - The result of the garnishment calculation.
+ * 
+ * @constant {number} employer_id - The employer ID fetched from session storage.
+ * 
+ * @function generateUniqueNumber
+ * - Generates a unique batch ID using the current timestamp and a random string.
+ * 
+ * @function handleSubmit
+ * - Handles form submission.
+ * - Sends the entered data to the server for calculation.
+ * - Fetches and displays the calculation results.
+ * 
+ * @function handleReset
+ * - Resets the form fields and clears the calculation results.
+ * 
+ * @function handleChange
+ * - Updates the selected employee details based on the dropdown selection.
+ * 
+ * @useEffect
+ * - Fetches employee details from the server when the component mounts.
+ * 
+ * @dependencies
+ * - React (useState, useEffect)
+ * - BASE_URL (from configuration)
+ * - Swal (for alert messages)
+ */
 import React, { useState, useEffect } from 'react';
 import { BASE_URL } from '../configration/Config';
 import Swal from 'sweetalert2';
