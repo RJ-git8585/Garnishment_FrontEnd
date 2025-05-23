@@ -1,56 +1,50 @@
+
+
 /**
  * Form Component
  * 
- * This component renders a signup form with fields for employer name, username, email, password, 
- * and re-enter password. It also includes social login options and links to additional resources.
+ * This component renders a sign-up form for user registration. It includes input fields for
+ * employer name, username, email, password, and re-entering the password. It also provides
+ * options for social login using Google and Facebook, along with links to documentation, API,
+ * and contact information.
  * 
  * Features:
  * - Handles form input changes and submission.
- * - Sends form data to the backend for user registration.
+ * - Sends user registration data to the server using Axios.
  * - Applies custom styles to the body during the component's lifecycle.
- * - Displays social login options and additional links for documentation, API, and contact.
- * - Displays popup messages for success and error during signup.
- * - Redirects to the login page after successful signup.
+ * - Displays error messages in case of registration failure.
  * 
  * @component
- * @returns {JSX.Element} The rendered signup form component.
+ * @returns {JSX.Element} The rendered sign-up form component.
  * 
  * @example
  * <Form />
  * 
  * State:
- * - `formData` (object): Stores the form input values.
- *   - `name` (string): Employer name.
- *   - `username` (string): Username.
- *   - `email` (string): Email address.
- *   - `password1` (string): Password.
- *   - `password2` (string): Re-entered password.
- * - `popupMessage` (string): Stores the message to be displayed in the popup.
- * - `popupType` (string): Type of popup message ('success' or 'error').
+ * - formData: Object containing user input values for the form fields.
  * 
  * Effects:
- * - Applies custom styles to the body on mount and resets them on unmount.
+ * - Applies custom body styles on mount and resets them on unmount.
  * 
- * Methods:
- * - `handleChange(e)`: Updates the `formData` state when an input field changes.
- * - `handleSubmit(e)`: Handles form submission, sends data to the backend, and handles success or error responses.
+ * Functions:
+ * - handleChange: Updates the formData state when input fields change.
+ * - handleSubmit: Handles form submission, sends data to the server, and handles errors.
  * 
  * Dependencies:
- * - `axios`: For making HTTP requests.
- * - `BASE_URL`: The base URL for the backend API.
- * - `React`, `useState`, `useEffect`: React hooks for state management and lifecycle handling.
- * - `FcGoogle`, `RiFacebookFill`: Icons for social login options.
- * - `useNavigate`: React Router hook for navigation.
+ * - React: For managing state and lifecycle methods.
+ * - Axios: For making HTTP requests.
+ * - Tailwind CSS: For styling the form and layout.
+ * - react-icons: For rendering Google and Facebook icons.
+ * 
+ * Props:
+ * - None
  */
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import logo from '../utils/image/Logo_g.png';
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
 import { BASE_URL } from '../configration/Config';
-import { useNavigate } from 'react-router-dom';
-
 function Form() {
   const [formData, setFormData] = useState({
     name: '',
@@ -59,10 +53,8 @@ function Form() {
     password1: '',
     password2: ''
   });
-  const [popupMessage, setPopupMessage] = useState(null); // For success/error messages
-  const [popupType, setPopupType] = useState(''); // 'success' or 'error'
-  const navigate = useNavigate();
 
+  // const navigate = useNavigate();s
   useEffect(() => {
     // Apply custom body styles
     document.body.style.height = "100vh";
@@ -87,175 +79,149 @@ function Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // alert('Registration successful1');
     try {
-      const response = await axios.post(`${BASE_URL}/auth/register/`, formData);
+      const response = await axios.post(`${BASE_URL}/auth/register  `, formData);
+      // alert('Registration successful2');
       if (response.data.message) {
-        setPopupMessage('Registration successful! Redirecting to login...');
-        setPopupType('success');
-        setTimeout(() => {
-          navigate('/'); // Redirect to login page
-        }, 3000); // 3-second delay before redirection
+        console.log(response.data)
       }
     } catch (error) {
-      setPopupMessage(error.response?.data?.error || 'An error occurred during registration.');
-      setPopupType('error');
+      console.error(error.response.data);
+      console.log(error.response.data);
+      alert(error.response.data.error);
     }
   };
-
   return (
     <div className="flex lg:h-screen dark:bg-slate-800 flex-1 flex-col justify-center px-6 py-2 lg:px-8">
-      {/* Popup for success or error messages */}
-      {popupMessage && (
-        <div
-          className={`fixed top-4 right-4 z-50 px-4 py-2 rounded shadow-lg ${
-            popupType === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-          }`}
-        >
-          {popupMessage}
-        </div>
-      )}
-
       <div className="grid grid-flow-row-dense items-center place-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mt-2">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" />
-          <h2 className="mb-10 text-center dark:text-white text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Sign up to your account
-          </h2>
-          <form
-            className="grid grid-cols-2 lg:mr-4 gap-4 space-y-6 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50"
-            onSubmit={handleSubmit}
-          >
-            <div className="mt-4">
-              <label htmlFor="name" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">
-                Employer Name
-              </label>
-              <div className="mt-2">
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+            <div className="sm:mx-auto   sm:w-full sm:max-w-md ]">
+            {/* <h2 className="Logo_w">GarnishEdge</h2> */}
+            <img className="mx-auto h-10 w-auto" src={logo} alt="Your Company" /> 
+                      <h2 className=" mb-10 text-center dark:text-white text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                        Sign up to your account
+                      </h2>
+                      <form className= "grid grid-cols-2 lg:mr-4 gap-4 space-y-6 border-gray-50 rounded-md space-y-6 p-6 shadow-lg shadow-blue-500/50" onSubmit={handleSubmit}>
+                        <div className="mt-4">
+                          <label htmlFor="name" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">Employer Name</label>
+                          <div className="mt-2">
+                            <input
+                              id="name"
+                              name="name"
+                              type="text"
+                              value={formData.name}
+                              onChange={handleChange}
+                              required
+                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </div>
+                        <div >
+                          <label htmlFor="username" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">Username</label>
+                          <div className="mt-2">
+                            <input
+                              id="username"
+                              name="username"
+                              type="text"
+                              value={formData.username}
+                              onChange={handleChange}
+                              required
+                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </div>
+                        <div className="col-span-2 mt-0">
+                          <label htmlFor="email" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">Email</label>
+                          <div className="">
+                            <input
+                              id="email"
+                              name="email"
+                              type="email"
+                              value={formData.email}
+                              onChange={handleChange}
+                              required
+                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </div>
+                        <div className="mt-0"> 
+                          <label htmlFor="password1" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">Password</label>
+                          <div className="mt-0">
+                            <input
+                              id="password1"
+                              name="password1"
+                              type="password"
+                              value={formData.password1}
+                              onChange={handleChange}
+                              required
+                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </div>
+                        <div className="mt-0">
+                          <label htmlFor="password2" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">Re-enter Password</label>
+                          <div className="mt-0">
+                            <input
+                              id="password2"
+                              name="password2"
+                              type="password"
+                              value={formData.password2}
+                              onChange={handleChange}
+                              
+                              required
+                              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            />
+                          </div>
+                        </div>
+                        <div className="col-span-2">
+                          <button type="submit" className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500">
+                            Sign up
+                          </button>
+                        </div>
+                      </form>
+                      <p className="mt-1 text-center text-sm p-6 text-gray-500 dark:text-white">
+                        Already a member?{' '} 
+                        <a href="/" className="font-semibold leading-6 text-orange-500 hover:text-indigo-500">Login</a>
+                      </p>
+           
+            </div>
+            <div className="mt-10 mt-20  ml-10 sm:mx-auto sm:w-full sm:max-w-lg ">
+            <div className='text-white  text-2xl'>Sign in easily using your existing account from <b className="text-amber-500" >Social Accounts</b>. No need to create a new password or remember multiple login credentials.</div>
+                                  <div className='text-white  border-b-[0.5px] border-orange-50 pb-5 text-2xl'>
+                                    Keep the text clear, concise, and easy to understand.
+                         Security: If applicable, you can mention that the SSO login process is secure and user credentials are not stored locally.  </div>
+                  <div className="custom_page  mt-8 pb-16">
+                   
+                          <h1 className='text-white text-2xl font-bold'>Login with SSO</h1>
+                          
+                         
+                            <h4 className='text-white mt-2'>We encountered an issue while signing you in with SSO.</h4>
+                            <p className='text-white text-xs mt-2'>SSO login process is secure and user credentials are not stored locally.</p>
+                          <div className='inline-block_cus'>
+                          <a href="https://dev-ntapzgi6ocsiwjal.us.auth0.com/samlp/PxYyuHmOIVRrsEHkWFpnOeJL0UpBAXD9">
+                          <FcGoogle className='text-3xl text-white mt-10' />
+                          </a>  
+                          <a href="https://www.facebook.com">
+                          <RiFacebookFill className='text-blue-500 text-3xl mt-10'  />
+                          </a>
+   {/* applicagtion exrtra links with new docs */}
+                   <div className="LinkForInternal mt-2 mb-8 text-white  border-t-[0.5px] border-orange-50 pb-2 ">
+                         <a href="/docs" className="font-semibold mt-10  ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Documentation</a> 
+                         <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">API</a> 
+                         <a href="https://garnishedge.com/" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">Contact Us</a>
+                         </div>
+                
+
+                          </div>
+       </div>
+                    
+                    </div>
               </div>
-            </div>
-            <div>
-              <label htmlFor="username" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">
-                Username
-              </label>
-              <div className="mt-2">
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  value={formData.username}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="col-span-2 mt-0">
-              <label htmlFor="email" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">
-                Email
-              </label>
-              <div className="">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="mt-0">
-              <label htmlFor="password1" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">
-                Password
-              </label>
-              <div className="mt-0">
-                <input
-                  id="password1"
-                  name="password1"
-                  type="password"
-                  value={formData.password1}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="mt-0">
-              <label htmlFor="password2" className="block dark:text-white text-sm font-medium leading-6 text-gray-900">
-                Re-enter Password
-              </label>
-              <div className="mt-0">
-                <input
-                  id="password2"
-                  name="password2"
-                  type="password"
-                  value={formData.password2}
-                  onChange={handleChange}
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="col-span-2">
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
-              >
-                Sign up
-              </button>
-            </div>
-          </form>
-          <p className="mt-1 text-center text-sm p-6 text-gray-500 dark:text-white">
-            Already a member?{' '}
-            <a href="/" className="font-semibold leading-6 text-orange-500 hover:text-indigo-500">
-              Login
-            </a>
-          </p>
-        </div>
-        <div className="mt-10 mt-20 ml-10 sm:mx-auto sm:w-full sm:max-w-lg">
-          <div className="text-white text-2xl">
-            Sign in easily using your existing account from <b className="text-amber-500">Social Accounts</b>. No need to create a new password or remember multiple login credentials.
-          </div>
-          <div className="text-white border-b-[0.5px] border-orange-50 pb-5 text-2xl">
-            Keep the text clear, concise, and easy to understand. Security: If applicable, you can mention that the SSO login process is secure and user credentials are not stored locally.
-          </div>
-          <div className="custom_page mt-8 pb-16">
-            <h1 className="text-white text-2xl font-bold">Login with SSO</h1>
-            <h4 className="text-white mt-2">We encountered an issue while signing you in with SSO.</h4>
-            <p className="text-white text-xs mt-2">SSO login process is secure and user credentials are not stored locally.</p>
-            <div className="inline-block_cus">
-              <a href="https://dev-ntapzgi6ocsiwjal.us.auth0.com/samlp/PxYyuHmOIVRrsEHkWFpnOeJL0UpBAXD9">
-                <FcGoogle className="text-3xl text-white mt-10" />
-              </a>
-              <a href="https://www.facebook.com">
-                <RiFacebookFill className="text-blue-500 text-3xl mt-10" />
-              </a>
-              <div className="LinkForInternal mt-2 mb-8 text-white border-t-[0.5px] border-orange-50 pb-2">
-                <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">
-                  Documentation
-                </a>
-                <a href="/docs" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">
-                  API
-                </a>
-                <a href="https://garnishedge.com/" className="font-semibold mt-10 ml-4 mr-6 leading-6 text-orange-500 hover:text-indigo-500">
-                  Contact Us
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              {/* <ToastContainer /> */}
     </div>
   );
 }
+
+
 
 export default Form;

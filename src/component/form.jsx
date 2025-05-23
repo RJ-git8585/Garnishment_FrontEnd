@@ -1,3 +1,39 @@
+
+/**
+ * Form Component
+ * 
+ * This component renders a login form with email and password fields, 
+ * along with options for social login and SSO. It includes validation, 
+ * error handling, and a loading indicator during the login process.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered login form component.
+ * 
+ * @dependencies
+ * - `useState` and `useEffect` from React for state management and lifecycle hooks.
+ * - `useNavigate` from `react-router-dom` for navigation.
+ * - `axios` for making HTTP requests.
+ * - `FcGoogle` and `RiFacebookFill` for social login icons.
+ * - `CircularProgress`, `Backdrop`, and `Typography` from Material-UI for UI elements.
+ * 
+ * @state
+ * - `email` (string): Stores the user's email input.
+ * - `password` (string): Stores the user's password input.
+ * - `errorMessage` (string): Stores error messages for validation or login failures.
+ * - `showPassword` (boolean): Toggles the visibility of the password field.
+ * - `loading` (boolean): Indicates whether the login process is in progress.
+ * 
+ * @effects
+ * - Sets the body styles for the page on mount and reverts them on unmount.
+ * 
+ * @functions
+ * - `togglePasswordVisibility`: Toggles the visibility of the password field.
+ * - `handleSubmit`: Handles the form submission, validates input, and sends login credentials to the server.
+ * 
+ * @example
+ * <Form />
+ */
 import { useState, useEffect } from "react";
 import logo from '../utils/image/Logo_g.png';
 import { useNavigate } from "react-router-dom";

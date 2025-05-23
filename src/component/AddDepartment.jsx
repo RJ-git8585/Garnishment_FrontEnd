@@ -1,3 +1,33 @@
+
+/**
+ * AddDepartment Component
+ * 
+ * This component renders a form to add a new department for an employer. 
+ * It includes input fields for department name and buttons to submit or reset the form.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered AddDepartment component.
+ * 
+ * @example
+ * <AddDepartment />
+ * 
+ * @dependencies
+ * - React: For component creation and state management.
+ * - react-router-dom: For navigation using `useNavigate`.
+ * - sweetalert2: For displaying success alerts.
+ * 
+ * @state
+ * - department_name {string}: Stores the name of the department entered by the user.
+ * 
+ * @functions
+ * - handleReset: Resets the department name input field.
+ * - handleSubmit: Submits the department data to the server and handles the response.
+ * 
+ * @variables
+ * - employer_id {string | null}: The employer ID retrieved from session storage.
+ * - BASE_URL {string}: The base URL for API requests, imported from the configuration file.
+ */
 /* eslint-disable no-unused-vars */
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
