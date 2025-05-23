@@ -1,4 +1,13 @@
-// eslint-disable-next-line no-unused-vars
+
+/**
+ * ProfileHeader Component
+ *
+ * This functional component renders a header section for the profile page.
+ * It includes a welcome message and a horizontal line separator.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered ProfileHeader component.
+ */
 import {react,useState,useEffect,useLocation} from 'react'
 function ProfileHeader( ) {
   return (

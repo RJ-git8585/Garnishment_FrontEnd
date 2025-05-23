@@ -1,5 +1,38 @@
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line no-unused-vars
+
+/**
+ * AddLocation Component
+ * 
+ * This component allows users to add a new location by providing state and city information.
+ * It includes a form with input fields for state and city, and buttons to submit or reset the form.
+ * 
+ * @component
+ * 
+ * @requires react - React library for building user interfaces.
+ * @requires react-router-dom - For navigation using the `useNavigate` hook.
+ * @requires sweetalert2 - For displaying success alerts.
+ * @requires ../configration/Config - Contains the `BASE_URL` for API requests.
+ * @requires ../component/Headertop - Header component.
+ * @requires ./sidebar - Sidebar component.
+ * 
+ * @returns {JSX.Element} The rendered AddLocation component.
+ * 
+ * @example
+ * <AddLocation />
+ * 
+ * @function
+ * @name AddLocation
+ * 
+ * @property {string} state - The state input value.
+ * @property {string} city - The city input value.
+ * @property {number|null} employee_id - The employee ID (currently unused).
+ * @property {string} employer_id - The employer ID retrieved from session storage.
+ * 
+ * @method handleReset - Resets the form fields to their initial state.
+ * @method handleSubmit - Handles the form submission, sends a POST request to the API, and displays a success alert.
+ * 
+ * @event onClick - Triggered when the "Add" or "Reset" button is clicked.
+ * @event onChange - Updates the state or city input values when the user types in the input fields.
+ */
 import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
 import { BASE_URL } from '../configration/Config';

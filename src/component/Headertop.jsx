@@ -1,4 +1,28 @@
-// eslint-disable-next-line no-unused-vars
+  
+/**
+ * Headertop Component
+ *
+ * This component renders a responsive navigation bar with user profile and menu options.
+ * It uses the `Disclosure` component from `@headlessui/react` for handling the mobile menu toggle.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered HeaderTop component.
+ *
+ * @dependencies
+ * - React: For building the component.
+ * - @headlessui/react: For the `Disclosure`, `Menu`, and `Transition` components.
+ * - @heroicons/react: For the `Bars3Icon`, `BellIcon`, and `XMarkIcon` icons.
+ *
+ * @example
+ * <Headertop />
+ *
+ * @notes
+ * - The `navigation` array defines the main navigation links.
+ * - The `userNavigation` array defines the user-specific menu options.
+ * - The `classNames` function is used to conditionally apply CSS classes.
+ * - User data (`name` and `email`) is retrieved from `sessionStorage`.
+ * - The component supports both desktop and mobile views.
+ */
 import React from 'react'
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'

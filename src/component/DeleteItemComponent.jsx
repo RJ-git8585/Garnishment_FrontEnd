@@ -1,9 +1,30 @@
+
+/**
+ * DeleteItemComponent - A React component for deleting an item (employee or order) 
+ * with confirmation and error handling.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.id - The unique identifier of the item to be deleted.
+ * @param {string} props.cid - The customer ID associated with the item.
+ * @param {string} props.type - The type of item to delete ("emp" for employee, otherwise order).
+ * @param {Function} [props.onDeleteSuccess] - Callback function to execute on successful deletion.
+ * @param {Function} [props.onDeleteError] - Callback function to execute on deletion error.
+ *
+ * @example
+ * <DeleteItemComponent
+ *   id="123"
+ *   cid="456"
+ *   type="emp"
+ *   onDeleteSuccess={(id) => console.log(`Deleted item with id: ${id}`)}
+ *   onDeleteError={(error) => console.error('Deletion error:', error)}
+ * />
+ */
 import React from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../configration/Config';
 import Swal from 'sweetalert2';
 import { RiDeleteBin6Line } from "react-icons/ri";
-// eslint-disable-next-line react/prop-types
 function DeleteItemComponent({ id, cid, type, onDeleteSuccess, onDeleteError }) {
   const handleDelete = async () => {
     if (!cid) {

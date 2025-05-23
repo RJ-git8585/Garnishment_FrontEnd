@@ -1,10 +1,38 @@
-// eslint-disable-next-line no-unused-vars
-import {React,useState} from 'react'
-import Headertop from '../component/Headertop'
 
-import Sidebar from './sidebar'
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+/**
+ * AddTax Component
+ * 
+ * This component renders a form to add tax details for an employee. It includes fields for
+ * employee name, department, net pay, minimum wages, pay cycle, number of garnishments, 
+ * and location. The form data is submitted to the server via a POST request.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered AddTax component.
+ * 
+ * @example
+ * <AddTax />
+ * 
+ * State Variables:
+ * @state {string} employee_name - The name of the employee.
+ * @state {string} department - The department of the employee.
+ * @state {string} net_pay - The net pay of the employee.
+ * @state {string} minimun_wages - The minimum wages of the employee.
+ * @state {string} pay_cycle - The pay cycle of the employee.
+ * @state {string} number_of_garnishment - The number of garnishments for the employee.
+ * @state {string} location - The location of the employee.
+ * 
+ * Functions:
+ * @function handleReset - Resets all form fields to their initial state.
+ * @function handleSubmit - Handles form submission, sends data to the server, and navigates to the employee page on success.
+ * 
+ * Dependencies:
+ * - `useState` from React for managing form state.
+ * - `useNavigate` from react-router-dom for navigation.
+ * - `BASE_URL` from configuration for API endpoint.
+ * - `FaMoneyBill` from react-icons for the icon in the header.
+ */
+import {React,useState} from 'react'
 import { BASE_URL } from '../configration/Config';
 import { useNavigate } from 'react-router-dom';
 import {  FaMoneyBill } from 'react-icons/fa';
@@ -12,21 +40,14 @@ import {  FaMoneyBill } from 'react-icons/fa';
 
 function AddTax() {
   const navigate = useNavigate();
-    // eslint-disable-next-line no-undef
-    const [employee_name, setName] = useState('');
-   // eslint-disable-next-line no-undef
-    const [department, setDepart] = useState('');
-     // eslint-disable-next-line no-undef
+     const [employee_name, setName] = useState('');
+     const [department, setDepart] = useState('');
      const [net_pay, setNet] = useState('');
-      // eslint-disable-next-line no-undef
-    const [minimun_wages, setMinWages] = useState('');
-     // eslint-disable-next-line no-undef
+     const [minimun_wages, setMinWages] = useState('');
      const [pay_cycle, setPayCycle] = useState('');
-      // eslint-disable-next-line no-undef
-    const [number_of_garnishment, setNumberGarnihsment] = useState('');
-      // eslint-disable-next-line no-undef
-      const [location, setLocation] = useState('');
-      // eslint-disable-next-line no-undef
+     const [number_of_garnishment, setNumberGarnihsment] = useState('');
+     const [location, setLocation] = useState('');
+ 
       const employer_id = sessionStorage.getItem("id");
       const handleReset = () => {
                  setName('');

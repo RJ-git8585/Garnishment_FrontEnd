@@ -1,9 +1,56 @@
-// eslint-disable-next-line no-unused-vars
-import { React, useState } from 'react';
-import Headertop from '../component/Headertop';
-import Sidebar from './sidebar';
-import { TextField } from '@mui/material';
 
+/**
+ * AddEmployee Component
+ * 
+ * This component renders a form to add a new employee with various details such as name, department, pay cycle, 
+ * social security number, and additional employee-specific information. It also includes functionality to reset 
+ * the form and submit the data to a backend API.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered AddEmployee component.
+ * 
+ * @example
+ * <AddEmployee />
+ * 
+ * @state {string} employee_name - The name of the employee.
+ * @state {string} department - The department of the employee.
+ * @state {string} pay_cycle - The pay cycle of the employee.
+ * @state {string} number_of_child_support_order - The number of child support orders for the employee.
+ * @state {string} location - The location (state) of the employee.
+ * @state {string} socialSecurityNumber - The social security number of the employee.
+ * @state {boolean|null} blind - Indicates if the employee is blind.
+ * @state {number} age - The age of the employee.
+ * @state {string} home_state - The home state of the employee.
+ * @state {string} gender - The gender of the employee.
+ * @state {string} pay_period - The pay period of the employee.
+ * @state {number} number_of_exemptions - The number of exemptions for the employee.
+ * @state {string} work_state - The work state of the employee.
+ * @state {string} filing_status - The filing status of the employee (e.g., single, married).
+ * @state {string} marital_status - The marital status of the employee.
+ * @state {number} number_of_student_default_loan - The number of student default loans for the employee.
+ * @state {boolean} support_second_family - Indicates if the employee supports a second family.
+ * @state {number|null} spouse_age - The age of the employee's spouse.
+ * @state {boolean|null} is_spouse_blind - Indicates if the employee's spouse is blind.
+ * 
+ * @constant {Array<Object>} StateList - A list of U.S. states with their IDs and labels.
+ * 
+ * @function handleReset - Resets all form fields to their initial state.
+ * 
+ * @function handleSubmit - Submits the form data to the backend API.
+ * @param {Object} e - The event object from the form submission.
+ * 
+ * @dependencies
+ * - React (useState)
+ * - @mui/material (TextField)
+ * - sweetalert2 (Swal)
+ * - react-icons (FaUserTie)
+ * - react-input-mask (InputMask)
+ * 
+ * @api {POST} `${BASE_URL}/User/employee_details/` - Endpoint to submit employee details.
+ */
+import { React, useState } from 'react';
+import { TextField } from '@mui/material';
 import { BASE_URL } from '../configration/Config';
 import Swal from 'sweetalert2';
 import { FaUserTie } from "react-icons/fa";

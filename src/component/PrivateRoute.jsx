@@ -7,7 +7,6 @@
  * @param {React.ReactNode} props.children - The child components to render if authenticated.
  * @returns {React.ReactNode} The child components if authenticated, otherwise a redirect to the login page.
  */
-// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
