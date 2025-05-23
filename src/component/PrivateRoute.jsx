@@ -1,8 +1,16 @@
+/**
+ * A higher-order component that restricts access to its children based on authentication.
+ * If a valid token is not found in sessionStorage, the user is redirected to the login page.
+ *
+ * @component
+ * @param {Object} props - The props object.
+ * @param {React.ReactNode} props.children - The child components to render if authenticated.
+ * @returns {React.ReactNode} The child components if authenticated, otherwise a redirect to the login page.
+ */
 // eslint-disable-next-line no-unused-vars
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-// eslint-disable-next-line react/prop-types
 const PrivateRoute = ({ children }) => {
   const token = sessionStorage.getItem('token'); // Get token from sessionStorage
 

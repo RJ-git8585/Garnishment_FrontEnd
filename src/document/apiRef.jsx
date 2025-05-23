@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { LoginResponce, Logincrl, RegisterResponce, Registrationcrl } from '../constants/apiConstants';
+import { LoginResponce, Logincrl, RegisterResponce, Registrationcrl } from '../constants/ApiConstants';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { FaCode } from 'react-icons/fa';
