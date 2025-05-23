@@ -1,10 +1,52 @@
+
+/**
+ * Results Component
+ * 
+ * This component fetches and displays paginated results in a DataGrid table.
+ * It also provides options to export and import data.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Results component.
+ * 
+ * @example
+ * // Usage
+ * <Results />
+ * 
+ * @dependencies
+ * - React hooks: useState, useEffect
+ * - Material-UI components: Button, CircularProgress, Box, Typography
+ * - Material-UI DataGrid: DataGrid
+ * - React Icons: CgImport, TiExport
+ * 
+ * @state
+ * - `page` (number): Current page number for pagination.
+ * - `loading` (boolean): Indicates whether data is being fetched.
+ * - `data` (array): Array of result data fetched from the API.
+ * 
+ * @variables
+ * - `id` (string): User ID retrieved from sessionStorage.
+ * - `link` (string): URL for exporting employee data.
+ * - `columns` (array): Column definitions for the DataGrid.
+ * - `rows` (array): Processed rows for the DataGrid, sliced based on pagination.
+ * 
+ * @effects
+ * - Fetches result details from the API when the component mounts or `id` changes.
+ * 
+ * @functions
+ * - `fetchData`: Asynchronous function to fetch data from the API and update state.
+ * 
+ * @UI
+ * - Displays a DataGrid with paginated rows.
+ * - Shows a loading spinner while data is being fetched.
+ * - Provides buttons for exporting and importing data.
+ * - Displays pagination controls for navigating between pages.
+ */
 import { useState, useEffect } from 'react';
 import { Button, CircularProgress, Box, Typography } from '@mui/material';
 import { CgImport } from 'react-icons/cg';
 import { TiExport } from 'react-icons/ti';
 import { DataGrid } from '@mui/x-data-grid';
-import Headertop from '../component/Headertop';
-import Sidebar from '../component/sidebar';
 import { BASE_URL } from '../configration/Config';
 
 function Results() {

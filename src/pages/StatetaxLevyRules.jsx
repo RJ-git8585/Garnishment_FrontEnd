@@ -1,3 +1,43 @@
+
+/**
+ * Component to display State Tax Levy Rules for a given case ID.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.caseId - The ID of the case for which state tax levy rules are fetched.
+ *
+ * @returns {JSX.Element} The rendered component displaying state tax levy rules.
+ *
+ * @example
+ * <StatetaxLevyRules caseId="12345" />
+ *
+ * @description
+ * This component fetches and displays state tax levy rules for a specific case ID.
+ * It shows a loading spinner while data is being fetched, an error message if the
+ * fetch fails, or a table of data if the fetch is successful.
+ *
+ * The data displayed includes:
+ * - Employee ID
+ * - Case ID
+ * - State
+ * - Deduct From
+ * - Withholding Limit Rule
+ * - Withholding Limit (%)
+ * - Reasoning
+ *
+ * @dependencies
+ * - React
+ * - Material-UI components: CircularProgress, Typography, Table, TableBody, TableCell,
+ *   TableContainer, TableHead, TableRow, Paper
+ * - `BASE_URL` from the configuration file
+ *
+ * @state {Object|null} data - The fetched data for the state tax levy rules.
+ * @state {boolean} loading - Indicates whether the data is being loaded.
+ * @state {string} error - Stores any error message encountered during data fetching.
+ *
+ * @hooks
+ * - `useEffect` to fetch data when the `caseId` prop changes.
+ */
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { BASE_URL } from "../configration/Config";

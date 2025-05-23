@@ -1,3 +1,36 @@
+
+/**
+ * Orders Component
+ * 
+ * This component displays a paginated table of order details fetched from an API.
+ * It includes features for exporting and importing orders, as well as a loading spinner
+ * while data is being fetched.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Orders component.
+ * 
+ * @example
+ * // Usage
+ * <Orders />
+ * 
+ * @state {Array} data - The array of order details fetched from the API.
+ * @state {number} currentPage - The current page number for pagination.
+ * @state {boolean} loading - Indicates whether the data is being loaded.
+ * 
+ * @constant {number} rowsPerPage - The number of rows displayed per page.
+ * 
+ * @function handlePageChange
+ * @description Updates the current page number for pagination.
+ * @param {number} pageNumber - The page number to navigate to.
+ * 
+ * @function fetchData
+ * @description Fetches order details from the API and updates the `data` state.
+ * 
+ * @constant {number} totalPages - The total number of pages based on the data length and rows per page.
+ * 
+ * @returns {JSX.Element} A table displaying paginated order details, along with export/import buttons and pagination controls.
+ */
 import { useState, useEffect } from 'react';
 import { BASE_URL } from '../configration/Config';
 import { RiDeleteBin6Line } from "react-icons/ri";

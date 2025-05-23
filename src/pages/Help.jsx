@@ -1,7 +1,29 @@
-// eslint-disable-next-line no-unused-vars
+
+/**
+ * Help Component
+ *
+ * This component renders the Garnishment Support Center page, which includes
+ * frequently asked questions (FAQs) to assist users in understanding and
+ * navigating the garnishment tool. It provides information on the tool's
+ * purpose, navigation, form submission, support contact, data security, and
+ * form editing.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Help page with FAQs and support details.
+ *
+ * @example
+ * // To use the Help component, simply import and include it in your JSX:
+ * import Help from './Help';
+ * 
+ * function App() {
+ *   return (
+ *     <div>
+ *       <Help />
+ *     </div>
+ *   );
+ * }
+ */
 import React from 'react'
-import Headertop from '../component/Headertop'
-import Sidebar from '../component/sidebar'
 
 function Help() {
 

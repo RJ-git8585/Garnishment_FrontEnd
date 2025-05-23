@@ -1,3 +1,39 @@
+
+/**
+ * OrdImport Component
+ * 
+ * This component provides a form for uploading files and submitting them to the server.
+ * It includes file upload functionality, employer ID input, and displays success or error messages
+ * based on the server response.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Order Upload Form component.
+ * 
+ * @example
+ * <OrdImport />
+ * 
+ * @dependencies
+ * - React hooks: useState
+ * - Material-UI components: Button, Box, Grid, Input, Typography, CircularProgress
+ * - Custom components: Headertop, Sidebar
+ * - Configuration: BASE_URL from '../configration/Config'
+ * 
+ * @state {string} empID - The employer ID entered by the user.
+ * @state {File|null} upload - The file selected by the user for upload.
+ * @state {boolean} loading - Indicates whether the form submission is in progress.
+ * @state {string} error - Stores error messages to display to the user.
+ * @state {string} success - Stores success messages to display to the user.
+ * 
+ * @function handleReset - Resets the form fields and clears error/success messages.
+ * @function handleSubmit - Handles the form submission, validates input, sends the file and employer ID
+ *                          to the server, and updates the UI based on the response.
+ * 
+ * @remarks
+ * - The file input accepts `.csv`, `.pdf`, `.doc`, and `.docx` file formats.
+ * - Displays a loading spinner on the submit button while the form is being processed.
+ * - Uses Material-UI for styling and layout.
+ */
 import { useState } from 'react';
 import {
 

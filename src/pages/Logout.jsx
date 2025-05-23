@@ -1,3 +1,36 @@
+
+/**
+ * Logout Component
+ *
+ * This component handles the user logout process. It provides a button for the user to log out,
+ * clears all relevant local and session storage items, and redirects the user to the login page.
+ * A loading indicator is displayed during the logout process.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered Logout component.
+ *
+ * @example
+ * // Usage
+ * import Logout from './Logout';
+ * 
+ * function App() {
+ *   return <Logout />;
+ * }
+ *
+ * @dependencies
+ * - react: For managing state and lifecycle methods.
+ * - react-router-dom: For navigation and redirection.
+ * - react-icons: For the logout icon.
+ * - @mui/material: For the Backdrop, CircularProgress, and Typography components.
+ *
+ * @function handleLogout
+ * - Clears local and session storage items.
+ * - Displays a loading indicator during the process.
+ * - Redirects the user to the login page after a short delay.
+ *
+ * @state {boolean} loading - Indicates whether the logout process is in progress.
+ */
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaSignOutAlt } from 'react-icons/fa';

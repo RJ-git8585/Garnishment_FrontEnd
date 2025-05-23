@@ -1,3 +1,52 @@
+
+/**
+ * Ruleslist Component
+ * 
+ * This component displays a paginated list of state tax levy rules and allows users to edit rules or submit state tax rule edit requests.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered Ruleslist component.
+ * 
+ * @example
+ * <Ruleslist />
+ * 
+ * @description
+ * - Fetches state tax levy rules data from the backend and displays it in a table.
+ * - Supports pagination for navigating through the rules.
+ * - Allows editing of individual rules via a popup.
+ * - Provides a button to open a popup for submitting state tax rule edit requests.
+ * 
+ * @state {Array} data - The list of state tax levy rules fetched from the backend.
+ * @state {boolean} loading - Indicates whether the data is being loaded.
+ * @state {number} currentPage - The current page number for pagination.
+ * @state {number} rowsPerPage - The number of rows displayed per page.
+ * @state {Object|null} editData - The data of the rule being edited.
+ * @state {boolean} isEditing - Indicates whether the edit popup is open.
+ * @state {boolean} isStateTaxPopupOpen - Indicates whether the state tax popup is open.
+ * 
+ * @function handlePageChange
+ * @param {number} pageNumber - The page number to navigate to.
+ * @description Updates the current page for pagination.
+ * 
+ * @function handleEditClick
+ * @param {Object} rule - The rule data to be edited.
+ * @description Opens the edit popup with the selected rule's data.
+ * 
+ * @function handleEditSave
+ * @param {Object} updatedData - The updated rule data to be saved.
+ * @description Sends a PUT request to update the rule in the backend and updates the UI.
+ * 
+ * @function handleStateTaxSave
+ * @param {Object} stateTaxData - The state tax data submitted via the popup.
+ * @description Handles the submission of state tax data and closes the popup.
+ * 
+ * @function fetchData
+ * @async
+ * @description Fetches state tax levy rules data from the backend and sorts it alphabetically by state.
+ * 
+ * @constant {number} totalPages - The total number of pages for pagination.
+ * @constant {Array} paginatedData - The subset of data to be displayed on the current page.
+ */
 import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../configration/Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";

@@ -1,10 +1,49 @@
-// eslint-disable-next-line no-unused-vars
+
+/**
+ * PasswordResetConfirm Component
+ * 
+ * This component provides a user interface for resetting a password. It includes
+ * form fields for entering a new password and confirming it, and handles the
+ * submission of the new password to the backend API.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The PasswordResetConfirm component.
+ * 
+ * @description
+ * - The component uses React hooks (`useState`, `useParams`, `useNavigate`) for state management,
+ *   accessing route parameters, and navigation.
+ * - It validates that the new password and confirmation password match before submitting.
+ * - On successful password reset, the user is redirected to the login page.
+ * - Displays error or success messages based on the API response.
+ * 
+ * @example
+ * <PasswordResetConfirm />
+ * 
+ * @dependencies
+ * - `react`: For building the component and managing state.
+ * - `react-router-dom`: For accessing route parameters and navigation.
+ * - `axios`: For making HTTP requests to the backend API.
+ * - `../utils/image/Logo_g.png`: Logo image used in the component.
+ * 
+ * @hooks
+ * - `useParams`: To extract the `token` parameter from the URL.
+ * - `useNavigate`: To navigate to the login page after a successful password reset.
+ * - `useState`: To manage the state of the password, confirmation password, and messages.
+ * 
+ * @functions
+ * - `handleSubmit`: Handles the form submission, validates passwords, and sends the reset request to the backend.
+ * 
+ * @api
+ * - POST `https://garnishment-backend.onrender.com/User/password-reset-confirm/:token/`
+ *   - Request Body: `{ password: string, confirm_password: string }`
+ *   - Response: `{ message: string }` on success or `{ error: string }` on failure.
+ */
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../utils/image/Logo_g.png';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+
 
 const PasswordResetConfirm = () => {
     const { token } = useParams();

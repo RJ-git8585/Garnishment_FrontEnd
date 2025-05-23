@@ -1,6 +1,24 @@
-// eslint-disable-next-line no-unused-vars
- // Notfound.jsx write code for not found page html with css//
-  // eslint-disable-next-line no-unused-vars, no-unused-vars
+
+/**
+ * Notfound Component
+ *
+ * This component renders a 404 - Page Not Found error message.
+ * It provides a user-friendly interface to inform users that the requested page does not exist.
+ * Includes a button to navigate back to the home page.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered Notfound component.
+ *
+ * @example
+ * // Usage
+ * import Notfound from './Notfound';
+ * 
+ * function App() {
+ *   return (
+ *     <Notfound />
+ *   );
+ * }
+ */
 import React from 'react'
 
 function Notfound() {

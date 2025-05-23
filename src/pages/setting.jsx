@@ -1,3 +1,42 @@
+
+/**
+ * Setting Component
+ * 
+ * This component provides a settings page where users can toggle dark mode and 
+ * active profile visibility settings. It also allows users to save their preferences.
+ * 
+ * Features:
+ * - Fetches user settings from the server on mount.
+ * - Allows toggling dark mode and active profile visibility.
+ * - Saves theme preference to localStorage and sessionStorage.
+ * - Navigates to the dashboard after saving settings.
+ * 
+ * @component
+ * @returns {JSX.Element} The rendered settings page.
+ * 
+ * @example
+ * <Setting />
+ * 
+ * Hooks:
+ * - `useState`: Manages the state of checkboxes for dark mode and active profile.
+ * - `useEffect`: Fetches user settings on component mount and applies saved theme.
+ * - `useCallback`: Memoizes event handlers for performance optimization.
+ * - `useNavigate`: Handles navigation to other routes.
+ * 
+ * State Variables:
+ * - `isChecked` (boolean): Tracks the state of the dark mode toggle.
+ * - `isActiveChecked` (boolean): Tracks the state of the active profile toggle.
+ * 
+ * Functions:
+ * - `handleCheckboxChange`: Toggles dark mode and updates localStorage/sessionStorage.
+ * - `handleActivecheckboxChange`: Toggles active profile visibility.
+ * - `handleSaveSettings`: Saves settings and navigates to the dashboard.
+ * 
+ * Dependencies:
+ * - `react-router-dom`: For navigation.
+ * - `react-icons/fa`: For rendering the settings icon.
+ * - `BASE_URL`: API base URL for fetching user settings.
+ */
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom'; // Ensure React Router is used for navigation
 import Sidebar from '../component/sidebar';

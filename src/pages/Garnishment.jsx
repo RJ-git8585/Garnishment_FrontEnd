@@ -1,6 +1,52 @@
+
+/**
+ * Garnishment Component
+ * 
+ * This component provides a Garnishment Calculator with multiple tabs for different garnishment types.
+ * It includes functionality for form submission, tab switching, and maintenance mode display.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The Garnishment Calculator component.
+ * 
+ * @example
+ * <Garnishment />
+ * 
+ * @state {string} employee_name - The name of the employee.
+ * @state {string} earnings - The earnings of the employee.
+ * @state {string} garnishment_fees - The garnishment fees.
+ * @state {string} order_id - The order ID.
+ * @state {string} state - The state associated with the garnishment.
+ * @state {string} arrears_amt - The arrears amount.
+ * @state {boolean} arrears_greater_than_12_weeks - Checkbox state for arrears greater than 12 weeks.
+ * @state {boolean} support_second_family - Checkbox state for supporting a second family.
+ * @state {Array} options - Options for employee selection.
+ * @state {string|null} employee_id - Selected employee ID.
+ * @state {string} activeTab - The currently active tab.
+ * @state {boolean} isMaintenanceMode - Indicates if the component is in maintenance mode.
+ * 
+ * @effect Fetches the maintenance mode status when the component mounts.
+ * 
+ * @function handleCheckboxChange - Handles changes to the arrears checkbox.
+ * @param {Object} event - The event object from the checkbox change.
+ * 
+ * @function handleReset - Resets all form fields and states to their initial values.
+ * 
+ * @function handleTabClick - Handles switching between tabs.
+ * @param {string} tab - The name of the tab to switch to.
+ * 
+ * @function handleSubmit - Handles form submission and sends data to the server.
+ * @param {Object} event - The event object from the form submission.
+ * 
+ * @constant {number} employer_id - The employer ID retrieved from session storage.
+ * 
+ * @dependencies
+ * - React
+ * - react-icons (FaBalanceScaleRight)
+ * - MultipleChild, StudentLoan, MultipleStudentLoan, FederalTax components
+ * - BASE_URL from configuration
+ */
 import React, { useState, useEffect } from "react";
-import Headertop from "../component/Headertop";
-import Sidebar from "../component/sidebar";
 import { FaBalanceScaleRight } from "react-icons/fa";
 import MultipleChild from "../forms/MultipleChild";
 import StudentLoan from "../forms/StudentLoan";

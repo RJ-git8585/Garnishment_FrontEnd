@@ -1,3 +1,37 @@
+
+/**
+ * PdfUploader Component
+ *
+ * This component allows users to upload a PDF file, preview its content, and extract text from it.
+ * It uses the `react-pdf` library for rendering the PDF and `pdfjs` for text extraction.
+ *
+ * @component
+ *
+ * @returns {JSX.Element} The rendered PdfUploader component.
+ *
+ * @example
+ * <PdfUploader />
+ *
+ * State:
+ * - `pdfFile` (File | null): Stores the uploaded PDF file.
+ * - `pdfUrl` (string | null): Stores the URL of the uploaded PDF for preview.
+ * - `numPages` (number | null): Stores the total number of pages in the PDF.
+ * - `extractedText` (string): Stores the extracted text from the PDF.
+ *
+ * Functions:
+ * - `handleFileChange(e: React.ChangeEvent<HTMLInputElement>): Promise<void>`:
+ *   Handles the file input change event, validates the file type, and triggers text extraction.
+ *
+ * - `extractTextFromPdf(fileUrl: string): Promise<void>`:
+ *   Extracts text from the uploaded PDF file using `pdfjs`.
+ *
+ * - `onDocumentLoadSuccess({ numPages }: { numPages: number }): void`:
+ *   Callback triggered when the PDF document is successfully loaded, updates the number of pages.
+ *
+ * Dependencies:
+ * - `react-pdf`: For rendering PDF documents.
+ * - `@mui/material`: For UI components like Button, Box, Typography, and Grid.
+ */
 import { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Button, Box, Typography, Grid } from "@mui/material";

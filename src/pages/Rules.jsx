@@ -1,3 +1,28 @@
+
+/**
+ * Component to display child support computation rules based on provided parameters.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.workState - The work state of the employee.
+ * @param {string} props.employeeId - The unique identifier for the employee.
+ * @param {boolean} props.supportsSecondFamily - Indicates if the employee supports a second family.
+ * @param {boolean} props.arrearsMoreThan12Weeks - Indicates if the employee has arrears for more than 12 weeks.
+ * @param {number} props.disposableEarnings - The disposable earnings of the employee.
+ * @param {number} [props.dataCount=0] - The count of data to be fetched (default is 0).
+ *
+ * @returns {JSX.Element} The rendered Rules component.
+ *
+ * @example
+ * <Rules
+ *   workState="CA"
+ *   employeeId="12345"
+ *   supportsSecondFamily={true}
+ *   arrearsMoreThan12Weeks={false}
+ *   disposableEarnings={5000}
+ *   dataCount={1}
+ * />
+ */
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid } from "@mui/material";
 import { API_URLS } from '../configration/Apis';

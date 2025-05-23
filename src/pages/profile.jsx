@@ -1,7 +1,54 @@
-// eslint-disable-next-line no-unused-vars
+
+/**
+ * Profile Component
+ * 
+ * This component renders a user profile page with the ability to view and edit profile details.
+ * It fetches the profile data from the server, displays it in a form, and allows editing of certain fields.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Profile component.
+ * 
+ * @example
+ * <Profile />
+ * 
+ * @description
+ * - Fetches employer details using the `employer_id` stored in session storage.
+ * - Displays a loading spinner while fetching data.
+ * - Allows editing of specific fields in the profile.
+ * - Updates the profile data on the server when the form is submitted.
+ * - Displays success or error messages using SweetAlert2.
+ * 
+ * @state {Object} profileData - Stores the profile data for the form fields.
+ * @state {boolean} loading - Indicates whether the data is being fetched.
+ * @state {Array} data - Stores the fetched profile data.
+ * @state {boolean} isEditing - Tracks whether the form is in edit mode.
+ * 
+ * @function handleChange
+ * Handles changes to the form fields and updates the `profileData` state.
+ * 
+ * @function handleEdit
+ * Enables edit mode and pre-fills the form fields with the fetched data.
+ * 
+ * @function handleCancel
+ * Disables edit mode without saving changes.
+ * 
+ * @function handleSubmit
+ * Submits the updated profile data to the server and disables edit mode.
+ * 
+ * @useEffect
+ * Fetches the employer details from the server when the component mounts.
+ * 
+ * @dependencies
+ * - React
+ * - SweetAlert2
+ * - BASE_URL (from configuration)
+ * - FaUserCheck (from react-icons)
+ * - Sidebar, Headertop (custom components)
+ * - load (loading spinner image)
+ */
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../component/sidebar';
-// import { toast } from 'react-toastify';
 import Headertop from '../component/Headertop';
 import { FaUserCheck } from "react-icons/fa";
 import load from '../utils/image/bouncing-circles.svg';

@@ -1,3 +1,43 @@
+
+
+/**
+ * Iwo Component
+ * 
+ * This component provides a user interface for uploading PDF files. It includes
+ * a file input, an upload button, and displays the status of the upload process.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Iwo component.
+ * 
+ * @example
+ * // To use the Iwo component, simply import and include it in your JSX:
+ * import Iwo from './Iwo';
+ * 
+ * function App() {
+ *   return <Iwo />;
+ * }
+ * 
+ * @state {File|null} upload - The selected file to be uploaded.
+ * @state {boolean} loading - Indicates whether the upload process is in progress.
+ * @state {string} responseMessage - Stores the response message after the upload attempt.
+ * 
+ * @function handleFileSelect - Handles the file selection event and updates the `upload` state.
+ * @param {Event} event - The file input change event.
+ * 
+ * @function handleUpload - Handles the file upload process. It validates the file selection,
+ * sends the file to the server using an HTTP POST request, and updates the `responseMessage` state
+ * based on the server's response.
+ * 
+ * @async
+ * @throws Will log an error message to the console if the upload fails.
+ * 
+ * @dependencies
+ * - `useState` from React for managing component state.
+ * - `Button`, `Box`, `Typography`, and `CircularProgress` from Material-UI for UI components.
+ * - `axios` for making HTTP requests.
+ * - `BASE_URL` from the configuration file for the API endpoint.
+ */
 import { useState } from 'react';
 import { Button, Box, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';

@@ -1,11 +1,44 @@
 
-// eslint-disable-next-line no-unused-vars
+
+/**
+ * Location Component
+ * 
+ * This component renders the Location page, which includes a sidebar, header, and a table displaying location details.
+ * It fetches location data from an API and displays it in a table format with options to edit or delete each entry.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Location page component.
+ * 
+ * @example
+ * <Location />
+ * 
+ * @dependencies
+ * - React
+ * - useState, useEffect (React hooks)
+ * - Headertop (Custom component)
+ * - ProfileHeader (Custom component)
+ * - Sidebar (Custom component)
+ * - react-icons (FaPlusCircle, TiExport)
+ * 
+ * @state {Array} data - Stores the fetched location data.
+ * 
+ * @effects
+ * - Fetches location data from the API when the component mounts.
+ * 
+ * @api
+ * - GET https://garnishment-backend.onrender.com/User/GetLocationDetails/:id
+ *   Fetches location details for the user based on the ID stored in sessionStorage.
+ * 
+ * @notes
+ * - Ensure the API URL is correct and accessible.
+ * - Handle errors appropriately when fetching data.
+ * - The "Edit" and "Delete" buttons currently do not have functionality implemented.
+ */
 import { React, useState,useEffect } from 'react'
 import Headertop from '../component/Headertop'
 import ProfileHeader from '../component/ProfileHeader'
 import Sidebar from '../component/sidebar'
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
 import { FaPlusCircle } from "react-icons/fa";
 import { TiExport } from "react-icons/ti";
 

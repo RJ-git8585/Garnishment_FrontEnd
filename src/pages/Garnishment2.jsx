@@ -1,3 +1,56 @@
+
+/**
+ * Garnishment2 Component
+ * 
+ * This component provides a user interface for calculating garnishment amounts based on various inputs.
+ * It includes form fields for user input, validation, and submission to an API for calculation.
+ * The results are displayed in a table format upon successful calculation.
+ * 
+ * Features:
+ * - Auto-generates unique IDs for batch, employee, and case.
+ * - Dynamically updates form fields based on garnishment type.
+ * - Validates user inputs and displays error messages for invalid fields.
+ * - Handles API submission and displays calculation results.
+ * - Includes a maintenance mode overlay.
+ * - Supports resetting the form to its initial state.
+ * 
+ * Dependencies:
+ * - React for state management and rendering.
+ * - Axios for API requests.
+ * - SweetAlert2 for popup messages.
+ * - React-icons for icons.
+ * - ErrorBoundary for error handling.
+ * 
+ * @component
+ * @returns {JSX.Element} The Garnishment2 component.
+ * 
+ * @example
+ * <Garnishment2Wrapper />
+ * 
+ * State Variables:
+ * @property {Object} formData - Stores the form data, including auto-generated IDs and user inputs.
+ * @property {Array} stateOptions - Stores the list of state options based on garnishment type.
+ * @property {Object|null} calculationResult - Stores the API response for garnishment calculation.
+ * @property {boolean} loading - Indicates whether the form submission is in progress.
+ * @property {boolean} isMaintenanceMode - Indicates whether the component is in maintenance mode.
+ * @property {Object} errors - Stores validation error messages for form fields.
+ * 
+ * Functions:
+ * @function generateBatchId - Generates a unique batch ID.
+ * @function generateEmployeeId - Generates a unique employee ID.
+ * @function generateCaseId - Generates a unique case ID.
+ * @function handleInputChange - Handles changes to form inputs and updates the state.
+ * @function handleGarnishmentTypeChange - Handles changes to the garnishment type and updates related fields.
+ * @function handleNestedInputChange - Handles changes to nested garnishment data inputs.
+ * @function validateForm - Validates the form inputs and sets error messages.
+ * @function handleSubmit - Submits the form data to the API and handles the response.
+ * @function handleReset - Resets the form to its initial state.
+ * 
+ * Effects:
+ * @effect Fetches maintenance mode status on component mount.
+ * @effect Scrolls to the results section when calculation results are updated.
+ * @effect Regenerates batch, employee, and case IDs on component mount.
+ */
 import React, { useState, useEffect } from "react";
 import { FaBalanceScaleRight } from "react-icons/fa";
 import axios from "axios";

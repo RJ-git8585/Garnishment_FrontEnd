@@ -1,3 +1,52 @@
+
+/**
+ * GarnishFee Component
+ * 
+ * This component displays a paginated table of garnishment fees rules fetched from an API.
+ * It allows users to view, paginate, and edit garnishment rules.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The GarnishFee component.
+ * 
+ * @example
+ * <GarnishFee />
+ * 
+ * @description
+ * - Fetches garnishment fees rules from the API on mount.
+ * - Displays a loading spinner while data is being fetched.
+ * - Supports pagination for the table data.
+ * - Allows editing of a specific garnishment rule via a modal dialog.
+ * 
+ * @state {Array} data - The list of garnishment rules fetched from the API.
+ * @state {number} currentPage - The current page number for pagination.
+ * @state {boolean} loading - Indicates whether data is being loaded.
+ * @state {string|null} selectedRuleId - The ID of the currently selected rule for editing.
+ * @state {boolean} editOpen - Indicates whether the edit modal is open.
+ * 
+ * @constant {number} rowsPerPage - The number of rows displayed per page in the table.
+ * 
+ * @function handlePageChange
+ * @param {number} pageNumber - The page number to navigate to.
+ * @description Updates the current page for pagination.
+ * 
+ * @function handleEditOpen
+ * @param {string} rule - The ID of the rule to edit.
+ * @description Opens the edit modal for the selected rule.
+ * 
+ * @function handleEditClose
+ * @description Closes the edit modal and resets the selected rule ID.
+ * 
+ * @function fetchData
+ * @description Fetches garnishment rules data from the API and updates the state.
+ * 
+ * @dependencies
+ * - `useState` and `useEffect` from React for state management and side effects.
+ * - `BASE_URL` from configuration for API endpoint.
+ * - `AiOutlineLoading3Quarters` from `react-icons` for the loading spinner.
+ * - `Button` from Material-UI for action buttons.
+ * - `EditGarnishmentRule` component for editing rules.
+ */
 import { useState, useEffect } from "react";
 import { BASE_URL } from "../configration/Config";
 import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import loader icon
