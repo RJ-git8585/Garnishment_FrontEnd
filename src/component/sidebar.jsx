@@ -1,3 +1,39 @@
+/**
+ * Sidebar component that renders a navigation drawer with menu items and submenus.
+ * 
+ * @component
+ * 
+ * @returns {JSX.Element} The rendered Sidebar component.
+ * 
+ * @description
+ * This component uses Material-UI's Drawer and List components to create a sidebar
+ * navigation menu. It includes expandable submenus and active state styling for navigation links.
+ * 
+ * @example
+ * <Sidebar />
+ * 
+ * @dependencies
+ * - React hooks: `useState`
+ * - React Router: `NavLink`
+ * - Material-UI components: `Drawer`, `List`, `ListItem`, `ListItemText`, `ListItemIcon`, `Divider`, `Box`, `Collapse`
+ * - Icons: `react-icons` (e.g., `FaDashcube`, `FaUserTie`, etc.)
+ * 
+ * @state
+ * - `openMenu` (object): Tracks the open/close state of expandable menu items.
+ * 
+ * @functions
+ * - `handleMenuClick(menu: string): void`:
+ *   Toggles the open/close state of a specific menu item.
+ * 
+ * - `renderSubMenu(submenu: Array<{ text: string, icon: JSX.Element, path: string }>): JSX.Element`:
+ *   Renders a list of submenu items.
+ * 
+ * - `renderMenuItems`: Maps through the `menuItems` array to render the main menu items and their submenus.
+ * 
+ * @constants
+ * - `menuItems` (array): Defines the structure of the menu, including text, icons, paths, and submenus.
+ * - `drawerContent` (JSX.Element): The content of the sidebar drawer, including the logo, menu, and logout button.
+ */
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../utils/image/Logo_g.png';
@@ -58,11 +94,11 @@ const Sidebar = () => {
       icon: <GiTakeMyMoney />,
       path: '/GarnishFee',
     },
-    // {
-    //   text: 'Rules List',
-    //   icon: <GiTakeMyMoney />,
-    //   path: '/ruleslist',
-    // },
+    {
+      text: 'Rules List',
+      icon: <GiTakeMyMoney />,
+      path: '/ruleslist',
+    },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
     { text: 'Calculator', icon: <CiCalculator2 />, path: '/garnishment-pro' },
     {
