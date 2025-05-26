@@ -83,7 +83,7 @@ import Results from '../pages/results';
 import GarnishFee from '../pages/GarnishFee';
 import Orders from '../pages/Orders';
 import EmpImport from '../pages/EmpImport';
-import ComImport from '../pages/ComImport';
+import ComImport from '../pages/comImport';
 import OrdImport from '../pages/OrdImport';
 import Rules from '../pages/Rules';
 import Ruleslist from '../pages/Ruleslist';
@@ -95,7 +95,7 @@ import AddTax from './AddTax';
 import AddLocation from './AddLocation';
 
 // Documents
-import Siganture from '../document/Siganture';
+import Siganture from '../document/siganture';
 import BatchCalculation from '../document/BatchCalculation';
 import XmlProcessor from '../document/xmlProcessor';
 import Sidebar from './sidebar';
