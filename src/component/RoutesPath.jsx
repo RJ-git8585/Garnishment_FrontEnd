@@ -60,7 +60,7 @@ import Headertop from './Headertop';
 
 // Pages
 import Form from './form';
-import Signup from '../pages/Signup';
+import Signup from '../pages/signup';
 import Forgot from '../pages/Forgot';
 import PasswordResetConfirm from '../pages/PasswordResetConfirm';
 import Dashboard from '../pages/Dashboard';
