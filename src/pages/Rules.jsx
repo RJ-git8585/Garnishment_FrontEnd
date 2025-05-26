@@ -25,7 +25,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid } from "@mui/material";
-import { API_URLS } from '../configration/Apis';
+import { API_URLS } from '../configration/apis';
 
 const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount = 0 }) => {
   const [data, setData] = useState(null);

@@ -48,7 +48,7 @@ import { useSpring, animated, useTransition } from '@react-spring/web';
 import ProfileHeader from '../component/ProfileHeader';
 import load from '../utils/image/bouncing-circles.svg';
 import { DiJqueryLogo } from 'react-icons/di';
-import { API_URLS } from '../configration/Apis';
+import { API_URLS } from '../configration/apis';
 
 function Dashboard() {
   const [dashboardData, setDashboardData] = useState({});
