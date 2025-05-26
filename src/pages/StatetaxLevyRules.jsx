@@ -123,7 +123,11 @@ const StatetaxLevyRules = ({ caseId }) => {
             <TableRow>
               <TableCell>6</TableCell>
               <TableCell>Withholding Limit (%)</TableCell>
-              <TableCell>{data.withholding_limit}</TableCell>
+              <TableCell>
+            {data.withholding_limit
+              ? `${Number(data.withholding_limit)}%`
+              : '-'}
+          </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>7</TableCell>
