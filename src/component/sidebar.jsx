@@ -37,7 +37,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../utils/image/Logo_g.png';
-import '../utils/css/Batch.css';
+import '../utils/css/batch.css';
 import {
   Drawer,
   List,
