@@ -83,7 +83,7 @@ import Results from '../pages/results';
 import GarnishFee from '../pages/GarnishFee';
 import Orders from '../pages/Orders';
 import EmpImport from '../pages/EmpImport';
-import ComImport from '../pages/comImport';
+import ComImport from '../pages/ComImport';
 import OrdImport from '../pages/OrdImport';
 import Rules from '../pages/Rules';
 import Ruleslist from '../pages/Ruleslist';
