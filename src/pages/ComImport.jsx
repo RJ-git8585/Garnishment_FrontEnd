@@ -51,7 +51,7 @@ import {
 } from '@mui/material';
 import { BASE_URL } from '../configration/Config';
 import Headertop from '../component/Headertop';
-import Sidebar from '../component/sidebar';
+import Sidebar from '../component/Sidebar';
 
 function ComImport() {
   const [empID, setEmpID] = useState('');

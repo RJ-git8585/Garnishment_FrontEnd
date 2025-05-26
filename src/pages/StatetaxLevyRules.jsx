@@ -112,23 +112,23 @@ const StatetaxLevyRules = ({ caseId }) => {
             </TableRow>
             <TableRow>
               <TableCell>4</TableCell>
-              <TableCell>Deduct From</TableCell>
-              <TableCell>{data.deduct_from}</TableCell>
+              <TableCell>Deduct Basic</TableCell>
+              <TableCell>{data.deduction_basis}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>5</TableCell>
-              <TableCell>Withholding Limit Rule</TableCell>
-              <TableCell>{data.withholding_limit_rule}</TableCell>
+              <TableCell>Withholding Cap</TableCell>
+              <TableCell>{data.withholding_cap}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>6</TableCell>
               <TableCell>Withholding Limit (%)</TableCell>
-              <TableCell>{data.withholding_limit_percent}</TableCell>
+              <TableCell>{data.withholding_limit}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>7</TableCell>
-              <TableCell>Reasoning</TableCell>
-              <TableCell>{data.reasioning}</TableCell>
+              <TableCell>Withholding Basis</TableCell>
+              <TableCell>{data.withholding_basis}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

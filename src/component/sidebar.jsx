@@ -37,6 +37,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../utils/image/Logo_g.png';
+import '../utils/css/Batch.css';
 import {
   Drawer,
   List,
@@ -74,35 +75,15 @@ const Sidebar = () => {
 
   const menuItems = [
     { text: 'Dashboard', icon: <FaDashcube />, path: '/dashboard' },
-    {
-      text: 'Employee',
-      icon: <FaUserTie />,
-      path: '/employee',
-    },
-    {
-      text: 'Orders',
-      icon: <LiaFirstOrderAlt />,
-      path: '/orders',  
-      // isExpandable: true,
-      // submenu: [
-      //   { text: 'Orders', icon: <FcProcess />, path: '/orders' },
-      //   { text: 'Case', icon: <LuLoader />, path: '/Case' },
-      // ],
-    },
-    {
-      text: 'Fees Rules',
-      icon: <GiTakeMyMoney />,
-      path: '/GarnishFee',
-    },
-    {
-      text: 'Rules List',
-      icon: <GiTakeMyMoney />,
-      path: '/ruleslist',
-    },
+    { text: 'Employee', icon: <FaUserTie />, path: '/employee' },
+    { text: 'Orders', icon: <LiaFirstOrderAlt />, path: '/orders' },
+    { text: 'Fees Rules', icon: <GiTakeMyMoney />, path: '/GarnishFee' },
+    { text: 'Rules List', icon: <GiTakeMyMoney />, path: '/ruleslist' },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
     { text: 'Calculator', icon: <CiCalculator2 />, path: '/garnishment-pro' },
     {
       text: 'Processing',
+      class: 'newsubmenu', // Custom class for Processing menu
       icon: <FaBalanceScaleRight />,
       isExpandable: true,
       submenu: [
@@ -139,7 +120,7 @@ const Sidebar = () => {
                 sx={{
                   color: 'inherit',
                   fontSize: '12px !important',
-                  fontFamily: 'Poppins, sans-serif',  // Updated to Poppins font here
+                  fontFamily: 'Poppins, sans-serif',
                 }}
               />
             </Box>
@@ -149,13 +130,30 @@ const Sidebar = () => {
     </List>
   );
 
-  const renderMenuItems = menuItems.map(({ text, icon, path, isExpandable, submenu }) => (
-    <div key={text}>
-      <ListItem button onClick={() => isExpandable && handleMenuClick(text)}>
-        <NavLink
-          to={path || '#'}
-          style={({ isActive }) => {
-            const activeStyle = {
+  const renderMenuItems = menuItems.map(({ text, icon, path, isExpandable, submenu, class: customClass }) => (
+    <div key={text} className={customClass || ''}>
+      {isExpandable ? (
+        <ListItem button onClick={() => handleMenuClick(text)}>
+          <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+            <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
+            <ListItemText
+              primary={text}
+              sx={{
+                color: 'inherit',
+                fontSize: '12px !important',
+                fontFamily: 'Poppins, sans-serif',
+              }}
+            />
+            <Box sx={{ marginLeft: 'auto' }}>
+              {openMenu[text] ? <ArrowDropUp /> : <ArrowDropDown />}
+            </Box>
+          </Box>
+        </ListItem>
+      ) : (
+        <ListItem button>
+          <NavLink
+            to={path}
+            style={({ isActive }) => ({
               textDecoration: 'none',
               textTransform: 'uppercase',
               fontSize: '12px',
@@ -166,37 +164,23 @@ const Sidebar = () => {
               borderRadius: '5px',
               display: 'flex',
               alignItems: 'center',
-            };
-
-            // Check if the submenu is open to avoid active style when collapsed
-            if (isExpandable && !openMenu[text]) {
-              return {
-                ...activeStyle,
-                backgroundColor: 'inherit', // Remove background when collapsed
-                fontWeight: '200', // Remove bold font weight when collapsed
-              };
-            }
-            return activeStyle;
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
-            <ListItemText
-              primary={text}
-              sx={{
-                color: 'inherit',
-                fontSize: '12px !important',
-                fontFamily: 'Poppins, sans-serif',  // Apply Poppins font here
-              }}
-            />
-            {isExpandable && (
-              <Box sx={{ marginLeft: 'auto' }}>
-                {openMenu[text] ? <ArrowDropUp /> : <ArrowDropDown />}
-              </Box>
-            )}
-          </Box>
-        </NavLink>
-      </ListItem>
+              width: '100%',
+            })}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <ListItemIcon sx={{ color: 'inherit' }}>{icon}</ListItemIcon>
+              <ListItemText
+                primary={text}
+                sx={{
+                  color: 'inherit',
+                  fontSize: '12px !important',
+                  fontFamily: 'Poppins, sans-serif',
+                }}
+              />
+            </Box>
+          </NavLink>
+        </ListItem>
+      )}
 
       {isExpandable && submenu && (
         <Collapse in={openMenu[text]} timeout="auto" unmountOnExit>

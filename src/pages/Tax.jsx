@@ -31,7 +31,7 @@
  */
 import {React ,useState,useEffect} from 'react'
 import Headertop from '../component/Headertop'
-import Sidebar from '../component/sidebar'
+import Sidebar from '../component/Sidebar'
 import DeleteItemComponent from '../component/DeleteItemComponent';
 import { BASE_URL } from '../configration/Config';
 import { FaPlus } from "react-icons/fa";

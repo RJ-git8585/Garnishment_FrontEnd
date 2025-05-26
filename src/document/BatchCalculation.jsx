@@ -49,7 +49,7 @@ import { useState, useRef } from "react";
 import { BASE_URL } from "../configration/Config";
 import { FaCopy, FaExpand, FaCompress } from "react-icons/fa";
 import { FaTableCells } from "react-icons/fa6";
-import "../utils/css/batch.css";
+import "../utils/css/Batch.css";
 import { BsFiletypeJson } from "react-icons/bs";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 

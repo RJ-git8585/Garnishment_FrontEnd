@@ -39,7 +39,7 @@
  * - `renderMenu(): JSX.Element`: Renders the sidebar menu with nested submenus.
  * - `renderContent(): JSX.Element`: Renders the content area based on the active menu.
  */
-import "../utils/css/doc.css";
+import "../utils/css/Doc.css";
 import { useState, useEffect } from "react";
 import { FaCode } from "react-icons/fa";
 import { HiOutlineDocumentText } from "react-icons/hi";

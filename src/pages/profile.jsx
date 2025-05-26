@@ -48,7 +48,7 @@
  * - load (loading spinner image)
  */
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../component/sidebar';
+import Sidebar from '../component/Sidebar';
 import Headertop from '../component/Headertop';
 import { FaUserCheck } from "react-icons/fa";
 import load from '../utils/image/bouncing-circles.svg';

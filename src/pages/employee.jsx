@@ -149,7 +149,7 @@ function Employee() {
                   <td className="px-6 py-3 text-sm truncate">{row.age}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.gender}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.home_state}</td>
-                  <td className="px-6 py-3 text-sm truncate">{row.work_state}</td>
+                  <td className="px-6 py-3 text-sm truncate capitalize">{row.work_state}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.pay_period}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.case_id}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.is_blind ? "True" : "False"}</td>

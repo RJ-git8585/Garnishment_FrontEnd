@@ -32,3 +32,19 @@
 .close-popup-button:hover {
   background: #0056b3;
 }
+
+.active-menu-item {
+  background-color: #e3f2fd; /* Light blue background */
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.inactive-menu-item {
+  background-color: transparent;
+  padding: 10px;
+}
+
+.active-menu-item:hover,
+.inactive-menu-item:hover {
+  background-color: #bbdefb; /* Slightly darker blue on hover */
+}
