@@ -95,7 +95,7 @@ import AddTax from './AddTax';
 import AddLocation from './AddLocation';
 
 // Documents
-import Siganture from '../document/siganture';
+// import Siganture from '../document/siganture';
 import BatchCalculation from '../document/BatchCalculation';
 import XmlProcessor from '../document/xmlProcessor';
 import Sidebar from './sidebar';
@@ -172,7 +172,7 @@ function RoutesPath() {
             />
           ))}
           <Route path="*" element={<Notfound />} />
-          <Route path="/docs" element={<Siganture />} />
+          {/* <Route path="/docs" element={<Siganture />} /> */}
         </Routes>
       </BrowserRouter>
     </div>
