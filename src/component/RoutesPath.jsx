@@ -59,7 +59,7 @@ import Sidebar from './Sidebar';
 import Headertop from './Headertop';
 
 // Pages
-import Form from './Form';
+import Form from './fsorm';
 import Signup from '../pages/Signup';
 import Forgot from '../pages/Forgot';
 import PasswordResetConfirm from '../pages/PasswordResetConfirm';
