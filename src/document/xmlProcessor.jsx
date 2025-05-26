@@ -47,7 +47,7 @@ import { FaTableCells } from "react-icons/fa6";
 import { FaCopy, FaExpand, FaCompress, FaArrowUp } from "react-icons/fa"; // Import FaArrowUp for the floating button
 import { BsFiletypeJson, BsFiletypeXml } from "react-icons/bs";
 import { useState, useRef, useEffect } from 'react';
-import '../utils/css/Xml.css';
+import '../utils/css/xml.css';
 import { renderTable } from '../component/TableRenderer';
 import { exportToExcel } from '../component/ExcelExporter';
 
