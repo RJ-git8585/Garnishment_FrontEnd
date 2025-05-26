@@ -51,7 +51,7 @@ import {
   Checkbox, Button, Grid, Typography, Paper, Divider 
 } from "@mui/material";
 import Headertop from "../component/Headertop";
-import Sidebar from "../component/Sidebar";
+import Sidebar from "../component/sidebar";
 
 const CaseRegistrationForm = () => {
   const [formData, setFormData] = useState({

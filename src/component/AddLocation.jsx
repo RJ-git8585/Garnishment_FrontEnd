@@ -36,7 +36,7 @@
 import {React,useState} from 'react'
 import Headertop from '../component/Headertop'
 import { BASE_URL } from '../configration/Config';
-import Sidebar from './Sidebar'
+import Sidebar from './sidebar'
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';

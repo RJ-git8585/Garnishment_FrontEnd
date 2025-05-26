@@ -55,7 +55,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicRoute from './PublicRoute';
 import PrivateRoute from './PrivateRoute';
 import Notfound from '../pages/Notfound';
-import Sidebar from './Sidebar';
+// import Sidebar from './sidebar';
 import Headertop from './Headertop';
 
 // Pages
@@ -98,7 +98,7 @@ import AddLocation from './AddLocation';
 import Siganture from '../document/Siganture';
 import BatchCalculation from '../document/BatchCalculation';
 import XmlProcessor from '../document/xmlProcessor';
-// import Sidebar from './sidebar';
+import Sidebar from './sidebar';
 
 const publicRoutes = [
   { path: "/", element: <Form />, restricted: true },

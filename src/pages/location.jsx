@@ -38,7 +38,7 @@
 import { React, useState,useEffect } from 'react'
 import Headertop from '../component/Headertop'
 import ProfileHeader from '../component/ProfileHeader'
-import Sidebar from '../component/Sidebar'
+import Sidebar from '../component/sidebar'
 import { FaPlusCircle } from "react-icons/fa";
 import { TiExport } from "react-icons/ti";
 
