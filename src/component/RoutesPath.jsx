@@ -61,25 +61,25 @@ import Headertop from './Headertop';
 // Pages
 import Form from './form';
 import Signup from '../pages/signup';
-import Forgot from '../pages/Forgot';
+import Forgot from '../pages/forgot';
 import PasswordResetConfirm from '../pages/PasswordResetConfirm';
-import Dashboard from '../pages/Dashboard';
+import Dashboard from '../pages/dashboard';
 import Logout from '../pages/Logout';
-import Profile from '../pages/Profile';
+import Profile from '../pages/profile';
 
 // import Setting from './pages/setting';
 import Help from '../pages/Help';
 import Tax from '../pages/Tax';
 import Garnishment from '../pages/Garnishment';
 import Garnishment2 from '../pages/Garnishment2';
-// import Employee from '../pages/employee';
+import Employee from '../pages/employee';
 import EmployeeEditForm from '../pages/EmployeeEditForm';
 import EmployeeProfile from '../pages/EmployeeProfile';
 import CaseRegister from '../pages/CaseRegister';
-import Department from '../pages/Department';
-import Location from '../pages/Location';
-import Iwo from '../pages/Iwo';
-import Results from '../pages/Results';
+import Department from '../pages/department';
+import Location from '../pages/location';
+import Iwo from '../pages/iwo';
+import Results from '../pages/results';
 import GarnishFee from '../pages/GarnishFee';
 import Orders from '../pages/Orders';
 import EmpImport from '../pages/EmpImport';
@@ -97,8 +97,8 @@ import AddLocation from './AddLocation';
 // Documents
 import Siganture from '../document/Siganture';
 import BatchCalculation from '../document/BatchCalculation';
-import XmlProcessor from '../document/XmlProcessor';
-import Employee from '../pages/Employee';
+import XmlProcessor from '../document/xmlProcessor';
+// import Sidebar from './sidebar';
 
 const publicRoutes = [
   { path: "/", element: <Form />, restricted: true },
