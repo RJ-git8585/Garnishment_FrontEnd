@@ -1,9 +1,8 @@
-
 /**
  * EditRulePopup Component
  *
  * A React component that renders a popup dialog for editing a rule. It allows users to modify
- * the "Deduct From" and "Withholding Limit (%)" fields, while the "State" field is read-only.
+ * the "Deduction Basis" and "Withholding Limit (%)" fields, while the "State" field is read-only.
  *
  * @component
  * @param {Object} props - The props object.
@@ -11,7 +10,7 @@
  * @param {Function} props.handleClose - A function to handle closing the dialog.
  * @param {Object} props.ruleData - The data of the rule to be edited.
  * @param {string} props.ruleData.state - The state associated with the rule.
- * @param {string} props.ruleData.deduct_from - The current "Deduct From" value of the rule.
+ * @param {string} props.ruleData.deduction_basis - The current "Deduction Basis" value of the rule.
  * @param {string} props.ruleData.withholding_limit_percent - The current withholding limit percentage of the rule.
  * @param {Function} props.handleSave - A function to handle saving the updated rule data.
  *
@@ -21,7 +20,7 @@ import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { sanitizeString } from "../utils/sanitizeData"; // Import the sanitize function
 
-const deductFromOptions = [
+const deductionBasisOptions = [
   { value: "disposable earning", label: "Disposable Earning" },
   { value: "gross pay", label: "Gross Pay" },
   { value: "net pay", label: "Net Pay" },
@@ -30,23 +29,24 @@ const deductFromOptions = [
 function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
   const [formData, setFormData] = useState({
     state: "",
-    deduct_from: "",
-    withholding_limit_percent: "",
+    deduction_basis: "",
+    withholding_limit: "",
   });
 
   useEffect(() => {
     if (ruleData) {
-      const matchedOption = deductFromOptions.find(
+      console.log("Rule Data:", ruleData); // Debugging log
+      const matchedOption = deductionBasisOptions.find(
         (option) =>
-          sanitizeString(option.value.toLowerCase()) === sanitizeString(ruleData.deduct_from?.toLowerCase())
+          sanitizeString(option.value.toLowerCase()) === sanitizeString(ruleData.deduction_basis?.toLowerCase())
       );
       setFormData({
         state: sanitizeString(ruleData.state) || "",
-        deduct_from: matchedOption ? matchedOption.value : "",
-        withholding_limit_percent: sanitizeString(ruleData.withholding_limit_percent) || "",
+        deduction_basis: matchedOption ? matchedOption.value : "",
+        withholding_limit: sanitizeString(ruleData.withholding_limit) || "",
       });
     }
-  }, [ruleData]);
+  }, [ruleData]); // Re-run when `ruleData` changes
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -71,15 +71,15 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
           />
         </FormControl>
         <FormControl fullWidth margin="normal">
-          <InputLabel>Deduct From</InputLabel>
+          <InputLabel>Deduction Basis</InputLabel>
           <Select
-            name="deduct_from"
-            value={formData.deduct_from || ""}
+            name="deduction_basis"
+            value={formData.deduction_basis || ""}
             onChange={handleChange}
-            label="Deduct From"
+            label="Deduction Basis"
           >
             <MenuItem value="">Select an option</MenuItem>
-            {deductFromOptions.map((option) => (
+            {deductionBasisOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
@@ -89,9 +89,9 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
         <FormControl fullWidth margin="normal">
           <TextField
             label="Withholding Limit (%)"
-            name="withholding_limit_percent"
+            name="withholding_limit"
             type="number"
-            value={formData.withholding_limit_percent}
+            value={formData.withholding_limit}
             onChange={handleChange}
             variant="outlined"
           />

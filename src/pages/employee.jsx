@@ -1,4 +1,3 @@
-
 /**
  * Employee Component
  *
@@ -38,6 +37,7 @@
  * @returns {JSX.Element} A table displaying employee data with pagination controls,
  *                        export/import buttons, and a loading spinner.
  */
+import React from 'react';
 import { useState, useEffect } from "react";
 import { BASE_URL } from "../configration/Config";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -58,9 +58,11 @@ function Employee() {
       try {
         const response = await fetch(`${BASE_URL}/User/EmployeeRules/`);
         const jsonData = await response.json();
-        setData(jsonData.data);
+        console.log('Fetched Data:', jsonData); // Debugging log
+        setData(jsonData.data || []);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setData([]); // Handle error by setting data to an empty array
       } finally {
         setLoading(false); // Stop loading
       }
@@ -78,7 +80,7 @@ function Employee() {
     currentPage * rowsPerPage
   );
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(data.length / rowsPerPage) || 1;
 
   return (
     <div className="p-4">
@@ -132,6 +134,12 @@ function Employee() {
                   <div className="flex justify-left items-left h-40">
                     <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
                   </div>
+                </td>
+              </tr>
+            ) : data.length === 0 ? (
+              <tr>
+                <td colSpan="19" className="py-6 text-center text-gray-500">
+                  No data available.
                 </td>
               </tr>
             ) : (

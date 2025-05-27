@@ -73,7 +73,7 @@ function AddDepartment() {
         <form className="grid grid-cols-2 gap-4 p-6 shadow-lg shadow-blue-500/50">
           <input type="hidden" name="employer_id" value={employer_id} />
           <div>
-            <label className="block text-slate-500 text-sm font-medium">
+            <label htmlFor="department" className="block text-slate-500 text-sm font-medium">
               Department
             </label>
             <input

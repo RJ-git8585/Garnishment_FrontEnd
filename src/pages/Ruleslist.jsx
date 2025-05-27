@@ -1,4 +1,3 @@
-
 /**
  * Ruleslist Component
  * 
@@ -62,6 +61,7 @@ const Ruleslist = () => {
   const [editData, setEditData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isStateTaxPopupOpen, setIsStateTaxPopupOpen] = useState(false); // State for the new popup
+  const [editLoading, setEditLoading] = useState(false); // Loading state for the edit popup
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,9 +87,30 @@ const Ruleslist = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleEditClick = (rule) => {
-    setEditData(rule);
-    setIsEditing(true);
+  const handleEditClick = async (rule) => {
+    setEditLoading(true); // Start loading for the edit popup
+    try {
+      const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/${rule.state}`);
+      if (response.ok) {
+        const jsonData = await response.json();
+        setEditData({
+          ...jsonData.data,
+          deduction_basis: jsonData.data.deduction_basis, // Ensure deduction_basis is passed
+        });
+        setIsEditing(true); // Open the edit popup
+      } else {
+        throw new Error("Failed to fetch rule details.");
+      }
+    } catch (error) {
+      console.error("Error fetching rule details:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to fetch rule details. Please try again later.",
+      });
+    } finally {
+      setEditLoading(false); // Stop loading for the edit popup
+    }
   };
 
   const handleEditSave = async (updatedData) => {
@@ -233,6 +254,7 @@ const Ruleslist = () => {
           handleClose={() => setIsEditing(false)}
           ruleData={editData}
           handleSave={handleEditSave}
+          loading={editLoading} // Pass loading state to the popup
         />
       )}
 
