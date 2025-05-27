@@ -4,7 +4,8 @@
 // Import React to ensure it is defined
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import ConditionalText from './Color';
+// filepath: /Users/sourabhkosti/Desktop/Client-version/Garnishment_FrontEnd/src/__tests__/Color.test.jsx
+import ConditionalText from '../component/Color';
 
 // Add this import to ensure Jest globals are available
 import '@testing-library/jest-dom';

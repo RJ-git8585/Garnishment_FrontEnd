@@ -4,7 +4,8 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import '@testing-library/jest-dom'; // Ensure Jest DOM matchers are available
-import Ruleslist from "./Ruleslist";
+// filepath: /Users/sourabhkosti/Desktop/Client-version/Garnishment_FrontEnd/src/__tests__/Ruleslist.test.jsx
+import Ruleslist from '../pages/Ruleslist';
 
 describe("Ruleslist Component", () => {
     beforeEach(() => {
