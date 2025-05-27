@@ -112,7 +112,7 @@ const StatetaxLevyRules = ({ caseId }) => {
             </TableRow>
             <TableRow>
               <TableCell>4</TableCell>
-              <TableCell>Deduct Basis</TableCell>
+              <TableCell>Deduction Basis</TableCell>
               <TableCell>{data.deduction_basis}</TableCell>
             </TableRow>
             <TableRow>
