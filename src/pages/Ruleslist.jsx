@@ -162,8 +162,8 @@ const Ruleslist = () => {
               <th className="px-6 py-3 text-left text-sm">Sr</th>
               <th className="px-6 py-3 text-left text-sm">Rule ID</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
-              <th className="px-6 py-3 text-left text-sm">Deduct From</th>
-              <th className="px-6 py-3 text-left text-sm">Withholding Limit</th>
+              <th className="px-6 py-3 text-left text-sm">Deduct Basic</th>
+              <th className="px-6 py-3 text-left text-sm">Withholding Cap</th>
               <th className="px-6 py-3 text-left text-sm">Withholding Limit Rule</th>
             </tr>
           </thead>
@@ -189,9 +189,9 @@ const Ruleslist = () => {
                       {rule.state}
                     </button>
                   </td>
-                  <td className="px-6 py-3 text-sm capitalize inline-cls">{rule.deduct_from || "N/A"}</td>
+                  <td className="px-6 py-3 text-sm capitalize inline-cls">{rule.deduction_basis || "N/A"}</td>
                   <td className="px-6 py-3 text-sm">
-                    {rule.withholding_limit_percent ? `${rule.withholding_limit_percent}%` : "N/A"}
+                    {rule.withholding_limit ? `${rule.withholding_limit}%` : "N/A"}
                   </td>
                   <td className="px-6 py-3 text-sm capitalize">{rule.withholding_limit_rule || "N/A"}</td>
                 </tr>
