@@ -162,7 +162,7 @@ const Ruleslist = () => {
               <th className="px-6 py-3 text-left text-sm">Sr</th>
               <th className="px-6 py-3 text-left text-sm">Rule ID</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
-              <th className="px-6 py-3 text-left text-sm">Deduct Basic</th>
+              <th className="px-6 py-3 text-left text-sm">Deduct Basis</th>
               <th className="px-6 py-3 text-left text-sm">Withholding Cap</th>
               <th className="px-6 py-3 text-left text-sm">Withholding Limit Rule</th>
             </tr>
