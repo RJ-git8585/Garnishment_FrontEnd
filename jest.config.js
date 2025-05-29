@@ -6,6 +6,8 @@ export default {
     "^.+\\.(svg|png|jpg|jpeg|gif|webp|avif)$": "jest-transform-stub" // Mock static assets like SVGs
   },
   moduleNameMapper: {
-    "\\.(css|scss|sass|less)$": "identity-obj-proxy", // Mock CSS modules
+    "\\.(css|scss|sass|less)$": "identity-obj-proxy", // for CSS Modules
+    "^.+\\.module\\.(css|scss|sass|less)$": "identity-obj-proxy", // CSS modules
+    "^.+\\.(css|scss|sass|less)$": "<rootDir>/__mocks__/styleMock.js", // regular styles
   },
 };

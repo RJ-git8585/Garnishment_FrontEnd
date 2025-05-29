@@ -61,7 +61,7 @@ import { LiaFirstOrderAlt } from "react-icons/lia";
 import { FcProcess } from "react-icons/fc";
 import { LuLoader } from "react-icons/lu";
 import { CiCalculator2 } from "react-icons/ci";
-import { GiTakeMyMoney } from "react-icons/gi";
+
 
 const Sidebar = () => {
   const [openMenu, setOpenMenu] = useState({});
@@ -75,20 +75,32 @@ const Sidebar = () => {
 
   const menuItems = [
     { text: 'Dashboard', icon: <FaDashcube />, path: '/dashboard' },
-    { text: 'Employee', icon: <FaUserTie />, path: '/employee' },
-    { text: 'Orders', icon: <LiaFirstOrderAlt />, path: '/orders' },
-    { text: 'Fees Rules', icon: <GiTakeMyMoney />, path: '/GarnishFee' },
-    { text: 'Rules List', icon: <GiTakeMyMoney />, path: '/ruleslist' },
+    { text: 'Employees', icon: <FaUserTie />, path: '/employee' },
+    { text: 'Garnishment Orders', icon: <LiaFirstOrderAlt />, path: '/orders' },
+    // { text: 'Fees Rules', icon: <GiTakeMyMoney />, path: '/GarnishFee' },
+    // { text: 'Rules List', icon: <GiTakeMyMoney />, path: '/ruleslist' },
     { text: 'IWO', icon: <CgReadme />, path: '/iwo' },
-    { text: 'Calculator', icon: <CiCalculator2 />, path: '/garnishment-pro' },
+    { text: 'Employee Calculator', icon: <CiCalculator2 />, path: '/garnishment-pro' },
     {
-      text: 'Processing',
+      text: 'Garnishment Runs',
       class: 'newsubmenu', // Custom class for Processing menu
       icon: <FaBalanceScaleRight />,
       isExpandable: true,
       submenu: [
-        { text: 'Garnishment Processor', icon: <FcProcess />, path: '/batchcalculation' },
-        { text: 'Batch Processor', icon: <LuLoader />, path: '/xmlProcessor' },
+        { text: 'JSON Batch Run', icon: <FcProcess />, path: '/batchcalculation' },
+        { text: 'Excel Batch Run', icon: <LuLoader />, path: '/xmlProcessor' },
+      ],
+    },
+    {
+      text: 'Rule Management',
+      class: 'newsubmenu', // Custom class for Processing menu
+      icon: <FaBalanceScaleRight />,
+      isExpandable: true,
+      submenu: [
+        { text: 'Child Support Rules', icon: <FcProcess />, path: '/ruleslist' },
+        { text: 'State Tax Levy Rules', icon: <LuLoader />, path: '/ruleslist' },
+        { text: 'Creditor Debt Rules', icon: <FcProcess />, path: '/ruleslist' },
+        { text: 'Fees Rules', icon: <LuLoader />, path: '/GarnishFee' },
       ],
     },
     { text: 'Help!', icon: <HiChatBubbleLeftRight />, path: '/help' },

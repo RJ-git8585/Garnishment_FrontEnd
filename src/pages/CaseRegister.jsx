@@ -52,6 +52,7 @@ import {
 } from "@mui/material";
 import Headertop from "../component/Headertop";
 import Sidebar from "../component/sidebar";
+import '../utils/css/batch.css';
 
 const CaseRegistrationForm = () => {
   const [formData, setFormData] = useState({
