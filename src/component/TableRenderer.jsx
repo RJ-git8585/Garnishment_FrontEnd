@@ -1,5 +1,3 @@
-
-
 import React, { useState } from "react";
 import { Table, TableHead, TableRow, TableCell, TableBody, Paper, TableContainer } from "@mui/material";
 import { Link, BrowserRouter } from "react-router-dom";
@@ -11,6 +9,7 @@ import { BsFiletypeCsv, BsFiletypeXml } from "react-icons/bs";
 import withReactContent from "sweetalert2-react-content";
 import Rules from "../pages/Rules"; // Import the Rule component
 import StatetaxLevyRules from "../pages/StatetaxLevyRules"; // Import the State Tax Levy Rules component
+import CreditorTaxRule from "../pages/CreditorTaxRule"; // Add this import
 import { createRoot } from 'react-dom/client'; // import createRoot from React 18
 import MySwal from 'sweetalert2';
 import { saveAs } from "file-saver"; // Ensure this import is correct
@@ -77,6 +76,34 @@ const handleStateTaxLevyRuleClick = (caseId) => {
       swalRoot.render(
         <BrowserRouter>
           <StatetaxLevyRules caseId={caseId} />
+        </BrowserRouter>
+      );
+    },
+    willClose: () => {
+      if (swalRoot) {
+        swalRoot.unmount();
+        swalRoot = null;
+      }
+    },
+  });
+};
+
+const handleCreditorTaxRuleClick = (caseId) => {
+  Swal.fire({
+    html: "<div id='swal-rule-container'></div>",
+    showCloseButton: true,
+    showConfirmButton: false,
+    customClass: {
+      popup: "swal-wide",
+    },
+    didOpen: () => {
+      const container = document.getElementById("swal-rule-container");
+      if (!swalRoot) {
+        swalRoot = createRoot(container);
+      }
+      swalRoot.render(
+        <BrowserRouter>
+          <CreditorTaxRule caseId={caseId} />
         </BrowserRouter>
       );
     },
@@ -325,7 +352,7 @@ export const renderTable = (data) => {
                 {columns.map((column) => (
                   <TableCell key={column.key} style={{ textAlign: "center" }}>
                     {column.key === "withholding_limit_rule" ? (
-                      item.garnishment_type === "State tax levy" && item[column.key] ? (
+                      item.garnishment_type === "State tax levy" ? (
                         <button
                           type="button"
                           onClick={() => handleStateTaxLevyRuleClick(item.case_id)}
@@ -339,7 +366,21 @@ export const renderTable = (data) => {
                         >
                           {item[column.key]}
                         </button>
-                      ) : item.garnishment_type !== "State Tax Levy" && item[column.key] !== "No Rule" ? (
+                      ) : item.garnishment_type === "Creditor" ? (
+                        <button
+                          type="button"
+                          onClick={() => handleCreditorTaxRuleClick(item.case_id)}
+                          style={{
+                            background: "none",
+                            border: "none",
+                            color: "blue",
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                          }}
+                        >
+                          {item[column.key]}
+                        </button>
+                      ) : item[column.key] !== "No Rule" ? (
                         <button
                           type="button"
                           onClick={() =>

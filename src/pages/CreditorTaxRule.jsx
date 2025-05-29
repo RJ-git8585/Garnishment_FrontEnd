@@ -1,48 +1,20 @@
-
 /**
- * Component to display State Tax Levy Rules for a given case ID.
+ * Component to display Creditor Tax Rules for a given case ID.
  *
  * @component
  * @param {Object} props - The component props.
- * @param {string} props.caseId - The ID of the case for which state tax levy rules are fetched.
+ * @param {string} props.caseId - The ID of the case for which creditor tax rules are fetched.
  *
- * @returns {JSX.Element} The rendered component displaying state tax levy rules.
+ * @returns {JSX.Element} The rendered component displaying creditor tax rules.
  *
  * @example
- * <StatetaxLevyRules caseId="12345" />
- *
- * @description
- * This component fetches and displays state tax levy rules for a specific case ID.
- * It shows a loading spinner while data is being fetched, an error message if the
- * fetch fails, or a table of data if the fetch is successful.
- *
- * The data displayed includes:
- * - Employee ID
- * - Case ID
- * - State
- * - Deduct From
- * - Withholding Limit Rule
- * - Withholding Limit (%)
- * - Reasoning
- *
- * @dependencies
- * - React
- * - Material-UI components: CircularProgress, Typography, Table, TableBody, TableCell,
- *   TableContainer, TableHead, TableRow, Paper
- * - `BASE_URL` from the configuration file
- *
- * @state {Object|null} data - The fetched data for the state tax levy rules.
- * @state {boolean} loading - Indicates whether the data is being loaded.
- * @state {string} error - Stores any error message encountered during data fetching.
- *
- * @hooks
- * - `useEffect` to fetch data when the `caseId` prop changes.
+ * <CreditorTaxRule caseId="12345" />
  */
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { BASE_URL } from "../configration/Config";
 
-const StatetaxLevyRules = ({ caseId }) => {
+const CreditorTaxRule = ({ caseId }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -52,7 +24,7 @@ const StatetaxLevyRules = ({ caseId }) => {
       setLoading(true);
       setError("");
       try {
-        const response = await fetch(`${BASE_URL}/User/state-tax-levy-applied-rule/${caseId}`);
+        const response = await fetch(`${BASE_URL}/User/creditor-tax-applied-rule/${caseId}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
@@ -83,7 +55,7 @@ const StatetaxLevyRules = ({ caseId }) => {
   return (
     <div style={{ padding: "20px" }}>
       <Typography variant="h5" style={{ fontWeight: "bold", marginBottom: "20px" }}>
-        State Tax Levy Rules
+        Creditor Tax Rules
       </Typography>
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>
         <Table>
@@ -112,8 +84,8 @@ const StatetaxLevyRules = ({ caseId }) => {
             </TableRow>
             <TableRow>
               <TableCell>4</TableCell>
-              <TableCell>Deduction Basis</TableCell>
-              <TableCell>{data.deduction_basis}</TableCell>
+              <TableCell>Deduction Type</TableCell>
+              <TableCell>{data.deduction_type}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>5</TableCell>
@@ -124,15 +96,15 @@ const StatetaxLevyRules = ({ caseId }) => {
               <TableCell>6</TableCell>
               <TableCell>Withholding Limit (%)</TableCell>
               <TableCell>
-            {data.withholding_limit
-              ? `${Number(data.withholding_limit)}%`
-              : 'N/A'}
-          </TableCell>
+                {data.withholding_limit
+                  ? `${Number(data.withholding_limit)}%`
+                  : 'N/A'}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>7</TableCell>
-              <TableCell>Withholding Basis</TableCell>
-              <TableCell>{data.withholding_basis}</TableCell>
+              <TableCell>Priority</TableCell>
+              <TableCell>{data.priority}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -141,4 +113,4 @@ const StatetaxLevyRules = ({ caseId }) => {
   );
 };
 
-export default StatetaxLevyRules;
+export default CreditorTaxRule; 

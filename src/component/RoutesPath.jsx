@@ -93,6 +93,8 @@ import AddEmployee from './AddEmployee';
 import AddDepartment from './AddDepartment';
 import AddTax from './AddTax';
 import AddLocation from './AddLocation';
+import CreditorRule from '../pages/CreditorRule';
+import ChildSupportRule from '../pages/ChildSupportRule';
 
 // Documents
 // import Siganture from '../document/siganture';
@@ -114,6 +116,9 @@ const privateRoutes = [
   { path: "/case", element: <CaseRegister /> },
   // { path: "/setting", element: <Setting /> },
   { path: "/help", element: <Help /> },
+  { path: "/creditor", element: <CreditorRule /> },
+  { path: "/childsupport", element: <ChildSupportRule /> },
+
   { path: "/tax", element: <Tax /> },
   { path: "/garnishment", element: <Garnishment /> },
   { path: "/garnishment-pro", element: <Garnishment2 /> },

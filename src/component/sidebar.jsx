@@ -97,9 +97,9 @@ const Sidebar = () => {
       icon: <FaBalanceScaleRight />,
       isExpandable: true,
       submenu: [
-        { text: 'Child Support Rules', icon: <FcProcess />, path: '/ruleslist' },
+        { text: 'Child Support Rules', icon: <FcProcess />, path: '/childsupport' },
         { text: 'State Tax Levy Rules', icon: <LuLoader />, path: '/ruleslist' },
-        { text: 'Creditor Debt Rules', icon: <FcProcess />, path: '/ruleslist' },
+        { text: 'Creditor Debt Rules', icon: <FcProcess />, path: '/creditor' },
         { text: 'Fees Rules', icon: <LuLoader />, path: '/GarnishFee' },
       ],
     },
@@ -202,7 +202,7 @@ const Sidebar = () => {
     </div>
   ));
 
-  
+
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ p: 2 }}>
