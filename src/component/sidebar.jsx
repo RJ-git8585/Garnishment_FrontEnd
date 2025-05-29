@@ -215,6 +215,7 @@ const Sidebar = () => {
           <Logout />
         </ListItem>
       </Box>
+      
     </Box>
   );
 
