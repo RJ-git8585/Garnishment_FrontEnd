@@ -186,7 +186,7 @@ const XmlProcessor = () => {
     <>
       <hr />
       <div className="bg_cls container" ref={containerRef}>
-        <h2 className="header text-lg">Batch Processor</h2>
+        <h2 className="header text-lg">Excel Batch Run</h2>
         <p className="text-sx italic mb-2">Please upload the excel file.... </p>
         {/* Display time response outside API response box */}
         <div className="timeContainer">

@@ -52,7 +52,7 @@ const StatetaxLevyRules = ({ caseId }) => {
       setLoading(true);
       setError("");
       try {
-        const response = await fetch(`${BASE_URL}/User/state-tax-levy-applied-rule/${caseId}`);
+        const response = await fetch(`${BASE_URL}/garnishment/state-tax-levy-applied-rule/${caseId}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }

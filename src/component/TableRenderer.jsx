@@ -59,7 +59,7 @@ const handleRuleClick = (workState, employeeId, supportsSecondFamily, arrearsMor
   });
 };
 
-const handleStateTaxLevyRuleClick = (caseId) => {
+const handleStateTaxLevyRuleClick = (caseId,state,weekly) => {
   
   Swal.fire({
     html: "<div id='swal-rule-container'></div>",
@@ -88,7 +88,7 @@ const handleStateTaxLevyRuleClick = (caseId) => {
   });
 };
 
-const handleCreditorTaxRuleClick = (caseId) => {
+const handleCreditorTaxRuleClick = (caseId,state,weekly) => {
   Swal.fire({
     html: "<div id='swal-rule-container'></div>",
     showCloseButton: true,
@@ -98,12 +98,13 @@ const handleCreditorTaxRuleClick = (caseId) => {
     },
     didOpen: () => {
       const container = document.getElementById("swal-rule-container");
+      console.log(state,weekly,caseId);
       if (!swalRoot) {
         swalRoot = createRoot(container);
       }
       swalRoot.render(
         <BrowserRouter>
-          <CreditorTaxRule caseId={caseId} />
+          <CreditorTaxRule caseId={caseId} state={state} weekly={weekly} />
         </BrowserRouter>
       );
     },
@@ -366,10 +367,10 @@ export const renderTable = (data) => {
                         >
                           {item[column.key]}
                         </button>
-                      ) : item.garnishment_type === "Creditor" ? (
+                      ) : item.garnishment_type === "Creditor debt" ? (
                         <button
                           type="button"
-                          onClick={() => handleCreditorTaxRuleClick(item.case_id)}
+                          onClick={() => handleCreditorTaxRuleClick(item.case_id,item.Work_State,item.pay_period)}
                           style={{
                             background: "none",
                             border: "none",
