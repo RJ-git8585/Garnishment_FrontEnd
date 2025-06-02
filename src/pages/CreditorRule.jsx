@@ -8,6 +8,7 @@
  */
 import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../configration/Config";
+import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { Typography } from "@mui/material";
@@ -22,7 +23,7 @@ const CreditorRule = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/garnishment/creditor-debt-rule/`);
+        const response = await fetch(API_URLS.GET_CREDITOR_RULES);
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
@@ -50,22 +51,22 @@ const CreditorRule = () => {
     Swal.fire({
       title: 'Edit Creditor Rule',
       html: `
-        <div class="space-y-4">
+        <div class="space-y-4  text-left">
           <div>
-            <label class="block text-sm font-medium text-gray-700">State</label>
+            <label class="block  text-sm font-medium text-gray-700">State</label>
             <input id="state" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.state}" readonly />
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700">Rule</label>
-            <input id="rule" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.rule}" />
+            <input id="rule" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.rule}" disabled/>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700">Deduction Basis</label>
-            <input id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.deduction_basis}" />
+            <input id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.deduction_basis}" disabled/>
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700">Withholding Limit</label>
-            <input id="withholding_limit" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.withholding_limit}" />
+            <input id="withholding_limit" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.withholding_limit}"  />
           </div>
         </div>
       `,
@@ -79,7 +80,7 @@ const CreditorRule = () => {
           deduction_basis: document.getElementById('deduction_basis').value,
           withholding_limit: document.getElementById('withholding_limit').value
         };
-        return fetch(`${BASE_URL}/garnishment/creditor-debt-rule/${rule.state}/`, {
+        return fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', rule.state), {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -139,7 +140,7 @@ const CreditorRule = () => {
             {loading ? (
               <tr>
                 <td colSpan="5" className="py-6">
-                  <div className="flex justify-center items-center h-40">
+                  <div className="flex justify-center  h-40">
                     <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
                   </div>
                 </td>
@@ -153,7 +154,7 @@ const CreditorRule = () => {
                   <td className="px-6 py-3 text-sm rulebtn_cls">
                     <button
                       onClick={() => handleEditClick(rule)}
-                      className="text-sky-900 hover:underline"
+                      className="text-sky-900 capitalize hover:underline"
                     >
                       {rule.state}
                     </button>
@@ -174,7 +175,7 @@ const CreditorRule = () => {
         </table>
       </div>
       {!loading && data.length > 0 && (
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex justify-between  mt-4">
           <p className="text-sm text-gray-600">
             Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
             {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries

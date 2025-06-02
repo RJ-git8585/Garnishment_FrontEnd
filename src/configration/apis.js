@@ -19,4 +19,8 @@ export const API_URLS = {
   ADD_EMPLOYEE: `${API_BASE_URL}/employees/add`,
   UPDATE_EMPLOYEE: `${API_BASE_URL}/employees/update`,
   DELETE_EMPLOYEE: `${API_BASE_URL}/employees/delete`,
+
+  // Creditor Rule APIs
+  GET_CREDITOR_RULES: `${API_BASE_URL}/garnishment/creditor-debt-rule/`,
+  UPDATE_CREDITOR_RULE: `${API_BASE_URL}/garnishment/creditor-debt-rule/:state/`,
 };
