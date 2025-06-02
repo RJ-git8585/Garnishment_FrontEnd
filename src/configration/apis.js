@@ -23,4 +23,13 @@ export const API_URLS = {
   // Creditor Rule APIs
   GET_CREDITOR_RULES: `${API_BASE_URL}/garnishment/creditor-debt-rule/`,
   UPDATE_CREDITOR_RULE: `${API_BASE_URL}/garnishment/creditor-debt-rule/:state/`,
+
+  // Child Support Rule APIs
+  GET_CHILD_SUPPORT_RULES: `${API_BASE_URL}/garnishment/child-support-rules/`,
+  UPDATE_CHILD_SUPPORT_RULE: `${API_BASE_URL}/garnishment/child-support-rules/:state/`,
+
+  // State Tax Levy Rule APIs
+  GET_STATE_TAX_RULES: `${API_BASE_URL}/garnishment/state-tax-levy-config-data/`,
+  GET_STATE_TAX_RULE_BY_STATE: `${API_BASE_URL}/garnishment/state-tax-levy-config-data/:state`,
+  UPDATE_STATE_TAX_RULE: `${API_BASE_URL}/User/state-tax-levy-config-data/:state`,
 };

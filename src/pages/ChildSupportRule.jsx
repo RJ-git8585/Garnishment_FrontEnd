@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BASE_URL } from "../configration/Config";
+import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const ChildSupportRule = () => {
@@ -12,7 +13,7 @@ const ChildSupportRule = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${BASE_URL}/garnishment/child-support-rules/`);
+                const response = await fetch(API_URLS.GET_CHILD_SUPPORT_RULES);
                 const jsonData = await response.json();
                 const sortedData = jsonData.data.sort((a, b) =>
                     a.state.localeCompare(b.state)

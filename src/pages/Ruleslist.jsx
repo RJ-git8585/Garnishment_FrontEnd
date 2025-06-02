@@ -48,10 +48,11 @@
  */
 import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../configration/Config";
+import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Swal from "sweetalert2";
-import EditRulePopup from "../component/EditRulePopup"; // Updated path
-import StateTaxPopup from "../component/StateTaxPopup"; // Updated path
+import EditRulePopup from "../component/EditRulePopup";
+import StateTaxPopup from "../component/StateTaxPopup";
 
 const Ruleslist = () => {
   const [data, setData] = useState([]);
@@ -60,18 +61,18 @@ const Ruleslist = () => {
   const rowsPerPage = 10;
   const [editData, setEditData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [isStateTaxPopupOpen, setIsStateTaxPopupOpen] = useState(false); // State for the new popup
-  const [editLoading, setEditLoading] = useState(false); // Loading state for the edit popup
+  const [isStateTaxPopupOpen, setIsStateTaxPopupOpen] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/garnishment/state-tax-levy-config-data/`);
+        const response = await fetch(API_URLS.GET_STATE_TAX_RULES);
         const jsonData = await response.json();
         const sortedData = jsonData.data.sort((a, b) =>
           a.state.localeCompare(b.state)
-        ); // Sort data alphabetically by state
+        );
         setData(sortedData || []);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -88,16 +89,16 @@ const Ruleslist = () => {
   };
 
   const handleEditClick = async (rule) => {
-    setEditLoading(true); // Start loading for the edit popup
+    setEditLoading(true);
     try {
-      const response = await fetch(`${BASE_URL}/garnishment/state-tax-levy-config-data/${rule.state}`);
+      const response = await fetch(API_URLS.GET_STATE_TAX_RULE_BY_STATE.replace(':state', rule.state));
       if (response.ok) {
         const jsonData = await response.json();
         setEditData({
           ...jsonData.data,
-          deduction_basis: jsonData.data.deduction_basis, // Ensure deduction_basis is passed
+          deduction_basis: jsonData.data.deduction_basis,
         });
-        setIsEditing(true); // Open the edit popup
+        setIsEditing(true);
       } else {
         throw new Error("Failed to fetch rule details.");
       }
@@ -109,14 +110,14 @@ const Ruleslist = () => {
         text: "Failed to fetch rule details. Please try again later.",
       });
     } finally {
-      setEditLoading(false); // Stop loading for the edit popup
+      setEditLoading(false);
     }
   };
 
   const handleEditSave = async (updatedData) => {
     try {
       const state = updatedData.state || editData.state;
-      const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/${state}`, {
+      const response = await fetch(API_URLS.UPDATE_STATE_TAX_RULE.replace(':state', state), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
