@@ -47,66 +47,94 @@ const CreditorRule = () => {
     fetchData();
   }, []);
 
-  const handleEditClick = (rule) => {
-    Swal.fire({
-      title: 'Edit Creditor Rule',
-      html: `
-        <div class="space-y-4  text-left">
-          <div>
-            <label class="block  text-sm font-medium text-gray-700">State</label>
-            <input id="state" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.state}" readonly />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Rule</label>
-            <input id="rule" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.rule}" disabled/>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Deduction Basis</label>
-            <input id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.deduction_basis}" disabled/>
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700">Withholding Limit</label>
-            <input id="withholding_limit" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${rule.withholding_limit}"  />
-          </div>
-        </div>
-      `,
-      showCancelButton: true,
-      confirmButtonText: 'Save',
-      showLoaderOnConfirm: true,
-      preConfirm: () => {
-        const updatedRule = {
-          ...rule,
-          rule: document.getElementById('rule').value,
-          deduction_basis: document.getElementById('deduction_basis').value,
-          withholding_limit: document.getElementById('withholding_limit').value
-        };
-        return fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', rule.state), {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedRule)
-        })
-        .then(response => {
-          if (!response.ok) throw new Error('Failed to update rule');
-          return response.json();
-        })
-        .catch(error => {
-          Swal.showValidationMessage(`Request failed: ${error}`);
-        });
+  const handleEditClick = async (rule) => {
+    try {
+      // Fetch fresh data for the rule before showing the popup
+      const response = await fetch(API_URLS.GET_CREDITOR_RULES);
+      if (!response.ok) {
+        throw new Error('Failed to fetch updated rule data');
       }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Rule Updated',
-          text: 'The creditor rule has been successfully updated.'
-        }).then(() => {
-          // Refresh the data
-          window.location.reload();
-        });
+      const result = await response.json();
+      const updatedRule = result.data.find(r => r.state === rule.state);
+      
+      if (!updatedRule) {
+        throw new Error('Rule not found');
       }
-    });
+
+      Swal.fire({
+        title: 'Edit Creditor Rule',
+        html: `
+          <div class="space-y-4  text-left">
+            <div>
+              <label class="block  text-sm font-medium text-gray-700">State</label>
+              <input id="state" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.state}" readonly />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Rule</label>
+              <input id="rule" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.rule}" disabled/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Deduction Basis</label>
+              <input id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.deduction_basis}" disabled/>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Withholding Limit</label>
+              <input id="withholding_limit" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.withholding_limit}"  />
+            </div>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        showLoaderOnConfirm: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+          // Ensure all input values are set correctly after modal opens
+          document.getElementById('state').value = updatedRule.state;
+          document.getElementById('rule').value = updatedRule.rule;
+          document.getElementById('deduction_basis').value = updatedRule.deduction_basis;
+          document.getElementById('withholding_limit').value = updatedRule.withholding_limit;
+        },
+        preConfirm: () => {
+          const updatedRuleData = {
+            ...updatedRule,
+            withholding_limit: document.getElementById('withholding_limit').value
+          };
+          return fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', updatedRule.state), {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedRuleData)
+          })
+          .then(response => {
+            if (!response.ok) throw new Error('Failed to update rule');
+            return response.json();
+          })
+          .catch(error => {
+            Swal.showValidationMessage(`Request failed: ${error}`);
+          });
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Rule Updated',
+            text: 'The creditor rule has been successfully updated.',
+            allowOutsideClick: false,
+          }).then(() => {
+            // Refresh the data
+            window.location.reload();
+          });
+        }
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'Failed to load rule data',
+        allowOutsideClick: false,
+      });
+    }
   };
 
   const handlePageChange = (pageNumber) => {

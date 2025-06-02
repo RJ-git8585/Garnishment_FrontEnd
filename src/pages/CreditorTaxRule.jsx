@@ -10,30 +10,49 @@
  * @example
  * <CreditorTaxRule caseId="12345" />
  */
-import { FaInfoCircle } from "react-icons/fa";
-
+import { FaExternalLinkAlt } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
-import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tooltip } from "@mui/material";
 import { BASE_URL } from "../configration/Config";
 import Swal from "sweetalert2";
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
+
+const shakeAnimation = keyframes`
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+`;
+
+const AnimatedSpan = styled.span`
+  cursor: help;
+  color: #0066cc;
+  transition: color 0.3s ease;
+  display: inline-block;
+
+  &:hover {
+    color: #0066cc;
+    animation: ${shakeAnimation} 0.5s ease;
+  }
+`;
 
 const CreditorTaxRule = ({ caseId, state, weekly }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [tooltipData, setTooltipData] = useState(null);
+  const [tooltipLoading, setTooltipLoading] = useState(false);
 
   const handleWithholdingBasisClick = async (state, weekly) => {
     try {
-      // Close the current popup
-      Swal.close();
-      
       // Convert state and weekly to lowercase
       const stateParam = state.toLowerCase();
       const weeklyParam = weekly.toLowerCase();
       
       // Open new popup with API data
       const response = await fetch(`${BASE_URL}/garnishment/creditor-debt-exempt-amt-config/${stateParam}/${weeklyParam}/`);
-      console.log(`${BASE_URL}/garnishment/creditor-debt-exempt-amt-config/${stateParam}/${weeklyParam}/`);
       if (!response.ok) {
         throw new Error(`Failed to fetch withholding basis details`);
       }
@@ -85,36 +104,142 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
             </table>
           </div>
         `,
-        confirmButtonText: 'Close',
-        width: '800px'
+        width: '800px',
+        showConfirmButton: false,
+        showCloseButton: true,
+        customClass: {
+          closeButton: 'custom-close-button',
+          header: 'custom-header'
+        },
+        didClose: () => {
+          // Reset tooltip data when modal closes
+          setTooltipData(null);
+          setTooltipLoading(false);
+          // Force a new fetch of the main data
+          fetchData();
+        }
       });
     } catch (err) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: err.message || 'Failed to fetch withholding basis details'
+        text: err.message || 'Failed to fetch withholding basis details',
+        showConfirmButton: false,
+        showCloseButton: true
       });
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      setError("");
+  const fetchTooltipData = async (state, weekly) => {
+    if (!tooltipData && !tooltipLoading) {
+      setTooltipLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/garnishment/creditor-debt-applied-rule/${caseId}/`);
+        const stateParam = state.toLowerCase();
+        const weeklyParam = weekly.toLowerCase();
+        const response = await fetch(`${BASE_URL}/garnishment/creditor-debt-exempt-amt-config/${stateParam}/${weeklyParam}/`);
         if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.statusText}`);
+          throw new Error(`Failed to fetch withholding basis details`);
         }
         const result = await response.json();
-        setData(result.data);
+        const data = Array.isArray(result.data) ? result.data[0] : result.data;
+        setTooltipData(data);
       } catch (err) {
-        setError(err.message || "An error occurred while fetching data.");
+        console.error('Error fetching tooltip data:', err);
       } finally {
-        setLoading(false);
+        setTooltipLoading(false);
       }
-    };
+    }
+  };
 
+  const renderTooltipContent = () => {
+    if (tooltipLoading) return "Loading...";
+    if (!tooltipData) return "Hover to load details";
+    
+    return (
+      <div style={{ maxWidth: '700px', padding: '4px', backgroundColor: 'white', color: '#333' }}>
+        <div style={{ 
+          borderBottom: '2px solid #0066cc', 
+          marginBottom: '8px', 
+          paddingBottom: '6px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <h3 style={{ 
+            margin: 0, 
+            color: '#0066cc', 
+            fontSize: '16px',
+            fontWeight: '600',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}>
+            Withholding Basis Details
+          </h3>
+          <span style={{ 
+            fontSize: '12px', 
+            color: '#666',
+            backgroundColor: '#f0f0f0',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            whiteSpace: 'nowrap'
+          }}>
+            {state?.toUpperCase()} - {weekly?.toUpperCase()}
+          </span>
+        </div>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ borderCollapse: 'collapse', width: 'auto' }}>
+            <tbody>
+              {Object.entries(tooltipData)
+                .filter(([key]) => key !== 'id')
+                .map(([key, value], index) => (
+                  <tr key={key}>
+                    <td style={{ 
+                      padding: '6px 12px 6px 0', 
+                      borderBottom: '1px solid #e0e0e0', 
+                      color: '#2c3e50', 
+                      fontWeight: 500,
+                      whiteSpace: 'nowrap',
+                      minWidth: 'max-content'
+                    }}>
+                      {key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                    </td>
+                    <td style={{ 
+                      padding: '6px 0 6px 12px', 
+                      borderBottom: '1px solid #e0e0e0', 
+                      color: '#444',
+                      whiteSpace: 'nowrap',
+                      minWidth: 'max-content'
+                    }}>
+                      {typeof value === 'object' ? JSON.stringify(value) : value ?? 'N/A'}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  };
+
+  const fetchData = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch(`${BASE_URL}/garnishment/creditor-debt-applied-rule/${caseId}/`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      const result = await response.json();
+      setData(result.data);
+    } catch (err) {
+      setError(err.message || "An error occurred while fetching data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [caseId]);
 
@@ -165,6 +290,25 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
               <TableCell>4</TableCell>
               <TableCell>Withholding Basis</TableCell>
               <TableCell>
+                <Tooltip
+                  title={renderTooltipContent()}
+                  onOpen={() => fetchTooltipData(state, weekly)}
+                  arrow
+                  interactive
+                  placement="top"
+                  PopperProps={{
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, -8],
+                        },
+                      },
+                    ],
+                  }}
+                >
+                  <AnimatedSpan>{data.withholding_basis || 'N/A'}</AnimatedSpan>
+                </Tooltip>
                 <button
                   onClick={() => handleWithholdingBasisClick(state, weekly)}
                   style={{
@@ -177,14 +321,19 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
                     font: 'inherit'
                   }}
                 >
-                  {data.withholding_basis}
+                  {/* <FaExternalLinkAlt style={{
+                    fontSize: '14px',
+                    marginLeft: '5px',
+                    verticalAlign: 'middle',
+                    color: '#0066cc'
+                  }} /> */}
                 </button>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>5</TableCell>
               <TableCell>Withholding Cap</TableCell>
-              <TableCell>{data.withholding_cap}</TableCell>
+              <TableCell>{data.withholding_cap || 'N/A'}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
