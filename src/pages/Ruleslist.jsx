@@ -67,7 +67,7 @@ const Ruleslist = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/`);
+        const response = await fetch(`${BASE_URL}/garnishment/state-tax-levy-config-data/`);
         const jsonData = await response.json();
         const sortedData = jsonData.data.sort((a, b) =>
           a.state.localeCompare(b.state)
@@ -90,7 +90,7 @@ const Ruleslist = () => {
   const handleEditClick = async (rule) => {
     setEditLoading(true); // Start loading for the edit popup
     try {
-      const response = await fetch(`${BASE_URL}/User/state-tax-levy-config-data/${rule.state}`);
+      const response = await fetch(`${BASE_URL}/garnishment/state-tax-levy-config-data/${rule.state}`);
       if (response.ok) {
         const jsonData = await response.json();
         setEditData({
