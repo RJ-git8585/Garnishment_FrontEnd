@@ -63,6 +63,7 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
       <DialogContent>
         <FormControl fullWidth margin="normal">
           <TextField
+          className="capitalize"
             label="State"
             name="state"
             value={formData.state}

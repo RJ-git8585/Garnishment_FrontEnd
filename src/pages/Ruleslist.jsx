@@ -174,7 +174,7 @@ const Ruleslist = () => {
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
           onClick={() => setIsStateTaxPopupOpen(true)} // Open the state tax popup
         >
-         State Tax Rules Edit Request
+          Rules Change Request
         </button>
       </div>
       <div className="overflow-x-auto">
@@ -185,8 +185,8 @@ const Ruleslist = () => {
               <th className="px-6 py-3 text-left text-sm">Rule ID</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
               <th className="px-6 py-3 text-left text-sm">Deduction Basis</th>
-              <th className="px-6 py-3 text-left text-sm">Withholding Cap</th>
-              <th className="px-6 py-3 text-left text-sm">Withholding Limit Rule</th>
+              <th className="px-6 py-3 text-left text-sm">Withholding cap</th>
+              {/* <th className="px-6 py-3 text-left text-sm">Rule</th> */}
             </tr>
           </thead>
           <tbody>
@@ -206,7 +206,7 @@ const Ruleslist = () => {
                   <td className="px-6 py-3 text-sm rulebtn_cls">
                     <button
                       onClick={() => handleEditClick(rule)}
-                      className="text-500 hover:underline"
+                      className="text-500 hover:underline capitalize"
                     >
                       {rule.state}
                     </button>
@@ -215,7 +215,7 @@ const Ruleslist = () => {
                   <td className="px-6 py-3 text-sm">
                     {rule.withholding_limit ? `${rule.withholding_limit}%` : "N/A"}
                   </td>
-                  <td className="px-6 py-3 text-sm capitalize">{rule.withholding_limit_rule || "N/A"}</td>
+                  {/* <td className="px-6 py-3 text-sm capitalize">{rule.withholding_limit_rule || "N/A"}</td> */}
                 </tr>
               ))
             ) : (

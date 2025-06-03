@@ -32,4 +32,7 @@ export const API_URLS = {
   GET_STATE_TAX_RULES: `${API_BASE_URL}/garnishment/state-tax-levy-config-data/`,
   GET_STATE_TAX_RULE_BY_STATE: `${API_BASE_URL}/garnishment/state-tax-levy-config-data/:state`,
   UPDATE_STATE_TAX_RULE: `${API_BASE_URL}/User/state-tax-levy-config-data/:state`,
+
+  // Garnishment Exempt Amount Configuration APIs
+  GET_GARNISHMENT_EXEMPT_CONFIG: `${API_BASE_URL}/garnishment/creditor-debt-exempt-amt-config/`,
 };

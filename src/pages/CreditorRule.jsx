@@ -12,11 +12,13 @@ import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { Typography } from "@mui/material";
+import CreditorRulePopup from "../component/CreditorRulePopup";
 
 const CreditorRule = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isCreditorRulePopupOpen, setIsCreditorRulePopupOpen] = useState(false);
   const rowsPerPage = 10;
 
   useEffect(() => {
@@ -61,25 +63,32 @@ const CreditorRule = () => {
         throw new Error('Rule not found');
       }
 
+      // Extract the numeric value from the rule
+      const numericValue = updatedRule.withholding_limit;
+
       Swal.fire({
-        title: 'Edit Creditor Rule',
+        title: 'Edit Withholding Cap',
         html: `
-          <div class="space-y-4  text-left">
+          <div class="space-y-4 text-left">
             <div>
-              <label class="block  text-sm font-medium text-gray-700">State</label>
-              <input id="state" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.state}" readonly />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Rule</label>
-              <input id="rule" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.rule}" disabled/>
+              <label class="block text-sm font-medium text-gray-700">State</label>
+              <input id="state" class="mt-1 block w-full border rounded-md shadow-sm p-2 bg-gray-50" value="${updatedRule.state}" readonly />
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Deduction Basis</label>
-              <input id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.deduction_basis}" disabled/>
+              <input id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2 bg-gray-50" value="${updatedRule.deduction_basis}" readonly/>
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700">Withholding Limit</label>
-              <input id="withholding_limit" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.withholding_limit}"  />
+              <label class="block text-sm font-medium text-gray-700">Withholding cap</label>
+              <input 
+                id="withholding_limit" 
+                class="mt-1 block w-full border rounded-md shadow-sm p-2" 
+                value="${numericValue}"
+                type="number"
+                step="0.01"
+                min="0"
+                max="100"
+              />
             </div>
           </div>
         `,
@@ -89,16 +98,21 @@ const CreditorRule = () => {
         allowOutsideClick: false,
         didOpen: () => {
           // Ensure all input values are set correctly after modal opens
+          const withholdingInput = document.getElementById('withholding_limit');
+          
+          // Set initial values
           document.getElementById('state').value = updatedRule.state;
-          document.getElementById('rule').value = updatedRule.rule;
           document.getElementById('deduction_basis').value = updatedRule.deduction_basis;
-          document.getElementById('withholding_limit').value = updatedRule.withholding_limit;
+          withholdingInput.value = numericValue;
         },
         preConfirm: () => {
+          const withholdingLimit = document.getElementById('withholding_limit').value;
           const updatedRuleData = {
             ...updatedRule,
-            withholding_limit: document.getElementById('withholding_limit').value
+            withholding_limit: withholdingLimit,
+            rule: withholdingLimit + '%'  // Still update the rule in the backend
           };
+
           return fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', updatedRule.state), {
             method: 'PUT',
             headers: {
@@ -118,8 +132,8 @@ const CreditorRule = () => {
         if (result.isConfirmed) {
           Swal.fire({
             icon: 'success',
-            title: 'Rule Updated',
-            text: 'The creditor rule has been successfully updated.',
+            title: 'Updated Successfully',
+            text: 'The withholding cap has been successfully updated.',
             allowOutsideClick: false,
           }).then(() => {
             // Refresh the data
@@ -148,10 +162,46 @@ const CreditorRule = () => {
 
   const totalPages = Math.ceil(data.length / rowsPerPage);
 
+  const handleCreditorRuleSave = (creditorRuleData) => {
+    console.log("Creditor Rule Data Submitted:", creditorRuleData);
+    setIsCreditorRulePopupOpen(false);
+    // Add logic to save creditor rule data to the backend
+    Swal.fire({
+      icon: 'success',
+      title: 'Request Submitted',
+      text: 'Your creditor rule edit request has been submitted successfully.',
+    });
+  };
+
+  // Helper function to check if withholding_limit has multiple values
+  const hasMultipleValues = (value) => {
+    if (!value) return false;
+    return /[,\/-]/.test(value.toString());
+  };
+
+  const formatWithholdingValue = (value) => {
+    // Return empty string or original value if null/undefined/empty
+    if (!value && value !== 0) return '';
+    if (value === '') return '';
+    
+    // Check for multiple values
+    if (hasMultipleValues(value)) {
+      return value; // Return as is for multiple values
+    }
+    
+    return `${value}%`; // Add % for single values
+  };
+
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">  
         <h1 className="text-2xl font-bold">Creditor Debt Rules</h1>
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+          onClick={() => setIsCreditorRulePopupOpen(true)}
+        >
+          Rule Change Request
+        </button>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-white border rounded shadow">
@@ -159,16 +209,16 @@ const CreditorRule = () => {
             <tr className="bg-gray-200 text-gray-700">
               <th className="px-6 py-3 text-left text-sm">Sr</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
-              <th className="px-6 py-3 text-left text-sm">Rule</th>
+              {/* <th className="px-6 py-3 text-left text-sm">Rule</th> */}
               <th className="px-6 py-3 text-left text-sm">Deduction Basis</th>
-              <th className="px-6 py-3 text-left text-sm">Withholding Limit</th>
+              <th className="px-6 py-3 text-left text-sm">Withholding cap</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
                 <td colSpan="5" className="py-6">
-                  <div className="flex justify-center  h-40">
+                  <div className="flex justify-center h-40">
                     <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
                   </div>
                 </td>
@@ -179,17 +229,25 @@ const CreditorRule = () => {
                   <td className="px-6 py-3 text-sm">
                     {(currentPage - 1) * rowsPerPage + index + 1}
                   </td>
-                  <td className="px-6 py-3 text-sm rulebtn_cls">
+                  <td className="px-6 py-3 text-sm capitalize">
+                    {rule.state}
+                  </td>
+                  {/* <td className="px-6 py-3 text-sm capitalize">{rule.rule}</td> */}
+                  <td className="px-6 py-3 text-sm">{rule.deduction_basis}</td>
+                  {hasMultipleValues(rule.withholding_limit) ? (
+                    <td className="px-6 py-3 text-sm">
+                      {rule.withholding_limit}
+                    </td>
+                  ) : (
                     <button
                       onClick={() => handleEditClick(rule)}
                       className="text-sky-900 capitalize hover:underline"
                     >
-                      {rule.state}
+                      <td className="px-6 py-3 text-sm rulebtn_cls border-0">
+                        {formatWithholdingValue(rule.withholding_limit)}
+                      </td>
                     </button>
-                  </td>
-                  <td className="px-6 py-3 text-sm capitalize">{rule.rule}</td>
-                  <td className="px-6 py-3 text-sm">{rule.deduction_basis}</td>
-                  <td className="px-6 py-3 text-sm">{rule.withholding_limit}</td>
+                  )}
                 </tr>
               ))
             ) : (
@@ -222,6 +280,15 @@ const CreditorRule = () => {
             ))}
           </div>
         </div>
+      )}
+
+      {/* Creditor Rule Popup */}
+      {isCreditorRulePopupOpen && (
+        <CreditorRulePopup
+          open={isCreditorRulePopupOpen}
+          handleClose={() => setIsCreditorRulePopupOpen(false)}
+          handleSave={handleCreditorRuleSave}
+        />
       )}
     </div>
   );

@@ -95,6 +95,7 @@ import AddTax from './AddTax';
 import AddLocation from './AddLocation';
 import CreditorRule from '../pages/CreditorRule';
 import ChildSupportRule from '../pages/ChildSupportRule';
+import GarnishmentExemptConfig from '../pages/GarnishmentExemptConfig';
 
 // Documents
 // import Siganture from '../document/siganture';
@@ -118,6 +119,7 @@ const privateRoutes = [
   { path: "/help", element: <Help /> },
   { path: "/creditor", element: <CreditorRule /> },
   { path: "/childsupport", element: <ChildSupportRule /> },
+  { path: "/garnishment-exempt", element: <GarnishmentExemptConfig /> },
 
   { path: "/tax", element: <Tax /> },
   { path: "/garnishment", element: <Garnishment /> },
