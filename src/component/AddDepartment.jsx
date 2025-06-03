@@ -1,4 +1,3 @@
-
 /**
  * AddDepartment Component
  * 
@@ -27,29 +26,39 @@
  * @variables
  * - employer_id {string | null}: The employer ID retrieved from session storage.
  * - BASE_URL {string}: The base URL for API requests, imported from the configuration file.
+ * - API_URLS {object}: The API URLs, imported from the configuration file.
  */
 /* eslint-disable no-unused-vars */
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { BASE_URL } from "../configration/Config";
+import { API_URLS } from "../configration/apis";
 
-function AddDepartment() {
+const AddDepartment = ({ onClose, onDepartmentAdded }) => {
   const navigate = useNavigate();
   const [department_name, setDepart] = useState("");
   const employer_id = sessionStorage.getItem("id");
+  const [loading, setLoading] = useState(false);
 
   const handleReset = () => setDepart("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { employer_id, department_name };
+    setLoading(true);
 
-    fetch(`${BASE_URL}/User/Department`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }).then((response) => {
+    try {
+      const response = await fetch(API_URLS.GET_DEPARTMENTS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          department_name: department_name,
+          description: "",
+        }),
+      });
+
       if (response.ok) {
         Swal.fire({
           icon: "success",
@@ -63,7 +72,11 @@ function AddDepartment() {
       } else {
         console.error("Error submitting data:", response.statusText);
       }
-    });
+    } catch (error) {
+      console.error("Error submitting data:", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

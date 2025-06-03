@@ -1,4 +1,3 @@
-
 /**
  * Form Component
  * 
@@ -34,13 +33,14 @@
  * @example
  * <Form />
  */
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import logo from '../utils/image/Logo_g.png';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
 import { BASE_URL } from "../configration/Config";
+import { API_URLS } from "../configration/apis";
 import { CircularProgress, Backdrop, Typography } from "@mui/material";
 
 function Form() {
@@ -74,6 +74,7 @@ function Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!emailRegex.test(email)) {
@@ -88,10 +89,8 @@ function Form() {
 
     const loginCredentials = { email, password };
 
-    setLoading(true); // Start loader
-
     try {
-      const response = await axios.post(`${BASE_URL}/User/login`, loginCredentials);
+      const response = await axios.post(API_URLS.LOGIN, loginCredentials);
       if (response.data.success) {
         localStorage.setItem('token', response.data.access);
         sessionStorage.setItem('token', response.data.access);
@@ -112,7 +111,7 @@ function Form() {
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Login failed');
     } finally {
-      setLoading(false); // Stop loader
+      setLoading(false);
     }
   }; 
 

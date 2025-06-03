@@ -1,4 +1,3 @@
-
 /**
  * AddTax Component
  * 
@@ -30,10 +29,12 @@
  * - `useState` from React for managing form state.
  * - `useNavigate` from react-router-dom for navigation.
  * - `BASE_URL` from configuration for API endpoint.
+ * - `API_URLS` from configuration for API URLs.
  * - `FaMoneyBill` from react-icons for the icon in the header.
  */
 import {React,useState} from 'react'
 import { BASE_URL } from '../configration/Config';
+import { API_URLS } from "../configration/apis";
 import { useNavigate } from 'react-router-dom';
 import {  FaMoneyBill } from 'react-icons/fa';
 
@@ -61,48 +62,19 @@ function AddTax() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const data = {
-            employer_id,
-            employee_name,
-            department,
-            net_pay,
-            minimun_wages,
-            pay_cycle,
-            number_of_garnishment,
-            location
-          };
-
-          fetch(`${BASE_URL}/User/employee_details/`, {
-            method: 'POST',
+        try {
+          const response = await fetch(API_URLS.GET_EMPLOYEE_DETAILS, {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
-          })
-            .then((response) => {
-              if (response.ok) {
-                // Handle successful submission
-                console.log('Data submitted successfully!');
-                
-                // toast('Data submitted successfully !!');
-                navigate('/employee', { replace: true });
-                handleReset();
-
-                // Clear the form
-                setName('');
-                setDepart('');
-                setNet('');
-                setMinWages('');
-                setPayCycle('');
-                setNumberGarnihsment('');
-                setLocation('');
-              } else {
-                // Handle submission errors
-                console.error('Error submitting data:', response.statusText);
-              }
-            });
-        };
+            body: JSON.stringify(formData),
+          });
+          // ... rest of the function
+        } catch (error) {
+          console.error("Error submitting data:", error);
+        }
+    };
     
   return (
     <div>

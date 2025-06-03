@@ -1,6 +1,5 @@
-
 /**
- * StateTaxPopup Component
+ * StateTaxRequestPopup Component
  * 
  * This component renders a popup dialog for requesting a state tax rule change.
  * It includes a form with fields for selecting a state, providing a description,
@@ -15,8 +14,8 @@
  * @typedef {Object} FormData
  * @property {string} state - The selected state.
  * @property {string} description - The description of the tax rule change.
- * @property {string} deduct_from - The type of deduction (e.g., disposable earnings, gross pay, net pay).
- * @property {string} withholding_limit_percent - The withholding limit percentage.
+ * @property {string} deduction_basis - The type of deduction (e.g., disposable earnings, gross pay, net pay).
+ * @property {string} withholding_limit - The withholding limit percentage.
  * 
  * @param {FormData} formData - The state object holding form data.
  * 
@@ -35,17 +34,17 @@
  * - React (useState)
  * - Material-UI components: Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem
  * - StateList (imported from "../constants/Constant")
- * - BASE_URL (imported from "../configration/Config")
+ * - API_URLS (imported from "../configration/apis")
  * - Swal (imported from "sweetalert2" for notifications)
  * 
  * Usage:
- * <StateTaxPopup open={open} handleClose={handleClose} handleSave={handleSave} />
+ * <StateTaxRequestPopup open={open} handleClose={handleClose} handleSave={handleSave} />
  */
 import React, { useState } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { StateList } from "../constants/Constant"; // Import state list
-import { BASE_URL } from "../configration/Config"; // Import BASE_URL for API calls
-import Swal from "sweetalert2"; // Import Swal for notifications
+import { StateList } from "../constants/Constant";
+import { API_URLS } from "../configration/apis";
+import Swal from "sweetalert2";
 
 const deductFromOptions = [
   { value: "disposable earnings", label: "Disposable Earnings" },
@@ -53,12 +52,12 @@ const deductFromOptions = [
   { value: "net pay", label: "Net Pay" },
 ];
 
-function StateTaxPopup({ open, handleClose, handleSave }) {
+function StateTaxRequestPopup({ open, handleClose, handleSave }) {
   const [formData, setFormData] = useState({
     state: "",
     description: "",
-    deduct_from: "",
-    withholding_limit_percent: "",
+    deduction_basis: "",
+    withholding_limit: ""
   });
 
   const handleChange = (e) => {
@@ -67,8 +66,8 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
   };
 
   const validateForm = () => {
-    const { state, description, deduct_from, withholding_limit_percent } = formData;
-    if (!state || !description || !deduct_from || !withholding_limit_percent) {
+    const { state, description, deduction_basis, withholding_limit } = formData;
+    if (!state || !description || !deduction_basis || !withholding_limit) {
       Swal.fire({
         icon: "error",
         title: "Validation Error",
@@ -83,12 +82,17 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch(`${BASE_URL}/User/state-tax-levy-rule-edit-request/`, {
+      const response = await fetch(API_URLS.CREDITOR_RULE_EDIT_REQUEST, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          state: formData.state,
+          description: formData.description,
+          deduction_basis: formData.deduction_basis,
+          withholding_limit: formData.withholding_limit
+        }),
       });
 
       if (response.ok) {
@@ -97,8 +101,8 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
           title: "Success",
           text: "Request is submitted successfully.",
         });
-        handleSave(formData); // Call the parent save handler
-        handleClose(); // Close the popup
+        handleSave(formData);
+        handleClose();
       } else {
         throw new Error("Failed to submit the form.");
       }
@@ -141,17 +145,18 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
             multiline
             rows={3}
             variant="outlined"
+            placeholder="e.g., 25% of Gross Income"
           />
         </FormControl>
         <FormControl fullWidth margin="normal">
-          <InputLabel>Deduct From</InputLabel>
+          <InputLabel>Deduction Basis</InputLabel>
           <Select
-            name="deduct_from"
-            value={formData.deduct_from}
+            name="deduction_basis"
+            value={formData.deduction_basis}
             onChange={handleChange}
-            label="Deduct From"
+            label="Deduction Basis"
           >
-            <MenuItem value="">Select an option</MenuItem>
+            <MenuItem value="">Select deduction basis</MenuItem>
             {deductFromOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
@@ -162,11 +167,12 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
         <FormControl fullWidth margin="normal">
           <TextField
             label="Withholding Limit (%)"
-            name="withholding_limit_percent"
+            name="withholding_limit"
             type="number"
-            value={formData.withholding_limit_percent}
+            value={formData.withholding_limit}
             onChange={handleChange}
             variant="outlined"
+            inputProps={{ min: 0, max: 100 }}
           />
         </FormControl>
       </DialogContent>
@@ -189,4 +195,4 @@ function StateTaxPopup({ open, handleClose, handleSave }) {
   );
 }
 
-export default StateTaxPopup;
+export default StateTaxRequestPopup;

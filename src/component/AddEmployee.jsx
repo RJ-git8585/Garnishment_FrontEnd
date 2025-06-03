@@ -1,4 +1,3 @@
-
 /**
  * AddEmployee Component
  * 
@@ -52,9 +51,11 @@
 import { React, useState } from 'react';
 import { TextField } from '@mui/material';
 import { BASE_URL } from '../configration/Config';
+import { API_URLS } from "../configration/apis";
 import Swal from 'sweetalert2';
 import { FaUserTie } from "react-icons/fa";
 import InputMask from 'react-input-mask';
+import { useNavigate } from 'react-router-dom';
 
 function AddEmployee() {
   const [employee_name, setName] = useState('');
@@ -79,6 +80,8 @@ function AddEmployee() {
   const [support_second_family, setSupportSecondFamily] = useState(false);
   const [spouse_age, setSpouseAge] = useState(null);
   const [is_spouse_blind, setIsSpouseBlind] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const StateList = [
     { id: 1, label: 'Alabama' },
@@ -158,30 +161,40 @@ function AddEmployee() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    const data = { employer_id, employee_name, department, pay_cycle, number_of_child_support_order, location, socialSecurityNumber, 
-                   blind, age, home_state, gender, pay_period, number_of_exemptions, work_state, filing_status, marital_status,
-                   number_of_student_default_loan, support_second_family, spouse_age, is_spouse_blind };
+    try {
+      const response = await fetch(API_URLS.GET_EMPLOYEE_DETAILS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          employer_id,
+          employee_name,
+          department,
+          net_pay,
+          minimun_wages,
+          pay_cycle,
+          number_of_garnishment,
+          location
+        }),
+      });
 
-    fetch(`${BASE_URL}/User/employee_details/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then((response) => {
       if (response.ok) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Employee added successfully',
-          text: "Please check once!",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-        });
+        // Handle successful submission
+        console.log("Data submitted successfully!");
+        navigate("/employee", { replace: true });
         handleReset();
       } else {
-        console.error('Error submitting data:', response.statusText);
+        // Handle submission errors
+        console.error("Error submitting data:", response.statusText);
       }
-    });
+    } catch (error) {
+      console.error("Error submitting data:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

@@ -2,7 +2,7 @@
  * EditRulePopup Component
  *
  * A React component that renders a popup dialog for editing a rule. It allows users to modify
- * the "Deduction Basis" and "Withholding Limit (%)" fields, while the "State" field is read-only.
+ * the "Rule", "Deduction Basis" and "Withholding Limit (%)" fields, while the "State" field is read-only.
  *
  * @component
  * @param {Object} props - The props object.
@@ -10,8 +10,9 @@
  * @param {Function} props.handleClose - A function to handle closing the dialog.
  * @param {Object} props.ruleData - The data of the rule to be edited.
  * @param {string} props.ruleData.state - The state associated with the rule.
+ * @param {string} props.ruleData.rule - The rule description.
  * @param {string} props.ruleData.deduction_basis - The current "Deduction Basis" value of the rule.
- * @param {string} props.ruleData.withholding_limit_percent - The current withholding limit percentage of the rule.
+ * @param {string} props.ruleData.withholding_limit - The current withholding limit percentage of the rule.
  * @param {Function} props.handleSave - A function to handle saving the updated rule data.
  *
  * @returns {JSX.Element} The rendered EditRulePopup component.
@@ -29,6 +30,7 @@ const deductionBasisOptions = [
 function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
   const [formData, setFormData] = useState({
     state: "",
+    rule: "",
     deduction_basis: "",
     withholding_limit: "",
   });
@@ -40,20 +42,35 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
         (option) =>
           sanitizeString(option.value.toLowerCase()) === sanitizeString(ruleData.deduction_basis?.toLowerCase())
       );
+
+      // Extract numeric value from withholding_limit if it has a % symbol
+      const withholding_limit = ruleData.withholding_limit?.toString().replace('%', '') || "";
+
       setFormData({
         state: sanitizeString(ruleData.state) || "",
+        rule: ruleData.rule || "", // Don't sanitize rule as it might contain special characters
         deduction_basis: matchedOption ? matchedOption.value : "",
-        withholding_limit: sanitizeString(ruleData.withholding_limit) || "",
+        withholding_limit: withholding_limit,
       });
     }
   }, [ruleData]); // Re-run when `ruleData` changes
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: sanitizeString(value) }));
+    if (name === 'rule') {
+      // Don't sanitize rule field
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: sanitizeString(value) }));
+    }
   };
 
   const handleSubmit = () => {
+    // Ensure the rule field is not empty
+    if (!formData.rule.trim()) {
+      alert('Rule field cannot be empty');
+      return;
+    }
     handleSave(formData);
   };
 
@@ -63,12 +80,23 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
       <DialogContent>
         <FormControl fullWidth margin="normal">
           <TextField
-          className="capitalize"
+            className="capitalize"
             label="State"
             name="state"
             value={formData.state}
             InputProps={{ readOnly: true }}
             variant="outlined"
+          />
+        </FormControl>
+        <FormControl fullWidth margin="normal">
+          <TextField
+            label="Rule"
+            name="rule"
+            value={formData.rule}
+            onChange={handleChange}
+            variant="outlined"
+            placeholder="e.g., 25% of Gross Income"
+            required
           />
         </FormControl>
         <FormControl fullWidth margin="normal">
@@ -95,6 +123,7 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
             value={formData.withholding_limit}
             onChange={handleChange}
             variant="outlined"
+            inputProps={{ min: 0, max: 100 }}
           />
         </FormControl>
       </DialogContent>
@@ -102,7 +131,14 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
         <Button onClick={handleClose} color="secondary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary" variant="contained">
+        <Button 
+          onClick={handleSubmit} 
+          variant="contained"
+          style={{
+            backgroundColor: "red",
+            color: "white",
+          }}
+        >
           Save
         </Button>
       </DialogActions>

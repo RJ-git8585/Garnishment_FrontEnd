@@ -52,7 +52,7 @@ import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Swal from "sweetalert2";
 import EditRulePopup from "../component/EditRulePopup";
-import StateTaxPopup from "../component/StateTaxPopup";
+import StateTaxRequestPopup from "../component/StateTaxRequestPopup";
 
 const Ruleslist = () => {
   const [data, setData] = useState([]);
@@ -94,10 +94,17 @@ const Ruleslist = () => {
       const response = await fetch(API_URLS.GET_STATE_TAX_RULE_BY_STATE.replace(':state', rule.state));
       if (response.ok) {
         const jsonData = await response.json();
-        setEditData({
+        
+        // Format the data to match the required structure
+        const formattedData = {
           ...jsonData.data,
+          state: jsonData.data.state,
+          rule: jsonData.data.withholding_limit_rule || `${jsonData.data.withholding_limit}%`, // Use existing rule or create from withholding_limit
           deduction_basis: jsonData.data.deduction_basis,
-        });
+          withholding_limit: jsonData.data.withholding_limit?.toString().replace('%', ''), // Remove % if present
+        };
+
+        setEditData(formattedData);
         setIsEditing(true);
       } else {
         throw new Error("Failed to fetch rule details.");
@@ -117,12 +124,20 @@ const Ruleslist = () => {
   const handleEditSave = async (updatedData) => {
     try {
       const state = updatedData.state || editData.state;
+      
+      // Format the data for the API
+      const apiData = {
+        ...updatedData,
+        withholding_limit_rule: updatedData.rule, // Save the rule text
+        withholding_limit: updatedData.withholding_limit // Save the numeric value
+      };
+
       const response = await fetch(API_URLS.UPDATE_STATE_TAX_RULE.replace(':state', state), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify(apiData),
       });
 
       if (response.ok) {
@@ -136,7 +151,7 @@ const Ruleslist = () => {
 
         setData((prevData) =>
           prevData.map((rule) =>
-            rule.id === updatedData.id ? { ...rule, ...updatedData } : rule
+            rule.id === updatedData.id ? { ...rule, ...apiData } : rule
           )
         );
         setIsEditing(false);
@@ -186,7 +201,7 @@ const Ruleslist = () => {
               <th className="px-6 py-3 text-left text-sm">State</th>
               <th className="px-6 py-3 text-left text-sm">Deduction Basis</th>
               <th className="px-6 py-3 text-left text-sm">Withholding cap</th>
-              {/* <th className="px-6 py-3 text-left text-sm">Rule</th> */}
+              <th className="px-6 py-3 text-left text-sm">Rule</th>
             </tr>
           </thead>
           <tbody>
@@ -215,7 +230,7 @@ const Ruleslist = () => {
                   <td className="px-6 py-3 text-sm">
                     {rule.withholding_limit ? `${rule.withholding_limit}%` : "N/A"}
                   </td>
-                  {/* <td className="px-6 py-3 text-sm capitalize">{rule.withholding_limit_rule || "N/A"}</td> */}
+                  <td className="px-6 py-3 text-sm capitalize">{rule.withholding_limit_rule || "N/A"}</td>
                 </tr>
               ))
             ) : (
@@ -261,7 +276,7 @@ const Ruleslist = () => {
 
       {/* State Tax Popup */}
       {isStateTaxPopupOpen && (
-        <StateTaxPopup
+        <StateTaxRequestPopup
           open={isStateTaxPopupOpen}
           handleClose={() => setIsStateTaxPopupOpen(false)}
           handleSave={handleStateTaxSave}

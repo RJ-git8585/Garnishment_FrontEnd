@@ -67,12 +67,16 @@ const CreditorRule = () => {
       const numericValue = updatedRule.withholding_limit;
 
       Swal.fire({
-        title: 'Edit Withholding Cap',
+        title: 'Edit Rule Details',
         html: `
           <div class="space-y-4 text-left">
             <div>
               <label class="block text-sm font-medium text-gray-700">State</label>
               <input id="state" class="mt-1 block w-full border rounded-md shadow-sm p-2 bg-gray-50" value="${updatedRule.state}" readonly />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Rule</label>
+              <input id="rule" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.rule || ''}" />
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Deduction Basis</label>
@@ -99,18 +103,27 @@ const CreditorRule = () => {
         didOpen: () => {
           // Ensure all input values are set correctly after modal opens
           const withholdingInput = document.getElementById('withholding_limit');
+          const ruleInput = document.getElementById('rule');
           
           // Set initial values
           document.getElementById('state').value = updatedRule.state;
           document.getElementById('deduction_basis').value = updatedRule.deduction_basis;
           withholdingInput.value = numericValue;
+          ruleInput.value = updatedRule.rule || '';
         },
         preConfirm: () => {
           const withholdingLimit = document.getElementById('withholding_limit').value;
+          const ruleValue = document.getElementById('rule').value;
+          
+          if (!ruleValue.trim()) {
+            Swal.showValidationMessage('Rule field cannot be empty');
+            return false;
+          }
+
           const updatedRuleData = {
             ...updatedRule,
             withholding_limit: withholdingLimit,
-            rule: withholdingLimit + '%'  // Still update the rule in the backend
+            rule: ruleValue
           };
 
           return fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', updatedRule.state), {
@@ -133,7 +146,7 @@ const CreditorRule = () => {
           Swal.fire({
             icon: 'success',
             title: 'Updated Successfully',
-            text: 'The withholding cap has been successfully updated.',
+            text: 'The rule details have been successfully updated.',
             allowOutsideClick: false,
           }).then(() => {
             // Refresh the data
@@ -209,7 +222,7 @@ const CreditorRule = () => {
             <tr className="bg-gray-200 text-gray-700">
               <th className="px-6 py-3 text-left text-sm">Sr</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
-              {/* <th className="px-6 py-3 text-left text-sm">Rule</th> */}
+              <th className="px-6 py-3 text-left text-sm">Rule</th>
               <th className="px-6 py-3 text-left text-sm">Deduction Basis</th>
               <th className="px-6 py-3 text-left text-sm">Withholding cap</th>
             </tr>
@@ -230,24 +243,18 @@ const CreditorRule = () => {
                     {(currentPage - 1) * rowsPerPage + index + 1}
                   </td>
                   <td className="px-6 py-3 text-sm capitalize">
-                    {rule.state}
-                  </td>
-                  {/* <td className="px-6 py-3 text-sm capitalize">{rule.rule}</td> */}
-                  <td className="px-6 py-3 text-sm">{rule.deduction_basis}</td>
-                  {hasMultipleValues(rule.withholding_limit) ? (
-                    <td className="px-6 py-3 text-sm">
-                      {rule.withholding_limit}
-                    </td>
-                  ) : (
                     <button
                       onClick={() => handleEditClick(rule)}
                       className="text-sky-900 capitalize hover:underline"
                     >
-                      <td className="px-6 py-3 text-sm rulebtn_cls border-0">
-                        {formatWithholdingValue(rule.withholding_limit)}
-                      </td>
+                      {rule.state}
                     </button>
-                  )}
+                  </td>
+                  <td className="px-6 py-3 text-sm capitalize">{rule.rule}</td>
+                  <td className="px-6 py-3 text-sm">{rule.deduction_basis}</td>
+                  <td className="px-6 py-3 text-sm">
+                    {formatWithholdingValue(rule.withholding_limit)}
+                  </td>
                 </tr>
               ))
             ) : (
