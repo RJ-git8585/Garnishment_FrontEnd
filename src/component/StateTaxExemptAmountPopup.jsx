@@ -141,12 +141,48 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
     }
   };
 
+  const calculateThresholdAmount = (minimumWage, multiplier) => {
+    if (!minimumWage || !multiplier) return 0;
+    return parseFloat(minimumWage) * parseFloat(multiplier);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditFormData(prev => ({
-      ...prev,
+    
+    // Create a new form data object with the current change
+    const newFormData = {
+      ...editFormData,
       [name]: value
-    }));
+    };
+
+    // If minimum wage or multipliers change, update the corresponding threshold amounts
+    if (name === 'minimum_wage_amount' || name === 'multiplier_lt' || name === 'multiplier_ut') {
+      // Update lower threshold if minimum wage or lower threshold multiplier changes
+      if (name === 'minimum_wage_amount' || name === 'multiplier_lt') {
+        const lowerThreshold = calculateThresholdAmount(
+          name === 'minimum_wage_amount' ? value : editFormData.minimum_wage_amount,
+          name === 'multiplier_lt' ? value : editFormData.multiplier_lt
+        );
+        newFormData.lower_threshold_amount = lowerThreshold;
+        
+        // Update condition expression for lower threshold
+        newFormData.condition_expression_lt = `${newFormData.minimum_wage_amount || 0} * ${newFormData.multiplier_lt || 0} = ${lowerThreshold}`;
+      }
+
+      // Update upper threshold if minimum wage or upper threshold multiplier changes
+      if (name === 'minimum_wage_amount' || name === 'multiplier_ut') {
+        const upperThreshold = calculateThresholdAmount(
+          name === 'minimum_wage_amount' ? value : editFormData.minimum_wage_amount,
+          name === 'multiplier_ut' ? value : editFormData.multiplier_ut
+        );
+        newFormData.upper_threshold_amount = upperThreshold;
+        
+        // Update condition expression for upper threshold
+        newFormData.condition_expression_ut = `${newFormData.minimum_wage_amount || 0} * ${newFormData.multiplier_ut || 0} = ${upperThreshold}`;
+      }
+    }
+
+    setEditFormData(newFormData);
   };
 
   return (
@@ -261,6 +297,7 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
               name="condition_expression_lt"
               value={editFormData.condition_expression_lt}
               onChange={handleInputChange}
+              disabled
             />
             <TextField
               fullWidth
@@ -269,6 +306,7 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
               type="number"
               value={editFormData.lower_threshold_amount}
               onChange={handleInputChange}
+              disabled
             />
             <TextField
               fullWidth
@@ -284,6 +322,7 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
               name="condition_expression_ut"
               value={editFormData.condition_expression_ut}
               onChange={handleInputChange}
+              disabled
             />
             <TextField
               fullWidth
@@ -292,6 +331,7 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
               type="number"
               value={editFormData.upper_threshold_amount}
               onChange={handleInputChange}
+              disabled
             />
           </div>
         </DialogContent>
