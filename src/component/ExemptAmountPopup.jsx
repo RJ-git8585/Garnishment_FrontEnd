@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
@@ -31,6 +31,7 @@ const ExemptAmountPopup = ({ open, handleClose, state }) => {
   const [editingItem, setEditingItem] = useState(null);
   const [editFormData, setEditFormData] = useState({
     minimum_wage_amount: '',
+    minimum_hourly_wage_basis: '',
     multiplier_lt: '',
     condition_expression_lt: '',
     lower_threshold_amount: '',
@@ -73,6 +74,7 @@ const ExemptAmountPopup = ({ open, handleClose, state }) => {
     setEditingItem(item);
     setEditFormData({
       minimum_wage_amount: item.minimum_wage_amount,
+      minimum_hourly_wage_basis: item.minimum_hourly_wage_basis || 'Federal Minimum Wage',
       multiplier_lt: item.multiplier_lt,
       condition_expression_lt: item.condition_expression_lt,
       lower_threshold_amount: item.lower_threshold_amount,
@@ -86,6 +88,7 @@ const ExemptAmountPopup = ({ open, handleClose, state }) => {
     setEditingItem(null);
     setEditFormData({
       minimum_wage_amount: '',
+      minimum_hourly_wage_basis: '',
       multiplier_lt: '',
       condition_expression_lt: '',
       lower_threshold_amount: '',
@@ -222,6 +225,20 @@ const ExemptAmountPopup = ({ open, handleClose, state }) => {
         <DialogTitle>Edit Exempt Amount</DialogTitle>
         <DialogContent>
           <div className="space-y-4 mt-4">
+            <FormControl fullWidth>
+              <InputLabel id="minimum-wage-basis-label">Minimum Wage Basis</InputLabel>
+              <Select
+                labelId="minimum-wage-basis-label"
+                id="minimum-wage-basis"
+                name="minimum_hourly_wage_basis"
+                value={editFormData.minimum_hourly_wage_basis}
+                label="Minimum Wage Basis"
+                onChange={handleInputChange}
+              >
+                <MenuItem value="Federal Minimum Wage">Federal Minimum Wage</MenuItem>
+                <MenuItem value="State Minimum Wage">State Minimum Wage</MenuItem>
+              </Select>
+            </FormControl>
             <TextField
               fullWidth
               label="Minimum Wage Amount"
