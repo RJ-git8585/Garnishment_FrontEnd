@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, FormControl } from '@mui/material';
 import { API_URLS } from "../configration/apis";
 import Swal from "sweetalert2";
 
@@ -8,8 +8,11 @@ const CreditorRulePopup = ({ open, handleClose, handleSave }) => {
     state: '',
     description: '',
     deduction_basis: '',
-    withholding_limit: ''
+    withholding_limit: '',
+    current_rule: ''
   });
+
+  const [loading, setLoading] = useState(false);
 
   const states = [
     { name: 'Alabama' },
@@ -70,15 +73,65 @@ const CreditorRulePopup = ({ open, handleClose, handleSave }) => {
     { value: 'net pay', label: 'Net Pay' }
   ];
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
       ...prevData,
       [name]: value
     }));
+
+    if (name === 'state' && value) {
+      const stateValue = value.toLowerCase();
+      setLoading(true);
+      try {
+        const response = await fetch(`${API_URLS.GET_CREDITOR_RULES}${stateValue}/`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch rule data');
+        }
+        const result = await response.json();
+        
+        if (result.data) {
+          const currentRule = result.data;
+          setFormData(prev => ({
+            ...prev,
+            current_rule: currentRule.rule || 'No rule defined !!',
+            deduction_basis: currentRule.deduction_basis || '',
+            withholding_limit: currentRule.withholding_limit || ''
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching rule:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to fetch current rule data'
+        });
+        setFormData(prev => ({
+          ...prev,
+          current_rule: 'Failed to load current rule'
+        }));
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const validateForm = () => {
+    const { state, description, deduction_basis, withholding_limit } = formData;
+    if (!state || !description || !deduction_basis || !withholding_limit) {
+      Swal.fire({
+        icon: "error",
+        title: "Validation Error",
+        text: "All fields are required. Please fill out the form completely.",
+      });
+      return false;
+    }
+    return true;
   };
 
   const handleSubmit = async () => {
+    if (!validateForm()) return;
+
     try {
       const response = await fetch(API_URLS.CREDITOR_RULE_EDIT_REQUEST, {
         method: "POST",
@@ -119,60 +172,82 @@ const CreditorRulePopup = ({ open, handleClose, handleSave }) => {
       <DialogTitle>Creditor Rule Edit Request</DialogTitle>
       <DialogContent>
         <div className="space-y-4 mt-4">
-          <TextField
-            select
-            fullWidth
-            label="State"
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            required
-          >
-            {states.map((state) => (
-              <MenuItem key={state.name} value={state.name}>
-                {state.name}
-              </MenuItem>
-            ))}
-          </TextField>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              select
+              fullWidth
+              label="State"
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              required
+              disabled={loading}
+            >
+              {states.map((state) => (
+                <MenuItem key={state.name} value={state.name}>
+                  {state.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
 
-          <TextField
-            fullWidth
-            label="Description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            multiline
-            rows={3}
-            placeholder="e.g., 25% of Gross Income"
-          />
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label="Current Rule"
+              value={formData.current_rule || 'No rule defined'}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+              multiline
+              rows={2}
+            />
+          </FormControl>
 
-          <TextField
-            select
-            fullWidth
-            label="Deduction Basis"
-            name="deduction_basis"
-            value={formData.deduction_basis}
-            onChange={handleChange}
-            required
-          >
-            {deductionOptions.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label="New Rule Description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              multiline
+              rows={3}
+              variant="outlined"
+              placeholder="e.g., 25% of Gross Income"
+            />
+          </FormControl>
 
-          <TextField
-            fullWidth
-            label="Withholding Limit (%)"
-            name="withholding_limit"
-            value={formData.withholding_limit}
-            onChange={handleChange}
-            required
-            type="number"
-            inputProps={{ min: 0, max: 100 }}
-          />
+          <FormControl fullWidth margin="normal">
+            <TextField
+              select
+              fullWidth
+              label="Deduction Basis"
+              name="deduction_basis"
+              value={formData.deduction_basis}
+              onChange={handleChange}
+              required
+            >
+              {deductionOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label="Withholding Limit (%)"
+              name="withholding_limit"
+              value={formData.withholding_limit}
+              onChange={handleChange}
+              required
+              type="number"
+              variant="outlined"
+              inputProps={{ min: 0, max: 100 }}
+            />
+          </FormControl>
         </div>
       </DialogContent>
       <DialogActions>
@@ -186,7 +261,7 @@ const CreditorRulePopup = ({ open, handleClose, handleSave }) => {
             backgroundColor: "red",
             color: "white",
           }}
-          disabled={!formData.state || !formData.description || !formData.deduction_basis || !formData.withholding_limit}
+          disabled={loading || !formData.state || !formData.description || !formData.deduction_basis || !formData.withholding_limit}
         >
           Submit Request
         </Button>

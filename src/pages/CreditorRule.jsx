@@ -10,15 +10,19 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../configration/Config";
 import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FaExternalLinkAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { Typography } from "@mui/material";
 import CreditorRulePopup from "../component/CreditorRulePopup";
+import ExemptAmountPopup from "../component/ExemptAmountPopup";
 
 const CreditorRule = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [isCreditorRulePopupOpen, setIsCreditorRulePopupOpen] = useState(false);
+  const [selectedState, setSelectedState] = useState(null);
+  const [isExemptPopupOpen, setIsExemptPopupOpen] = useState(false);
   const rowsPerPage = 10;
 
   useEffect(() => {
@@ -222,9 +226,9 @@ const CreditorRule = () => {
             <tr className="bg-gray-200 text-gray-700">
               <th className="px-6 py-3 text-left text-sm">Sr</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
-              <th className="px-6 py-3 text-left text-sm">Rule</th>
               <th className="px-6 py-3 text-left text-sm">Deduction Basis</th>
               <th className="px-6 py-3 text-left text-sm">Withholding cap</th>
+              <th className="px-6 py-3 text-left text-sm">Rule</th>
             </tr>
           </thead>
           <tbody>
@@ -242,18 +246,30 @@ const CreditorRule = () => {
                   <td className="px-6 py-3 text-sm">
                     {(currentPage - 1) * rowsPerPage + index + 1}
                   </td>
-                  <td className="px-6 py-3 text-sm capitalize">
+                  <td className="px-6 py-3 text-sm capitalize rulebtn_cls">
                     <button
                       onClick={() => handleEditClick(rule)}
-                      className="text-sky-900 capitalize hover:underline"
+                      className="text-sky-900 capitalize rulebtn_cls hover:underline"
                     >
                       {rule.state}
                     </button>
                   </td>
-                  <td className="px-6 py-3 text-sm capitalize">{rule.rule}</td>
-                  <td className="px-6 py-3 text-sm">{rule.deduction_basis}</td>
+                  <td className="px-6 py-3 text-sm capitalize">{rule.deduction_basis}</td>
                   <td className="px-6 py-3 text-sm">
-                    {formatWithholdingValue(rule.withholding_limit)}
+                    {rule.withholding_limit ? `${rule.withholding_limit}%` : "N/A"}
+                  </td>
+                  <td className="px-6 py-3 text-sm flex items-center justify-between">
+                    <span className="capitalize">{rule.rule}</span>
+                    <button
+                      onClick={() => {
+                        setSelectedState(rule.state);
+                        setIsExemptPopupOpen(true);
+                      }}
+                      className="text-red-500 hover:text-red-700 ml-2"
+                      title="View Exempt Amount Configuration"
+                    >
+                      <FaExternalLinkAlt />
+                    </button>
                   </td>
                 </tr>
               ))
@@ -295,6 +311,15 @@ const CreditorRule = () => {
           open={isCreditorRulePopupOpen}
           handleClose={() => setIsCreditorRulePopupOpen(false)}
           handleSave={handleCreditorRuleSave}
+        />
+      )}
+
+      {/* Exempt Amount Popup */}
+      {isExemptPopupOpen && (
+        <ExemptAmountPopup
+          open={isExemptPopupOpen}
+          handleClose={() => setIsExemptPopupOpen(false)}
+          state={selectedState}
         />
       )}
     </div>

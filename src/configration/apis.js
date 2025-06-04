@@ -35,7 +35,7 @@ export const API_URLS = {
   GET_CREDITOR_RULES: `${API_BASE_URL}/garnishment/creditor-debt-rule/`,
   UPDATE_CREDITOR_RULE: `${API_BASE_URL}/garnishment/creditor-debt-rule/:state/`,
   CREDITOR_RULE_EDIT_REQUEST: `${API_BASE_URL}/garnishment/creditor-debt-rule-edit-request/`,
-
+  GET_CREDITOR_RULE_BY_STATE: `${API_BASE_URL}/garnishment/state-tax-levy-config-data/:state`,
   // Child Support Rule APIs
   GET_CHILD_SUPPORT_RULES: `${API_BASE_URL}/garnishment/child-support-rules/`,
   UPDATE_CHILD_SUPPORT_RULE: `${API_BASE_URL}/garnishment/child-support-rules/:state/`,
@@ -44,7 +44,11 @@ export const API_URLS = {
   GET_STATE_TAX_RULES: `${API_BASE_URL}/garnishment/state-tax-levy-config-data/`,
   GET_STATE_TAX_RULE_BY_STATE: `${API_BASE_URL}/garnishment/state-tax-levy-config-data/:state`,
   UPDATE_STATE_TAX_RULE: `${API_BASE_URL}/User/state-tax-levy-config-data/:state`,
+  STATE_TAX_RULE_EDIT_REQUEST: `${API_BASE_URL}/garnishment/state-tax-levy-rule-edit-request/`,
 
   // Garnishment Exempt Amount Configuration APIs
   GET_GARNISHMENT_EXEMPT_CONFIG: `${API_BASE_URL}/garnishment/creditor-debt-exempt-amt-config/`,
+
+  // State Tax Levy Exempt Amount Configuration APIs
+  STATE_TAX_LEVY_EXEMPT: `${API_BASE_URL}/garnishment/state-tax-levy-exempt-amt-config/`,
 };

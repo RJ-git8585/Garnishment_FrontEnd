@@ -50,9 +50,11 @@ import React, { useState, useEffect } from "react";
 import { BASE_URL } from "../configration/Config";
 import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FaExternalLinkAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import EditRulePopup from "../component/EditRulePopup";
 import StateTaxRequestPopup from "../component/StateTaxRequestPopup";
+import StateTaxExemptAmountPopup from "../component/StateTaxExemptAmountPopup";
 
 const Ruleslist = () => {
   const [data, setData] = useState([]);
@@ -63,6 +65,8 @@ const Ruleslist = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isStateTaxPopupOpen, setIsStateTaxPopupOpen] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
+  const [selectedState, setSelectedState] = useState(null);
+  const [isExemptPopupOpen, setIsExemptPopupOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -187,7 +191,7 @@ const Ruleslist = () => {
         <h1 className="text-2xl font-bold">State Tax Levy Rules</h1>
         <button
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-          onClick={() => setIsStateTaxPopupOpen(true)} // Open the state tax popup
+          onClick={() => setIsStateTaxPopupOpen(true)}
         >
           Rules Change Request
         </button>
@@ -197,7 +201,6 @@ const Ruleslist = () => {
           <thead>
             <tr className="bg-gray-200 text-gray-700">
               <th className="px-6 py-3 text-left text-sm">Sr</th>
-              <th className="px-6 py-3 text-left text-sm">Rule ID</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
               <th className="px-6 py-3 text-left text-sm">Deduction Basis</th>
               <th className="px-6 py-3 text-left text-sm">Withholding cap</th>
@@ -207,7 +210,7 @@ const Ruleslist = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="6" className="py-6">
+                <td colSpan="5" className="py-6">
                   <div className="flex justify-center items-center h-40">
                     <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
                   </div>
@@ -216,8 +219,9 @@ const Ruleslist = () => {
             ) : paginatedData.length > 0 ? (
               paginatedData.map((rule, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="px-6 py-3 text-sm">{(currentPage - 1) * rowsPerPage + index + 1}</td>
-                  <td className="px-6 py-3 text-sm">{rule.id}</td>
+                  <td className="px-6 py-3 text-sm">
+                    {(currentPage - 1) * rowsPerPage + index + 1}
+                  </td>
                   <td className="px-6 py-3 text-sm rulebtn_cls">
                     <button
                       onClick={() => handleEditClick(rule)}
@@ -226,16 +230,30 @@ const Ruleslist = () => {
                       {rule.state}
                     </button>
                   </td>
-                  <td className="px-6 py-3 text-sm capitalize inline-cls">{rule.deduction_basis || "N/A"}</td>
+                  <td className="px-6 py-3 text-sm capitalize inline-cls">
+                    {rule.deduction_basis || "N/A"}
+                  </td>
                   <td className="px-6 py-3 text-sm">
                     {rule.withholding_limit ? `${rule.withholding_limit}%` : "N/A"}
                   </td>
-                  <td className="px-6 py-3 text-sm capitalize">{rule.withholding_limit_rule || "N/A"}</td>
+                  <td className="px-6 py-3 text-sm flex items-center justify-between">
+                    <span className="capitalize">{rule.withholding_limit_rule || "N/A"}</span>
+                    <button
+                      onClick={() => {
+                        setSelectedState(rule.state);
+                        setIsExemptPopupOpen(true);
+                      }}
+                      className="text-red-500 hover:text-red-700 ml-2"
+                      title="View State Tax Levy Exempt Amount"
+                    >
+                      <FaExternalLinkAlt />
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="py-6 text-center text-gray-500">
+                <td colSpan="5" className="py-6 text-center text-gray-500">
                   No rules found.
                 </td>
               </tr>
@@ -243,6 +261,8 @@ const Ruleslist = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Pagination section */}
       <div className="flex justify-between items-center mt-4">
         <p className="text-sm text-gray-600">
           Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
@@ -270,7 +290,7 @@ const Ruleslist = () => {
           handleClose={() => setIsEditing(false)}
           ruleData={editData}
           handleSave={handleEditSave}
-          loading={editLoading} // Pass loading state to the popup
+          loading={editLoading}
         />
       )}
 
@@ -280,6 +300,15 @@ const Ruleslist = () => {
           open={isStateTaxPopupOpen}
           handleClose={() => setIsStateTaxPopupOpen(false)}
           handleSave={handleStateTaxSave}
+        />
+      )}
+
+      {/* State Tax Levy Exempt Amount Popup */}
+      {isExemptPopupOpen && (
+        <StateTaxExemptAmountPopup
+          open={isExemptPopupOpen}
+          handleClose={() => setIsExemptPopupOpen(false)}
+          state={selectedState}
         />
       )}
     </div>

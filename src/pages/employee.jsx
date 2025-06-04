@@ -145,10 +145,10 @@ function Employee() {
             ) : (
               paginatedData.map((row, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="px-6 py-3 text-sm truncate">
+                  <td className="px-6 py-3 text-sm truncate rulebtn_cls">
                     <Link
                       to={`/employee/edit/${row.case_id}/${row.ee_id}`}
-                      className="text-blue-500 hover:underline"
+                      className="text-sky-800 hover:underline"
                     >
                       {row.ee_id}
                     </Link>

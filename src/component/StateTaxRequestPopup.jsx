@@ -57,12 +57,54 @@ function StateTaxRequestPopup({ open, handleClose, handleSave }) {
     state: "",
     description: "",
     deduction_basis: "",
-    withholding_limit: ""
+    withholding_limit: "",
+    current_rule: ""
   });
 
-  const handleChange = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = async (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (name === 'state' && value) {
+      setLoading(true);
+      try {
+        // Convert state name to lowercase for API call
+        const stateValue = value.toLowerCase();
+        const response = await fetch(`${API_URLS.GET_STATE_TAX_RULES}${stateValue}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch rule data');
+        }
+        const result = await response.json();
+        
+        if (result.data) {
+          const currentRule = result.data;
+          setFormData(prev => ({
+            ...prev,
+            current_rule: currentRule.withholding_limit_rule || 'No rule defined',
+            deduction_basis: currentRule.deduction_basis || '',
+            withholding_limit: currentRule.withholding_limit || ''
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching rule:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to fetch current rule data'
+        });
+        setFormData(prev => ({
+          ...prev,
+          current_rule: 'Failed to load current rule'
+        }));
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const validateForm = () => {
@@ -82,7 +124,7 @@ function StateTaxRequestPopup({ open, handleClose, handleSave }) {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch(API_URLS.CREDITOR_RULE_EDIT_REQUEST, {
+      const response = await fetch(API_URLS.STATE_TAX_RULE_EDIT_REQUEST, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -127,6 +169,7 @@ function StateTaxRequestPopup({ open, handleClose, handleSave }) {
             value={formData.state}
             onChange={handleChange}
             label="State"
+            disabled={loading}
           >
             <MenuItem value="">Select a state</MenuItem>
             {StateList.map((state) => (
@@ -136,9 +179,23 @@ function StateTaxRequestPopup({ open, handleClose, handleSave }) {
             ))}
           </Select>
         </FormControl>
+
         <FormControl fullWidth margin="normal">
           <TextField
-            label="Description"
+            label="Current Rule"
+            value={formData.current_rule || 'No rule defined'}
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            multiline
+            rows={2}
+          />
+        </FormControl>
+
+        <FormControl fullWidth margin="normal">
+          <TextField
+            label="New Rule Description"
             name="description"
             value={formData.description}
             onChange={handleChange}
@@ -148,6 +205,7 @@ function StateTaxRequestPopup({ open, handleClose, handleSave }) {
             placeholder="e.g., 25% of Gross Income"
           />
         </FormControl>
+
         <FormControl fullWidth margin="normal">
           <InputLabel>Deduction Basis</InputLabel>
           <Select
@@ -164,6 +222,7 @@ function StateTaxRequestPopup({ open, handleClose, handleSave }) {
             ))}
           </Select>
         </FormControl>
+
         <FormControl fullWidth margin="normal">
           <TextField
             label="Withholding Limit (%)"
@@ -187,6 +246,7 @@ function StateTaxRequestPopup({ open, handleClose, handleSave }) {
             backgroundColor: "red",
             color: "white",
           }}
+          disabled={loading}
         >
           Request
         </Button>
