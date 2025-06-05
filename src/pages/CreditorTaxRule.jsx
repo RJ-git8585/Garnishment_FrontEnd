@@ -48,12 +48,8 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
 
   const handleWithholdingBasisClick = async (state, weekly) => {
     try {
-      // Convert state and weekly to lowercase
-      const stateParam = state.toLowerCase();
-      const weeklyParam = weekly.toLowerCase();
-      
       // Open new popup with API data
-      const response = await fetch(`${BASE_URL}/garnishment/creditor-debt-exempt-amt-config/${stateParam}/${weeklyParam}/`);
+      const response = await fetch(API_URLS.GET_CREDITOR_DEBT_EXEMPT_CONFIG(state, weekly));
       if (!response.ok) {
         throw new Error(`Failed to fetch withholding basis details`);
       }
@@ -135,9 +131,7 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
     if (!tooltipData && !tooltipLoading) {
       setTooltipLoading(true);
       try {
-        const stateParam = state.toLowerCase();
-        const weeklyParam = weekly.toLowerCase();
-        const response = await fetch(`${BASE_URL}/garnishment/creditor-debt-exempt-amt-config/${stateParam}/${weeklyParam}/`);
+        const response = await fetch(API_URLS.GET_CREDITOR_DEBT_EXEMPT_CONFIG(state, weekly));
         if (!response.ok) {
           throw new Error(`Failed to fetch withholding basis details`);
         }

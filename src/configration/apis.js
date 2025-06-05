@@ -69,4 +69,8 @@ export const API_URLS = {
 
   // State Tax Levy Applied Rule APIs
   GET_STATE_TAX_LEVY_APPLIED_RULE: (caseId) => `${API_BASE_URL}/garnishment_state/state-tax-levy-applied-rule/${caseId}`,
+
+  // Creditor Debt Exempt Amount Configuration APIs
+  GET_CREDITOR_DEBT_EXEMPT_CONFIG: (state, weekly) => 
+    `${API_BASE_URL}/garnishment/creditor-debt-exempt-amt-config/${state.toLowerCase()}/${weekly.toLowerCase()}/`,
 };
