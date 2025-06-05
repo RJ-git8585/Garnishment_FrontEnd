@@ -258,14 +258,14 @@ const CreditorRule = () => {
                   <td className="px-6 py-3 text-sm">
                     {rule.withholding_limit ? `${rule.withholding_limit}%` : "N/A"}
                   </td>
-                  <td className="px-6 py-3 text-sm flex items-center justify-between">
+                  <td className="px-6 py-3 text-sm flex items-center justify-between border-0">
                     <span className="capitalize">{rule.rule}</span>
                     <button
                       onClick={() => {
                         setSelectedState(rule.state);
                         setIsExemptPopupOpen(true);
                       }}
-                      className="text-red-500 hover:text-red-700 ml-2"
+                      className="text-blue-500 hover:text-blue-700 ml-2"
                       title="View Exempt Amount Configuration"
                     >
                       <FaExternalLinkAlt />

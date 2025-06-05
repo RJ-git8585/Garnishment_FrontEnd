@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 
 // Add custom styles for Swal
 const swalConfig = {
-  customClass: {
+  customClass:{
     container: 'swal-container-class',
     popup: 'swal-popup-class'
   }

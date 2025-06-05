@@ -1,4 +1,3 @@
-  
 /**
  * Headertop Component
  *
@@ -96,6 +95,8 @@ function Headertop() {
          </div>
          <div className="hidden md:block">
            <div className="ml-4 flex items-center md:ml-6">
+           <span className="ml-3 text-xs font-bold text-gray-700 mr-2">Release - v{import.meta.env.VITE_APP_VERSION || '0.2.0'}</span>
+
              <button
                type="button"
                className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -104,7 +105,7 @@ function Headertop() {
                <span className="sr-only">View notifications</span>
                <BellIcon className="h-6 w-6" aria-hidden="true" />
              </button>
-
+             
              {/* Profile dropdown */}
              <Menu as="div" className="relative ml-3">
                <div>
@@ -197,6 +198,7 @@ function Headertop() {
              <span className="sr-only">View notifications</span>
              <BellIcon className="h-6 w-6" aria-hidden="true" />
            </button>
+           <span className="ml-3 text-sm text-gray-400">v{import.meta.env.VITE_APP_VERSION || '0.2.0'}</span>
          </div>
          <div className="mt-3 space-y-1 px-2">
            {userNavigation.map((item) => (

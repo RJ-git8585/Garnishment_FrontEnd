@@ -1,5 +1,3 @@
-
-
 /**
  * EmpImport Component
  * 
@@ -37,7 +35,6 @@
  */
 import { useState } from 'react';
 import {
-
   Button,
   Box,
   Grid,
@@ -45,8 +42,8 @@ import {
   Typography,
   CircularProgress,
 } from '@mui/material';
-import { BASE_URL } from '../configration/Config';
-
+import { API_URLS } from '../configration/apis';
+import axios from 'axios';
 
 function EmpImport() {
   const [empID, setEmpID] = useState('');
@@ -78,22 +75,18 @@ function EmpImport() {
     setSuccess('');
 
     try {
-        // const id = sessionStorage.getItem("id");
-      const response = await fetch(`${BASE_URL}/User/upsert-employees-details/`, {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post(API_URLS.UPSERT_EMPLOYEE, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-          throw new Error(data.error || 'Failed to upload the file. Please try again.');
+      if (response.data) {
+        setSuccess('File uploaded successfully and data imported.');
+        console.log('Response from server:', response.data);
       }
-
-      setSuccess('File uploaded successfully and data imported.');
-      console.log('Response from server:', data);
     } catch (err) {
-      setError(err.message || 'Something went wrong.');
+      setError(err.response?.data?.error || 'Something went wrong.');
     } finally {
       setLoading(false);
     }

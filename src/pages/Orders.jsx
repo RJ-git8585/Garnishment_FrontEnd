@@ -1,4 +1,3 @@
-
 /**
  * Orders Component
  * 
@@ -37,6 +36,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";
 import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import a new loader icon
+import { API_URLS } from '../configration/apis';
+import axios from 'axios';
 
 function Orders() {
   const cid = sessionStorage.getItem("cid");
@@ -47,15 +48,15 @@ function Orders() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Start loading
+      setLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/User/GetOrderDetails/`);
-        const jsonData = await response.json();
-        setData(jsonData.data);
+        const response = await axios.get(API_URLS.GET_ORDER_DETAILS);
+        setData(response.data.data || []);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
+        setData([]);
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);
       }
     };
 
@@ -79,7 +80,7 @@ function Orders() {
         <h4 className="text-lg font-bold text-gray-800">Orders</h4>
         <div className="flex space-x-2">
           <a
-            href={`${BASE_URL}/User/ExportOrder/`}
+            href={API_URLS.EXPORT_ORDER}
             className="border inline-flex ml-2 items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
           >
             <TiExport className="mr-1" />Export

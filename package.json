@@ -2,14 +2,15 @@
   "name": "react-p",
   "homepage": ".",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "test": "jest",
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node scripts/set-version.js && vite",
+    "build": "node scripts/set-version.js && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "set-version": "node scripts/set-version.js"
   },
   "dependencies": {
     "@date-io/date-fns": "^3.2.0",

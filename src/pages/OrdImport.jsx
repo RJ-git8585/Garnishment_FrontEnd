@@ -1,4 +1,3 @@
-
 /**
  * OrdImport Component
  * 
@@ -47,6 +46,8 @@ import {
 import { BASE_URL } from '../configration/Config';
 import Headertop from '../component/Headertop';
 import Sidebar from '../component/sidebar';
+import { API_URLS } from '../configration/apis';
+import axios from 'axios';
 
 function OrdImport() {
   const [empID, setEmpID] = useState('');
@@ -78,21 +79,18 @@ function OrdImport() {
     setSuccess('');
 
     try {
-        // const id = sessionStorage.getItem("id");
-      const response = await fetch(`${BASE_URL}/User/upsert-gar-orders/`, {
-        method: 'POST',
-        body: formData,
+      const response = await axios.post(API_URLS.UPSERT_ORDER, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to upload the file. Please try again.');
+      if (response.data) {
+        setSuccess('File uploaded successfully and data imported.');
+        console.log('Response from server:', response.data);
       }
-
-      const data = await response.json();
-      setSuccess('File uploaded successfully and data imported.');
-      console.log('Response from server:', data);
     } catch (err) {
-      setError(err.message || 'Something went wrong.');
+      setError(err.response?.data?.error || 'Something went wrong.');
     } finally {
       setLoading(false);
     }

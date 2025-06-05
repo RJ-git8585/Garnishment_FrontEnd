@@ -1,4 +1,3 @@
-
 /**
  * Forgot Component
  *
@@ -37,6 +36,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Logo from '../utils/image/Logo_g.png';
+import { API_URLS } from '../configration/apis';
+
 function Forgot() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -67,10 +68,7 @@ function Forgot() {
     setError("");
 
     try {
-      const response = await axios.post(
-        "https://garnishment-backend.onrender.com/User/password-reset",
-        { email }
-      );
+      const response = await axios.post(API_URLS.PASSWORD_RESET_REQUEST, { email });
 
       if (response.data.success) {
         setMessage("Password reset link has been sent to your email.");

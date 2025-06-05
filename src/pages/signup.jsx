@@ -1,5 +1,3 @@
-
-
 /**
  * Form Component
  * 
@@ -44,7 +42,8 @@ import axios from 'axios';
 import logo from '../utils/image/Logo_g.png';
 import { FcGoogle } from "react-icons/fc";
 import { RiFacebookFill } from "react-icons/ri";
-import { BASE_URL } from '../configration/Config';
+import { API_URLS } from '../configration/apis';
+
 function Form() {
   const [formData, setFormData] = useState({
     name: '',
@@ -81,7 +80,7 @@ function Form() {
     e.preventDefault();
     // alert('Registration successful1');
     try {
-      const response = await axios.post(`${BASE_URL}/auth/register  `, formData);
+      const response = await axios.post(API_URLS.REGISTER, formData);
       // alert('Registration successful2');
       if (response.data.message) {
         console.log(response.data)

@@ -39,37 +39,48 @@
  */
 import React from 'react';
 import { useState, useEffect } from "react";
-import { BASE_URL } from "../configration/Config";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { CgImport } from "react-icons/cg";
 import { TiExport } from "react-icons/ti";
-import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import loader icon
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { API_URLS } from '../configration/apis';
+import axios from 'axios';
 
 function Employee() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true); // State to track loading
+  const [loading, setLoading] = useState(true);
   const rowsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Start loading
+      setLoading(true);
       try {
-        const response = await fetch(`${BASE_URL}/User/EmployeeRules/`);
-        const jsonData = await response.json();
-        console.log('Fetched Data:', jsonData); // Debugging log
-        setData(jsonData.data || []);
+        const response = await axios.get(API_URLS.GET_EMPLOYEES);
+        console.log('Fetched Data:', response.data);
+        setData(response.data.data || []);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setData([]); // Handle error by setting data to an empty array
+        setData([]);
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
+
+  const handleDelete = async (employeeId) => {
+    try {
+      await axios.delete(API_URLS.DELETE_EMPLOYEE(employeeId));
+      // Refresh the data after deletion
+      const response = await axios.get(API_URLS.GET_EMPLOYEES);
+      setData(response.data.data || []);
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
+  };
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -88,7 +99,7 @@ function Employee() {
         <h4 className="text-lg font-bold text-gray-800">Employees</h4>
         <div className="flex space-x-2">
           <a
-            href={`${BASE_URL}/User/ExportEmployees/`}
+            href={API_URLS.EXPORT_EMPLOYEE}
             className="border inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-black-900 shadow-sm ring-1 ring-gray-300 hover:bg-gray-50"
           >
             <TiExport className="mr-1" /> Export
@@ -175,7 +186,7 @@ function Employee() {
                   <td className="px-6 py-3 text-sm">
                     <button
                       className="text-red-500 hover:underline"
-                      onClick={() => console.log(`Delete ${row.ee_id}`)}
+                      onClick={() => handleDelete(row.ee_id)}
                     >
                       <RiDeleteBin6Line />
                     </button>
