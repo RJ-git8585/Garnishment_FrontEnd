@@ -72,5 +72,5 @@ export const API_URLS = {
 
   // Creditor Debt Exempt Amount Configuration APIs
   GET_CREDITOR_DEBT_EXEMPT_CONFIG: (state, weekly) => 
-    `${API_BASE_URL}/garnishment/creditor-debt-exempt-amt-config/${state.toLowerCase()}/${weekly.toLowerCase()}/`,
+    `${API_BASE_URL}/garnishment_creditor/creditor-debt-exempt-amt-config/${state.toLowerCase()}/${weekly.toLowerCase()}/`,
 };

@@ -288,7 +288,7 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
               <TableCell>
                 <Tooltip
                   title={renderTooltipContent()}
-                  onOpen={() => fetchTooltipData(state, weekly)}
+                  onOpen={() => fetchTooltipData(data.state, "weekly")}
                   arrow
                   interactive
                   placement="top"
@@ -301,12 +301,35 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
                         },
                       },
                     ],
+                    sx: {
+                      zIndex: 999999,
+                      '& .MuiTooltip-tooltip': {
+                        zIndex: 999999
+                      },
+                      '& .MuiTooltip-popper': {
+                        zIndex: 999999
+                      }
+                    },
+                    style: {
+                      zIndex: 999999,
+                    }
+                  }}
+                  componentsProps={{
+                    tooltip: {
+                      sx: {
+                        zIndex: 999999,
+                        bgcolor: 'white',
+                        '& .MuiTooltip-arrow': {
+                          color: 'white',
+                        },
+                      },
+                    },
                   }}
                 >
                   <AnimatedSpan>{data.withholding_basis || 'N/A'}</AnimatedSpan>
                 </Tooltip>
                 <button
-                  onClick={() => handleWithholdingBasisClick(state, weekly)}
+                  onClick={() => handleWithholdingBasisClick(data.state, "weekly")}
                   style={{
                     background: 'none',
                     border: 'none',
