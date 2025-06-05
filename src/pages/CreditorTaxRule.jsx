@@ -14,6 +14,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tooltip } from "@mui/material";
 import { BASE_URL } from "../configration/Config";
+import { API_URLS } from "../configration/apis";
 import Swal from "sweetalert2";
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -227,7 +228,7 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(`${BASE_URL}/garnishment/creditor-debt-applied-rule/${caseId}/`);
+      const response = await fetch(API_URLS.GET_CREDITOR_DEBT_APPLIED_RULE(caseId));
       if (!response.ok) {
         throw new Error(`Failed to fetch data: ${response.statusText}`);
       }

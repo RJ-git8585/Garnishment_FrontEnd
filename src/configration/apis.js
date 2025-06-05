@@ -49,20 +49,24 @@ export const API_URLS = {
   GET_CREDITOR_RULES: `${API_BASE_URL}/garnishment_creditor/creditor-debt-rule/`,
   UPDATE_CREDITOR_RULE: `${API_BASE_URL}/garnishment_creditor/creditor-debt-rule/:state/`,
   CREDITOR_RULE_EDIT_REQUEST: `${API_BASE_URL}/garnishment_creditor/creditor-debt-rule-edit-request/`,
-  GET_CREDITOR_RULE_BY_STATE: `${API_BASE_URL}/garnishment_state/state-tax-levy-config-data/:state`,
+  GET_GARNISHMENT_EXEMPT_CONFIG: `${API_BASE_URL}/garnishment_creditor/creditor-debt-exempt-amt-config/`,
   // Child Support Rule APIs
   GET_CHILD_SUPPORT_RULES: `${API_BASE_URL}/garnishment/child-support-rules/`,
   UPDATE_CHILD_SUPPORT_RULE: `${API_BASE_URL}/garnishment/child-support-rules/:state/`,
 
   // State Tax Levy Rule APIs
   GET_STATE_TAX_RULES: `${API_BASE_URL}/garnishment_state/state-tax-levy-config-data/`,
-  GET_STATE_TAX_RULE_BY_STATE: `${API_BASE_URL}/garnishment_state/state-tax-levy-config-data/:state`,
-  UPDATE_STATE_TAX_RULE: `${API_BASE_URL}/garnishment_state/state-tax-levy-config-data/:state`,
-  STATE_TAX_RULE_EDIT_REQUEST: `${API_BASE_URL}/garnishment/state-tax-levy-rule-edit-request/`,
-
-  // Garnishment Exempt Amount Configuration APIs
-  GET_GARNISHMENT_EXEMPT_CONFIG: `${API_BASE_URL}/garnishment_creditor/creditor-debt-exempt-amt-config/`,
-
-  // State Tax Levy Exempt Amount Configuration APIs
+  GET_STATE_TAX_RULE_BY_STATE: `${API_BASE_URL}/garnishment_state/state-tax-levy-config-data/:state/`,
+  UPDATE_STATE_TAX_RULE: `${API_BASE_URL}/garnishment_state/state-tax-levy-config-data/`,
+  STATE_TAX_RULE_EDIT_REQUEST: `${API_BASE_URL}/garnishment_state/state-tax-levy-rule-edit-request/`,
+    // State Tax Levy Exempt Amount Configuration APIs
+  GET_CREDITOR_RULE_BY_STATE: `${API_BASE_URL}/garnishment_state/state-tax-levy-config-data/:state`,
   STATE_TAX_LEVY_EXEMPT: `${API_BASE_URL}/garnishment_state/state-tax-levy-exempt-amt-config/`,
+  // Garnishment Exempt Amount Configuration APIs
+  
+  // Creditor Debt Applied Rule APIs
+  GET_CREDITOR_DEBT_APPLIED_RULE: (caseId) => `${API_BASE_URL}/garnishment_creditor/creditor-debt-applied-rule/${caseId}/`,
+
+  // State Tax Levy Applied Rule APIs
+  GET_STATE_TAX_LEVY_APPLIED_RULE: (caseId) => `${API_BASE_URL}/garnishment_state/state-tax-levy-applied-rule/${caseId}`,
 };

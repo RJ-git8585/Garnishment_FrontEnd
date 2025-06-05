@@ -1,4 +1,3 @@
-
 /**
  * Component to display State Tax Levy Rules for a given case ID.
  *
@@ -41,6 +40,7 @@
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { BASE_URL } from "../configration/Config";
+import { API_URLS } from "../configration/apis";
 
 const StatetaxLevyRules = ({ caseId }) => {
   const [data, setData] = useState(null);
@@ -52,7 +52,7 @@ const StatetaxLevyRules = ({ caseId }) => {
       setLoading(true);
       setError("");
       try {
-        const response = await fetch(`${BASE_URL}/garnishment/state-tax-levy-applied-rule/${caseId}`);
+        const response = await fetch(API_URLS.GET_STATE_TAX_LEVY_APPLIED_RULE(caseId));
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);
         }

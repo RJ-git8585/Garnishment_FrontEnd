@@ -20,6 +20,72 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { sanitizeString } from "../utils/sanitizeData"; // Import the sanitize function
+import { API_URLS } from "../configration/apis";
+import Swal from "sweetalert2";
+
+// Add custom styles for proper layering
+const swalStyles = document.createElement('style');
+swalStyles.textContent = `
+  .custom-swal-container {
+    z-index: 999999 !important;
+  }
+  .custom-swal-popup {
+    z-index: 999999 !important;
+  }
+  .swal2-container {
+    z-index: 999999 !important;
+  }
+  .swal2-popup {
+    z-index: 999999 !important;
+  }
+  .custom-dialog {
+    z-index: 1400;
+  }
+  div[role='presentation'].MuiModal-root {
+    z-index: 99999 !important;
+  }
+  .MuiPopover-root {
+    z-index: 99999 !important;
+  }
+  .MuiMenu-paper {
+    z-index: 99999 !important;
+  }
+`;
+document.head.appendChild(swalStyles);
+
+const swalConfig = {
+  customClass: {
+    container: 'custom-swal-container',
+    popup: 'custom-swal-popup'
+  },
+  backdrop: 'rgba(0,0,0,0.7)',
+  allowOutsideClick: false
+};
+
+const menuProps = {
+  PaperProps: {
+    style: {
+      zIndex: 99999,
+    },
+  },
+  sx: {
+    zIndex: 99999,
+    '& .MuiMenu-paper': {
+      zIndex: 99999,
+    },
+    '& .MuiPopover-paper': {
+      zIndex: 99999,
+    },
+  },
+  MenuListProps: {
+    style: {
+      zIndex: 99999,
+    },
+  },
+  PopoverClasses: {
+    root: 'MuiPopover-root'
+  }
+};
 
 const deductionBasisOptions = [
   { value: "disposable earning", label: "Disposable Earning" },
@@ -34,6 +100,8 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
     deduction_basis: "",
     withholding_limit: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (ruleData) {
@@ -53,7 +121,7 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
         withholding_limit: withholding_limit,
       });
     }
-  }, [ruleData]); // Re-run when `ruleData` changes
+  }, [ruleData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,17 +133,111 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
     }
   };
 
-  const handleSubmit = () => {
-    // Ensure the rule field is not empty
-    if (!formData.rule.trim()) {
-      alert('Rule field cannot be empty');
-      return;
+  const validateForm = () => {
+    const { rule, state, deduction_basis, withholding_limit } = formData;
+    if (!rule.trim() || !state.trim() || !deduction_basis || !withholding_limit) {
+      Swal.fire({
+        icon: "error",
+        title: "Validation Error",
+        text: "All fields are required. Please fill out the form completely.",
+        ...swalConfig
+      });
+      return false;
     }
-    handleSave(formData);
+    return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return;
+
+    try {
+      // Show confirmation dialog first
+      const confirmResult = await Swal.fire({
+        title: 'Confirm Rule Changes',
+        html: `
+          <div class="text-left">
+            <p class="mb-2">Please review the following changes:</p>
+            <ul class="list-disc pl-5">
+              <li><strong>State:</strong> ${formData.state}</li>
+              <li><strong>Rule:</strong> ${formData.rule}</li>
+              <li><strong>Deduction Basis:</strong> ${formData.deduction_basis}</li>
+              <li><strong>Withholding Limit:</strong> ${formData.withholding_limit}%</li>
+            </ul>
+            <p class="mt-4 text-sm text-gray-600">
+              Are you sure you want to save these changes?
+            </p>
+          </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Save Changes',
+        cancelButtonText: 'No, Review Changes',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        ...swalConfig
+      });
+
+      if (confirmResult.isConfirmed) {
+        setLoading(true);
+        
+        // Create the API URL with the state parameter
+        const stateParam = formData.state.toLowerCase();
+        const apiUrl = `${API_URLS.UPDATE_STATE_TAX_RULE}${stateParam}/`;
+
+        const response = await fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            state: formData.state,
+            rule: formData.rule,
+            deduction_basis: formData.deduction_basis,
+            withholding_limit: formData.withholding_limit
+          }),
+        });
+
+        if (response.ok) {
+          await Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: "Rule updated successfully.",
+            ...swalConfig
+          }).then(() => {
+            handleClose(); // Only close the dialog after user clicks OK on success message
+          });
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Failed to update rule.");
+        }
+      }
+    } catch (error) {
+      console.error("Error updating rule:", error);
+      await Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: error.message || "An error occurred while updating the rule. Please try again later.",
+        ...swalConfig
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+    <Dialog 
+      open={open} 
+      onClose={handleClose} 
+      fullWidth 
+      maxWidth="sm"
+      className="custom-dialog"
+      sx={{
+        '& .MuiDialog-paper': {
+          position: 'relative',
+          zIndex: 1400
+        }
+      }}
+    >
       <DialogTitle>Edit Rule</DialogTitle>
       <DialogContent>
         <FormControl fullWidth margin="normal">
@@ -106,6 +268,7 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
             value={formData.deduction_basis || ""}
             onChange={handleChange}
             label="Deduction Basis"
+            MenuProps={menuProps}
           >
             <MenuItem value="">Select an option</MenuItem>
             {deductionBasisOptions.map((option) => (
@@ -131,15 +294,13 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
         <Button onClick={handleClose} color="secondary">
           Cancel
         </Button>
-        <Button 
-          onClick={handleSubmit} 
+        <Button
+          onClick={handleSubmit}
           variant="contained"
-          style={{
-            backgroundColor: "red",
-            color: "white",
-          }}
+          color="primary"
+          disabled={loading}
         >
-          Save
+          {loading ? "Saving..." : "Save Changes"}
         </Button>
       </DialogActions>
     </Dialog>
