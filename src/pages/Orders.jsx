@@ -109,7 +109,7 @@ function Orders() {
               <th className="px-6 py-3 text-left text-sm">Amount</th>
               <th className="px-6 py-3 text-left text-sm">Arrears 12 Weeks</th>
               <th className="px-6 py-3 text-left text-sm">Arrear Amount</th>
-              <th className="px-6 py-3 text-left text-sm">Actions</th>
+              {/* <th className="px-6 py-3 text-left text-sm">Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -137,14 +137,14 @@ function Orders() {
                     {row.arrear_greater_than_12_weeks ? "True" : "False"}
                   </td>
                   <td className="px-6 py-3 text-sm truncate">{row.arrear_amount}</td>
-                  <td className="px-6 py-3 text-sm">
+                  {/* <td className="px-6 py-3 text-sm">
                     <button
                       className="text-red-500 hover:underline"
                       onClick={() => console.log(`Delete ${row.case_id}`)}
                     >
                       <RiDeleteBin6Line />
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))
             )}

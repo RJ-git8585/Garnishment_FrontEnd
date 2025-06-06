@@ -5,25 +5,44 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import Swal from 'sweetalert2';
 
-// Add custom styles for Swal
-const swalConfig = {
-  customClass:{
-    container: 'swal-container-class',
-    popup: 'swal-popup-class'
+// Add custom styles for proper layering
+const swalStyles = document.createElement('style');
+swalStyles.textContent = `
+  .custom-swal-container {
+    z-index: 999999 !important;
   }
-};
-
-// Add style tag for custom Swal classes
-const styleTag = document.createElement('style');
-styleTag.textContent = `
-  .swal-container-class {
-    z-index: 9999 !important;
+  .custom-swal-popup {
+    z-index: 999999 !important;
   }
-  .swal-popup-class {
-    z-index: 9999 !important;
+  .swal2-container {
+    z-index: 999999 !important;
+  }
+  .swal2-popup {
+    z-index: 999999 !important;
+  }
+  .custom-dialog {
+    z-index: 1400;
+  }
+  div[role='presentation'].MuiModal-root {
+    z-index: 99999 !important;
+  }
+  .MuiPopover-root {
+    z-index: 99999 !important;
+  }
+  .MuiMenu-paper {
+    z-index: 99999 !important;
   }
 `;
-document.head.appendChild(styleTag);
+document.head.appendChild(swalStyles);
+
+const swalConfig = {
+  customClass: {
+    container: 'custom-swal-container',
+    popup: 'custom-swal-popup'
+  },
+  backdrop: 'rgba(0,0,0,0.7)',
+  allowOutsideClick: false
+};
 
 const ExemptAmountPopup = ({ open, handleClose, state }) => {
   const [exemptData, setExemptData] = useState([]);
@@ -100,39 +119,76 @@ const ExemptAmountPopup = ({ open, handleClose, state }) => {
 
   const handleEditSubmit = async () => {
     try {
-      const response = await fetch(`${API_URLS.GET_GARNISHMENT_EXEMPT_CONFIG}${state.toLowerCase()}/${editingItem.pay_period}/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...editingItem,
-          ...editFormData
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update exempt data');
-      }
-
-      // Update local state
-      setExemptData(prevData => 
-        prevData.map(item => 
-          item.pay_period === editingItem.pay_period ? { ...item, ...editFormData } : item
-        )
-      );
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: 'Exempt amount updated successfully!',
+      // Show confirmation dialog first
+      const confirmResult = await Swal.fire({
+        title: 'Confirm Exempt Amount Changes',
+        html: `
+          <div class="text-left">
+            <p class="mb-2">Please review the following changes:</p>
+            <ul class="list-disc pl-5">
+              <li><strong>State:</strong> ${state}</li>
+              <li><strong>Pay Period:</strong> ${editingItem.pay_period}</li>
+              <li><strong>Minimum Wage Basis:</strong> ${editFormData.minimum_hourly_wage_basis}</li>
+              <li><strong>Minimum Wage Amount:</strong> ${formatCurrency(editFormData.minimum_wage_amount)}</li>
+              <li><strong>Lower Threshold:</strong> ${formatCurrency(editFormData.lower_threshold_amount)}</li>
+              <li><strong>Upper Threshold:</strong> ${formatCurrency(editFormData.upper_threshold_amount)}</li>
+            </ul>
+            <p class="mt-4 text-sm text-gray-600">
+              Are you sure you want to save these changes?
+            </p>
+          </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Save Changes',
+        cancelButtonText: 'No, Review Changes',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
         ...swalConfig
       });
 
-      handleEditClose();
+      if (confirmResult.isConfirmed) {
+        const response = await fetch(`${API_URLS.GET_GARNISHMENT_EXEMPT_CONFIG}${state.toLowerCase()}/${editingItem.pay_period}/`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...editingItem,
+            ...editFormData
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to update exempt data');
+        }
+
+        // Update local state
+        setExemptData(prevData => 
+          prevData.map(item => 
+            item.pay_period === editingItem.pay_period ? { ...item, ...editFormData } : item
+          )
+        );
+
+        // Show success message
+        await Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          html: `
+            <div class="text-center">
+              <p>The exempt amount has been updated successfully.</p>
+            </div>
+          `,
+          confirmButtonText: 'Close',
+          confirmButtonColor: '#3085d6',
+          ...swalConfig
+        });
+
+        handleEditClose();
+      }
     } catch (error) {
       console.error('Error updating exempt data:', error);
-      Swal.fire({
+      await Swal.fire({
         icon: 'error',
         title: 'Error',
         text: 'Failed to update exempt amount. Please try again.',

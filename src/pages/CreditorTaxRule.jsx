@@ -340,6 +340,7 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
                     font: 'inherit'
                   }}
                 >
+                  
                   {/* <FaExternalLinkAlt style={{
                     fontSize: '14px',
                     marginLeft: '5px',

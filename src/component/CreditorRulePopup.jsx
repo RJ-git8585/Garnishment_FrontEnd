@@ -3,6 +3,32 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, M
 import { API_URLS } from "../configration/apis";
 import Swal from "sweetalert2";
 
+const swalStyles = document.createElement('style');
+swalStyles.textContent = `
+  .custom-swal-container {
+    z-index: 999999 !important;
+  }
+  .custom-swal-popup {
+    z-index: 999999 !important;
+  }
+  .swal2-container {
+    z-index: 999999 !important;
+  }
+  .swal2-popup {
+    z-index: 999999 !important;
+  }
+`;
+document.head.appendChild(swalStyles);
+
+const swalConfig = {
+  customClass: {
+    container: 'custom-swal-container',
+    popup: 'custom-swal-popup'
+  },
+  backdrop: 'rgba(0,0,0,0.7)',
+  allowOutsideClick: false
+};
+
 const CreditorRulePopup = ({ open, handleClose, handleSave }) => {
   const [formData, setFormData] = useState({
     state: '',
@@ -130,39 +156,68 @@ const CreditorRulePopup = ({ open, handleClose, handleSave }) => {
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return;
-
     try {
-      const response = await fetch(API_URLS.CREDITOR_RULE_EDIT_REQUEST, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          state: formData.state,
-          description: formData.description,
-          deduction_basis: formData.deduction_basis,
-          withholding_limit: formData.withholding_limit
-        }),
+      const confirmResult = await Swal.fire({
+        title: 'Confirm Rule Change Request',
+        html: `
+          <div class="text-left">
+            <p class="mb-2">Please review the following changes:</p>
+            <ul class="list-disc pl-5">
+              <li><strong>State:</strong> ${formData.state}</li>
+              <li><strong>Current Rule:</strong> ${formData.current_rule || 'No rule defined'}</li>
+              <li><strong>New Rule Description:</strong> ${formData.description}</li>
+              <li><strong>Deduction Basis:</strong> ${formData.deduction_basis}</li>
+              <li><strong>Withholding Limit:</strong> ${formData.withholding_limit}%</li>
+            </ul>
+            <p class="mt-4 text-sm text-gray-600">
+              Are you sure you want to submit this rule change request?
+            </p>
+          </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Submit Request',
+        cancelButtonText: 'No, Review Changes',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        ...swalConfig
       });
 
-      if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title: "Success",
-          text: "Request is submitted successfully.",
+      if (confirmResult.isConfirmed) {
+        const response = await fetch(API_URLS.CREDITOR_RULE_EDIT_REQUEST, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         });
-        handleSave(formData);
+
+        if (!response.ok) {
+          throw new Error("Failed to submit the form.");
+        }
+
+        await Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          html: `
+            <div class="text-center">
+              <p>The rule change request has been submitted successfully.</p>
+            </div>
+          `,
+          confirmButtonText: 'Close',
+          confirmButtonColor: '#3085d6',
+          ...swalConfig
+        });
+
         handleClose();
-      } else {
-        throw new Error("Failed to submit the form.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Submission Failed",
-        text: "An error occurred while submitting the form. Please try again later.",
+      await Swal.fire({
+        icon: 'error',
+        title: 'Submission Failed',
+        text: error.message || "An error occurred while submitting the form. Please try again later.",
+        ...swalConfig
       });
     }
   };

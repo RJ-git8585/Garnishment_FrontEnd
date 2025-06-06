@@ -70,7 +70,8 @@ const CreditorRule = () => {
       // Extract the numeric value from the rule
       const numericValue = updatedRule.withholding_limit;
 
-      Swal.fire({
+      // First dialog for editing
+      const editResult = await Swal.fire({
         title: 'Edit Rule Details',
         html: `
           <div class="space-y-4 text-left">
@@ -101,7 +102,7 @@ const CreditorRule = () => {
           </div>
         `,
         showCancelButton: true,
-        confirmButtonText: 'Save',
+        confirmButtonText: 'Next',
         showLoaderOnConfirm: true,
         allowOutsideClick: false,
         didOpen: () => {
@@ -124,42 +125,68 @@ const CreditorRule = () => {
             return false;
           }
 
-          const updatedRuleData = {
+          return {
             ...updatedRule,
             withholding_limit: withholdingLimit,
             rule: ruleValue
           };
+        }
+      });
 
-          return fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', updatedRule.state), {
+      if (editResult.isConfirmed) {
+        const updatedRuleData = editResult.value;
+
+        // Second dialog for confirmation
+        const confirmResult = await Swal.fire({
+          title: 'Confirm Rule Changes',
+          html: `
+            <div class="text-left">
+              <p class="mb-2">Please review the following changes:</p>
+              <ul class="list-disc pl-5">
+                <li><strong>State:</strong> ${updatedRuleData.state}</li>
+                <li><strong>Rule:</strong> ${updatedRuleData.rule}</li>
+                <li><strong>Deduction Basis:</strong> ${updatedRuleData.deduction_basis}</li>
+                <li><strong>Withholding Cap:</strong> ${updatedRuleData.withholding_limit}%</li>
+              </ul>
+              <p class="mt-4 text-sm text-gray-600">
+                Are you sure you want to save these changes?
+              </p>
+            </div>
+          `,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, Save Changes',
+          cancelButtonText: 'No, Review Changes',
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33'
+        });
+
+        if (confirmResult.isConfirmed) {
+          const response = await fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', updatedRuleData.state), {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(updatedRuleData)
-          })
-          .then(response => {
-            if (!response.ok) throw new Error('Failed to update rule');
-            return response.json();
-          })
-          .catch(error => {
-            Swal.showValidationMessage(`Request failed: ${error}`);
           });
-        }
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
+
+          if (!response.ok) {
+            throw new Error('Failed to update rule');
+          }
+
+          await Swal.fire({
             icon: 'success',
-            title: 'Updated Successfully',
+            title: 'Success!',
             text: 'The rule details have been successfully updated.',
-            allowOutsideClick: false,
-          }).then(() => {
-            // Refresh the data
-            window.location.reload();
+            confirmButtonColor: '#3085d6'
           });
+
+          // Refresh the data
+          window.location.reload();
         }
-      });
+      }
     } catch (error) {
-      Swal.fire({
+      await Swal.fire({
         icon: 'error',
         title: 'Error',
         text: error.message || 'Failed to load rule data',
@@ -197,16 +224,18 @@ const CreditorRule = () => {
   };
 
   const formatWithholdingValue = (value) => {
-    // Return empty string or original value if null/undefined/empty
-    if (!value && value !== 0) return '';
-    if (value === '') return '';
+    // Return 'N/A' if value is null, undefined, or empty string
+    if (value === null || value === undefined || value === '') {
+      return 'N/A';
+    }
     
-    // Check for multiple values
+    // Check for multiple values (containing , / or -)
     if (hasMultipleValues(value)) {
       return value; // Return as is for multiple values
     }
     
-    return `${value}%`; // Add % for single values
+    // Add % only for valid numeric values
+    return `${value}%`;
   };
 
   return (
@@ -256,7 +285,7 @@ const CreditorRule = () => {
                   </td>
                   <td className="px-6 py-3 text-sm capitalize">{rule.deduction_basis}</td>
                   <td className="px-6 py-3 text-sm">
-                    {rule.withholding_limit ? `${rule.withholding_limit}%` : "N/A"}
+                    {formatWithholdingValue(rule.withholding_limit)}
                   </td>
                   <td className="px-6 py-3 text-sm flex items-center justify-between border-0">
                     <span className="capitalize">{rule.rule}</span>

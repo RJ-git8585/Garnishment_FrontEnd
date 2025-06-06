@@ -97,7 +97,7 @@ const Ruleslist = () => {
     try {
       const response = await fetch(API_URLS.GET_STATE_TAX_RULE_BY_STATE.replace(':state', rule.state));
       if (response.ok) {
-        const jsonData = await response.json();
+        const jsonData = await response.json(); 
         
         // Format the data to match the required structure
         const formattedData = {

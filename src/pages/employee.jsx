@@ -135,7 +135,7 @@ function Employee() {
               <th className="px-6 py-3 text-left text-sm">No. of Default Loans</th>
               <th className="px-6 py-3 text-left text-sm">Garnishment Status</th>
               <th className="px-6 py-3 text-left text-sm">Garnishment Suspended Till</th>
-              <th className="px-6 py-3 text-left text-sm">Actions</th>
+              {/* <th className="px-6 py-3 text-left text-sm">Actions</th> */}
             </tr>
           </thead>
           <tbody>
@@ -183,14 +183,14 @@ function Employee() {
                     {row.garnishment_fees_status ? "Active" : "Inactive"}
                   </td>
                   <td className="px-6 py-3 text-sm truncate">{row.garnishment_fees_suspended_till}</td>
-                  <td className="px-6 py-3 text-sm">
+                  {/* <td className="px-6 py-3 text-sm">
                     <button
                       className="text-red-500 hover:underline"
                       onClick={() => handleDelete(row.ee_id)}
                     >
                       <RiDeleteBin6Line />
                     </button>
-                  </td>
+                  </td> */}
                 </tr>
               ))
             )}
