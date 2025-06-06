@@ -276,12 +276,16 @@ const CreditorRule = () => {
                     {(currentPage - 1) * rowsPerPage + index + 1}
                   </td>
                   <td className="px-6 py-3 text-sm capitalize rulebtn_cls">
-                    <button
-                      onClick={() => handleEditClick(rule)}
-                      className="text-sky-900 capitalize rulebtn_cls hover:underline"
-                    >
-                      {rule.state}
-                    </button>
+                    {hasMultipleValues(rule.withholding_limit) ? (
+                      <span className="text-sky-900 capitalize">{rule.state}</span>
+                    ) : (
+                      <button
+                        onClick={() => handleEditClick(rule)}
+                        className="text-sky-900 capitalize rulebtn_cls hover:underline"
+                      >
+                        {rule.state}
+                      </button>
+                    )}
                   </td>
                   <td className="px-6 py-3 text-sm capitalize">{rule.deduction_basis}</td>
                   <td className="px-6 py-3 text-sm">

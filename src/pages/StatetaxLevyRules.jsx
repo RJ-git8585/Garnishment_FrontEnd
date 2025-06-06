@@ -27,25 +27,56 @@
  * @dependencies
  * - React
  * - Material-UI components: CircularProgress, Typography, Table, TableBody, TableCell,
- *   TableContainer, TableHead, TableRow, Paper
+ *   TableContainer, TableHead, TableRow, Paper, Tooltip
  * - `BASE_URL` from the configuration file
  *
  * @state {Object|null} data - The fetched data for the state tax levy rules.
  * @state {boolean} loading - Indicates whether the data is being loaded.
  * @state {string} error - Stores any error message encountered during data fetching.
+ * @state {Object|null} tooltipData - The fetched data for the state tax levy exempt configuration.
+ * @state {boolean} tooltipLoading - Indicates whether the tooltip data is being loaded.
+ * @state {string} tooltipError - Stores any error message encountered during tooltip data fetching.
  *
  * @hooks
  * - `useEffect` to fetch data when the `caseId` prop changes.
+ * - `useCallback` to fetch tooltip data when the state or pay period changes.
  */
-import React, { useEffect, useState } from "react";
-import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import React, { useEffect, useState, useCallback } from "react";
+import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Tooltip } from "@mui/material";
 import { BASE_URL } from "../configration/Config";
 import { API_URLS } from "../configration/apis";
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
+import { FaExternalLinkAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
+
+const shakeAnimation = keyframes`
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+`;
+
+const AnimatedSpan = styled.span`
+  cursor: help;
+  color: #0066cc;
+  transition: color 0.3s ease;
+  display: inline-block;
+
+  &:hover {
+    color: #0066cc;
+    animation: ${shakeAnimation} 0.5s ease;
+  }
+`;
 
 const StatetaxLevyRules = ({ caseId }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [tooltipData, setTooltipData] = useState(null);
+  const [tooltipLoading, setTooltipLoading] = useState(false);
+  const [tooltipError, setTooltipError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,6 +98,182 @@ const StatetaxLevyRules = ({ caseId }) => {
 
     fetchData();
   }, [caseId]);
+
+  const fetchTooltipData = useCallback(async () => {
+    alert(data.state, data.pay_period);
+    if (!data?.state || !data?.pay_period) return;
+    
+    setTooltipLoading(true);
+    setTooltipError("");
+    setTooltipData(null);
+    
+    try {
+      console.log(data.state, data.pay_period);
+      const response = await fetch(API_URLS.GET_STATE_TAX_LEVY_EXEMPT_CONFIG(data.state, data.pay_period));
+      if (!response.ok) {
+        throw new Error(`Failed to fetch tooltip data: ${response.statusText}`);
+      }
+      const result = await response.json();
+      if (result.data && result.data.length > 0) {
+        setTooltipData(result.data[0]);
+      } else {
+        setTooltipError("No configuration data available");
+      }
+    } catch (err) {
+      console.error("Error fetching tooltip data:", err);
+      setTooltipError(err.message || "Failed to load configuration data");
+    } finally {
+      setTooltipLoading(false);
+    }
+  }, [data?.state, data?.pay_period]);
+
+  const handleWithholdingBasisClick = async () => {
+    if (!data?.state || !data?.pay_period) return;
+    
+    try {
+      const response = await fetch(API_URLS.GET_STATE_TAX_LEVY_EXEMPT_CONFIG(data.state, data.pay_period));
+      if (!response.ok) {
+        throw new Error(`Failed to fetch withholding basis details`);
+      }
+      const result = await response.json();
+      
+      // Create table rows from the data
+      const tableData = Array.isArray(result.data) ? result.data[0] : result.data;
+      const tableRows = Object.entries(tableData)
+        .filter(([key]) => key !== 'id') // Exclude id field
+        .map(([key, value], index) => {
+          const formattedKey = key.split('_').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+          ).join(' ');
+          
+          let displayValue = value;
+          if (typeof value === 'object' && value !== null) {
+            displayValue = JSON.stringify(value);
+          } else if (value === null || value === undefined) {
+            displayValue = 'N/A';
+          }
+          
+          return `
+            <tr>
+              <td style="text-sm border: 1px solid #ddd; padding: 8px; text-align: center">${index + 1}</td>
+              <td style="text-sm border: 1px solid #ddd; padding: 8px">${formattedKey}</td>
+              <td style="text-sm border: 1px solid #ddd; padding: 8px">${displayValue}</td>
+            </tr>
+          `;
+        })
+        .join('');
+      
+      Swal.fire({
+        title: 'State Tax Levy Exempt Configuration',
+        html: `
+          <div style="max-height: 70vh; overflow-y: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+              <thead>
+                <tr style="background-color: #f2f2f2;">
+                  <th style="text-sm border: 1px solid #ddd; padding: 12px; text-align: center">Sr</th>
+                  <th style="text-sm border: 1px solid #ddd; padding: 12px; text-align: left">Parameter</th>
+                  <th style="text-sm border: 1px solid #ddd; padding: 12px; text-align: left">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${tableRows}
+              </tbody>
+            </table>
+          </div>
+        `,
+        width: '800px',
+        showConfirmButton: false,
+        showCloseButton: true,
+        customClass: {
+          closeButton: 'custom-close-button',
+          header: 'custom-header',
+          container: 'custom-swal-container',
+          popup: 'custom-swal-popup'
+        }
+      });
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: err.message || 'Failed to fetch withholding basis details',
+        showConfirmButton: false,
+        showCloseButton: true
+      });
+    }
+  };
+
+  const renderTooltipContent = () => {
+    if (tooltipLoading) return "Loading...";
+    if (tooltipError) return tooltipError;
+    if (!tooltipData) return "Hover to load details";
+    
+    return (
+      <div style={{ padding: '12px', maxWidth: '400px' }}>
+        <div style={{ 
+          borderBottom: '2px solid #0066cc', 
+          marginBottom: '8px', 
+          paddingBottom: '6px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <h3 style={{ 
+            margin: 0, 
+            color: '#0066cc', 
+            fontSize: '16px',
+            fontWeight: '600',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}>
+            State Tax Levy Details
+          </h3>
+          <span style={{ 
+            fontSize: '12px', 
+            color: '#666',
+            backgroundColor: '#f0f0f0',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            whiteSpace: 'nowrap'
+          }}>
+            {data.state?.toUpperCase()} - {data.pay_period?.toUpperCase()}
+          </span>
+        </div>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ borderCollapse: 'collapse', width: 'auto' }}>
+            <tbody>
+              {Object.entries(tooltipData)
+                .filter(([key]) => key !== 'id')
+                .map(([key, value]) => (
+                  <tr key={key}>
+                    <td style={{ 
+                      padding: '6px 12px 6px 0', 
+                      borderBottom: '1px solid #e0e0e0', 
+                      color: '#2c3e50', 
+                      fontWeight: 500,
+                      whiteSpace: 'nowrap',
+                      minWidth: 'max-content'
+                    }}>
+                      {key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                    </td>
+                    <td style={{ 
+                      padding: '6px 0 6px 12px', 
+                      borderBottom: '1px solid #e0e0e0', 
+                      color: '#444',
+                      whiteSpace: 'nowrap',
+                      minWidth: 'max-content',
+                      textTransform: 'capitalize'
+                    }}>
+                      {typeof value === 'object' ? JSON.stringify(value) : value ?? 'N/A'}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  };
 
   if (loading) {
     return <CircularProgress />;
@@ -108,12 +315,12 @@ const StatetaxLevyRules = ({ caseId }) => {
             <TableRow>
               <TableCell>3</TableCell>
               <TableCell>State</TableCell>
-              <TableCell>{data.state}</TableCell>
+              <TableCell style={{ textTransform: 'capitalize' }}>{data.state}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>4</TableCell>
               <TableCell>Deduction Basis</TableCell>
-              <TableCell>{data.deduction_basis}</TableCell>
+              <TableCell style={{ textTransform: 'capitalize' }}>{data.deduction_basis}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>5</TableCell>
@@ -124,15 +331,68 @@ const StatetaxLevyRules = ({ caseId }) => {
               <TableCell>6</TableCell>
               <TableCell>Withholding Limit (%)</TableCell>
               <TableCell>
-            {data.withholding_limit
-              ? `${Number(data.withholding_limit)}%`
-              : 'N/A'}
-          </TableCell>
+                {data.withholding_limit
+                  ? `${Number(data.withholding_limit)}%`
+                  : 'N/A'}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>7</TableCell>
               <TableCell>Withholding Basis</TableCell>
-              <TableCell>{data.withholding_basis}</TableCell>
+              <TableCell>
+                <Tooltip
+                  title={renderTooltipContent()}
+                  onOpen={() => fetchTooltipData()}
+                  arrow
+                  interactive
+                  placement="right"
+                  PopperProps={{
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, -8],
+                        },
+                      },
+                    ],
+                    sx: {
+                      zIndex: 999999,
+                      '& .MuiTooltip-tooltip': {
+                        backgroundColor: '#fff',
+                        color: '#000',
+                        border: '1px solid #ccc',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                        padding: '0',
+                        maxWidth: 'none'
+                      },
+                      '& .MuiTooltip-arrow': {
+                        color: '#fff',
+                        '&::before': {
+                          border: '1px solid #ccc'
+                        }
+                      }
+                    }
+                  }}
+                >
+                  <AnimatedSpan>
+                    {data.withholding_basis || 'N/A'}
+                  </AnimatedSpan>
+                </Tooltip>
+                <button
+                  onClick={handleWithholdingBasisClick}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#0066cc',
+                    cursor: 'pointer',
+                    marginLeft: '8px',
+                    padding: 0,
+                    verticalAlign: 'middle'
+                  }}
+                >
+                  <FaExternalLinkAlt size={12} />
+                </button>
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
