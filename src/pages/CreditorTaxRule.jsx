@@ -254,7 +254,7 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
   return (
     <div style={{ padding: "20px" }}>
       <Typography variant="h5" style={{ fontWeight: "bold", marginBottom: "20px" }}>
-        Creditor Tax Rules
+        Creditor Dept Rules
       </Typography>
       
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>

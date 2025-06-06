@@ -79,7 +79,7 @@ const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12W
   return (
     <div style={{ padding: "20px" }}>
       <Typography variant="h5" style={{ fontWeight: "bold", marginBottom: "20px" }}>
-        Child Support Computation Rules
+        Child Support Rules
       </Typography>
       <TableContainer component={Paper} style={{ marginTop: "20px" }}>
         <Table>

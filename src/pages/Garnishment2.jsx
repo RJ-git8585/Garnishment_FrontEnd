@@ -339,7 +339,7 @@ function Garnishment2() {
           <input type="hidden" name="batch_id" value={formData.batch_id} />
           <input type="hidden" name="ee_id" value={formData.ee_id} />
           <input type="hidden" name="case_id" value={formData.case_id} />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-4 rounded-md">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-4 rounded-md m-2">
             <div>
               <label htmlFor="garnishment_type" className="block text-sm font-bold mb-1">
                 Garnishment Type <span className="text-red-700">*</span>:
