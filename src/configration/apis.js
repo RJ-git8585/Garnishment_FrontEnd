@@ -76,5 +76,5 @@ export const API_URLS = {
 
   // State Tax Levy Exempt Amount Configuration
   GET_STATE_TAX_LEVY_EXEMPT_CONFIG: (state, weekly) => 
-    `${API_BASE_URL}/garnishment_state/state-tax-levy-exempt-amt-config/${state.toLowerCase()}/${weekly.toLowerCase()}//`,
+    `${API_BASE_URL}/garnishment_state/state-tax-levy-exempt-amt-config/${state.toLowerCase()}/${weekly.toLowerCase()}/`,
 };

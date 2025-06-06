@@ -75,7 +75,7 @@ const handleStateTaxLevyRuleClick = (caseId,state,weekly) => {
       }
       swalRoot.render(
         <BrowserRouter>
-          <StatetaxLevyRules caseId={caseId} />
+          <StatetaxLevyRules caseId={caseId} state={state} weekly={weekly}/>
         </BrowserRouter>
       );
     },
@@ -98,7 +98,7 @@ const handleCreditorTaxRuleClick = (caseId,state,weekly) => {
     },
     didOpen: () => {
       const container = document.getElementById("swal-rule-container");
-      console.log(state,weekly,caseId);
+      // console.log(state,weekly,caseId);
       if (!swalRoot) {
         swalRoot = createRoot(container);
       }

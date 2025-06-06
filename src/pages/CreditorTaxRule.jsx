@@ -151,71 +151,104 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
     if (!tooltipData) return "Hover to load details";
     
     return (
-      <div style={{ maxWidth: '700px', padding: '4px', backgroundColor: 'white', color: '#333' }}>
+      <div style={{ 
+        padding: '16px',
+        maxWidth: '500px',
+        minWidth: '500px',
+        backgroundColor: '#ffffff',
+        borderRadius: '8px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        position: 'absolute',
+        bottom: '100%',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        marginBottom: '10px',
+        zIndex: 1000
+      }}>
         <div style={{ 
           borderBottom: '2px solid #0066cc', 
-          marginBottom: '8px', 
-          paddingBottom: '6px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
+          marginBottom: '12px', 
+          paddingBottom: '8px',
+          textAlign: 'center'
         }}>
           <h3 style={{ 
             margin: 0, 
             color: '#0066cc', 
             fontSize: '16px',
-            fontWeight: '600',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
+            fontWeight: '600'
           }}>
-            Withholding Basis Details
+            Creditor Tax Details
           </h3>
-          <span style={{ 
-            fontSize: '12px', 
-            color: '#666',
-            backgroundColor: '#f0f0f0',
-            padding: '4px 8px',
-            borderRadius: '4px',
-            whiteSpace: 'nowrap'
-          }}>
-            {state?.toUpperCase()} - {weekly?.toUpperCase()}
-          </span>
         </div>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ borderCollapse: 'collapse', width: 'auto' }}>
+        <div style={{ overflowY: 'auto', maxHeight: '60vh' }}>
+          <table style={{ 
+            borderCollapse: 'collapse', 
+            width: '100%',
+            margin: '0 auto'
+          }}>
             <tbody>
-              {Object.entries(tooltipData)
-                .filter(([key]) => key !== 'id')
-                .map(([key, value], index) => (
-                  <tr key={key}>
-                    <td style={{ 
-                      padding: '6px 12px 6px 0', 
-                      borderBottom: '1px solid #e0e0e0', 
-                      color: '#2c3e50', 
-                      fontWeight: 500,
-                      whiteSpace: 'nowrap',
-                      minWidth: 'max-content'
-                    }}>
-                      {key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                    </td>
-                    <td style={{ 
-                      padding: '6px 0 6px 12px', 
-                      borderBottom: '1px solid #e0e0e0', 
-                      color: '#444',
-                      whiteSpace: 'nowrap',
-                      minWidth: 'max-content',
-                      textTransform: 'capitalize'
-                    }}>
-                      {typeof value === 'object' ? JSON.stringify(value) : value ?? 'N/A'}
-                    </td>
-                  </tr>
-                ))}
+              <tr>
+                <td style={labelStyle}>State</td>
+                <td style={valueStyle}>{state?.toUpperCase() || 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Pay Period</td>
+                <td style={valueStyle}>{weekly?.toUpperCase() || 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Minimum Hourly Wage Basis</td>
+                <td style={valueStyle}>{tooltipData.minimum_hourly_wage_basis || 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Minimum Wage Amount</td>
+                <td style={valueStyle}>${tooltipData.minimum_wage_amount || '0.00'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Multiplier LT</td>
+                <td style={valueStyle}>{tooltipData.multiplier_lt || 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Condition Expression LT</td>
+                <td style={valueStyle}>{tooltipData.condition_expression_lt || 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Lower Threshold Amount</td>
+                <td style={valueStyle}>${tooltipData.lower_threshold_amount || '0.00'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Multiplier UT</td>
+                <td style={valueStyle}>{tooltipData.multiplier_ut || 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Condition Expression UT</td>
+                <td style={valueStyle}>{tooltipData.condition_expression_ut || 'N/A'}</td>
+              </tr>
+              <tr>
+                <td style={labelStyle}>Upper Threshold Amount</td>
+                <td style={valueStyle}>${tooltipData.upper_threshold_amount || '0.00'}</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
     );
+  };
+
+  // Styles for table cells
+  const labelStyle = {
+    padding: '8px 16px 8px 0',
+    borderBottom: '1px solid #eee',
+    fontSize: '14px',
+    color: '#666',
+    whiteSpace: 'nowrap',
+    width: '40%'
+  };
+
+  const valueStyle = {
+    padding: '8px 0',
+    borderBottom: '1px solid #eee',
+    fontSize: '14px',
+    color: '#333'
   };
 
   const fetchData = async () => {
@@ -362,4 +395,4 @@ const CreditorTaxRule = ({ caseId, state, weekly }) => {
   );
 };
 
-export default CreditorTaxRule; 
+export default CreditorTaxRule;
