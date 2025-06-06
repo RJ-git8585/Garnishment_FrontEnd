@@ -114,7 +114,7 @@ export const StateCreditorList = [
   { id: 17, label: "Rhode Island" },
   { id: 31, label: "South Dakota" },
   { id: 39, label: "Tennessee" },
-  { id: 18, label: "Texas" },
+  // { id: 18, label: "Texas" },
   { id: 19, label: "Utah" },
   { id: 20, label: "Vermont" },
   { id: 23, label: "Virginia" },
