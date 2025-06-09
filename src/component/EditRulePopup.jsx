@@ -191,7 +191,7 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
           },
           body: JSON.stringify({
             state: formData.state,
-            rule: formData.rule,
+            withholding_limit_rule: formData.rule,
             deduction_basis: formData.deduction_basis,
             withholding_limit: formData.withholding_limit
           }),
