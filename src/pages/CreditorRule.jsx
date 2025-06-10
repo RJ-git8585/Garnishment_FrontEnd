@@ -16,6 +16,20 @@ import { Typography } from "@mui/material";
 import CreditorRulePopup from "../component/CreditorRulePopup";
 import ExemptAmountPopup from "../component/ExemptAmountPopup";
 
+// List of specific states for logic
+const SPECIFIC_STATES = [
+  "california",
+  "hawaii",
+  "massachusetts",
+  "minnesota",
+  "missouri",
+  "nebraska",
+  "nevada",
+  "new york",
+  "south dakota",
+  "tennessee"
+];
+
 const CreditorRule = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -276,8 +290,8 @@ const CreditorRule = () => {
                     {(currentPage - 1) * rowsPerPage + index + 1}
                   </td>
                   <td className="px-6 py-3 text-sm capitalize rulebtn_cls">
-                    {hasMultipleValues(rule.withholding_limit) ? (
-                      <span className="text-sky-900 capitalize">{rule.state}</span>
+                    {SPECIFIC_STATES.includes(rule.state) ? (
+                      <span className="text-gray-600 ">{rule.state}</span>
                     ) : (
                       <button
                         onClick={() => handleEditClick(rule)}
@@ -293,16 +307,22 @@ const CreditorRule = () => {
                   </td>
                   <td className="px-6 py-3 text-sm flex items-center justify-between border-0">
                     <span className="capitalize">{rule.rule}</span>
-                    <button
-                      onClick={() => {
-                        setSelectedState(rule.state);
-                        setIsExemptPopupOpen(true);
-                      }}
-                      className="text-blue-500 hover:text-blue-700 ml-2"
-                      title="View Exempt Amount Configuration"
-                    >
-                      <FaExternalLinkAlt />
-                    </button>
+                    {SPECIFIC_STATES.includes(rule.state) ? (
+                      <span className="text-gray-400 ml-2">
+                        <FaExternalLinkAlt />
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          setSelectedState(rule.state);
+                          setIsExemptPopupOpen(true);
+                        }}
+                        className="text-blue-500 hover:text-blue-700 ml-2"
+                        title="View Exempt Amount Configuration"
+                      >
+                        <FaExternalLinkAlt />
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))
