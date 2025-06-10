@@ -56,14 +56,6 @@ function OrdImport() {
       html: `
         <div class="space-y-4 text-left">
           <div>
-            <label class="block text-sm font-medium text-gray-700">Employer ID</label>
-            <input 
-              id="employer_id" 
-              class="mt-1 block w-full border rounded-md shadow-sm p-2" 
-              placeholder="Enter Employer ID"
-            />
-          </div>
-          <div>
             <label class="block text-sm font-medium text-gray-700">Upload File</label>
             <input
               id="file_upload"
@@ -87,7 +79,6 @@ function OrdImport() {
       ...swalConfig,
       preConfirm: async () => {
         const fileInput = document.getElementById('file_upload');
-        const employerId = document.getElementById('employer_id').value;
         const file = fileInput.files[0];
 
         if (!file) {
@@ -95,15 +86,9 @@ function OrdImport() {
           return false;
         }
 
-        if (!employerId) {
-          Swal.showValidationMessage('Please enter an Employer ID');
-          return false;
-        }
-
         // Return the form data for confirmation
         return {
           file,
-          employerId,
           fileName: file.name
         };
       }
@@ -116,7 +101,6 @@ function OrdImport() {
             <div class="text-left">
               <p class="mb-2">Please confirm the following details:</p>
               <ul class="list-disc pl-5">
-                <li>Employer ID: ${result.value.employerId}</li>
                 <li>File Name: ${result.value.fileName}</li>
               </ul>
               <p class="mt-4 text-sm text-gray-600">Are you sure you want to proceed with the upload?</p>
@@ -134,7 +118,6 @@ function OrdImport() {
           try {
             const formData = new FormData();
             formData.append('file', result.value.file);
-            formData.append('employer_id', result.value.employerId);
 
             const response = await axios.post(API_URLS.UPSERT_ORDER, formData, {
               headers: {
