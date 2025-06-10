@@ -41,6 +41,15 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 function OrdImport() {
+  // Add this swalConfig object before handleUploadClick
+  const swalConfig = {
+    customClass: {
+      confirmButton: 'px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700',
+      cancelButton: 'px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 ml-3'
+    },
+    buttonsStyling: false
+  };
+
   const handleUploadClick = () => {
     Swal.fire({
       title: 'Order Upload Form',

@@ -87,7 +87,7 @@ const Sidebar = () => {
       icon: <FaBalanceScaleRight />,
       isExpandable: true,
       submenu: [
-        { text: 'JSON Batch Run', icon: <FcProcess />, path: '/batchcalculation' },
+        { text: 'JSON Batch Run', icon: <LuLoader />, path: '/batchcalculation' },
         { text: 'Excel Batch Run', icon: <LuLoader />, path: '/xmlProcessor' },
       ],
     },
@@ -97,9 +97,9 @@ const Sidebar = () => {
       icon: <FaBalanceScaleRight />,
       isExpandable: true,
       submenu: [
-        { text: 'Child Support Rules', icon: <FcProcess />, path: '/childsupport' },
+        { text: 'Child Support Rules', icon: <LuLoader />, path: '/childsupport' },
         { text: 'State Tax Levy Rules', icon: <LuLoader />, path: '/ruleslist' },
-        { text: 'Creditor Debt Rules', icon: <FcProcess />, path: '/creditor' },
+        { text: 'Creditor Debt Rules', icon: <LuLoader />, path: '/creditor' },
         { text: 'Fees Rules', icon: <LuLoader />, path: '/GarnishFee' },
       ],
     },
