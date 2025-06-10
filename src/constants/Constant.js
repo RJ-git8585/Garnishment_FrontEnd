@@ -139,7 +139,7 @@ export const StateLevyContactList = [
   { id: 8, label: "Illinois" },
   { id: 9, label: "Indiana" },
   { id: 10, label: "Iowa" },
-  { id: 32, label: "Kentucky" },
+  // { id: 32, label: "Kentucky" },
   { id: 11, label: "Louisiana" },
   { id: 27, label: "Maine" },
   { id: 31, label: "Maryland" },

@@ -418,8 +418,8 @@ function Garnishment2() {
                     <option value="married_filing_joint_return">Married Filing Joint Return</option>
                     <option value="married_filing_separate_return">Married Filing Separate Return</option>
                     <option value="head_of_household">Head of Household</option>
-                    {/* <option value="qualifying_widowers">Qualifying Widowers</option>
-                    <option value="additional_exempt_amount">Additional Exempt Amount</option> */}
+                    <option value="qualifying_widowers">Qualifying Widowers</option>
+                    {/* <option value="additional_exempt_amount">Additional Exempt Amount</option> */} 
                   </select>
                 </div>
                 <div>
