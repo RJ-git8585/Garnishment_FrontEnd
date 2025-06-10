@@ -44,6 +44,19 @@ const swalConfig = {
   allowOutsideClick: false
 };
 
+const payPeriodOrder = {
+  weekly: 1,
+  biweekly: 2,
+  semimonthly: 3,
+  monthly: 4
+};
+
+const comparePayPeriods = (a, b) => {
+  const aOrder = payPeriodOrder[a.pay_period.toLowerCase()];
+  const bOrder = payPeriodOrder[b.pay_period.toLowerCase()];
+  return (aOrder || 100) - (bOrder || 100);
+};
+
 const ExemptAmountPopup = ({ open, handleClose, state }) => {
   const [exemptData, setExemptData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -276,7 +289,7 @@ const ExemptAmountPopup = ({ open, handleClose, state }) => {
               </thead>
               <tbody>
                 {exemptData.length > 0 ? (
-                  exemptData.map((item, index) => (
+                  [...exemptData].sort(comparePayPeriods).map((item, index) => (
                     <tr key={index} className="border-t hover:bg-gray-50">
                       <td className="px-4 py-3 text-sm capitalize">{item.state}</td>
                       <td className="px-4 py-3 text-sm capitalize">{item.pay_period}</td>
