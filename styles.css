@@ -15,9 +15,10 @@ body {
     border-radius: 5px;
     padding: 10px;
   }
-  .css-ha8abz-MuiListItem-root > a {
+  .css-ha8abz-MuiListItem-root > a:hover{
     background-color: transparent !important;
   }
+  
   .inactive-menu-item {
     background-color: transparent;
     padding: 10px;

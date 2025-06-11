@@ -111,7 +111,7 @@ function GarnishFee() {
             <tr className="bg-gray-200 text-gray-700">
               <th className="px-6 py-3 text-left text-sm">ID</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
-              <th className="px-6 py-3 text-left text-sm">Pay Period</th>
+              {/* <th className="px-6 py-3 text-left text-sm">Pay Period</th> */}
               <th className="px-6 py-3 text-left text-sm">Rule</th>
             </tr>
           </thead>
@@ -129,7 +129,7 @@ function GarnishFee() {
                 <tr key={index} className="border-t hover:bg-gray-100">
                   <td className="px-6 py-1 text-sm truncate capitalize">{row.id}</td>
                   <td className="px-6 py-1 text-sm truncate capitalize">{row.state}</td>
-                  <td className="px-6 py-1 text-sm truncate">{row.pay_period}</td>
+                  {/* <td className="px-6 py-1 text-sm truncate">{row.pay_period}</td>s */}
                   <td className="px-6 py-1 text-sm truncate">
                     <Button
                       variant="text"
