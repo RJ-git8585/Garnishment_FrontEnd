@@ -27,7 +27,8 @@ const SPECIFIC_STATES = [
   "new york",
   "south dakota",
   "tennessee",
-  "new jersey"
+  "new jersey",
+  "north dakota"
 ];
 
 const CreditorRule = () => {
