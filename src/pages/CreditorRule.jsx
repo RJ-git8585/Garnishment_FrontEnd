@@ -134,7 +134,7 @@ const CreditorRule = () => {
     }));
   };
 
-  const handleEditNext = () => {
+  const handleEditNext = async () => {
     if (!formData.rule.trim()) {
       Swal.fire({
         icon: 'error',
@@ -143,8 +143,43 @@ const CreditorRule = () => {
       });
       return;
     }
+    
     setEditDialogOpen(false);
-    setConfirmDialogOpen(true);
+    
+    try {
+      const confirmResult = await Swal.fire({
+        title: 'Confirm Rule Changes',
+        html: `
+          <div class="text-left">
+            <p class="mb-2">Please review the following changes:</p>
+            <ul class="list-disc pl-5">
+              <li><strong>State:</strong> ${formData.state}</li>
+              <li><strong>Rule:</strong> ${formData.rule}</li>
+              <li><strong>Deduction Basis:</strong> ${formData.deduction_basis}</li>
+              <li><strong>Withholding Limit:</strong> ${formData.withholding_limit}%</li>
+            </ul>
+            <p class="mt-4 text-sm text-gray-600">
+              Are you sure you want to save these changes?
+            </p>
+          </div>
+        `,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Save Changes',
+        cancelButtonText: 'No, Review Changes',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      });
+
+      if (confirmResult.isConfirmed) {
+        await handleConfirmSave();
+      } else {
+        setEditDialogOpen(true);
+      }
+    } catch (error) {
+      console.error("Error in confirmation dialog:", error);
+      setEditDialogOpen(true);
+    }
   };
 
   const handleConfirmSave = async () => {
@@ -154,32 +189,37 @@ const CreditorRule = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          state: formData.state,
+          withholding_limit_rule: formData.rule,
+          deduction_basis: formData.deduction_basis,
+          withholding_limit: formData.withholding_limit
+        })
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update rule');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to update rule');
       }
-
-      setConfirmDialogOpen(false);
       
       await Swal.fire({
         icon: 'success',
-        title: 'Success!',
-        text: 'The rule details have been successfully updated.',
+        title: 'Success',
+        text: 'Rule updated successfully. The page will now reload.',
         confirmButtonColor: '#3085d6'
       });
 
-      // Refresh the data
+      // Close the dialog and reload the page
+      handleCloseDialogs();
       window.location.reload();
     } catch (error) {
+      console.error("Error updating rule:", error);
       await Swal.fire({
         icon: 'error',
-        title: 'Error',
-        text: error.message || 'Failed to update rule',
+        title: 'Update Failed',
+        text: error.message || 'An error occurred while updating the rule. Please try again later.'
       });
       setEditDialogOpen(true);
-      setConfirmDialogOpen(false);
     }
   };
 
@@ -411,37 +451,7 @@ const CreditorRule = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Confirmation Dialog */}
-      <Dialog open={confirmDialogOpen} onClose={handleCloseDialogs} maxWidth="sm" fullWidth>
-        <DialogTitle>Confirm Rule Changes</DialogTitle>
-        <DialogContent>
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="body1" gutterBottom>
-              Please review the following changes:
-            </Typography>
-            <Box component="ul" sx={{ pl: 3, mt: 1, mb: 2 }}>
-              <li><strong>State:</strong> {formData.state}</li>
-              <li><strong>Rule:</strong> {formData.rule}</li>
-              <li><strong>Deduction Basis:</strong> {formData.deduction_basis}</li>
-              <li><strong>Withholding Cap:</strong> {formData.withholding_limit}%</li>
-            </Box>
-            <Typography variant="body2" color="text.secondary">
-              Are you sure you want to save these changes?
-            </Typography>
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => {
-            setConfirmDialogOpen(false);
-            setEditDialogOpen(true);
-          }}>
-            Review Changes
-          </Button>
-          <Button onClick={handleConfirmSave} variant="contained" color="primary">
-            Save Changes
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* Confirmation handled by Swal.fire in handleEditNext */}
 
       {/* Creditor Rule Popup */}
       {isCreditorRulePopupOpen && (
