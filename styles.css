@@ -15,7 +15,9 @@ body {
     border-radius: 5px;
     padding: 10px;
   }
-  
+  .css-ha8abz-MuiListItem-root > a {
+    background-color: transparent !important;
+  }
   .inactive-menu-item {
     background-color: transparent;
     padding: 10px;

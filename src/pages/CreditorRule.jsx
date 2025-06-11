@@ -21,13 +21,13 @@ const SPECIFIC_STATES = [
   "california",
   "hawaii",
   "massachusetts",
-  "minnesota",
-  "missouri",
-  "nebraska",
-  "nevada",
-  "new york",
-  "south dakota",
-  "tennessee"
+  // "minnesota",
+  // "missouri",
+  // "nebraska",
+  // "nevada",
+  // "new york",
+  // "south dakota",
+  // "tennessee"
 ];
 
 const CreditorRule = () => {

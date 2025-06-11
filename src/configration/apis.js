@@ -10,7 +10,7 @@ const API_BASE_URL = "https://garnishment-backend-6lzi.onrender.com";
 
 export const API_URLS = {
   // Auth APIs
-  LOGIN: `${API_BASE_URL}/User/login`,
+  LOGIN: `${API_BASE_URL}/auth/login/`,
   REGISTER: `${API_BASE_URL}/auth/register`,
   PASSWORD_RESET_CONFIRM: (token) => `${API_BASE_URL}/auth/password-reset-confirm/${token}/`,
   PASSWORD_RESET_REQUEST: `${API_BASE_URL}/auth/password-reset/`,
