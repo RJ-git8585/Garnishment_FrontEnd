@@ -201,10 +201,11 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
           await Swal.fire({
             icon: "success",
             title: "Success",
-            text: "Rule updated successfully.",
+            text: "Rule updated successfully. The page will now reload.",
             ...swalConfig
           }).then(() => {
-            handleClose(); // Only close the dialog after user clicks OK on success message
+            handleClose(); // Close the dialog
+            window.location.reload(); // Reload the page to reflect changes
           });
         } else {
           const errorData = await response.json();
