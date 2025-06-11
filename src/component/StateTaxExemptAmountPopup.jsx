@@ -161,6 +161,13 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
     });
   };
 
+  // Function to get the display value for condition expressions (with result)
+  const getDisplayConditionExpression = (baseExpression, minWage, multiplier) => {
+    if (!minWage || !multiplier) return '';
+    const result = parseFloat(minWage) * parseFloat(multiplier);
+    return `${baseExpression} = ${result.toFixed(2)}`;
+  };
+
   const handleEditSubmit = async () => {
     try {
       // Show confirmation dialog first
@@ -174,8 +181,8 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
               <li><strong>Pay Period:</strong> ${editingItem.pay_period}</li>
               <li><strong>Minimum Wage Amount:</strong> ${formatCurrency(editFormData.minimum_wage_amount)}</li>
               <li><strong>Minimum Wage Basis:</strong> ${editFormData.minimum_hourly_wage_basis}</li>
-              <li><strong>Lower Threshold:</strong> ${formatCurrency(editFormData.lower_threshold_amount)}</li>
-              <li><strong>Upper Threshold:</strong> ${formatCurrency(editFormData.upper_threshold_amount)}</li>
+              <li><strong>Lower Threshold:</strong> ${formatCurrency(editFormData.lower_threshold_amount)} (${editFormData.minimum_wage_amount} * ${editFormData.multiplier_lt})</li>
+              <li><strong>Upper Threshold:</strong> ${formatCurrency(editFormData.upper_threshold_amount)} (${editFormData.minimum_wage_amount} * ${editFormData.multiplier_ut})</li>
             </ul>
             <p class="mt-4 text-sm text-gray-600">
               Are you sure you want to save these changes?
@@ -192,6 +199,15 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
       });
 
       if (confirmResult.isConfirmed) {
+        // Only send the necessary fields to the API, excluding the calculated threshold amounts and full expressions
+        const { 
+          lower_threshold_amount, 
+          upper_threshold_amount,
+          condition_expression_lt,
+          condition_expression_ut,
+          ...formDataToSubmit 
+        } = editFormData;
+        
         const response = await fetch(`${API_URLS.STATE_TAX_LEVY_EXEMPT}${state.toLowerCase()}/${editingItem.pay_period}/`, {
           method: 'PUT',
           headers: {
@@ -199,7 +215,10 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
           },
           body: JSON.stringify({
             ...editingItem,
-            ...editFormData
+            ...formDataToSubmit,
+            // Ensure we only send the calculation part, not the result
+            condition_expression_lt: `${editFormData.minimum_wage_amount || 0} * ${editFormData.multiplier_lt || 0}`,
+            condition_expression_ut: `${editFormData.minimum_wage_amount || 0} * ${editFormData.multiplier_ut || 0}`
           })
         });
 
@@ -255,26 +274,26 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
     if (name === 'minimum_wage_amount' || name === 'multiplier_lt' || name === 'multiplier_ut') {
       // Update lower threshold if minimum wage or lower threshold multiplier changes
       if (name === 'minimum_wage_amount' || name === 'multiplier_lt') {
-        const lowerThreshold = calculateThresholdAmount(
-          name === 'minimum_wage_amount' ? value : editFormData.minimum_wage_amount,
-          name === 'multiplier_lt' ? value : editFormData.multiplier_lt
-        );
+        const minWage = name === 'minimum_wage_amount' ? value : editFormData.minimum_wage_amount;
+        const multiplierLT = name === 'multiplier_lt' ? value : editFormData.multiplier_lt;
+        const lowerThreshold = calculateThresholdAmount(minWage, multiplierLT);
+        
         newFormData.lower_threshold_amount = lowerThreshold;
         
-        // Update condition expression for lower threshold
-        newFormData.condition_expression_lt = `${newFormData.minimum_wage_amount || 0} * ${newFormData.multiplier_lt || 0} = ${lowerThreshold}`;
+        // Update condition expression for lower threshold (only calculation part, no result)
+        newFormData.condition_expression_lt = `${minWage || 0} * ${multiplierLT || 0}`;
       }
 
       // Update upper threshold if minimum wage or upper threshold multiplier changes
       if (name === 'minimum_wage_amount' || name === 'multiplier_ut') {
-        const upperThreshold = calculateThresholdAmount(
-          name === 'minimum_wage_amount' ? value : editFormData.minimum_wage_amount,
-          name === 'multiplier_ut' ? value : editFormData.multiplier_ut
-        );
+        const minWage = name === 'minimum_wage_amount' ? value : editFormData.minimum_wage_amount;
+        const multiplierUT = name === 'multiplier_ut' ? value : editFormData.multiplier_ut;
+        const upperThreshold = calculateThresholdAmount(minWage, multiplierUT);
+        
         newFormData.upper_threshold_amount = upperThreshold;
         
-        // Update condition expression for upper threshold
-        newFormData.condition_expression_ut = `${newFormData.minimum_wage_amount || 0} * ${newFormData.multiplier_ut || 0} = ${upperThreshold}`;
+        // Update condition expression for upper threshold (only calculation part, no result)
+        newFormData.condition_expression_ut = `${minWage || 0} * ${multiplierUT || 0}`;
       }
     }
 
@@ -405,14 +424,21 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
               value={editFormData.multiplier_lt}
               onChange={handleInputChange}
             />
-            <TextField
-              fullWidth
-              label="Condition Expression (LT)"
-              name="condition_expression_lt"
-              value={editFormData.condition_expression_lt}
-              onChange={handleInputChange}
-              disabled
-            />
+            <div className="relative">
+              <TextField
+                fullWidth
+                label="Condition Expression (LT)"
+                name="condition_expression_lt"
+                value={editFormData.condition_expression_lt}
+                onChange={handleInputChange}
+                disabled
+              />
+              {editFormData.minimum_wage_amount && editFormData.multiplier_lt && (
+                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
+                  = {formatCurrency(parseFloat(editFormData.minimum_wage_amount) * parseFloat(editFormData.multiplier_lt))}
+                </div>
+              )}
+            </div>
             <TextField
               fullWidth
               label="Lower Threshold Amount"
@@ -430,14 +456,21 @@ const StateTaxExemptAmountPopup = ({ open, handleClose, state }) => {
               value={editFormData.multiplier_ut}
               onChange={handleInputChange}
             />
-            <TextField
-              fullWidth
-              label="Condition Expression (UT)"
-              name="condition_expression_ut"
-              value={editFormData.condition_expression_ut}
-              onChange={handleInputChange}
-              disabled
-            />
+            <div className="relative">
+              <TextField
+                fullWidth
+                label="Condition Expression (UT)"
+                name="condition_expression_ut"
+                value={editFormData.condition_expression_ut}
+                onChange={handleInputChange}
+                disabled
+              />
+              {editFormData.minimum_wage_amount && editFormData.multiplier_ut && (
+                <div className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
+                  = {formatCurrency(parseFloat(editFormData.minimum_wage_amount) * parseFloat(editFormData.multiplier_ut))}
+                </div>
+              )}
+            </div>
             <TextField
               fullWidth
               label="Upper Threshold Amount"
