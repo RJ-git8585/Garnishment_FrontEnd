@@ -143,7 +143,10 @@ function Employee() {
               <tr>
                 <td colSpan="19" className="py-6">
                   <div className="flex justify-left items-left h-40">
-                    <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
+                    <AiOutlineLoading3Quarters
+                      className="animate-spin text-gray-500 text-4xl"
+                      data-testid="loading-spinner"
+                    />
                   </div>
                 </td>
               </tr>

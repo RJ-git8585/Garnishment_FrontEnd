@@ -7,12 +7,11 @@
  * @returns {JSX.Element} The rendered CreditorRule component.
  */
 import React, { useState, useEffect } from "react";
-import { BASE_URL } from "../configration/Config";
+
 import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
-import { Typography } from "@mui/material";
 import CreditorRulePopup from "../component/CreditorRulePopup";
 import ExemptAmountPopup from "../component/ExemptAmountPopup";
 
@@ -27,7 +26,8 @@ const SPECIFIC_STATES = [
   "nevada",
   "new york",
   "south dakota",
-  "tennessee"
+  "tennessee",
+  "new jersey"
 ];
 
 const CreditorRule = () => {
@@ -49,7 +49,7 @@ const CreditorRule = () => {
         }
         const jsonData = await response.json();
         const sortedData = jsonData.data.sort((a, b) =>
-          a.state.localeCompare(b.state)
+          a.state.localeCompare(b.state, undefined, { numeric: true })
         );
         setData(sortedData || []);
       } catch (error) {
@@ -84,6 +84,13 @@ const CreditorRule = () => {
       // Extract the numeric value from the rule
       const numericValue = updatedRule.withholding_limit;
 
+      // Deduction basis options
+      const deductionBasisOptions = [
+        { value: "disposable earning", label: "Disposable Earning" },
+        { value: "gross pay", label: "Gross Pay" },
+        { value: "net pay", label: "Net Pay" },
+      ];
+
       // First dialog for editing
       const editResult = await Swal.fire({
         title: 'Edit Rule Details',
@@ -99,7 +106,13 @@ const CreditorRule = () => {
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Deduction Basis</label>
-              <input id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2 bg-gray-50" value="${updatedRule.deduction_basis}" readonly/>
+              <select id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2 bg-white">
+                ${deductionBasisOptions.map(option => 
+                  `<option value="${option.value}" ${option.value === updatedRule.deduction_basis ? 'selected' : ''}>
+                    ${option.label}
+                  </option>`
+                ).join('')}
+              </select>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700">Withholding cap</label>
@@ -126,13 +139,19 @@ const CreditorRule = () => {
           
           // Set initial values
           document.getElementById('state').value = updatedRule.state;
-          document.getElementById('deduction_basis').value = updatedRule.deduction_basis;
+          const deductionBasisSelect = document.getElementById('deduction_basis');
+          Array.from(deductionBasisSelect.options).forEach(option => {
+            if (option.value === updatedRule.deduction_basis) {
+              option.selected = true;
+            }
+          });
           withholdingInput.value = numericValue;
           ruleInput.value = updatedRule.rule || '';
         },
         preConfirm: () => {
           const withholdingLimit = document.getElementById('withholding_limit').value;
           const ruleValue = document.getElementById('rule').value;
+          const deductionBasisValue = document.getElementById('deduction_basis').value;
           
           if (!ruleValue.trim()) {
             Swal.showValidationMessage('Rule field cannot be empty');
@@ -142,7 +161,8 @@ const CreditorRule = () => {
           return {
             ...updatedRule,
             withholding_limit: withholdingLimit,
-            rule: ruleValue
+            rule: ruleValue,
+            deduction_basis: deductionBasisValue
           };
         }
       });
@@ -234,7 +254,7 @@ const CreditorRule = () => {
   // Helper function to check if withholding_limit has multiple values
   const hasMultipleValues = (value) => {
     if (!value) return false;
-    return /[,\/-]/.test(value.toString());
+    return /[,/-]/.test(value.toString());
   };
 
   const formatWithholdingValue = (value) => {
@@ -279,53 +299,63 @@ const CreditorRule = () => {
               <tr>
                 <td colSpan="5" className="py-6">
                   <div className="flex justify-center h-40">
-                    <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" />
+                    <AiOutlineLoading3Quarters className="animate-spin text-gray-500 text-4xl" role="progressbar" />
                   </div>
                 </td>
               </tr>
             ) : paginatedData.length > 0 ? (
-              paginatedData.map((rule, index) => (
-                <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="px-6 py-3 text-sm">
-                    {(currentPage - 1) * rowsPerPage + index + 1}
-                  </td>
-                  <td className="px-6 py-3 text-sm capitalize rulebtn_cls">
-                    {SPECIFIC_STATES.includes(rule.state) ? (
-                      <span className="text-gray-600 ">{rule.state}</span>
-                    ) : (
-                      <button
-                        onClick={() => handleEditClick(rule)}
-                        className="text-sky-900 capitalize rulebtn_cls hover:underline"
-                      >
-                        {rule.state}
-                      </button>
-                    )}
-                  </td>
-                  <td className="px-6 py-3 text-sm capitalize">{rule.deduction_basis}</td>
-                  <td className="px-6 py-3 text-sm">
-                    {formatWithholdingValue(rule.withholding_limit)}
-                  </td>
-                  <td className="px-6 py-3 text-sm flex items-center justify-between border-0">
-                    <span className="capitalize">{rule.rule}</span>
-                    {SPECIFIC_STATES.includes(rule.state) ? (
-                      <span className="text-gray-400 ml-2">
-                        <FaExternalLinkAlt />
-                      </span>
-                    ) : (
-                      <button
-                        onClick={() => {
-                          setSelectedState(rule.state);
-                          setIsExemptPopupOpen(true);
-                        }}
-                        className="text-blue-500 hover:text-blue-700 ml-2"
-                        title="View Exempt Amount Configuration"
-                      >
-                        <FaExternalLinkAlt />
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))
+              paginatedData.map((rule, index) => {
+                const isSpecificState = SPECIFIC_STATES.includes(rule.state);
+
+                const stateCell = isSpecificState ? (
+                  <span className="text-gray-600 ">{rule.state}</span>
+                ) : (
+                  <button
+                    onClick={() => handleEditClick(rule)}
+                    className="text-sky-900 capitalize rulebtn_cls hover:underline"
+                  >
+                    {rule.state}
+                  </button>
+                );
+
+                const ruleCellIcon = isSpecificState ? (
+                  <span className="text-gray-400 ml-2">
+                    <FaExternalLinkAlt />
+                  </span>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setSelectedState(rule.state);
+                      setIsExemptPopupOpen(true);
+                    }}
+                    className="text-blue-500 hover:text-blue-700 ml-2"
+                    title="View Exempt Amount Configuration"
+                  >
+                    <FaExternalLinkAlt />
+                  </button>
+                );
+
+                return (
+                  <tr key={rule.state} className="border-t hover:bg-gray-100">
+                    <td className="px-6 py-3 text-sm">
+                      {(currentPage - 1) * rowsPerPage + index + 1}
+                    </td>
+                    <td className="px-6 py-3 text-sm capitalize rulebtn_cls">
+                      {stateCell}
+                    </td>
+                    <td className="px-6 py-3 text-sm capitalize">
+                      {rule.deduction_basis}
+                    </td>
+                    <td className="px-6 py-3 text-sm">
+                      {formatWithholdingValue(rule.withholding_limit)}
+                    </td>
+                    <td className="px-6 py-3 text-sm flex items-center justify-between border-0">
+                      <span className="capitalize">{rule.rule}</span>
+                      {ruleCellIcon}
+                    </td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td colSpan="5" className="py-6 text-center text-gray-500">
@@ -350,6 +380,7 @@ const CreditorRule = () => {
                 className={`px-2 py-1 border rounded text-sm ${
                   currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
                 }`}
+                data-testid={`page-button-${index + 1}`}
               >
                 {index + 1}
               </button>

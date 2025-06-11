@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import axios from 'axios';
 import Garnishment2 from '../pages/Garnishment2';
-import { StateList, StateCreditorList, StateLevyContactList } from '../constants/Constant';
+import { StateList, StateCreditorList } from '../constants/Constant';
 
 // Mock axios
 jest.mock('axios');
@@ -250,3 +250,4 @@ describe('Garnishment2 Component', () => {
     });
   });
 });
+
