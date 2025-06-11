@@ -7,7 +7,21 @@
  * @returns {JSX.Element} The rendered CreditorRule component.
  */
 import React, { useState, useEffect } from "react";
-
+import { 
+  Dialog, 
+  DialogTitle, 
+  DialogContent, 
+  DialogActions, 
+  Button, 
+  TextField, 
+  FormControl, 
+  InputLabel, 
+  Select, 
+  MenuItem,
+  Box,
+  Typography,
+  CircularProgress
+} from '@mui/material';
 import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaExternalLinkAlt } from "react-icons/fa";
@@ -38,6 +52,15 @@ const CreditorRule = () => {
   const [isCreditorRulePopupOpen, setIsCreditorRulePopupOpen] = useState(false);
   const [selectedState, setSelectedState] = useState(null);
   const [isExemptPopupOpen, setIsExemptPopupOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [currentRule, setCurrentRule] = useState(null);
+  const [formData, setFormData] = useState({
+    state: '',
+    rule: '',
+    deduction_basis: 'disposable earning',
+    withholding_limit: ''
+  });
   const rowsPerPage = 10;
 
   useEffect(() => {
@@ -82,144 +105,17 @@ const CreditorRule = () => {
         throw new Error('Rule not found');
       }
 
-      // Extract the numeric value from the rule
-      const numericValue = updatedRule.withholding_limit;
-
-      // Deduction basis options
-      const deductionBasisOptions = [
-        { value: "disposable earning", label: "Disposable Earning" },
-        { value: "gross pay", label: "Gross Pay" },
-        { value: "net pay", label: "Net Pay" },
-      ];
-
-      // First dialog for editing
-      const editResult = await Swal.fire({
-        title: 'Edit Rule Details',
-        html: `
-          <div class="space-y-4 text-left">
-            <div>
-              <label class="block text-sm font-medium text-gray-700">State</label>
-              <input id="state" class="mt-1 block w-full border rounded-md shadow-sm p-2 bg-gray-50" value="${updatedRule.state}" readonly />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Rule</label>
-              <input id="rule" class="mt-1 block w-full border rounded-md shadow-sm p-2" value="${updatedRule.rule || ''}" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Deduction Basis</label>
-              <select id="deduction_basis" class="mt-1 block w-full border rounded-md shadow-sm p-2 bg-white">
-                ${deductionBasisOptions.map(option => 
-                  `<option value="${option.value}" ${option.value === updatedRule.deduction_basis ? 'selected' : ''}>
-                    ${option.label}
-                  </option>`
-                ).join('')}
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700">Withholding cap</label>
-              <input 
-                id="withholding_limit" 
-                class="mt-1 block w-full border rounded-md shadow-sm p-2" 
-                value="${numericValue}"
-                type="number"
-                step="0.01"
-                min="0"
-                max="100"
-              />
-            </div>
-          </div>
-        `,
-        showCancelButton: true,
-        confirmButtonText: 'Next',
-        showLoaderOnConfirm: true,
-        allowOutsideClick: false,
-        didOpen: () => {
-          // Ensure all input values are set correctly after modal opens
-          const withholdingInput = document.getElementById('withholding_limit');
-          const ruleInput = document.getElementById('rule');
-          
-          // Set initial values
-          document.getElementById('state').value = updatedRule.state;
-          const deductionBasisSelect = document.getElementById('deduction_basis');
-          Array.from(deductionBasisSelect.options).forEach(option => {
-            if (option.value === updatedRule.deduction_basis) {
-              option.selected = true;
-            }
-          });
-          withholdingInput.value = numericValue;
-          ruleInput.value = updatedRule.rule || '';
-        },
-        preConfirm: () => {
-          const withholdingLimit = document.getElementById('withholding_limit').value;
-          const ruleValue = document.getElementById('rule').value;
-          const deductionBasisValue = document.getElementById('deduction_basis').value;
-          
-          if (!ruleValue.trim()) {
-            Swal.showValidationMessage('Rule field cannot be empty');
-            return false;
-          }
-
-          return {
-            ...updatedRule,
-            withholding_limit: withholdingLimit,
-            rule: ruleValue,
-            deduction_basis: deductionBasisValue
-          };
-        }
+      // Set the current rule and form data
+      setCurrentRule(updatedRule);
+      setFormData({
+        state: updatedRule.state,
+        rule: updatedRule.rule || '',
+        deduction_basis: updatedRule.deduction_basis || 'disposable earning',
+        withholding_limit: updatedRule.withholding_limit || ''
       });
-
-      if (editResult.isConfirmed) {
-        const updatedRuleData = editResult.value;
-
-        // Second dialog for confirmation
-        const confirmResult = await Swal.fire({
-          title: 'Confirm Rule Changes',
-          html: `
-            <div class="text-left">
-              <p class="mb-2">Please review the following changes:</p>
-              <ul class="list-disc pl-5">
-                <li><strong>State:</strong> ${updatedRuleData.state}</li>
-                <li><strong>Rule:</strong> ${updatedRuleData.rule}</li>
-                <li><strong>Deduction Basis:</strong> ${updatedRuleData.deduction_basis}</li>
-                <li><strong>Withholding Cap:</strong> ${updatedRuleData.withholding_limit}%</li>
-              </ul>
-              <p class="mt-4 text-sm text-gray-600">
-                Are you sure you want to save these changes?
-              </p>
-            </div>
-          `,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Yes, Save Changes',
-          cancelButtonText: 'No, Review Changes',
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33'
-        });
-
-        if (confirmResult.isConfirmed) {
-          const response = await fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', updatedRuleData.state), {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedRuleData)
-          });
-
-          if (!response.ok) {
-            throw new Error('Failed to update rule');
-          }
-
-          await Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: 'The rule details have been successfully updated.',
-            confirmButtonColor: '#3085d6'
-          });
-
-          // Refresh the data
-          window.location.reload();
-        }
-      }
+      
+      // Open the edit dialog
+      setEditDialogOpen(true);
     } catch (error) {
       await Swal.fire({
         icon: 'error',
@@ -228,6 +124,68 @@ const CreditorRule = () => {
         allowOutsideClick: false,
       });
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleEditNext = () => {
+    if (!formData.rule.trim()) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Rule field cannot be empty',
+      });
+      return;
+    }
+    setEditDialogOpen(false);
+    setConfirmDialogOpen(true);
+  };
+
+  const handleConfirmSave = async () => {
+    try {
+      const response = await fetch(API_URLS.UPDATE_CREDITOR_RULE.replace(':state', formData.state), {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update rule');
+      }
+
+      setConfirmDialogOpen(false);
+      
+      await Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'The rule details have been successfully updated.',
+        confirmButtonColor: '#3085d6'
+      });
+
+      // Refresh the data
+      window.location.reload();
+    } catch (error) {
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'Failed to update rule',
+      });
+      setEditDialogOpen(true);
+      setConfirmDialogOpen(false);
+    }
+  };
+
+  const handleCloseDialogs = () => {
+    setEditDialogOpen(false);
+    setConfirmDialogOpen(false);
   };
 
   const handlePageChange = (pageNumber) => {
@@ -389,6 +347,101 @@ const CreditorRule = () => {
           </div>
         </div>
       )}
+
+      {/* Edit Rule Dialog */}
+      <Dialog open={editDialogOpen} onClose={handleCloseDialogs} maxWidth="sm" fullWidth>
+        <DialogTitle>Edit Rule Details</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mt: 2 }}>
+            <TextField
+              fullWidth
+              label="State"
+              name="state"
+              value={formData.state}
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <TextField
+              fullWidth
+              label="Rule"
+              name="rule"
+              value={formData.rule}
+              onChange={handleInputChange}
+              margin="normal"
+              required
+            />
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="deduction-basis-label">Deduction Basis</InputLabel>
+              <Select
+                labelId="deduction-basis-label"
+                id="deduction_basis"
+                name="deduction_basis"
+                value={formData.deduction_basis}
+                label="Deduction Basis"
+                onChange={handleInputChange}
+              >
+                <MenuItem value="disposable earning">Disposable Earning</MenuItem>
+                <MenuItem value="gross pay">Gross Pay</MenuItem>
+                <MenuItem value="net pay">Net Pay</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              fullWidth
+              label="Withholding Cap"
+              name="withholding_limit"
+              type="number"
+              value={formData.withholding_limit}
+              onChange={handleInputChange}
+              margin="normal"
+              inputProps={{
+                step: "0.01",
+                min: "0",
+                max: "100"
+              }}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogs}>Cancel</Button>
+          <Button onClick={handleEditNext} variant="contained" color="primary">
+            Next
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={confirmDialogOpen} onClose={handleCloseDialogs} maxWidth="sm" fullWidth>
+        <DialogTitle>Confirm Rule Changes</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="body1" gutterBottom>
+              Please review the following changes:
+            </Typography>
+            <Box component="ul" sx={{ pl: 3, mt: 1, mb: 2 }}>
+              <li><strong>State:</strong> {formData.state}</li>
+              <li><strong>Rule:</strong> {formData.rule}</li>
+              <li><strong>Deduction Basis:</strong> {formData.deduction_basis}</li>
+              <li><strong>Withholding Cap:</strong> {formData.withholding_limit}%</li>
+            </Box>
+            <Typography variant="body2" color="text.secondary">
+              Are you sure you want to save these changes?
+            </Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => {
+            setConfirmDialogOpen(false);
+            setEditDialogOpen(true);
+          }}>
+            Review Changes
+          </Button>
+          <Button onClick={handleConfirmSave} variant="contained" color="primary">
+            Save Changes
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Creditor Rule Popup */}
       {isCreditorRulePopupOpen && (
