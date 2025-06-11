@@ -323,6 +323,6 @@ const CreditorRulePopup = ({ open, handleClose, handleSave }) => {
       </DialogActions>
     </Dialog>
   );
-};
+}
 
-export default CreditorRulePopup; 
+export default CreditorRulePopup;
