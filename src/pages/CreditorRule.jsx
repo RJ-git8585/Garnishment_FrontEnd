@@ -28,6 +28,46 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 import CreditorRulePopup from "../component/CreditorRulePopup";
 import ExemptAmountPopup from "../component/ExemptAmountPopup";
+import { sanitizeString } from "../utils/sanitizeData";
+
+// Add custom styles for proper layering
+const swalStyles = document.createElement('style');
+swalStyles.textContent = `
+  .custom-swal-container {
+    z-index: 999999 !important;
+  }
+  .custom-swal-popup {
+    z-index: 999999 !important;
+  }
+  .swal2-container {
+    z-index: 999999 !important;
+  }
+  .swal2-popup {
+    z-index: 999999 !important;
+  }
+  .custom-dialog {
+    z-index: 1400;
+  }
+  div[role='presentation'].MuiModal-root {
+    z-index: 99999 !important;
+  }
+  .MuiPopover-root {
+    z-index: 99999 !important;
+  }
+  .MuiMenu-paper {
+    z-index: 99999 !important;
+  }
+`;
+document.head.appendChild(swalStyles);
+
+const swalConfig = {
+  customClass: {
+    container: 'custom-swal-container',
+    popup: 'custom-swal-popup'
+  },
+  backdrop: 'rgba(0,0,0,0.7)',
+  allowOutsideClick: false
+};
 
 // List of specific states for logic
 const SPECIFIC_STATES = [
@@ -44,7 +84,36 @@ const SPECIFIC_STATES = [
   "new jersey",
   "north dakota"
 ];
+const deductionBasisOptions = [
+  { value: "disposable earning", label: "Disposable Earning" },
+  { value: "gross pay", label: "Gross Pay" },
+  { value: "net pay", label: "Net Pay" },
+];
 
+const menuProps = {
+  PaperProps: {
+    style: {
+      zIndex: 99999,
+    },
+  },
+  sx: {
+    zIndex: 99999,
+    '& .MuiMenu-paper': {
+      zIndex: 99999,
+    },
+    '& .MuiPopover-paper': {
+      zIndex: 99999,
+    },
+  },
+  MenuListProps: {
+    style: {
+      zIndex: 99999,
+    },
+  },
+  PopoverClasses: {
+    root: 'MuiPopover-root'
+  }
+};
 const CreditorRule = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +127,7 @@ const CreditorRule = () => {
   const [formData, setFormData] = useState({
     state: '',
     rule: '',
-    deduction_basis: 'disposable earning',
+    deduction_basis: '',
     withholding_limit: ''
   });
   const rowsPerPage = 10;
@@ -87,6 +156,7 @@ const CreditorRule = () => {
         setLoading(false);
       }
     };
+    
 
     fetchData();
   }, []);
@@ -105,14 +175,30 @@ const CreditorRule = () => {
         throw new Error('Rule not found');
       }
 
+      console.log('API Response for Rule:', updatedRule);
+      
+      // Find the matching deduction basis option
+      const matchedOption = deductionBasisOptions.find(
+        option => sanitizeString(option.value.toLowerCase()) === 
+                sanitizeString(updatedRule.deduction_basis?.toLowerCase())
+      );
+
+      // Extract numeric value from withholding_limit if it has a % symbol
+      const withholding_limit = updatedRule.withholding_limit?.toString().replace('%', '') || '';
+      
+      // Create form data with proper field mapping and sanitization
+      const formDataToSet = {
+        state: sanitizeString(updatedRule.state) || '',
+        rule: updatedRule.rule || '', // Don't sanitize rule as it might contain special characters
+        deduction_basis: matchedOption ? matchedOption.value : '',
+        withholding_limit: withholding_limit
+      };
+      
+      console.log('Form Data Being Set:', formDataToSet);
+      
       // Set the current rule and form data
       setCurrentRule(updatedRule);
-      setFormData({
-        state: updatedRule.state,
-        rule: updatedRule.rule || '',
-        deduction_basis: updatedRule.deduction_basis || 'disposable earning',
-        withholding_limit: updatedRule.withholding_limit || ''
-      });
+      setFormData(formDataToSet);
       
       // Open the edit dialog
       setEditDialogOpen(true);
@@ -128,10 +214,18 @@ const CreditorRule = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    if (name === 'rule') {
+      // Don't sanitize rule field
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: sanitizeString(value)
+      }));
+    }
   };
 
   const handleEditNext = async () => {
@@ -413,18 +507,26 @@ const CreditorRule = () => {
               required
             />
             <FormControl fullWidth margin="normal">
-              <InputLabel id="deduction-basis-label">Deduction Basis</InputLabel>
+              <InputLabel id="deduction-basis-label">Deduction Basis *</InputLabel>
               <Select
                 labelId="deduction-basis-label"
                 id="deduction_basis"
                 name="deduction_basis"
-                value={formData.deduction_basis}
-                label="Deduction Basis"
+                value={formData.deduction_basis || ""}
+                label="Deduction Basis *"
                 onChange={handleInputChange}
+                displayEmpty
+                MenuProps={menuProps}
+                required
               >
-                <MenuItem value="disposable earning">Disposable Earning</MenuItem>
-                <MenuItem value="gross pay">Gross Pay</MenuItem>
-                <MenuItem value="net pay">Net Pay</MenuItem>
+                <MenuItem value="">
+                  <em>Select an option</em>
+                </MenuItem>
+                {deductionBasisOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <TextField

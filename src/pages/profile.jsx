@@ -111,7 +111,7 @@ function Profile() {
             // toast: true, // This enables the toast mode
             // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
             icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
-            title: 'Now Your are able update profile !!',
+            title: 'Now you are able to update profile!!',
             showConfirmButton: false, // Hide the confirm button
             timer: 3000, // Auto close after 3 seconds
             timerProgressBar: true, // Show a progress bar
@@ -162,7 +162,7 @@ function Profile() {
         // position: 'top-end', // You can position the toast (top, top-end, top-start, bottom, etc.)
         icon: 'success', // 'success', 'error', 'warning', 'info', 'question'
         title: 'Profile updated successfully',
-        text: "Plesse check ones!!",
+        text: "Please check once !!",
         showConfirmButton: false, // Hide the confirm button
         timer: 3000, // Auto close after 3 seconds
         timerProgressBar: true, // Show a progress bar
