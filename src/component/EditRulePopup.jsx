@@ -243,12 +243,17 @@ function EditRulePopup({ open, handleClose, ruleData, handleSave }) {
       <DialogContent>
         <FormControl fullWidth margin="normal">
           <TextField
-            className="capitalize"
             label="State"
             name="state"
-            value={formData.state}
-            InputProps={{ readOnly: true }}
+            value={formData.state ? formData.state.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : ''}
+            InputProps={{ 
+              readOnly: true,
+              className: 'capitalize'
+            }}
             variant="outlined"
+            inputProps={{
+              'data-original-value': formData.state // Store original lowercase value
+            }}
           />
         </FormControl>
         <FormControl fullWidth margin="normal">

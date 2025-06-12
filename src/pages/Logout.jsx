@@ -36,6 +36,14 @@ import { useNavigate } from 'react-router-dom';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { CircularProgress, Backdrop, Typography } from "@mui/material";
 
+  /**
+   * Handles the user logout process.
+   *
+   * The component provides a button for the user to log out,
+   * clears all relevant local and session storage items,
+   * and redirects the user to the login page.
+   * A loading indicator is displayed during the logout process.
+   */
 const Logout = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false); // Loader state

@@ -38,13 +38,23 @@ import { TiExport } from "react-icons/ti";
 import { AiOutlineLoading3Quarters } from "react-icons/ai"; // Import a new loader icon
 import { API_URLS } from '../configration/apis';
 import axios from 'axios';
+import PaginationControls from '../component/PaginationControls';
 
 function Orders() {
   const cid = sessionStorage.getItem("cid");
   const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true); // State to track loading
-  const rowsPerPage = 10;
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(() => {
+    // Try to get saved rows per page from localStorage, default to 10
+    try {
+      const saved = localStorage.getItem('ordersRowsPerPage');
+      return saved ? parseInt(saved, 10) : 10;
+    } catch (error) {
+      console.error('Error reading rows per page from localStorage:', error);
+      return 10;
+    }
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,16 +73,25 @@ function Orders() {
     fetchData();
   }, [cid]);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (newRowsPerPage) => {
+    setRowsPerPage(newRowsPerPage);
+    setPage(0);
+    // Save to localStorage for persistence
+    try {
+      localStorage.setItem('ordersRowsPerPage', newRowsPerPage);
+    } catch (error) {
+      console.error('Error saving rows per page to localStorage:', error);
+    }
   };
 
   const paginatedData = data.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+    page * rowsPerPage,
+    (page + 1) * rowsPerPage
   );
-
-  const totalPages = Math.ceil(data.length / rowsPerPage);
 
   return (
     <div className="p-4">
@@ -152,26 +171,15 @@ function Orders() {
         </table>
       </div>
 
-      {!loading && (
-        <div className="flex justify-between items-center mt-4">
-          <p className="text-sm text-gray-600">
-            Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
-            {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries
-          </p>
-          <div className="flex space-x-1">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                className={`px-2 py-1 border rounded text-sm ${
-                  currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
-        </div>
+      {!loading && data.length > 0 && (
+        <PaginationControls
+          count={data.length}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          onPageChange={handlePageChange}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[10, 25, 50, 100]}
+        />
       )}
     </div>
   );

@@ -55,12 +55,22 @@ import Swal from "sweetalert2";
 import EditRulePopup from "../component/EditRulePopup";
 import StateTaxRequestPopup from "../component/StateTaxRequestPopup";
 import StateTaxExemptAmountPopup from "../component/StateTaxExemptAmountPopup";
+import PaginationControls from "../component/PaginationControls";
 
 const Ruleslist = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 10;
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(() => {
+    // Try to get saved rows per page from localStorage, default to 10
+    try {
+      const saved = localStorage.getItem('stateTaxRulesRowsPerPage');
+      return saved ? parseInt(saved, 10) : 10;
+    } catch (error) {
+      console.error('Error reading rows per page from localStorage:', error);
+      return 10;
+    }
+  });
   const [editData, setEditData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isStateTaxPopupOpen, setIsStateTaxPopupOpen] = useState(false);
@@ -88,8 +98,19 @@ const Ruleslist = () => {
     fetchData();
   }, []);
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (newRowsPerPage) => {
+    setRowsPerPage(newRowsPerPage);
+    setPage(0);
+    // Save to localStorage for persistence
+    try {
+      localStorage.setItem('stateTaxRulesRowsPerPage', newRowsPerPage);
+    } catch (error) {
+      console.error('Error saving rows per page to localStorage:', error);
+    }
   };
 
   const handleEditClick = async (rule) => {
@@ -179,11 +200,9 @@ const Ruleslist = () => {
   };
 
   const paginatedData = data.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+    page * rowsPerPage,
+    (page + 1) * rowsPerPage
   );
-
-  const totalPages = Math.ceil(data.length / rowsPerPage);
 
   return (
     <div className="p-4">
@@ -220,7 +239,7 @@ const Ruleslist = () => {
               paginatedData.map((rule, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
                   <td className="px-6 py-3 text-sm">
-                    {(currentPage - 1) * rowsPerPage + index + 1}
+                    {page * rowsPerPage + index + 1}
                   </td>
                   <td className="px-6 py-3 text-sm rulebtn_cls">
                     <button
@@ -263,25 +282,14 @@ const Ruleslist = () => {
       </div>
 
       {/* Pagination section */}
-      <div className="flex justify-between items-center mt-4">
-        <p className="text-sm text-gray-600">
-          Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
-          {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries
-        </p>
-        <div className="flex space-x-1">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-              className={`px-2 py-1 border rounded text-sm ${
-                currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
-              }`}
-            >
-              {index + 1}
-            </button>
-          ))}
-        </div>
-      </div>
+      <PaginationControls
+        count={data.length}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={[10, 25, 50, 100]}
+      />
 
       {/* Edit Popup */}
       {isEditing && (

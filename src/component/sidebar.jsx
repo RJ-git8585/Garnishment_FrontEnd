@@ -211,10 +211,16 @@ const Sidebar = () => {
       <Divider />
       <List className="menu_cls">{renderMenuItems}</List>
       <Divider />
-      <Box sx={{ mt: 'auto' }}>
+      <Box sx={{ mt: 'auto', textAlign: 'center' }}>
         <ListItem>
           <Logout />
         </ListItem>
+        <Divider />
+        <Box sx={{ py: 1 }}>
+          <span className="text-xs font-medium text-gray-500">
+            Release - v{import.meta.env.VITE_APP_VERSION || '0.2.0'}
+          </span>
+        </Box>
       </Box>
       
     </Box>

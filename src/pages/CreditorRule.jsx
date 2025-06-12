@@ -7,21 +7,35 @@
  * @returns {JSX.Element} The rendered CreditorRule component.
  */
 import React, { useState, useEffect } from "react";
-import { 
-  Dialog, 
-  DialogTitle, 
-  DialogContent, 
-  DialogActions, 
-  Button, 
-  TextField, 
-  FormControl, 
-  InputLabel, 
-  Select, 
-  MenuItem,
+import {
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TextField,
   Typography,
-  CircularProgress
+  IconButton,
+  Tooltip,
+  CircularProgress,
+  Alert,
+  Snackbar
 } from '@mui/material';
+import { Edit as EditIcon, Delete as DeleteIcon } from '@mui/icons-material';
+import PaginationControls from '../component/PaginationControls';
 import { API_URLS } from "../configration/apis";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaExternalLinkAlt } from "react-icons/fa";
@@ -117,7 +131,17 @@ const menuProps = {
 const CreditorRule = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(() => {
+    // Try to get saved rows per page from localStorage, default to 10
+    try {
+      const saved = localStorage.getItem('creditorRulesRowsPerPage');
+      return saved ? parseInt(saved, 10) : 10;
+    } catch (error) {
+      console.error('Error reading rows per page from localStorage:', error);
+      return 10;
+    }
+  });
   const [isCreditorRulePopupOpen, setIsCreditorRulePopupOpen] = useState(false);
   const [selectedState, setSelectedState] = useState(null);
   const [isExemptPopupOpen, setIsExemptPopupOpen] = useState(false);
@@ -130,7 +154,6 @@ const CreditorRule = () => {
     deduction_basis: '',
     withholding_limit: ''
   });
-  const rowsPerPage = 10;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -322,16 +345,22 @@ const CreditorRule = () => {
     setConfirmDialogOpen(false);
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const handleChangeRowsPerPage = (newRowsPerPage) => {
+    setRowsPerPage(newRowsPerPage);
+    setPage(0);
+    // Save to localStorage for persistence
+    try {
+      localStorage.setItem('creditorRulesRowsPerPage', newRowsPerPage);
+    } catch (error) {
+      console.error('Error saving rows per page to localStorage:', error);
+    }
   };
 
-  const paginatedData = data.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const paginatedData = data.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
 
   const handleCreditorRuleSave = (creditorRuleData) => {
     console.log("Creditor Rule Data Submitted:", creditorRuleData);
@@ -431,7 +460,7 @@ const CreditorRule = () => {
                 return (
                   <tr key={rule.state} className="border-t hover:bg-gray-100">
                     <td className="px-6 py-3 text-sm">
-                      {(currentPage - 1) * rowsPerPage + index + 1}
+                      {(page * rowsPerPage) + index + 1}
                     </td>
                     <td className="px-6 py-3 text-sm capitalize rulebtn_cls">
                       {stateCell}
@@ -460,26 +489,16 @@ const CreditorRule = () => {
         </table>
       </div>
       {!loading && data.length > 0 && (
-        <div className="flex justify-between  mt-4">
-          <p className="text-sm text-gray-600">
-            Showing {Math.min((currentPage - 1) * rowsPerPage + 1, data.length)} to{" "}
-            {Math.min(currentPage * rowsPerPage, data.length)} of {data.length} entries
-          </p>
-          <div className="flex space-x-1">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                className={`px-2 py-1 border rounded text-sm ${
-                  currentPage === index + 1 ? "bg-gray-500 text-white" : "bg-white text-gray-700"
-                }`}
-                data-testid={`page-button-${index + 1}`}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
-        </div>
+        
+          <PaginationControls
+            count={data.length}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            onPageChange={handlePageChange}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[10, 25, 50, 100]}
+          />
+       
       )}
 
       {/* Edit Rule Dialog */}
@@ -491,10 +510,13 @@ const CreditorRule = () => {
               fullWidth
               label="State"
               name="state"
-              value={formData.state}
+              value={formData.state ? formData.state.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : ''}
               margin="normal"
               InputProps={{
                 readOnly: true,
+              }}
+              inputProps={{
+                'data-original-value': formData.state // Store original lowercase value
               }}
             />
             <TextField

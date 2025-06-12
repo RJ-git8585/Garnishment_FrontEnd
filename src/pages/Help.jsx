@@ -61,7 +61,7 @@ function Help() {
         4. Who can I contact for support?
       </h3>
       <p className='text-sm mb-4 animate-fade-in'>
-        If you encounter any issues, please contact our support team at <a href="mailto:info@orangedatatech.com" className="text-blue-500">info@orangedatatech.com</a>. We are here to assist you.
+        If you encounter any issues, please contact our support team at <a href="mailto:support@garnishedge.com" className="text-blue-500">support@garnishedge.com</a>. We are here to assist you.
       </p>
 
       <h3 className='text-lg font-semibold animate-slide-in'>
