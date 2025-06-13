@@ -27,6 +27,15 @@ import React, { useEffect, useState } from "react";
 import { CircularProgress, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid } from "@mui/material";
 import { API_URLS } from '../configration/apis';
 
+// Helper function to clean and convert disposableEarnings to a number
+const cleanNumber = (value) => {
+  if (typeof value === 'string') {
+    // Remove any commas and convert to number
+    return Number(value.replace(/,/g, ''));
+  }
+  return value; // Return as is if it's already a number
+};
+
 const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12Weeks, disposableEarnings, dataCount = 0 }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -38,8 +47,11 @@ const Rules = ({ workState, employeeId, supportsSecondFamily, arrearsMoreThan12W
       setLoading(true);
       setError("");
       try {
+        // Clean the disposableEarnings value before making the API call
+        const cleanDisposableEarnings = cleanNumber(disposableEarnings);
+        
         const response = await fetch(
-          `${API_URLS.RULESDATA3}/${workState}/${employeeId}/${supportsSecondFamily}/${arrearsMoreThan12Weeks}/${disposableEarnings}/${dataCount}/` // Pass dataCount in the API call
+          `${API_URLS.RULESDATA3}/${workState}/${employeeId}/${supportsSecondFamily}/${arrearsMoreThan12Weeks}/${cleanDisposableEarnings}/${dataCount}/`
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.statusText}`);

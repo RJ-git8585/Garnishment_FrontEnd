@@ -156,6 +156,16 @@ export const renderTable = (data) => {
     return <p style={{ color: "red" }}>No valid results found.</p>;
   }
 
+  // Helper function to format numbers with commas
+  const formatNumber = (value) => {
+    if (typeof value === 'number') {
+      return value.toLocaleString();
+    }
+    // If the value is a string that can be converted to a number, format it
+    const num = parseFloat(value);
+    return isNaN(num) ? value : num.toLocaleString();
+  };
+
   const allResults = [];
   const uniqueEntries = new Set(); // Track unique entries
 
@@ -223,15 +233,15 @@ export const renderTable = (data) => {
           arrear_amount: arrearAmount,
           // filing_status: result.filing_status,
           // no_of_exemption_including_self: result.no_of_exemption_including_self,
-          wages: result.wages,
+          wages: formatNumber(result.wages),
           commission_and_bonus: result.commission_and_bonus !== undefined && result.commission_and_bonus !== 0 
-            ? result.commission_and_bonus 
+            ? formatNumber(result.commission_and_bonus)
             : "0",
           non_accountable_allowances: result.non_accountable_allowances !== undefined && result.non_accountable_allowances !== 0 
-            ? result.non_accountable_allowances 
+            ? formatNumber(result.non_accountable_allowances)
             : "0",
-          gross_pay: result.gross_pay,
-          net_pay: result.net_pay,
+          gross_pay: formatNumber(result.gross_pay),
+          net_pay: formatNumber(result.net_pay),
           // federal_income_tax: result.payroll_taxes?.federal_income_tax ?? "N/A",
           // state_income_tax: result.payroll_taxes?.state_tax ?? "N/A",
           // social_security_tax: result.payroll_taxes?.social_security_tax ?? "N/A",
@@ -252,10 +262,10 @@ export const renderTable = (data) => {
           support_second_family: result.support_second_family,
           arrears_greater_than_12_weeks: result.arrears_greater_than_12_weeks,
           // no_of_student_default_loan: result.no_of_student_default_loan,
-          disposable_earning: result.disposable_earning || "N/A",
-          total_mandatory_deduction: result.total_mandatory_deduction || "N/A",
-          allowable_disposable_earning: allowableDisposableEarning,
-          withholding_amount: garnishmentAmount,
+          disposable_earning: result.disposable_earning ? formatNumber(result.disposable_earning) : "N/A",
+          total_mandatory_deduction: result.total_mandatory_deduction ? formatNumber(result.total_mandatory_deduction) : "N/A",
+          allowable_disposable_earning: allowableDisposableEarning ? formatNumber(allowableDisposableEarning) : "N/A",
+          withholding_amount: garnishmentAmount ? formatNumber(garnishmentAmount) : "0",
           withholding_arrear: withholdingArrear, // Correctly fetch withholding_arrear, including 0
           ...result.er_deduction,
           withholding_limit_rule: result.withholding_limit_rule || "No Rule",
