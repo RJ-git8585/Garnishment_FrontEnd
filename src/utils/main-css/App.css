@@ -465,6 +465,9 @@ button.sidebar-link {
 .logs_cls {
   font-size: 0.75rem !important;
 }
+.numbermove {
+  text-align: right !important;
+}
 .logs_cls svg {
   margin: 5px;
 }
