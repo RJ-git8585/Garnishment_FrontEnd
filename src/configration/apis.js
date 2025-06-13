@@ -6,7 +6,7 @@
  * 
  * @constant {string} API_BASE_URL
  */
-const API_BASE_URL = "https://garnishment-backend.onrender.com/";
+const API_BASE_URL = "https://garnishment-backend.onrender.com";
 
 export const API_URLS = {
   // Auth APIs
