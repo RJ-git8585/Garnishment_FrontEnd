@@ -74,5 +74,5 @@ tr:hover {
   background-color: #3e484c!important;
 }
 .numbermove {
-  text-align: right;
+  text-align: right !important;
 }
