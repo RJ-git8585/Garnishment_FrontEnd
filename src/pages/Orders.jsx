@@ -118,8 +118,8 @@ function Orders() {
           <thead>
             <tr className="bg-gray-200 text-gray-700">
               <th className="px-6 py-3 text-left text-sm">Employee ID</th>
-              <th className="px-6 py-3 text-left text-sm">FEIN</th>
-              <th className="px-6 py-3 text-left text-sm">Case ID</th>
+              <th className="px-6 py-3 text-left text-sm text-right">SSN</th>
+              <th className="px-6 py-3 text-left text-sm text-right">Case ID</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
               <th className="px-6 py-3 text-left text-sm">Garnishment Type</th>
               <th className="px-6 py-3 text-left text-sm">SDU</th>
@@ -151,11 +151,13 @@ function Orders() {
                   <td className="px-6 py-3 text-sm truncate">{row.sdu}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.start_date}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.end_date}</td>
-                  <td className="px-6 py-3 text-sm truncate">{row.amount}</td>
+                  <td className="px-6 py-3 text-sm truncate text-right">
+                    {row.amount ? Number(row.amount).toLocaleString() : '0'}
+                  </td>
                   <td className="px-6 py-3 text-sm truncate">
                     {row.arrear_greater_than_12_weeks ? "True" : "False"}
                   </td>
-                  <td className="px-6 py-3 text-sm truncate">{row.arrear_amount}</td>
+                  <td className="px-6 py-3 text-sm truncate text-right">{row.arrear_amount}</td>
                   {/* <td className="px-6 py-3 text-sm">
                     <button
                       className="text-red-500 hover:underline"

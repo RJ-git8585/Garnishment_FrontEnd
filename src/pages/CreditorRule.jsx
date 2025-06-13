@@ -409,7 +409,7 @@ const CreditorRule = () => {
         <table className="min-w-full bg-white border rounded shadow">
           <thead>
             <tr className="bg-gray-200 text-gray-700">
-              <th className="px-6 py-3 text-left text-sm">Sr</th>
+              <th className="px-6 py-3 text-left text-sm text-right">Sr</th>
               <th className="px-6 py-3 text-left text-sm">State</th>
               <th className="px-6 py-3 text-left text-sm">Deduction Basis</th>
               <th className="px-6 py-3 text-left text-sm">Withholding cap</th>
@@ -459,7 +459,7 @@ const CreditorRule = () => {
 
                 return (
                   <tr key={rule.state} className="border-t hover:bg-gray-100">
-                    <td className="px-6 py-3 text-sm">
+                    <td className="px-6 py-3 text-sm text-right">
                       {(page * rowsPerPage) + index + 1}
                     </td>
                     <td className="px-6 py-3 text-sm capitalize rulebtn_cls">
@@ -468,7 +468,7 @@ const CreditorRule = () => {
                     <td className="px-6 py-3 text-sm capitalize">
                       {rule.deduction_basis}
                     </td>
-                    <td className="px-6 py-3 text-sm">
+                    <td className="px-6 py-3 text-sm text-right">
                       {formatWithholdingValue(rule.withholding_limit)}
                     </td>
                     <td className="px-6 py-3 text-sm flex items-center justify-between border-0">

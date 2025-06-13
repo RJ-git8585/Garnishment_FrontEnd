@@ -20,7 +20,7 @@ table {
 }
 
 th, td {
-  text-align: left;
+  /* text-align: left; */
   padding: 6px; /* Reduce padding for table cells */
   border: 1px solid #ddd;
 }
@@ -72,4 +72,7 @@ tr:hover {
 }
 .headecssbg_colr th {
   background-color: #3e484c!important;
+}
+.numbermove {
+  text-align: right;
 }

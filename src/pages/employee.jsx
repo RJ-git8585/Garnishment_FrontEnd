@@ -135,21 +135,21 @@ function Employee() {
           <thead>
             <tr className="bg-gray-200 text-gray-700">
               <th className="px-6 py-3 text-left text-sm">Employee ID</th>
-              <th className="px-6 py-3 text-left text-sm">SSN</th>
-              <th className="px-6 py-3 text-left text-sm">Age</th>
+              <th className="px-6 py-3 text-left text-sm text-right">SSN</th>
+              <th className="px-6 py-3 text-left text-sm text-right">Age</th>
               <th className="px-6 py-3 text-left text-sm">Gender</th>
               <th className="px-6 py-3 text-left text-sm">Home State</th>
               <th className="px-6 py-3 text-left text-sm">Work State</th>
               <th className="px-6 py-3 text-left text-sm">Pay Period</th>
-              <th className="px-6 py-3 text-left text-sm">Case ID</th>
+              <th className="px-6 py-3 text-left text-sm text-right">Case ID</th>
               <th className="px-6 py-3 text-left text-sm">Blind</th>
               <th className="px-6 py-3 text-left text-sm">Marital Status</th>
               <th className="px-6 py-3 text-left text-sm">Filing Status</th>
-              <th className="px-6 py-3 text-left text-sm">Spouse Age</th>
+              <th className="px-6 py-3 text-left text-sm text-right">Spouse Age</th>
               <th className="px-6 py-3 text-left text-sm">Spouse Blind</th>
-              <th className="px-6 py-3 text-left text-sm">No. of Exemptions</th>
+              <th className="px-6 py-3 text-left text-sm text-right">No. of Exemptions</th>
               <th className="px-6 py-3 text-left text-sm">Support 2nd Family</th>
-              <th className="px-6 py-3 text-left text-sm">No. of Default Loans</th>
+              <th className="px-6 py-3 text-left text-sm text-right">No. of Default Loans</th>
               <th className="px-6 py-3 text-left text-sm">Garnishment Status</th>
               <th className="px-6 py-3 text-left text-sm">Garnishment Suspended Till</th>
               {/* <th className="px-6 py-3 text-left text-sm">Actions</th> */}
@@ -184,21 +184,21 @@ function Employee() {
                       {row.ee_id}
                     </Link>
                   </td>
-                  <td className="px-6 py-3 text-sm truncate">{row.social_security_number}</td>
-                  <td className="px-6 py-3 text-sm truncate">{row.age}</td>
+                  <td className="px-6 py-3 text-sm truncate text-right">{row.social_security_number}</td>
+                  <td className="px-6 py-3 text-sm truncate text-right">{row.age}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.gender}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.home_state}</td>
                   <td className="px-6 py-3 text-sm truncate capitalize">{row.work_state}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.pay_period}</td>
-                  <td className="px-6 py-3 text-sm truncate">{row.case_id}</td>
+                  <td className="px-6 py-3 text-sm truncate text-right">{row.case_id}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.is_blind ? "True" : "False"}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.marital_status}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.filing_status}</td>
-                  <td className="px-6 py-3 text-sm truncate">{row.spouse_age}</td>
+                  <td className="px-6 py-3 text-sm truncate text-right">{row.spouse_age}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.is_spouse_blind ? "Yes" : "No"}</td>
-                  <td className="px-6 py-3 text-sm truncate">{row.number_of_exemptions}</td>
+                  <td className="px-6 py-3 text-sm truncate text-right">{row.number_of_exemptions}</td>
                   <td className="px-6 py-3 text-sm truncate">{row.support_second_family ? "Yes" : "No"}</td>
-                  <td className="px-6 py-3 text-sm truncate">{row.number_of_student_default_loan}</td>
+                  <td className="px-6 py-3 text-sm truncate text-right">{row.number_of_student_default_loan}</td>
                   <td className="px-6 py-3 text-sm truncate">
                     {row.garnishment_fees_status ? "Active" : "Inactive"}
                   </td>

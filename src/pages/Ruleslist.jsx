@@ -212,7 +212,7 @@ const Ruleslist = () => {
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
           onClick={() => setIsStateTaxPopupOpen(true)}
         >
-          Rules Change Request
+          Rule Change Request
         </button>
       </div>
       <div className="overflow-x-auto">
@@ -238,7 +238,7 @@ const Ruleslist = () => {
             ) : paginatedData.length > 0 ? (
               paginatedData.map((rule, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="px-6 py-3 text-sm">
+                  <td className="px-6 py-3 text-sm text-right">
                     {page * rowsPerPage + index + 1}
                   </td>
                   <td className="px-6 py-3 text-sm rulebtn_cls">
@@ -252,7 +252,7 @@ const Ruleslist = () => {
                   <td className="px-6 py-3 text-sm capitalize inline-cls">
                     {rule.deduction_basis || "N/A"}
                   </td>
-                  <td className="px-6 py-3 text-sm">
+                  <td className="px-6 py-3 text-sm text-right">
                     {rule.withholding_limit ? `${rule.withholding_limit}%` : "N/A"}
                   </td>
                   <td className="px-6 py-3 text-sm flex items-center justify-between border-0">

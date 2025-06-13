@@ -277,24 +277,24 @@ export const renderTable = (data) => {
 
   const columns = [
     { label: "Employee ID", key: "ee_id" },
-    { label: "Case ID", key: "case_id" },
+    { label: "Case ID", key: "case_id", headerClassName: 'text-right', cellClassName: 'text-right' },
     { label: "Work State", key: "Work_State" },
     { label: "Pay Period", key: "pay_period" },
     { label: "Garnishment Type", key: "garnishment_type" },
-    { label: "Wages", key: "wages" },
-    { label: "Commission and Bonus", key: "commission_and_bonus" },
-    { label: "Non Accountable Allowances", key: "non_accountable_allowances" },
-    { label: "Gross Pay", key: "gross_pay" },
-    { label: "Net Pay", key: "net_pay" },
-    { label: "Total Mandatory Deduction", key: "total_mandatory_deduction" },
-    { label: "Disposable Earnings", key: "disposable_earning" },
+    { label: "Wages", key: "wages", headerClassName: 'text-right', cellClassName: 'text-right numbermove' },
+    { label: "Commission and Bonus", key: "commission_and_bonus", headerClassName: 'text-right', cellClassName: 'text-right numbermove' },
+    { label: "Non Accountable Allowances", key: "non_accountable_allowances", headerClassName: 'text-right', cellClassName: 'text-right numbermove' },
+    { label: "Gross Pay", key: "gross_pay", headerClassName: 'text-right', cellClassName: 'text-right numbermove' },
+    { label: "Net Pay", key: "net_pay", headerClassName: 'text-right', cellClassName: 'text-right numbermove' },
+    { label: "Total Mandatory Deduction", key: "total_mandatory_deduction", headerClassName: 'text-right', cellClassName: 'text-right numbermove' },
+    { label: "Disposable Earnings", key: "disposable_earning", headerClassName: 'text-left', cellClassName: 'text-left numbermove' },
     { label: "Support Second Family", key: "support_second_family" },
     { label: "Arrears Greater Than 12 Weeks", key: "arrears_greater_than_12_weeks" },
-    { label: "Allowable Disposable Earnings", key: "allowable_disposable_earning" },
-    { label: "Ordered Amount", key: "ordered_amount" },
-    { label: "Arrear Amount", key: "arrear_amount" },
-    { label: "Withholding Amount", key: "withholding_amount" },
-    { label: "Withholding Arrear", key: "withholding_arrear" },
+    { label: "Allowable Disposable Earnings", key: "allowable_disposable_earning" , cellClassName: 'text-left numbermove'},
+    { label: "Ordered Amount", key: "ordered_amount", cellClassName: 'text-left numbermove' },
+    { label: "Arrear Amount", key: "arrear_amount" , cellClassName: 'text-left numbermove'},
+    { label: "Withholding Amount", key: "withholding_amount", cellClassName: 'text-left numbermove' },
+    { label: "Withholding Arrear", key: "withholding_arrear", cellClassName: 'text-left numbermove'},
      { label: "Garnishment Fees", key: "garnishment_fees" },
     { label: "Rule Key", key: "withholding_limit_rule" },
     // { label: "Filing Status", key: "filing_status" },
@@ -350,7 +350,8 @@ export const renderTable = (data) => {
               {columns.map((column) => (
                 <TableCell
                   key={column.key}
-                  style={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}
+                  style={{ fontWeight: "bold", color: "#fff" }}
+                  className={column.headerClassName || "text-center"}
                 >
                   {column.label}
                 </TableCell>
@@ -361,7 +362,11 @@ export const renderTable = (data) => {
             {allResults.map((item, index) => (
               <TableRow key={index}>
                 {columns.map((column) => (
-                  <TableCell key={column.key} style={{ textAlign: "center" }}>
+                  <TableCell 
+                    key={column.key} 
+                    className={column.cellClassName || "text-center"}
+                    style={{ whiteSpace: 'nowrap' }}
+                  >
                     {column.key === "withholding_limit_rule" ? (
                       item.garnishment_type === "State tax levy" ? (
                         <button
