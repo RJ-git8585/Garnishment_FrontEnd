@@ -230,7 +230,8 @@ const Sidebar = () => {
             {/* <FaCog className="text-sm" /> */}
           </NavLink>
           <span className="text-xs font-medium text-gray-500">
-            Release - v{import.meta.env.VITE_APP_VERSION || '0.2.0'}
+            {/* Release - v{import.meta.env.VITE_APP_VERSION || '0.2.0'} */}
+            R9
           </span>
         </Box>
       </Box>
