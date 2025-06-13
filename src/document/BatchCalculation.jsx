@@ -210,23 +210,47 @@ const BatchCalculation = () => {
         <h2 className="header text-lg">JSON Batch Run</h2>
         <p className="text-sx italic mb-2">Please upload the json file to get the result.... </p>
             
-        <div className="inputSection">
-          <input type="file" accept=".json" onChange={handleFileUpload} className="fileInput" />
+        <div className="inputSection space-y-4">
+          <div className="flex items-center space-x-3">
+            <div className="flex-1">
+              <input 
+                type="file" 
+                accept=".json" 
+                onChange={handleFileUpload} 
+                className="block w-full text-sm text-gray-500
+                  file:mr-4 file:py-2 file:px-4
+                  file:rounded-md file:border-0
+                  file:text-sm file:font-semibold
+                  file:bg-blue-50 file:text-blue-700
+                  hover:file:bg-blue-100"
+              />
+            </div>
+            <div className="flex space-x-3">
+              <button 
+                type="button"
+                onClick={handleConvert} 
+                disabled={loading}
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-all duration-200 text-sm"
+              >
+                {loading ? "Processing..." : "Request"}
+              </button>
+              <button 
+                type="button"
+                onClick={reloadComponent} 
+                className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition-all duration-200 text-sm"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
           <textarea
-            className="textArea"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="Paste your JSON here..."
             value={jsonInput}
+            rows={8}
             onChange={(e) => setJsonInput(e.target.value)}
           />
-          <div className="btn-inline mb-10 text-center">
-            <button className="button comal_b" onClick={handleConvert} disabled={loading}>
-              {loading ? "Processing..." : "Request"}
-            </button>
-            {error && <p className="error">{error}</p>}
-            <button onClick={reloadComponent} className="resetButton ">
-              Reset
-            </button>
-          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
 
         {response && (

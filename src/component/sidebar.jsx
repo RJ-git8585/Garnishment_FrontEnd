@@ -52,8 +52,11 @@ import {
   FaDashcube,
   FaUserTie,
   FaBalanceScaleRight,
+  FaCog,
 } from 'react-icons/fa';
-import { HiChatBubbleLeftRight } from 'react-icons/hi2';
+import {
+  HiChatBubbleLeftRight,
+} from 'react-icons/hi2';
 import { CgReadme } from 'react-icons/cg';
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
 import Logout from '../pages/Logout';
@@ -119,7 +122,7 @@ const Sidebar = () => {
               color: 'inherit',
               backgroundColor: isActive ? '#3f51b5' : 'inherit',
               fontWeight: isActive ? '600' : '200',
-              padding: '10px 20px',
+              padding: '8px 20px',
               borderRadius: '5px',
               display: 'flex',
               alignItems: 'center',
@@ -172,7 +175,7 @@ const Sidebar = () => {
               color: 'inherit',
               backgroundColor: isActive ? '#3f51b5' : 'inherit',
               fontWeight: isActive ? '600' : '200',
-              padding: '10px 20px',
+              padding: '8px 20px',
               borderRadius: '5px',
               display: 'flex',
               alignItems: 'center',
@@ -216,9 +219,18 @@ const Sidebar = () => {
           <Logout />
         </ListItem>
         <Divider />
-        <Box sx={{ py: 1 }}>
+        <Box sx={{ py: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+          <NavLink 
+            to="/settings" 
+            className={({ isActive }) => 
+              `flex items-center justify-center p-1 rounded-md hover:bg-gray-100 ${isActive ? 'text-blue-600' : 'text-gray-500'}`
+            }
+            title="Settings"
+          >
+            <FaCog className="text-sm" />
+          </NavLink>
           <span className="text-xs font-medium text-gray-500">
-            Release - v{import.meta.env.VITE_APP_VERSION || '0.2.0'}
+            v{import.meta.env.VITE_APP_VERSION || '0.2.0'}
           </span>
         </Box>
       </Box>

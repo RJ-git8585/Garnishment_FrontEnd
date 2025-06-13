@@ -204,19 +204,27 @@ const XmlProcessor = () => {
 
         <div className="columnContainer">
           <div className="inputSection">
-            <div className="fileInputContainer">
-              <input
-                type="file"
-                accept=".xlsx"
-                onChange={handleFileUpload}
-                className="fileInput"
-              />
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="relative">
+                <input
+                  type="file"
+                  accept=".xlsx"
+                  onChange={handleFileUpload}
+                  className="block w-full text-sm text-gray-500
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-md file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-blue-50 file:text-blue-700
+                    hover:file:bg-blue-100"
+                />
+              </div>
               <button
-                className="resetButton"
+                type="button"
                 onClick={reloadComponent}
                 disabled={loading}
+                className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600 transition-all duration-200 text-sm"
               >
-                {loading ? 'Loading Responses...' : 'Reset'}
+                {loading ? 'Loading...' : 'Reset'}
               </button>
             </div>
 
