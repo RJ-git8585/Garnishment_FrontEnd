@@ -4,4 +4,4 @@
  * 
  * @constant {string}
  */
-export const BASE_URL = 'https://garnishment-backend-6lzi.onrender.com';
+export const BASE_URL = 'https://garnishment-backend.onrender.com/';
