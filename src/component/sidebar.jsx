@@ -227,10 +227,10 @@ const Sidebar = () => {
             }
             title="Settings"
           >
-            <FaCog className="text-sm" />
+            {/* <FaCog className="text-sm" /> */}
           </NavLink>
           <span className="text-xs font-medium text-gray-500">
-            v{import.meta.env.VITE_APP_VERSION || '0.2.0'}
+            Release - v{import.meta.env.VITE_APP_VERSION || '0.2.0'}
           </span>
         </Box>
       </Box>
