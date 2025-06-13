@@ -609,12 +609,12 @@ function Garnishment2() {
               <table className="table-auto border-collapse border border-gray-300 w-full text-sm">
                 <thead>
                   <tr className="bg-gray-200">
-                    <th className="border border-gray-300 px-4 py-2 text-left">Disposable Earnings</th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">Allowable Disposable Earnings</th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">Total Mandatory Deduction</th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">Withholding Amount</th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">Withholding Arrear</th>
-                    <th className="border border-gray-300 px-4 py-2 text-left">Garnishment Fees</th>
+                    <th className="border border-gray-300 px-4 py-2 text-right">Disposable Earnings</th>
+                    <th className="border border-gray-300 px-4 py-2 text-right">Allowable Disposable Earnings</th>
+                    <th className="border border-gray-300 px-4 py-2 text-right">Total Mandatory Deduction</th>
+                    <th className="border border-gray-300 px-4 py-2 text-right">Withholding Amount</th>
+                    <th className="border border-gray-300 px-4 py-2 text-right">Withholding Arrear</th>
+                    <th className="border border-gray-300 px-4 py-2 text-right">Garnishment Fees</th>
                   </tr>
                 </thead>
                 <tbody>
