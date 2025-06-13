@@ -620,10 +620,10 @@ function Garnishment2() {
                 <tbody>
                   {calculationResult.results.map((result, index) => (
                     <tr key={index}>
-                      <td className="border border-gray-300 px-4 py-2">{result.disposable_earning}</td>
-                      <td className="border border-gray-300 px-4 py-2">{result.allowable_disposable_earning}</td>
-                      <td className="border border-gray-300 px-4 py-2">{result.total_mandatory_deduction}</td>
-                      <td className="border border-gray-300 px-4 py-2">
+                      <td className="border border-gray-300 px-4 py-2 numbermove">{result.disposable_earning}</td>
+                      <td className="border border-gray-300 px-4 py-2 numbermove">{result.allowable_disposable_earning}</td>
+                      <td className="border border-gray-300 px-4 py-2 numbermove">{result.total_mandatory_deduction}</td>
+                      <td className="border border-gray-300 px-4 py-2 numbermove">
                         {result.agency[0]?.withholding_amt[0]?.child_support !== undefined
                           ? result.agency[0]?.withholding_amt[0]?.child_support
                           : result.agency[0]?.withholding_amt[0]?.garnishment_amount !== undefined
@@ -632,13 +632,13 @@ function Garnishment2() {
                           ? result.agency[0]?.withholding_amt[0]?.creditor_debt
                           : 0}
                       </td>
-                      <td className="border border-gray-300 px-4 py-2">
+                      <td className="border border-gray-300 px-4 py-2 numbermove">
                         {result.agency[1]?.arrear[0]?.withholding_arrear !== undefined
                           ? result.agency[1]?.arrear[0]?.withholding_arrear
                           : "N/A"}
                       </td>
 
-                      <td className="border border-gray-300 px-4 py-2">
+                      <td className="border border-gray-300 px-4 py-2 numbermove">
                         {result.er_deduction?.garnishment_fees || "N/A"}
                       </td>
                     </tr>
